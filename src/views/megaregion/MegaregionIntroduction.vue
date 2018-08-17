@@ -1,6 +1,6 @@
 <template>
   <div class="aside-content">
-    <h1>Heading</h1>
+    <h1>Megaregion Introduction</h1>
   </div>
 </template>
 
