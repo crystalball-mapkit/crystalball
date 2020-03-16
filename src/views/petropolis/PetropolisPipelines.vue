@@ -1,24 +1,14 @@
 <template>
   <div class="aside-content">
     <div>
-    <div style="text-align: center;">
-      <h1 style="color:#E00607; font-size:160%">before it's too late</h1>
-    </div>
-    <img src="images/OilHead.jpg" class="fullwidth"><div class="caption"></div>
+    <p><img src="images/OilHead.jpg" class="fullwidth"><div class="caption"></p></div>
 
-    <p><strong></strong></p>
+    <p style="font-size:120%;"><strong><em>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</em></strong></p>
 
-    <p style="font-size:120%;"><strong><em>From the Tars Sands to the Gulf of Mexico, the pipeline network pumps out a future of melting icecaps, sea-level rise, drought and forest fires. For the oilmen, every city is "Petropolis."</em></strong></p>
+    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
 
-    <p>This map reveals the inner workings of Petropolis at the national, regional and local levels. It focuses on crude oil pipelines and refineries, but it also includes sections on coal and natural gas. To navigate through the different sections use the buttons at the lower left corner, and also at the bottom of each page in the center.</p>
+    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
 
-    <p>Every feature delivers information at a click, and a visual legend can be accessed below the sidebar texts. Zoom in far enough and you'll actually see the refineries and generating plants, through a "spyglass" that opens up to a satellite image. The point is to build an awareness of fossil-fuel infrastructure and its damaging effects, while at the same time highlighting the many forms of critique, protest and political action that are spearheading an urgently needed change in our energy system&mdash;and in our society as a whole.</p>
-
-    <p>The collapse of climate and ecosystems is accelerating. We are nearly out of time. Decades of protests, petitions and donations to environmental groups have done nothing to slow catastrophic change. Food and water shortages, resource wars, economic breakdown, and millions of new climate refugees are on the horizon. Human survival itself is at risk as temperatures continue to rise.</p>
-
-    <p>Extinction Rebellion uses nonviolent direct actions and peaceful civil disobedience to disrupt business-as-usual in order to compel governments to act now to save a livable climate.</p>
-
-    <p></p>
 
 <br>
 <Accordion :open="false">
