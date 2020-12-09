@@ -13,7 +13,9 @@ export default class Audio extends Node {
         }
       },
       group: 'block',
-      selectable: false,
+      selectable: true,
+      draggable: true,
+      atom: true,
       parseDOM: [
         {
           tag: 'audio',
