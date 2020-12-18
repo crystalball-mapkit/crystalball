@@ -1,5 +1,2 @@
-Am online energy transition atlas launched by Brian Holmes (researcher, cartographer) and Majk Shkurti (GIS developer). Built on the basis of an earlier prototype by BH and edward sharp (https://github.com/Brian393/ecotopia-today).
-
-OpenLayers, Geoserver and a PostGIS database lie at the heart of an advanced geographic information system, programmed for spatial analysis and authentified collaboration. It's all put together with Docker (see docker-compose.yaml)
-
-The project isn't finished yet, and nor is this ReadMe. More coming soon.
+An online map of political ecology, metropolitan metabolism and community struggles for environmental justice, featuring artworks and research by the group Deep Time Chicago along with friends and allies. Based on an open-source mapping program by Brian Holmes (cartographer) and Majk Shkurti (GIS developer).
+For more, see http://deeptimechicago.org, as well as the software repo at https://github.com/Brian393/petropolis.
