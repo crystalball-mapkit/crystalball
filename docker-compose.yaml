@@ -1,14 +1,6 @@
 version: "3.7"
 
-networks:
-  proxy:
-
-volumes:
-  deeptime_postgres_data:
-  # wpdb_data:
-
 services:
-
   deeptime-client:
     build:
       dockerfile: Dockerfile
@@ -18,8 +10,6 @@ services:
       - /app/node_modules
       - ./app/client:/app
     container_name: deeptime-client
-    networks:
-      proxy:
 
   deeptime-geoserver:
     image: oscarfonts/geoserver:2.17.0
@@ -34,8 +24,6 @@ services:
     restart: on-failure
     depends_on:
       - deeptime-db
-    networks:
-      proxy:
 
   deeptime-db:
     image: kartoza/postgis:12.1
@@ -50,8 +38,6 @@ services:
       - ./app/config:/opt/config
     env_file:
       - ./app/config/docker-env/db.env
-    networks:
-      proxy:
 
   deeptime-api:
     build:
@@ -64,8 +50,6 @@ services:
     env_file:
       - ./app/config/docker-env/cron.env
       - ./app/config/docker-env/api.env
-    networks:
-      proxy:
 
   #-----WORDPRESS-----#
 
@@ -139,8 +123,6 @@ services:
     env_file:
       - ./app/config/docker-env/db.env
       - ./app/config/docker-env/cron.env
-    networks:
-      proxy:
 #-----WIKI-----#
 
 # wiki:
@@ -155,3 +137,12 @@ services:
 #     - 10500:3000
 #   networks:
 #     proxy:
+
+networks:
+   default:
+      external:
+         name: app-net
+
+volumes:
+  deeptime_postgres_data:
+  # wpdb_data:
