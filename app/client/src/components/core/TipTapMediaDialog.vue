@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="show" persistent max-width="500px">
     <v-card v-if="command">
-      <v-app-bar flat color="#dc143c" height="50" dark>
+      <v-app-bar flat color="#00000E" height="50" dark>
         <v-icon class="mr-3">{{ data[type].toolbar_icon }}</v-icon>
         <v-toolbar-title>{{ data[type].toolbar_title }}</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -10,7 +10,7 @@
       <v-progress-linear
         :active="isUploadInProgress"
         indeterminate
-        color="#dc143c"
+        color="#00000E"
       ></v-progress-linear>
 
       <v-tabs

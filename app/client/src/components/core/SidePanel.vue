@@ -311,7 +311,7 @@
             <v-btn
               @click="closeCorpNetworkSelection()"
               dark
-              color="#dc143c"
+              color="#00000E"
               small
               class="ml-1 elevation-0"
             >
@@ -324,7 +324,7 @@
           class="mt-n1"
           indeterminate
           height="5"
-          color="#dc143c"
+          color="#00000E"
         ></v-progress-linear>
         <vue-scroll>
           <v-container

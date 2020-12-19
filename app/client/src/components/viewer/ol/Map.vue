@@ -1,7 +1,7 @@
 <template>
   <div id="ol-map-container">
     <!-- Map Controls -->
-    <map-legend color="#dc143c" />
+    <map-legend color="#00000E" />
     <div style="position:absolute;left:20px;top:10px;">
       <login-button></login-button>
       <zoom-control :map="map" />
@@ -16,13 +16,14 @@
       <edit :map="map" />
     </div>
 
-    <div
+<!--     <div
       v-show="spotlightMessage === true"
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
     >
       press ↑ or ↓ to change spotlight size
-    </div>
+    </div>                          -->
+    
     <!-- Popup overlay  -->
     <overlay-popup
       :title="
@@ -228,7 +229,7 @@ export default {
       lightBoxImages: [],
       progressLoading: {
         message: 'Fetching Corporate Network',
-        progressColor: '#dc143c',
+        progressColor: '#00000E',
         value: false
       },
       ops: {
@@ -1342,7 +1343,7 @@ div.ol-control button {
 }
 
 .spotlight-message {
-  background-color: #dc143c;
+  background-color: #00000E;
   position: fixed;
   left: 40%;
   top: 70px;

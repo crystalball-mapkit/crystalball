@@ -8,7 +8,7 @@
           fab
           dark
           x-small
-          color="#dc143c"
+          color="#00000E"
           @click="handleZoomToMe()"
         >
           <v-icon medium>fas fa-location-arrow</v-icon>
@@ -61,7 +61,7 @@ export default {
       if (!this.$cookies.get('locationRequested')) {
         this.$refs.confirm
           .open('Zoom to my location?', '', 'Share my location', 'Cancel', {
-            color: '#dc143c'
+            color: '#00000E'
           })
           .then(confirm => {
             if (confirm) {

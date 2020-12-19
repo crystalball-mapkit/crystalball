@@ -10,7 +10,7 @@
                 class="edit-buttons"
                 v-on="on"
                 @click="activateEdit"
-                color="#dc143c"
+                color="#00000E"
                 fab
                 dark
                 small
@@ -37,7 +37,7 @@
               class="edit-buttons"
               dark
               rounded
-              color="#dc143c"
+              color="#00000E"
               ><v-icon small left>far fa-edit</v-icon>
               {{
                 selectedLayer ? selectedLayer.get('legendDisplayName') : ''
@@ -73,7 +73,7 @@
             class="edit-buttons mt-2"
             v-on="on"
             @click="togglePostEdit"
-            :color="isEditingPost ? 'rgb(228, 76, 107)' : '#dc143c'"
+            :color="isEditingPost ? 'rgb(228, 76, 107)' : '#00000E'"
             fab
             dark
             small
@@ -100,7 +100,7 @@
                 right
                 x-small
                 :color="
-                  item.action === editType ? 'rgb(228, 76, 107)' : '#dc143c'
+                  item.action === editType ? 'rgb(228, 76, 107)' : '#00000E'
                 "
                 @click="edit(item.action)"
               >
@@ -120,7 +120,7 @@
       @keydown.esc="layersDialog = false"
     >
       <v-card>
-        <v-app-bar flat color="#dc143c" height="50" dark>
+        <v-app-bar flat color="#00000E" height="50" dark>
           <v-icon class="mr-3">layers</v-icon>
           <v-toolbar-title>Select Layer</v-toolbar-title>
         </v-app-bar>
@@ -164,7 +164,7 @@
             "
             >Ok</v-btn
           >
-          <v-btn color="#dc143c" text @click.native="layersDialog = false"
+          <v-btn color="#00000E" text @click.native="layersDialog = false"
             >Cancel</v-btn
           >
         </v-card-actions>

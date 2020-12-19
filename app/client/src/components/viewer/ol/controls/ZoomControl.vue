@@ -8,7 +8,7 @@
           fab
           dark
           x-small
-          color="#dc143c"
+          color="#00000E"
           @click="zoom(1)"
         >
           <span style="font-size:22px;">+</span>
@@ -25,7 +25,7 @@
           fab
           dark
           x-small
-          color="#dc143c"
+          color="#00000E"
           @click="zoom(-1)"
         >
           <span style="font-size:22px;">−</span>

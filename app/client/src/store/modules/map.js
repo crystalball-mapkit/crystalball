@@ -50,27 +50,28 @@ const state = {
   fuelGroups: [
     {
       name: 'coal',
-      title: 'Coal & Ash'
+      title: 'Move Your Ash'
     },
     {
       name: 'oil',
-      title: 'Oil & Gas'
+      title: 'ENVIRONMENTAL JUSTICE'
     },
     {
       name: 'renewables',
-      title: 'Wind & Sun'
+      title: 'Stop Line 3'
     }
   ],
-  regions: [
-    {
-      name: 'local',
-      title: 'Local'
-    },
-    {
-      name: 'global',
-      title: 'Global'
-    }
-  ],
+// Uncomment to activate Local/Global buttons 
+//  regions: [
+//    {
+//      name: 'local',
+//      title: 'Local'
+//    },
+//    {
+//      name: 'global',
+//      title: 'Global'
+//    }
+//  ],
   previousMapPosition: null,
   previousMapPositionSearch: null,
   isEditingLayer: false,

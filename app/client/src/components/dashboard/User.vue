@@ -4,7 +4,7 @@
     <v-divider class="pb-2" />
     <div class="d-flex flex-row">
       <div class="flex-grow-1 pa-2">
-        <v-btn @click="registerNewUser" class="lighten-1" color="#dc143c" dark>
+        <v-btn @click="registerNewUser" class="lighten-1" color="#00000E" dark>
           New User
           <v-icon right dark>add</v-icon>
         </v-btn>
@@ -14,7 +14,7 @@
           :disabled="true"
           @click="manageRoles"
           class="float-right"
-          color="#dc143c"
+          color="#00000E"
           dark
         >
           Manage Roles <v-icon right dark>supervisor_account</v-icon>
@@ -23,7 +23,7 @@
           @click="managePermissions"
           :disabled="true"
           class="float-right mr-2"
-          color="#dc143c"
+          color="#00000E"
           dark
         >
           Manage Permissions <v-icon right dark>vpn_key</v-icon>
@@ -44,7 +44,7 @@
     <v-progress-linear
       :active="loading"
       indeterminate
-      color="#dc143c"
+      color="#00000E"
     ></v-progress-linear>
     <!-- data table -->
     <v-data-table
@@ -239,7 +239,7 @@ export default {
     trash(user) {
       this.$refs.confirm
         .open('Confirm Delete', `Delete User ${user.userName} ?`, 'Yes', 'No', {
-          color: '#dc143c'
+          color: '#00000E'
         })
         .then(confirm => {
           if (confirm) {
@@ -271,7 +271,7 @@ export default {
 
     registerNewUser() {
       this.$refs.userForm.open('new', 'New User', 'Save', 'Cancel', {
-        color: '#dc143c'
+        color: '#00000E'
       });
     },
     editUser(user) {
@@ -281,7 +281,7 @@ export default {
         'Update',
         'Cancel',
         {
-          color: '#dc143c',
+          color: '#00000E',
           icon: 'edit'
         },
         user
@@ -294,7 +294,7 @@ export default {
         'Save',
         'Cancel',
         {
-          color: '#dc143c',
+          color: '#00000E',
           icon: 'lock'
         },
         user

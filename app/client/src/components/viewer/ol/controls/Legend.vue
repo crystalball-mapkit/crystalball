@@ -6,7 +6,7 @@
           v-on="on"
           style="position:fixed;left:16px;bottom:40px;z-index:1000;"
           v-show="!isVisible"
-          color="#dc143c"
+          color="#00000E"
           @click="toggleLegend"
           fab
           small
