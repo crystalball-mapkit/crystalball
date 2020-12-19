@@ -8,7 +8,7 @@
           fab
           dark
           x-small
-          color="#dc143c"
+          color="#00000E"
           @click="toggleFullScreen"
         >
           <v-icon medium>{{

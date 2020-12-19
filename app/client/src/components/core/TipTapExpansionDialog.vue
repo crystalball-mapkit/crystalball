@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="show" persistent max-width="500px">
     <v-card v-if="command">
-      <v-app-bar flat color="#dc143c" height="50" dark>
+      <v-app-bar flat color="#00000E" height="50" dark>
         <v-icon class="mr-3">playlist_add</v-icon>
         <v-toolbar-title>Expansion title</v-toolbar-title>
         <v-spacer></v-spacer>

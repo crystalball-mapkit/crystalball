@@ -14,14 +14,14 @@
       </v-navigation-drawer>
     </v-expand-transition>
 
-    <v-app-bar app clipped-right height="60" color="#dc143c" dark>
+    <v-app-bar app clipped-right height="60" color="#00000E" dark>
       <v-toolbar-title
         @click="goToHome()"
         flat
         class="logo headline font-weight-bold black--text mr-3"
-        >Just Transition</v-toolbar-title
+        >Deep Time Chicago</v-toolbar-title
       >
-      <v-tooltip right>
+<!--       <v-tooltip right>
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
@@ -34,7 +34,7 @@
             ><v-icon medium>fas fa-question</v-icon></v-btn
           > </template
         ><span>Open Website</span>
-      </v-tooltip>
+      </v-tooltip>  -->
 
       <v-spacer></v-spacer>
 
@@ -45,7 +45,7 @@
           :dark="activeLayerGroup.fuelGroup === fuelGroup.name ? false : true"
           @click="changeFuelGroup(fuelGroup)"
           :color="
-            activeLayerGroup.fuelGroup === fuelGroup.name ? 'white' : '#E44C6B'
+            activeLayerGroup.fuelGroup === fuelGroup.name ? 'white' : 'black'
           "
           :class="{
             'elevation-0': activeLayerGroup.fuelGroup !== fuelGroup.name,
@@ -59,7 +59,7 @@
       </div>
       <v-spacer></v-spacer>
 
-      <span class="title pr-5">before it's too late</span>
+<!--      <span class="title pr-5">before it's too late</span>  -->
       <v-btn icon @click.stop="drawer = !drawer"
         ><v-icon medium>{{ drawer ? '$close' : '$menu' }}</v-icon></v-btn
       >

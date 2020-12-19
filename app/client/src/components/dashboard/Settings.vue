@@ -36,7 +36,7 @@ export default {
 
 <style>
 .jsoneditor-menu {
-  background-color: #dc143c;
+  background-color: #00000E;
 }
 
 .jsoneditor {

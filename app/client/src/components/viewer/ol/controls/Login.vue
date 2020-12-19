@@ -8,7 +8,7 @@
             class="login-button"
             v-on="on"
             @click="openLoginPopup"
-            color="#dc143c"
+            color="#00000E"
             fab
             dark
             x-small
@@ -34,7 +34,7 @@
             dark
             rounded
             v-bind="attrs"
-            color="#dc143c"
+            color="#00000E"
             v-on="on"
             ><v-icon left>person</v-icon>
             {{
