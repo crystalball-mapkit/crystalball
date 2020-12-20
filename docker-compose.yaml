@@ -23,11 +23,11 @@ services:
     container_name: deeptime-geoserver
     restart: on-failure
     depends_on:
-      - deeptime-db
+      - deeptime_db
 
-  deeptime-db:
+  deeptime_db:
     image: kartoza/postgis:12.1
-    container_name: deeptime-db
+    container_name: deeptime_db
     restart: on-failure
     volumes:
       # we are mounting a named volume here instead of a data directory path because of
