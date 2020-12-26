@@ -14,55 +14,55 @@ const routes = [
     path: '/oil',
     name: 'oil',
     component: Petropolis,
-    props: { fuelGroup: 'oil', region: 'default' }
+    props: { navbarGroup: 'oil', region: 'default' }
   },
   {
     path: '/oil/local',
     name: 'oilLocal',
     component: Petropolis,
-    props: { fuelGroup: 'oil', region: 'local' }
+    props: { navbarGroup: 'oil', region: 'local' }
   },
   {
     path: '/oil/global',
     name: 'oilGlobal',
     component: Petropolis,
-    props: { fuelGroup: 'oil', region: 'global' }
+    props: { navbarGroup: 'oil', region: 'global' }
   },
   {
     path: '/coal',
     name: 'coal',
     component: Petropolis,
-    props: { fuelGroup: 'coal', region: 'default' }
+    props: { navbarGroup: 'coal', region: 'default' }
   },
   {
     path: '/coal/local',
     name: 'coalLocal',
     component: Petropolis,
-    props: { fuelGroup: 'coal', region: 'local' }
+    props: { navbarGroup: 'coal', region: 'local' }
   },
   {
     path: '/coal/global',
     name: 'coalGlobal',
     component: Petropolis,
-    props: { fuelGroup: 'coal', region: 'global' }
+    props: { navbarGroup: 'coal', region: 'global' }
   },
   {
     path: '/renewables',
     name: 'renewables',
     component: Petropolis,
-    props: { fuelGroup: 'renewables', region: 'default' }
+    props: { navbarGroup: 'renewables', region: 'default' }
   },
   {
     path: '/renewables/local',
     name: 'renewablesLocal',
     component: Petropolis,
-    props: { fuelGroup: 'renewables', region: 'local' }
+    props: { navbarGroup: 'renewables', region: 'local' }
   },
   {
     path: '/renewables/global',
     name: 'renewablesGlobal',
     component: Petropolis,
-    props: { fuelGroup: 'renewables', region: 'global' }
+    props: { navbarGroup: 'renewables', region: 'global' }
   },
   // Admin dashboard view...
   {

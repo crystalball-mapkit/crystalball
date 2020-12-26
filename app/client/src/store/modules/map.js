@@ -47,14 +47,14 @@ const state = {
   layersMetadata: {}, // Describe feature type.
   layersWithEntityField: null, // Fetched from Geoserver on load
   selectedCoorpNetworkEntity: null, // Selected entity,
-  fuelGroups: [
+  navbarGroups: [
     {
       name: 'coal',
-      title: 'Move Your Ash'
+      title: 'Headwaters'
     },
     {
       name: 'oil',
-      title: 'ENVIRONMENTAL JUSTICE'
+      title: 'ONE HEALTH'
     },
     {
       name: 'renewables',
@@ -141,7 +141,7 @@ const getters = {
       return null;
     }
   },
-  fuelGroups: state => state.fuelGroups,
+  navbarGroups: state => state.navbarGroups,
   regions: state => state.regions,
   layersMetadata: state => state.layersMetadata,
   htmlContent: state => state.htmlContent,
@@ -163,7 +163,7 @@ const getters = {
     if (!state.activeLayerGroup) {
       return ``;
     } else {
-      return `${state.activeLayerGroup.fuelGroup}_${state.activeLayerGroup.region}`;
+      return `${state.activeLayerGroup.navbarGroup}_${state.activeLayerGroup.region}`;
     }
   },
   getField

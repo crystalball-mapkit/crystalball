@@ -136,7 +136,7 @@ export default {
       panel: 0,
       isReady: false,
       title: '',
-      isVisible: true
+      isVisible: false
     };
   },
   methods: {

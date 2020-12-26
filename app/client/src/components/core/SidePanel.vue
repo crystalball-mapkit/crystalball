@@ -446,7 +446,7 @@ export default {
     },
     visibleGroup() {
       const visibleGroup = this.$appConfig.map.groups[
-        this.activeLayerGroup.fuelGroup
+        this.activeLayerGroup.navbarGroup
       ][this.activeLayerGroup.region];
       return visibleGroup;
     },

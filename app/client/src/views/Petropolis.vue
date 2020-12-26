@@ -4,7 +4,7 @@
       <v-navigation-drawer
         v-model="drawer"
         :width="!selectedCoorpNetworkEntity ? 460 : 600"
-        class="elevation-6"
+        class="elevation-6" color="#4F2B7C"
         stateless
         app
         clipped
@@ -18,7 +18,7 @@
       <v-toolbar-title
         @click="goToHome()"
         flat
-        class="logo headline font-weight-bold black--text mr-3"
+        class="logo headline font-weight-bold gray--text mr-3 black"
         >Deep Time Chicago</v-toolbar-title
       >
 <!--       <v-tooltip right>
@@ -34,30 +34,30 @@
             ><v-icon medium>fas fa-question</v-icon></v-btn
           > </template
         ><span>Open Website</span>
-      </v-tooltip>  -->
+      </v-tooltip>                 -->
 
-      <v-spacer></v-spacer>
 
-      <div v-for="(fuelGroup, index) in fuelGroups" :key="index">
+      <v-spacer></v-spacer> 
+      <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
         <v-btn
-          min-width="140"
+          min-width="200"
           class="mx-10"
-          :dark="activeLayerGroup.fuelGroup === fuelGroup.name ? false : true"
-          @click="changeFuelGroup(fuelGroup)"
+          :dark="activeLayerGroup.navbarGroup === navbarGroup.name ? false : true"
+          @click="changeNavbarGroup(navbarGroup)"
           :color="
-            activeLayerGroup.fuelGroup === fuelGroup.name ? 'white' : 'black'
+            activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : 'black'
           "
           :class="{
-            'elevation-0': activeLayerGroup.fuelGroup !== fuelGroup.name,
+            'elevation-0': activeLayerGroup.navbarGroup !== navbarGroup.name,
             'font-weight-bold black--text':
-              activeLayerGroup.fuelGroup === fuelGroup.name,
-            'elevation-6': activeLayerGroup.fuelGroup === fuelGroup.name
+              activeLayerGroup.navbarGroup === navbarGroup.name,
+            'elevation-6': activeLayerGroup.navbarGroup === navbarGroup.name
           }"
         >
-          {{ fuelGroup.title }}
+          {{ navbarGroup.title }}
         </v-btn>
       </div>
-      <v-spacer></v-spacer>
+      <v-spacer></v-spacer><v-spacer></v-spacer>
 
 <!--      <span class="title pr-5">before it's too late</span>  -->
       <v-btn icon @click.stop="drawer = !drawer"
@@ -83,17 +83,17 @@ import { mapFields } from 'vuex-map-fields';
 
 export default {
   name: 'wg-app',
-  props: ['fuelGroup', 'region'],
+  props: ['navbarGroup', 'region'],
   computed: {
     ...mapFields('map', {
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       isEditingPost: 'isEditingPost',
       isEditingHtml: 'isEditingHtml',
-      fuelGroups: 'fuelGroups'
+      navbarGroups: 'navbarGroups'
     }),
     ...mapGetters('map', {
       activeLayerGroup: 'activeLayerGroup',
-      fuelGroups: 'fuelGroups'
+      navbarGroups: 'navbarGroups'
     })
   },
   components: {
@@ -120,8 +120,8 @@ export default {
         EventBus.$emit('zoomToLocation');
       }
     },
-    changeFuelGroup(fuelGroup) {
-      this.$router.push({ path: `/${fuelGroup.name}` });
+    changeNavbarGroup(navbarGroup) {
+      this.$router.push({ path: `/${navbarGroup.name}` });
       EventBus.$emit('noMapReset');
     },
     ...mapMutations('map', {
@@ -130,7 +130,7 @@ export default {
   },
   created() {
     this.setActiveLayerGroup({
-      fuelGroup: this.fuelGroup,
+      navbarGroup: this.navbarGroup,
       region: this.region
     });
   },
@@ -140,7 +140,7 @@ export default {
         return;
       }
       this.setActiveLayerGroup({
-        fuelGroup: this.fuelGroup,
+        navbarGroup: this.navbarGroup,
         region: this.region
       });
       this.zoomToLocation();
