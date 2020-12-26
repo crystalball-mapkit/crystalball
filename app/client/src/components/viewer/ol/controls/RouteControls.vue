@@ -34,7 +34,7 @@ export default {
   methods: {
     changeRegion(region) {
       this.$router.push({
-        path: `/${this.activeLayerGroup.fuelGroup}/${region.name}`
+        path: `/${this.activeLayerGroup.navbarGroup}/${region.name}`
       });
       if (region.name === 'local') {
         EventBus.$emit('zoomToLocation');
@@ -44,7 +44,7 @@ export default {
   computed: {
     ...mapGetters('map', {
       activeLayerGroup: 'activeLayerGroup',
-      fuelGroups: 'fuelGroups',
+      navbarGroups: 'navbarGroups',
       regions: 'regions'
     })
   }

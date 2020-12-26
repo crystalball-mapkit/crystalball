@@ -355,7 +355,7 @@ export default {
       me.createGetInfoLayer();
       const activeLayerGroup = this.activeLayerGroup;
       const visibleGroup = this.$appConfig.map.groups[
-        activeLayerGroup.fuelGroup
+        activeLayerGroup.navbarGroup
       ][activeLayerGroup.region];
       const visibleLayers = visibleGroup.layers;
       me.resetMap();
@@ -1183,7 +1183,7 @@ export default {
       if (!this.map) return;
       const activeLayerGroup = this.activeLayerGroup;
       const visibleGroup = this.$appConfig.map.groups[
-        activeLayerGroup.fuelGroup
+        activeLayerGroup.navbarGroup
       ][activeLayerGroup.region];
 
       if (!this.noMapReset) {
@@ -1232,7 +1232,7 @@ export default {
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity'
     }),
     activeLayerGroupConf() {
-      const group = this.$appConfig.map.groups[this.activeLayerGroup.fuelGroup][
+      const group = this.$appConfig.map.groups[this.activeLayerGroup.navbarGroup][
         this.activeLayerGroup.region
       ];
       return group;

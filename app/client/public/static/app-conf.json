@@ -30,12 +30,85 @@
     ],
     "center": [0, 0],
     "layers": [
+      {
+        "type": "VECTORTILE",
+        "name": "miss_basin",
+        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:miss_basin@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "coal",
+        "queryable": false,
+        "displayInLegend": false,
+        "legendDisplayName": "Misssissippi Basin",
+        "format": "MVT",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 20,
+        "maxResolution": 64000,
+        "hoverable": false,
+        "isInteractive": false,
+        "style": {
+          "strokeColor": "rgba(255,255,255)",
+          "strokeWidth": 2
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "illinois_rivers",
+        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:illinois_rivers@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "coal",
+        "queryable": false,
+        "displayInLegend": false,
+        "legendDisplayName": "Illinois Rivers",
+        "format": "MVT",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 200,
+        "maxResolution": 2000,
+        "hoverable": false,
+        "isInteractive": false,
+        "style": {
+          "fillColor": "#5ea2c3",
+          "strokeColor": "#5ea2c3",
+          "strokeWidth": 1.5
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "headwaters_nhd",
+        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:headwaters_dissolved@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "coal",
+        "queryable": false,
+        "displayInLegend": false,
+        "legendDisplayName": "Illinois Headwaters",
+        "format": "MVT",
+        "visible": true,
+        "zIndex": 0,
+        "minZoom": 12,
+        "hoverable": false,
+        "isInteractive": false,
+        "style": {
+          "fillColor": "rgba(254,251,234,0.4)",
+          "strokeColor": "brown",
+          "strokeWidth": 0.5
+        }
+      },
 
       {
         "type": "XYZ",
-        "name": "maptiler_topo1",
+        "name": "one_health",
         "group": "backgroundLayers",
         "url": "https://devtiles.timetochange.today/styles/racial_dot/{z}/{x}/{y}@2x.png",
+        "minResolution": 0,
+        "maxResolution": 16000,
+        "opacity": 1,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "headwaters",
+        "group": "backgroundLayers",
+        "url": "https://api.maptiler.com/maps/f7d7a88e-0fbe-40ad-8c0f-342f941073de/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0,
         "maxResolution": 16000,
         "opacity": 1,
@@ -49,12 +122,12 @@
       "oil": {
         "default": {
           "layers": [
-            "maptiler_topo1"
+            "one_health"
           ],
-          "center": [-90.2, 41.5],
-          "resolution": 2445.98,
-          "minZoom": 1,
-          "maxZoom": 32000
+          "center": [-87.54, 41.66],
+          "resolution": 1222.99,
+          "minResolution": 0.25,
+          "maxResolution": 32000
         },
         "local": {
           "layers": [
@@ -78,11 +151,11 @@
       "coal": {
         "default": {
           "layers": [
-            "maptiler_topo1"
+            "headwaters"
           ],
-          "center": [-87.59, 41.63],
-          "resolution": 3500,
-          "minResolution": 0,
+          "center": [-88.73, 40.04],
+          "resolution": 800,
+          "minResolution": 0.25,
           "maxResolution": 32000
         },
         "local": {
@@ -107,7 +180,7 @@
       "renewables": {
         "default": {
           "layers": [
-            
+            "headwaters"
           ],
           "center": [-103, 42.0],
           "resolution": 8500,
