@@ -8,61 +8,61 @@ const routes = [
   {
     path: '/',
     name: 'map',
-    redirect: '/oil'
+    redirect: '/urban_ecology'
   },
   {
-    path: '/oil',
-    name: 'oil',
+    path: '/urban_ecology',
+    name: 'urban_ecology',
     component: Petropolis,
-    props: { navbarGroup: 'oil', region: 'default' }
+    props: { navbarGroup: 'urban_ecology', region: 'default' }
   },
   {
-    path: '/oil/local',
-    name: 'oilLocal',
+    path: '/urban_ecology/local',
+    name: 'urban_ecologyLocal',
     component: Petropolis,
-    props: { navbarGroup: 'oil', region: 'local' }
+    props: { navbarGroup: 'urban_ecology', region: 'local' }
   },
   {
-    path: '/oil/global',
-    name: 'oilGlobal',
+    path: '/urban_ecology/global',
+    name: 'urban_ecologyGlobal',
     component: Petropolis,
-    props: { navbarGroup: 'oil', region: 'global' }
+    props: { navbarGroup: 'urban_ecology', region: 'global' }
   },
   {
-    path: '/coal',
-    name: 'coal',
+    path: '/headwaters_il',
+    name: 'headwaters_il',
     component: Petropolis,
-    props: { navbarGroup: 'coal', region: 'default' }
+    props: { navbarGroup: 'headwaters_il', region: 'default' }
   },
   {
-    path: '/coal/local',
-    name: 'coalLocal',
+    path: '/headwaters_il/local',
+    name: 'headwaters_ilLocal',
     component: Petropolis,
-    props: { navbarGroup: 'coal', region: 'local' }
+    props: { navbarGroup: 'headwaters_il', region: 'local' }
   },
   {
-    path: '/coal/global',
-    name: 'coalGlobal',
+    path: '/headwaters_il/global',
+    name: 'headwaters_ilGlobal',
     component: Petropolis,
-    props: { navbarGroup: 'coal', region: 'global' }
+    props: { navbarGroup: 'headwaters_headwaters_il', region: 'global' }
   },
   {
-    path: '/renewables',
-    name: 'renewables',
+    path: '/headwaters_mn',
+    name: 'headwaters_mn',
     component: Petropolis,
-    props: { navbarGroup: 'renewables', region: 'default' }
+    props: { navbarGroup: 'headwaters_mn', region: 'default' }
   },
   {
-    path: '/renewables/local',
-    name: 'renewablesLocal',
+    path: '/headwaters_mn/local',
+    name: 'headwaters_mnLocal',
     component: Petropolis,
-    props: { navbarGroup: 'renewables', region: 'local' }
+    props: { navbarGroup: 'headwaters_mn', region: 'local' }
   },
   {
-    path: '/renewables/global',
-    name: 'renewablesGlobal',
+    path: '/headwaters_mn/global',
+    name: 'headwaters_mnGlobal',
     component: Petropolis,
-    props: { navbarGroup: 'renewables', region: 'global' }
+    props: { navbarGroup: 'headwaters_mn', region: 'global' }
   },
   // Admin dashboard view...
   {

@@ -107,10 +107,10 @@ export default {
   },
   methods: {
     goToHome() {
-      if (this.$router.currentRoute.name === 'oil') {
+      if (this.$router.currentRoute.name === 'urban_ecology') {
         EventBus.$emit('resetMap');
       }
-      this.$router.push({ name: 'oil' });
+      this.$router.push({ name: 'urban_ecology' });
     },
     openWebsite() {
       window.open('https://its.timetochange.today', '_blank');

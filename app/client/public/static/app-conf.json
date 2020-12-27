@@ -34,7 +34,7 @@
         "type": "VECTORTILE",
         "name": "miss_basin",
         "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:miss_basin@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "coal",
+        "group": "headwaters_mn",
         "queryable": false,
         "displayInLegend": false,
         "legendDisplayName": "Misssissippi Basin",
@@ -54,7 +54,7 @@
         "type": "VECTORTILE",
         "name": "illinois_rivers",
         "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:illinois_rivers@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "coal",
+        "group": "headwaters_mn",
         "queryable": false,
         "displayInLegend": false,
         "legendDisplayName": "Illinois Rivers",
@@ -75,7 +75,7 @@
         "type": "VECTORTILE",
         "name": "headwaters_nhd",
         "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:headwaters_dissolved@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "coal",
+        "group": "headwaters_mn",
         "queryable": false,
         "displayInLegend": false,
         "legendDisplayName": "Illinois Headwaters",
@@ -94,9 +94,9 @@
 
       {
         "type": "XYZ",
-        "name": "one_health",
+        "name": "urban_ecology",
         "group": "backgroundLayers",
-        "url": "https://devtiles.timetochange.today/styles/racial_dot/{z}/{x}/{y}@2x.png",
+        "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/256/{z}/{x}/{y}.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0,
         "maxResolution": 16000,
         "opacity": 1,
@@ -108,7 +108,7 @@
         "type": "XYZ",
         "name": "headwaters",
         "group": "backgroundLayers",
-        "url": "https://api.maptiler.com/maps/f7d7a88e-0fbe-40ad-8c0f-342f941073de/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
+        "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0,
         "maxResolution": 16000,
         "opacity": 1,
@@ -119,13 +119,13 @@
     ],
 
     "groups": {
-      "oil": {
+      "urban_ecology": {
         "default": {
           "layers": [
-            "one_health"
+            "urban_ecology"
           ],
-          "center": [-87.54, 41.66],
-          "resolution": 1222.99,
+          "center": [-87.34, 41.7],
+          "resolution": 1500,
           "minResolution": 0.25,
           "maxResolution": 32000
         },
@@ -148,7 +148,7 @@
           "maxResolution": 64000
         }
       },
-      "coal": {
+      "headwaters_il": {
         "default": {
           "layers": [
             "headwaters"
@@ -177,7 +177,7 @@
           "maxResolution": 64000
         }
       },
-      "renewables": {
+      "headwaters_mn": {
         "default": {
           "layers": [
             "headwaters"

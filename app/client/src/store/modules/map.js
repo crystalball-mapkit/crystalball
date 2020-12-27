@@ -49,16 +49,16 @@ const state = {
   selectedCoorpNetworkEntity: null, // Selected entity,
   navbarGroups: [
     {
-      name: 'coal',
-      title: 'Headwaters'
+      name: 'headwaters_mn',
+      title: 'Headwaters IL'
     },
     {
-      name: 'oil',
-      title: 'ONE HEALTH'
+      name: 'urban_ecology',
+      title: 'URBAN ECOLOGY'
     },
     {
-      name: 'renewables',
-      title: 'Stop Line 3'
+      name: 'headwaters_mn',
+      title: 'Headwaters MN'
     }
   ],
 // Uncomment to activate Local/Global buttons 
