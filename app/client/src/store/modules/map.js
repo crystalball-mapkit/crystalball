@@ -49,7 +49,7 @@ const state = {
   selectedCoorpNetworkEntity: null, // Selected entity,
   navbarGroups: [
     {
-      name: 'headwaters_mn',
+      name: 'headwaters_il',
       title: 'Headwaters IL'
     },
     {

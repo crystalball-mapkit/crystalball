@@ -31,68 +31,6 @@
     "center": [0, 0],
     "layers": [
       {
-        "type": "VECTORTILE",
-        "name": "miss_basin",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:miss_basin@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "headwaters_mn",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "Misssissippi Basin",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 20,
-        "maxResolution": 64000,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "strokeColor": "rgba(255,255,255)",
-          "strokeWidth": 2
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "illinois_rivers",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:illinois_rivers@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "headwaters_mn",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "Illinois Rivers",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 200,
-        "maxResolution": 2000,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "fillColor": "#5ea2c3",
-          "strokeColor": "#5ea2c3",
-          "strokeWidth": 1.5
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "headwaters_nhd",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:headwaters_dissolved@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "headwaters_mn",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "Illinois Headwaters",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minZoom": 12,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "fillColor": "rgba(254,251,234,0.4)",
-          "strokeColor": "brown",
-          "strokeWidth": 0.5
-        }
-      },
-
-      {
         "type": "XYZ",
         "name": "urban_ecology",
         "group": "backgroundLayers",
