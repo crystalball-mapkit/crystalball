@@ -1,12 +1,23 @@
 {
-  "title": "Time to change",
-  "baseColor": "red darken-3",
-  "controlsColor": "#00000E",
+  "app": {
+    "title": "Deep Time Chicago",
+    "color": {
+      "primary": "#00000e",
+      "secondary": "#00000e"
+    },
+    "legend": { "isVisible": false },
+    "sideBar": {
+      "isVisible": true,
+      "backgroundColor": "rgb(79, 43, 124)",
+      "textColor": "black"
+    }
+  },
   "map": {
     "projectionCode": "EPSG:3857",
     "minZoom": 1,
     "maxZoom": 21,
     "zoom": 1,
+    "geoserverWorkspace": "petropolis",
     "resolutions": [
       156543.03,
       78271.52,
@@ -110,27 +121,21 @@
     "groups": {
       "urban_ecology": {
         "default": {
-          "layers": [
-            "urban_ecology"
-          ],
+          "layers": ["urban_ecology"],
           "center": [-87.34, 41.7],
           "resolution": 1500,
           "minResolution": 0.25,
           "maxResolution": 32000
         },
         "local": {
-          "layers": [
-            
-          ],
+          "layers": [],
           "center": [-99, 42.9],
           "resolution": 9000,
           "minResolution": 0,
           "maxResolution": 32000
         },
         "global": {
-          "layers": [
-            
-          ],
+          "layers": [],
           "center": [-5, 30],
           "resolution": 32000,
           "minResolution": 0,
@@ -150,18 +155,14 @@
           "maxResolution": 32000
         },
         "local": {
-          "layers": [
-            
-          ],
+          "layers": [],
           "center": [-99, 42.9],
           "resolution": 9000,
           "minResolution": 0,
           "maxResolution": 32000
         },
         "global": {
-          "layers": [
-            
-          ],
+          "layers": [],
           "center": [2.44, 30.81],
           "resolution": 25000,
           "minResolution": 0,
@@ -170,33 +171,37 @@
       },
       "headwaters_mn": {
         "default": {
-          "layers": [
-            "headwaters"
-          ],
+          "layers": ["headwaters"],
           "center": [-103, 42.0],
           "resolution": 8500,
           "minResolution": 0,
           "maxResolution": 32000
         },
         "local": {
-          "layers": [
-            
-          ],
+          "layers": [],
           "center": [-97, 37],
           "resolution": 4500,
           "minResolution": 0,
           "maxResolution": 16000
         },
         "global": {
-          "layers": [
-            
-          ],
+          "layers": [],
           "center": [2.44, 31.01],
           "resolution": 30000,
           "minResolution": 0,
           "maxResolution": 32000
         }
       }
+    },
+    "groupTitles": {
+      "health": "One Health",
+      "headwaters": "Headwaters",
+      "renewables": "Stop Line 3"
+    },
+    "regionTitles": {
+      "local": "Local",
+      "global": "global",
+      "default": "Default"
     },
     "popupFieldsMapping": {
       "default": {

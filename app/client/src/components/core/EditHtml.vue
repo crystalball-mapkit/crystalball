@@ -34,6 +34,7 @@
 
       <v-layout justify-space-between column fill-height>
         <tip-tap-editor
+          :map="map"
           v-if="postFeature || isEditingHtml"
           class="mx-1 mt-1"
         ></tip-tap-editor>
@@ -379,7 +380,7 @@ export default {
       if (value === true) {
         if (this.editType !== 'update') {
           this.toggleSnackbar({
-            type: '#00000E',
+            type: this.$appConfig.app.color.primary,
             message: 'Zoom in close and click to add your post',
             timeout: 50000,
             state: true

@@ -1,9 +1,9 @@
 {
-  "name": "ecotopia-today",
+  "name": "deeptime",
   "version": "0.0.1",
   "private": true,
-  "description": "ecotopia.today openlayers component prototype",
-  "author": "edwardsharp",
+  "description": "Deeptime chicago openlayers component prototype",
+  "author": "brianholmes",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -71,6 +71,5 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ],
-  "repository": "github:edwardsharp/ecotopia-today"
+  ]
 }
