@@ -1,71 +1,42 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Petropolis from '../views/Petropolis.vue';
+import Main from '../views/Main.vue';
 Vue.use(VueRouter);
 import { validateToken } from '../utils/Helpers';
 
-const routes = [
-  {
+export function getRoutes(config) {
+  console.log(config);
+  const groups = config.map.groups;
+  const groupNames = Object.keys(groups);
+  const routes = [];
+  // Base route
+  routes.push({
     path: '/',
     name: 'map',
-    redirect: '/urban_ecology'
-  },
-  {
-    path: '/urban_ecology',
-    name: 'urban_ecology',
-    component: Petropolis,
-    props: { navbarGroup: 'urban_ecology', region: 'default' }
-  },
-  {
-    path: '/urban_ecology/local',
-    name: 'urban_ecologyLocal',
-    component: Petropolis,
-    props: { navbarGroup: 'urban_ecology', region: 'local' }
-  },
-  {
-    path: '/urban_ecology/global',
-    name: 'urban_ecologyGlobal',
-    component: Petropolis,
-    props: { navbarGroup: 'urban_ecology', region: 'global' }
-  },
-  {
-    path: '/headwaters_il',
-    name: 'headwaters_il',
-    component: Petropolis,
-    props: { navbarGroup: 'headwaters_il', region: 'default' }
-  },
-  {
-    path: '/headwaters_il/local',
-    name: 'headwaters_ilLocal',
-    component: Petropolis,
-    props: { navbarGroup: 'headwaters_il', region: 'local' }
-  },
-  {
-    path: '/headwaters_il/global',
-    name: 'headwaters_ilGlobal',
-    component: Petropolis,
-    props: { navbarGroup: 'headwaters_headwaters_il', region: 'global' }
-  },
-  {
-    path: '/headwaters_mn',
-    name: 'headwaters_mn',
-    component: Petropolis,
-    props: { navbarGroup: 'headwaters_mn', region: 'default' }
-  },
-  {
-    path: '/headwaters_mn/local',
-    name: 'headwaters_mnLocal',
-    component: Petropolis,
-    props: { navbarGroup: 'headwaters_mn', region: 'local' }
-  },
-  {
-    path: '/headwaters_mn/global',
-    name: 'headwaters_mnGlobal',
-    component: Petropolis,
-    props: { navbarGroup: 'headwaters_mn', region: 'global' }
-  },
-  // Admin dashboard view...
-  {
+    redirect: `/${groupNames[1]}` // TODO: Get the default route from app-conf
+  });
+  // Map routes.
+  groupNames.forEach(groupName => {
+    const regions = groups[groupName];
+    const regionNames = Object.keys(regions);
+    regionNames.forEach(regionName => {
+      const region = regions[regionName];
+      if (region.layers.length > 0) {
+        routes.push({
+          path:
+            regionName === 'default'
+              ? `/${groupName}`
+              : `/${groupName}/${regionName}`,
+          name:
+            regionName === 'default' ? groupName : `${groupName}${regionName}`,
+          component: Main,
+          props: { navbarGroup: groupName, region: regionName }
+        });
+      }
+    });
+  });
+  // Admin routes.
+  routes.push({
     path: '/admin',
     // lazy-loaded
     component: () => import('../views/Admin.vue'),
@@ -99,13 +70,11 @@ const routes = [
         }
       }
     ]
-  }
-];
+  });
+  return routes;
+}
 
-const router = new VueRouter({
-  routes
-});
-
+const router = new VueRouter({});
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
   if (!requiresAuth) {

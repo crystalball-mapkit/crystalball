@@ -10,7 +10,7 @@
                 class="edit-buttons"
                 v-on="on"
                 @click="activateEdit"
-                color="#00000E"
+                :color="color.primary"
                 fab
                 dark
                 small
@@ -37,7 +37,7 @@
               class="edit-buttons"
               dark
               rounded
-              color="#00000E"
+              :color="color.primary"
               ><v-icon small left>far fa-edit</v-icon>
               {{
                 selectedLayer ? selectedLayer.get('legendDisplayName') : ''
@@ -73,7 +73,7 @@
             class="edit-buttons mt-2"
             v-on="on"
             @click="togglePostEdit"
-            :color="isEditingPost ? 'rgb(228, 76, 107)' : '#00000E'"
+            :color="isEditingPost ? color.activeButton : color.primary"
             fab
             dark
             small
@@ -99,9 +99,7 @@
                 dark
                 right
                 x-small
-                :color="
-                  item.action === editType ? 'rgb(228, 76, 107)' : '#00000E'
-                "
+                :color="isEditingPost ? color.activeButton : color.primary"
                 @click="edit(item.action)"
               >
                 <v-icon medium>{{ item.icon }}</v-icon>
@@ -120,7 +118,7 @@
       @keydown.esc="layersDialog = false"
     >
       <v-card>
-        <v-app-bar flat color="#00000E" height="50" dark>
+        <v-app-bar flat :color="color.primary" height="50" dark>
           <v-icon class="mr-3">layers</v-icon>
           <v-toolbar-title>Select Layer</v-toolbar-title>
         </v-app-bar>
@@ -164,7 +162,10 @@
             "
             >Ok</v-btn
           >
-          <v-btn color="#00000E" text @click.native="layersDialog = false"
+          <v-btn
+            :color="color.primary"
+            text
+            @click.native="layersDialog = false"
             >Cancel</v-btn
           >
         </v-card-actions>
@@ -359,7 +360,8 @@ export default {
   },
   mixins: [Mapable],
   props: {
-    map: { type: Object, required: true }
+    map: { type: Object, required: true },
+    color: { type: Object }
   },
   data: () => ({
     editType: null,

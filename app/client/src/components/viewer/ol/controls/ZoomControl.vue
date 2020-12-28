@@ -8,7 +8,7 @@
           fab
           dark
           x-small
-          color="#00000E"
+          :color="color"
           @click="zoom(1)"
         >
           <span style="font-size:22px;">+</span>
@@ -16,7 +16,7 @@
       </template>
       <span>Zoom In</span>
     </v-tooltip>
-    <br>
+    <br />
     <v-tooltip right>
       <template v-slot:activator="{ on }">
         <v-btn
@@ -25,7 +25,7 @@
           fab
           dark
           x-small
-          color="#00000E"
+          :color="color"
           @click="zoom(-1)"
         >
           <span style="font-size:22px;">−</span>
@@ -40,7 +40,8 @@ import { easeOut } from 'ol/easing';
 
 export default {
   props: {
-    map: { type: Object, required: true }
+    map: { type: Object, required: true },
+    color: { type: String }
   },
   name: 'zoom-control',
   methods: {
@@ -67,7 +68,6 @@ export default {
 </script>
 <style lang="css" scoped>
 .zoom-buttons {
-
   z-index: 1;
 }
 </style>

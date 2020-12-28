@@ -87,6 +87,22 @@
             </template>
             Add Expansion panel
           </v-tooltip>
+          <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                v-on="on"
+                :class="{
+                  'tiptap-vuetify-editor__action-render-btn': true
+                }"
+                small
+                icon
+                @click="addMapViewLink"
+              >
+                <v-icon>pin_drop</v-icon>
+              </v-btn>
+            </template>
+            Add current map link
+          </v-tooltip>
         </div>
       </template>
     </tiptap-vuetify>
@@ -101,6 +117,7 @@ import Iframe from './TipTapIframe';
 import Audio from './TipTapAudio';
 import Image from './TipTapImage';
 import Expansion from './TipTapExpansion';
+import MapView from './TipTapMapView';
 
 import MediaDialog from './TipTapMediaDialog';
 import TipTapExpansionDialog from './TipTapExpansionDialog';
@@ -126,6 +143,9 @@ import {
 export default {
   // specify TiptapVuetify component in "components"
   components: { TiptapVuetify, MediaDialog, TipTapExpansionDialog },
+  props: {
+    map: { type: Object }
+  },
   data: () => ({
     editor: null,
     // declare extensions you want to use
@@ -151,7 +171,13 @@ export default {
       HorizontalRule,
       HardBreak
     ],
-    nativeExtensions: [new Iframe(), new Audio(), new Image(), new Expansion()]
+    nativeExtensions: [
+      new Iframe(),
+      new Audio(),
+      new Image(),
+      new Expansion(),
+      new MapView()
+    ]
   }),
   computed: {
     ...mapFields('map', {
@@ -173,6 +199,13 @@ export default {
           );
         }
       }
+    },
+    addMapViewLink() {
+      let href = window.location.hash;
+      if (this.map) {
+        href += `&zoom=${this.map.getView().getZoom()}`;
+      }
+      this.editor.commands['mapview']({ href });
     },
     addCommand(data) {
       if (data.command !== null) {

@@ -4,12 +4,15 @@
       <v-layout row>
         <div v-for="(region, index) in regions" :key="index">
           <v-btn
+            v-if="hasRegion(region)"
             min-width="140"
             class="mx-2 mb-2 locate-button"
             dark
             @click="changeRegion(region)"
             :color="
-              activeLayerGroup.region === region.name ? '#00000E' : '#E44C6B'
+              activeLayerGroup.region === region.name
+                ? color.activeButton
+                : color.inactiveButton
             "
             :class="{
               'elevation-6': activeLayerGroup.region === region.name
@@ -31,6 +34,9 @@ import { EventBus } from '../../../../EventBus';
 
 export default {
   name: 'route-control',
+  props: {
+    color: { type: Object }
+  },
   methods: {
     changeRegion(region) {
       this.$router.push({
@@ -38,6 +44,18 @@ export default {
       });
       if (region.name === 'local') {
         EventBus.$emit('zoomToLocation');
+      }
+    },
+    hasRegion(region) {
+      const activeNavbarGroup = this.activeLayerGroup.navbarGroup;
+      const regions = this.$appConfig.map.groups[activeNavbarGroup];
+      if (region.name === 'default') {
+        return;
+      }
+      if (regions[region.name] && regions[region.name].layers.length > 0) {
+        return true;
+      } else {
+        return false;
       }
     }
   },
@@ -51,12 +69,6 @@ export default {
 };
 </script>
 <style lang="css" scoped>
-.fuelgroup-control {
-  position: absolute;
-  left: 12px;
-  bottom: 20px;
-  z-index: 1;
-}
 .region-control {
   position: fixed;
   right: calc(45% - 50px);

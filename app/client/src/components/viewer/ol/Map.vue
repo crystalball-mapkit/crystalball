@@ -1,29 +1,38 @@
 <template>
   <div id="ol-map-container">
     <!-- Map Controls -->
-    <map-legend color="#00000E" />
+    <map-legend :color="color.primary" />
     <div style="position:absolute;left:20px;top:10px;">
-      <login-button></login-button>
-      <zoom-control :map="map" />
-      <full-screen />
-      <share-map :map="map"></share-map>
-      <locate :map="map" />
-      <route-controls />
+      <login-button :color="color.primary"></login-button>
+      <zoom-control :color="color.primary" :map="map" />
+      <full-screen :color="color.primary" />
+      <share-map :color="color.primary" :map="map"></share-map>
+      <locate :color="color.primary" :map="map" />
+      <route-controls
+        :color="{
+          activeButton: color.secondary,
+          inactiveButton: color.primary
+        }"
+      />
     </div>
 
     <!-- Edit Controls (Only available for logged users ) -->
     <div v-if="loggedUser" style="position:absolute;right:20px;top:10px;">
-      <edit :map="map" />
+      <edit
+        :map="map"
+        :color="{ primary: color.primary, activeButton: color.secondary }"
+      />
     </div>
 
-<!--     <div
+    <!-- <div
       v-show="spotlightMessage === true"
+      :style="`background-color: ${color.primary}`"
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
     >
       press ↑ or ↓ to change spotlight size
-    </div>                          -->
-    
+    </div> -->
+
     <!-- Popup overlay  -->
     <overlay-popup
       :title="
@@ -217,7 +226,7 @@ export default {
       minZoom: this.$appConfig.map.minZoom,
       maxZoom: this.$appConfig.map.maxZoom,
       extent: this.$appConfig.map.extent,
-      color: this.$appConfig.controlsColor,
+      color: this.$appConfig.app.color,
       allLayers: [],
       queryableLayers: [],
       queryLayersGeoserverNames: null,
@@ -229,7 +238,7 @@ export default {
       lightBoxImages: [],
       progressLoading: {
         message: 'Fetching Corporate Network',
-        progressColor: '#00000E',
+        progressColor: this.$appConfig.app.color.primary,
         value: false
       },
       ops: {
@@ -478,9 +487,8 @@ export default {
      * Sets the background color of the OL buttons to the color property.
      */
     setOlButtonColor() {
-      var me = this;
-
-      if (isCssColor(me.color)) {
+      const color = this.color.primary;
+      if (isCssColor(color)) {
         // directly apply the given CSS color
         const rotateEl = document.querySelector('.ol-rotate');
         if (rotateEl) {
@@ -489,7 +497,7 @@ export default {
           const rotateElStyle = document.querySelector(
             '.ol-rotate .ol-rotate-reset'
           ).style;
-          rotateElStyle.backgroundColor = me.color;
+          rotateElStyle.backgroundColor = color;
           rotateElStyle.borderRadius = '40px';
         }
         const attrEl = document.querySelector('.ol-attribution');
@@ -498,13 +506,13 @@ export default {
           const elStyle = document.querySelector(
             ".ol-attribution button[type='button']"
           ).style;
-          elStyle.backgroundColor = me.color;
+          elStyle.backgroundColor = color;
           elStyle.borderRadius = '40px';
         }
       } else {
         // apply vuetify color by transforming the color to the corresponding
         // CSS class (see https://vuetifyjs.com/en/framework/colors)
-        const [colorName, colorModifier] = me.color
+        const [colorName, colorModifier] = color
           .toString()
           .trim()
           .split(' ', 2);
@@ -976,7 +984,7 @@ export default {
     },
     queryCorporateNetwork() {
       const entity = this.popup.activeFeature.get('entity');
-      const workspace = 'petropolis';
+      const workspace = this.geoserverWorkspace;
       if (!entity) return;
       this.selectedCoorpNetworkEntity = entity;
       if (!this.layersWithEntityField || !this.splittedEntities) return;
@@ -1114,9 +1122,8 @@ export default {
       const geoserverLayerNames = extractGeoserverLayerNames(
         this.$appConfig.map.layers
       );
-      const workspace = 'petropolis';
+      const workspace = this.geoserverWorkspace;
       if (!geoserverLayerNames[workspace]) return;
-
       const filterLayersWithEntity = [];
       geoserverLayerNames[workspace].names.forEach(geoserverLayerName => {
         http
@@ -1216,7 +1223,8 @@ export default {
       activeLayerGroup: 'activeLayerGroup',
       popupInfo: 'popupInfo',
       splittedEntities: 'splittedEntities',
-      htmlPostLayerConf: 'htmlPostLayerConf'
+      htmlPostLayerConf: 'htmlPostLayerConf',
+      geoserverWorkspace: 'geoserverWorkspace'
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser'
@@ -1232,9 +1240,9 @@ export default {
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity'
     }),
     activeLayerGroupConf() {
-      const group = this.$appConfig.map.groups[this.activeLayerGroup.navbarGroup][
-        this.activeLayerGroup.region
-      ];
+      const group = this.$appConfig.map.groups[
+        this.activeLayerGroup.navbarGroup
+      ][this.activeLayerGroup.region];
       return group;
     },
     hiddenProps() {
@@ -1343,7 +1351,6 @@ div.ol-control button {
 }
 
 .spotlight-message {
-  background-color: #00000E;
   position: fixed;
   left: 40%;
   top: 70px;

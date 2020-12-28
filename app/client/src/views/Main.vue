@@ -4,7 +4,8 @@
       <v-navigation-drawer
         v-model="drawer"
         :width="!selectedCoorpNetworkEntity ? 460 : 600"
-        class="elevation-6" color="#fefefe"
+        class="elevation-6"
+        :color="$appConfig.app.sideBar.backgroundColor"
         stateless
         app
         clipped
@@ -14,14 +15,15 @@
       </v-navigation-drawer>
     </v-expand-transition>
 
-    <v-app-bar app clipped-right height="60" color="#00000E" dark>
+    <v-app-bar app clipped-right height="60" :color="color.primary" dark>
       <v-toolbar-title
         @click="goToHome()"
         flat
-        class="logo headline font-weight-bold gray--text mr-3 black"
-        >Deep Time Chicago</v-toolbar-title
+        :style="`background-color:${color.primary};text-color:white;`"
+        class="logo headline font-weight-bold gray--text mr-3 dark"
+        >{{ $appConfig.app.title }}</v-toolbar-title
       >
-<!--       <v-tooltip right>
+      <!--       <v-tooltip right>
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
@@ -36,16 +38,19 @@
         ><span>Open Website</span>
       </v-tooltip>                 -->
 
-
-      <v-spacer></v-spacer> 
+      <v-spacer></v-spacer>
       <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
         <v-btn
           min-width="200"
           class="mx-10"
-          :dark="activeLayerGroup.navbarGroup === navbarGroup.name ? false : true"
+          :dark="
+            activeLayerGroup.navbarGroup === navbarGroup.name ? false : true
+          "
           @click="changeNavbarGroup(navbarGroup)"
           :color="
-            activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : 'black'
+            activeLayerGroup.navbarGroup === navbarGroup.name
+              ? 'white'
+              : color.primary
           "
           :class="{
             'elevation-0': activeLayerGroup.navbarGroup !== navbarGroup.name,
@@ -59,7 +64,7 @@
       </div>
       <v-spacer></v-spacer><v-spacer></v-spacer>
 
-<!--      <span class="title pr-5">before it's too late</span>  -->
+      <!--      <span class="title pr-5">before it's too late</span>  -->
       <v-btn icon @click.stop="drawer = !drawer"
         ><v-icon medium>{{ drawer ? '$close' : '$menu' }}</v-icon></v-btn
       >
@@ -89,11 +94,12 @@ export default {
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       isEditingPost: 'isEditingPost',
       isEditingHtml: 'isEditingHtml',
-      navbarGroups: 'navbarGroups'
+      navbarGroups: 'navbarGroups',
+      regions: 'regions',
+      geoserverWorkspace: 'geoserverWorkspace'
     }),
     ...mapGetters('map', {
-      activeLayerGroup: 'activeLayerGroup',
-      navbarGroups: 'navbarGroups'
+      activeLayerGroup: 'activeLayerGroup'
     })
   },
   components: {
@@ -102,7 +108,8 @@ export default {
   },
   data() {
     return {
-      drawer: true
+      drawer: this.$appConfig.app.sideBar.isVisible,
+      color: this.$appConfig.app.color
     };
   },
   methods: {
@@ -129,6 +136,30 @@ export default {
     })
   },
   created() {
+    // Navgroups
+    const groups = this.$appConfig.map.groups;
+    const groupTitles = this.$appConfig.map.groupTitles;
+    const navbarGroups = [];
+    Object.keys(groups).forEach(groupName => {
+      navbarGroups.push({
+        name: groupName,
+        title: groupTitles[groupName] || groupName
+      });
+    });
+    this.navbarGroups = navbarGroups;
+    // Regions
+    const regionTitles = this.$appConfig.map.regionTitles;
+    Object.keys(regionTitles).forEach(regionName => {
+      this.regions.push({
+        name: regionName,
+        title: regionTitles[regionName]
+      });
+    });
+    console.log(this.regions);
+    console.log(this.navbarGroups);
+    // Geoserver workspace
+    this.geoserverWorkspace = this.$appConfig.map.geoserverWorkspace;
+    // Set active layer group
     this.setActiveLayerGroup({
       navbarGroup: this.navbarGroup,
       region: this.region

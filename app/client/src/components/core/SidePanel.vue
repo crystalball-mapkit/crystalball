@@ -311,7 +311,7 @@
             <v-btn
               @click="closeCorpNetworkSelection()"
               dark
-              color="#00000E"
+              :color="color"
               small
               class="ml-1 elevation-0"
             >
@@ -324,7 +324,7 @@
           class="mt-n1"
           indeterminate
           height="5"
-          color="#00000E"
+          :color="color"
         ></v-progress-linear>
         <vue-scroll>
           <v-container
@@ -423,7 +423,8 @@ export default {
   },
   data() {
     return {
-      isIframeLoading: true
+      isIframeLoading: true,
+      color: this.$appConfig.app.color.primary
     };
   },
   computed: {
