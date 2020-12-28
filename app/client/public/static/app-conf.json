@@ -144,11 +144,7 @@
       },
       "headwaters_il": {
         "default": {
-          "layers": [
-            "headwaters",
-            "miss_coal_ash",
-            "miss_coal_power"
-          ],
+          "layers": ["headwaters"],
           "center": [-88.73, 40.04],
           "resolution": 800,
           "minResolution": 0.25,
