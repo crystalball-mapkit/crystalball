@@ -44,34 +44,13 @@ const state = {
   activeLayerGroup: null,
   colorMapEntities: {}, // Fetched from geoserver
   geoserverLayerNames: null, // Created when user clicks corporate network,
+  geoserverWorkspace: 'petropolis',
   layersMetadata: {}, // Describe feature type.
   layersWithEntityField: null, // Fetched from Geoserver on load
   selectedCoorpNetworkEntity: null, // Selected entity,
-  navbarGroups: [
-    {
-      name: 'coal',
-      title: 'Headwaters'
-    },
-    {
-      name: 'oil',
-      title: 'ONE HEALTH'
-    },
-    {
-      name: 'renewables',
-      title: 'Stop Line 3'
-    }
-  ],
-// Uncomment to activate Local/Global buttons 
-//  regions: [
-//    {
-//      name: 'local',
-//      title: 'Local'
-//    },
-//    {
-//      name: 'global',
-//      title: 'Global'
-//    }
-//  ],
+  navbarGroups: [],
+  //Uncomment to activate Local/Global buttons
+  regions: [],
   previousMapPosition: null,
   previousMapPositionSearch: null,
   isEditingLayer: false,
@@ -81,8 +60,6 @@ const state = {
   htmlPostLayerConf: {
     type: 'VECTOR',
     name: 'html_posts',
-    url:
-      './geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:html_posts&outputFormat=application/json&srsname=EPSG:3857',
     queryable: true,
     displayInLegend: true,
     legendDisplayName: 'Posts',
@@ -141,11 +118,16 @@ const getters = {
       return null;
     }
   },
+  geoserverWorkspace: state => state.geoserverWorkspace,
   navbarGroups: state => state.navbarGroups,
   regions: state => state.regions,
   layersMetadata: state => state.layersMetadata,
   htmlContent: state => state.htmlContent,
-  htmlPostLayerConf: state => state.htmlPostLayerConf,
+  htmlPostLayerConf: state => {
+    const config = state.htmlPostLayerConf;
+    config.url = `./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=${state.geoserverWorkspace}:html_posts&outputFormat=application/json&srsname=EPSG:3857`;
+    return config;
+  },
   persistentLayers: state => state.persistentLayers,
   postEditLayer: state => state.postEditLayer,
   lastSelectedLayer: state => state.lastSelectedLayer,
@@ -159,7 +141,7 @@ const getters = {
     }
     return '';
   },
-  groupName: (state) => {
+  groupName: state => {
     if (!state.activeLayerGroup) {
       return ``;
     } else {
@@ -194,12 +176,12 @@ const actions = {
               url: getLayerSourceUrl(layer.getSource()),
               name: layer.get('name')
             }
-          ])['petropolis']['names'][0];
+          ])[rootState.map.geoserverWorkspace]['names'][0];
         let viewParams = `viewparams=table:${tableName}`;
         if (styleObj.colorField) {
           viewParams += `;field:${styleObj.colorField}`;
         }
-        const url = `./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=petropolis:colormap&srsname=EPSG:4326&${viewParams}&outputFormat=json`;
+        const url = `./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=${rootState.map.geoserverWorkspace}:colormap&srsname=EPSG:4326&${viewParams}&outputFormat=json`;
         promiseArray.push(
           http.get(url, {
             data: {

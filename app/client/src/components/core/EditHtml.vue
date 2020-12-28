@@ -379,7 +379,7 @@ export default {
       if (value === true) {
         if (this.editType !== 'update') {
           this.toggleSnackbar({
-            type: '#00000E',
+            type: this.$appConfig.app.color.primary,
             message: 'Zoom in close and click to add your post',
             timeout: 50000,
             state: true
