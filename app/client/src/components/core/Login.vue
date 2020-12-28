@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="show" max-width="355px">
     <v-card flat>
-      <v-app-bar flat color="#00000E" height="50" dark>
+      <v-app-bar flat :color="color" height="50" dark>
         <v-spacer></v-spacer>
         <v-toolbar-title>Sign In</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -10,7 +10,7 @@
       <v-progress-linear
         :active="loading"
         indeterminate
-        color="#00000E"
+        :color="color"
       ></v-progress-linear>
       <v-alert class="ma-2" outlined v-if="error" type="error">
         {{ error }}
@@ -52,7 +52,7 @@
           :disabled="loading"
           class="white--text"
           @click="handleLogin"
-          color="#00000E"
+          :color="color"
         >
           <v-icon left>fas fa-sign-in-alt</v-icon> Login</v-btn
         >
@@ -75,7 +75,7 @@ export default {
       required: value => !!value || 'Required.'
     }
   }),
-  props: ['visible'],
+  props: ['visible', 'color'],
   computed: {
     show: {
       get() {

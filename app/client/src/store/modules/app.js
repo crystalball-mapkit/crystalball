@@ -3,7 +3,8 @@ import { getField, updateField } from 'vuex-map-fields';
 const state = {
   asideHidden: false,
   sidebarHtml: {},
-  postIcons: []
+  postIcons: [],
+  config: {}
 };
 
 // mutations are operations that actually mutates the state.

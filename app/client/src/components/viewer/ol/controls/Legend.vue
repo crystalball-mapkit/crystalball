@@ -6,7 +6,7 @@
           v-on="on"
           style="position:fixed;left:16px;bottom:40px;z-index:1000;"
           v-show="!isVisible"
-          color="#00000E"
+          :color="color"
           @click="toggleLegend"
           fab
           small
@@ -31,7 +31,9 @@
         text
         min-width="30px"
         x-small
-        style="z-index:100;background-color:rgb(228, 76, 107);position:absolute;bottom:30px;right:-19px;"
+        :style="
+          `z-index:100;background-color:${color};position:absolute;bottom:30px;right:-19px;`
+        "
       >
         <v-icon class="ml-0" x-small>fas fa-chevron-up</v-icon></v-btn
       >
@@ -136,7 +138,7 @@ export default {
       panel: 0,
       isReady: false,
       title: '',
-      isVisible: false
+      isVisible: this.$appConfig.app.legend.isVisible
     };
   },
   methods: {
@@ -231,9 +233,9 @@ export default {
     },
     updateTitle() {
       let title = ``;
-      this.fuelGroups.forEach(fuelGroup => {
-        if (fuelGroup.name === this.activeLayerGroup.fuelGroup) {
-          title += fuelGroup.title;
+      this.navbarGroups.forEach(navbarGroup => {
+        if (navbarGroup.name === this.activeLayerGroup.navbarGroup) {
+          title += navbarGroup.title;
         }
       });
       this.regions.forEach(region => {
@@ -255,7 +257,7 @@ export default {
     ...mapGetters('map', {
       layers: 'layers',
       activeLayerGroup: 'activeLayerGroup',
-      fuelGroups: 'fuelGroups',
+      navbarGroups: 'navbarGroups',
       regions: 'regions'
     }),
     ...mapGetters('app', {
