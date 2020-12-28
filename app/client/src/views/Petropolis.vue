@@ -4,7 +4,7 @@
       <v-navigation-drawer
         v-model="drawer"
         :width="!selectedCoorpNetworkEntity ? 460 : 600"
-        class="elevation-6" color="#4F2B7C"
+        class="elevation-6" color="#fefefe"
         stateless
         app
         clipped
