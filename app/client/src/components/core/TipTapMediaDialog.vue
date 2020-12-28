@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="show" persistent max-width="500px">
     <v-card v-if="command">
-      <v-app-bar flat color="#00000E" height="50" dark>
+      <v-app-bar flat :color="color" height="50" dark>
         <v-icon class="mr-3">{{ data[type].toolbar_icon }}</v-icon>
         <v-toolbar-title>{{ data[type].toolbar_title }}</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -10,7 +10,7 @@
       <v-progress-linear
         :active="isUploadInProgress"
         indeterminate
-        color="#00000E"
+        :color="color"
       ></v-progress-linear>
 
       <v-tabs
@@ -132,7 +132,8 @@ export default {
           toolbar_icon: 'video_library',
           toolbar_title: 'Video Insert'
         }
-      }
+      },
+      color: this.$appConfig.app.color.primary
     };
   },
   methods: {

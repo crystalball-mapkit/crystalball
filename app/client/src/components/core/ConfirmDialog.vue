@@ -15,7 +15,7 @@
           <v-btn color="primary darken-1" text @click.native="agree">{{
             confirmText
           }}</v-btn>
-          <v-btn color="#00000E" text @click.native="cancel">{{
+          <v-btn :color="color" text @click.native="cancel">{{
             cancelText
           }}</v-btn>
         </v-card-actions>
@@ -38,7 +38,8 @@ export default {
       color: 'primary',
       width: 320,
       zIndex: 200
-    }
+    },
+    color: this.$appConfig.app.color.primary
   }),
   methods: {
     open(title, message, confirmText, cancelText, options) {

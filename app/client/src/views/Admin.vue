@@ -19,7 +19,13 @@
       <v-list dense> </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left color="#00000E" dark dense>
+    <v-app-bar
+      app
+      clipped-left
+      :color="$appConfig.app.color.primary"
+      dark
+      dense
+    >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="mr-12 align-center">
         <span class="title">Admin Dashboard</span>
