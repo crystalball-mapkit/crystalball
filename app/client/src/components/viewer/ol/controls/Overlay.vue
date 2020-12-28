@@ -1,6 +1,6 @@
 <template>
   <v-card ref="popup" max-width="370" width="370" class="ol-popup mx-auto">
-    <v-toolbar color="#00000E" flat height="50" dark>
+    <v-toolbar :color="$appConfig.app.color.primary" flat height="50" dark>
       <v-toolbar-title>{{ title ? title : '' }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <slot name="close"></slot>

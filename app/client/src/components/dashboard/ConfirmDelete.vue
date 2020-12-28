@@ -7,7 +7,7 @@
       v-bind:style="{ zIndex: options.zIndex }"
     >
       <v-card>
-        <v-app-bar dark color="#00000E" dense flat>
+        <v-app-bar dark :color="options.color" dense flat>
           <v-app-bar-nav-icon
             ><v-icon>{{ options.icon }}</v-icon></v-app-bar-nav-icon
           >
@@ -23,7 +23,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="#00000E" text @click.native="agree">{{
+          <v-btn :color="options.color" text @click.native="agree">{{
             confirmText
           }}</v-btn>
           <v-btn color="primary darken-1" text @click.native="cancel">{{

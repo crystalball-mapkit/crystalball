@@ -8,7 +8,7 @@
             class="login-button"
             v-on="on"
             @click="openLoginPopup"
-            color="#00000E"
+            :color="color"
             fab
             dark
             x-small
@@ -34,7 +34,7 @@
             dark
             rounded
             v-bind="attrs"
-            color="#00000E"
+            :color="color"
             v-on="on"
             ><v-icon left>person</v-icon>
             {{
@@ -69,7 +69,12 @@
         </v-list>
       </v-menu>
     </template>
-    <login :visible="showLoginDialog" @close="showLoginDialog = false"> </login>
+    <login
+      :visible="showLoginDialog"
+      :color="color"
+      @close="showLoginDialog = false"
+    >
+    </login>
   </div>
 </template>
 <script>
@@ -81,6 +86,9 @@ export default {
   data: () => ({
     showLoginDialog: false
   }),
+  props: {
+    color: { type: String, default: '#4CAF50' }
+  },
   computed: {
     ...mapGetters('auth', {
       loggedUser: 'loggedUser'

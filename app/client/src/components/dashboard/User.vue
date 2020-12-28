@@ -4,7 +4,7 @@
     <v-divider class="pb-2" />
     <div class="d-flex flex-row">
       <div class="flex-grow-1 pa-2">
-        <v-btn @click="registerNewUser" class="lighten-1" color="#00000E" dark>
+        <v-btn @click="registerNewUser" class="lighten-1" :color="color" dark>
           New User
           <v-icon right dark>add</v-icon>
         </v-btn>
@@ -14,7 +14,7 @@
           :disabled="true"
           @click="manageRoles"
           class="float-right"
-          color="#00000E"
+          :color="color"
           dark
         >
           Manage Roles <v-icon right dark>supervisor_account</v-icon>
@@ -23,7 +23,7 @@
           @click="managePermissions"
           :disabled="true"
           class="float-right mr-2"
-          color="#00000E"
+          :color="color"
           dark
         >
           Manage Permissions <v-icon right dark>vpn_key</v-icon>
@@ -44,7 +44,7 @@
     <v-progress-linear
       :active="loading"
       indeterminate
-      color="#00000E"
+      :color="color"
     ></v-progress-linear>
     <!-- data table -->
     <v-data-table
@@ -158,7 +158,7 @@
                       small
                       outlined
                       icon
-                      color="red"
+                      :color="color"
                     >
                       <v-icon small>delete</v-icon>
                     </v-btn>
@@ -175,7 +175,7 @@
     <v-divider class="py-5" />
 
     <confirm-dialog ref="confirm"></confirm-dialog>
-    <user-form-dialog ref="userForm"></user-form-dialog>
+    <user-form-dialog ref="userForm" :color="color"></user-form-dialog>
   </div>
 </template>
 
@@ -216,7 +216,8 @@ export default {
       roles: {
         1: 'Admin User',
         2: 'Regular User'
-      }
+      },
+      color: this.$appConfig.app.color.primary
     };
   },
   components: {
@@ -239,7 +240,7 @@ export default {
     trash(user) {
       this.$refs.confirm
         .open('Confirm Delete', `Delete User ${user.userName} ?`, 'Yes', 'No', {
-          color: '#00000E'
+          color: this.color
         })
         .then(confirm => {
           if (confirm) {
@@ -271,7 +272,7 @@ export default {
 
     registerNewUser() {
       this.$refs.userForm.open('new', 'New User', 'Save', 'Cancel', {
-        color: '#00000E'
+        color: this.color
       });
     },
     editUser(user) {
@@ -281,7 +282,7 @@ export default {
         'Update',
         'Cancel',
         {
-          color: '#00000E',
+          color: this.color,
           icon: 'edit'
         },
         user
@@ -294,7 +295,7 @@ export default {
         'Save',
         'Cancel',
         {
-          color: '#00000E',
+          color: this.color,
           icon: 'lock'
         },
         user
