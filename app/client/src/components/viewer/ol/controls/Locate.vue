@@ -16,7 +16,7 @@
       </template>
       <span>Locate Me</span>
     </v-tooltip>
-    <confirm-location ref="confirm"></confirm-location>
+    <confirm-location ref="confirm" :color="color"></confirm-location>
   </div>
 </template>
 <script>

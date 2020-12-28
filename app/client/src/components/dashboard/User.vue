@@ -175,7 +175,7 @@
     <v-divider class="py-5" />
 
     <confirm-dialog ref="confirm"></confirm-dialog>
-    <user-form-dialog ref="userForm"></user-form-dialog>
+    <user-form-dialog ref="userForm" :color="color"></user-form-dialog>
   </div>
 </template>
 

@@ -34,6 +34,7 @@
 
       <v-layout justify-space-between column fill-height>
         <tip-tap-editor
+          :map="map"
           v-if="postFeature || isEditingHtml"
           class="mx-1 mt-1"
         ></tip-tap-editor>

@@ -2,13 +2,13 @@
   "app": {
     "title": "Deep Time Chicago",
     "color": {
-      "primary": "#ff0000",
-      "secondary": "rgb(228, 76, 107)"
+      "primary": "#00000e",
+      "secondary": "#00000e"
     },
     "legend": { "isVisible": false },
     "sideBar": {
       "isVisible": true,
-      "backgroundColor": "purple",
+      "backgroundColor": "rgb(79, 43, 124)",
       "textColor": "black"
     }
   },
