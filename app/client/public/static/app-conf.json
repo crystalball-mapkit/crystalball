@@ -31,6 +31,57 @@
     "center": [0, 0],
     "layers": [
       {
+        "type": "VECTOR",
+        "name": "miss_coal_power",
+        "url": "geojson/miss_coal_power.geojson",
+        "group": "petropolisCoal",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Coal Power",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/mapIcons-1.3.png",
+          "scale": 0.5,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "iconAnchor": [0.5, 50],
+          "iconAnchorXUnits": "fraction",
+          "iconAnchorYUnits": "pixels"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "miss_coal_ash",
+        "url": "geojson/miss_coal_ash.geojson",
+        "group": "petropolisCoal",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Coal Power",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 800,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/mapIcons-2.1.png",
+          "scale": 0.4,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "iconAnchor": [0.5, 50],
+          "iconAnchorXUnits": "fraction",
+          "iconAnchorYUnits": "pixels"
+        }
+      },
+
+      {
         "type": "XYZ",
         "name": "urban_ecology",
         "group": "backgroundLayers",
@@ -89,7 +140,9 @@
       "headwaters_il": {
         "default": {
           "layers": [
-            "headwaters"
+            "headwaters",
+            "miss_coal_ash",
+            "miss_coal_power"
           ],
           "center": [-88.73, 40.04],
           "resolution": 800,
