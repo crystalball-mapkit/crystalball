@@ -38,9 +38,11 @@ export default {
       color: 'primary',
       width: 320,
       zIndex: 200
-    },
-    color: this.$appConfig.app.color.primary
+    }
   }),
+  props: {
+    color: { type: String }
+  },
   methods: {
     open(title, message, confirmText, cancelText, options) {
       this.dialog = true;

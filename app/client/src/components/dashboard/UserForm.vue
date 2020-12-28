@@ -157,9 +157,11 @@ export default {
       password: value => (value && value.length >= 8) || 'minimum 8 characters',
       passwordNumber: v => /(?=.*\d)/.test(v) || 'Must have one number',
       email: value => /.+@.+/.test(value) || 'E-mail must be valid'
-    },
-    color: this.$appConfig.app.color.primary
+    }
   }),
+  props: {
+    color: { type: String }
+  },
   methods: {
     open(mode, title, confirmText, cancelText, options, user) {
       this.mode = mode;
