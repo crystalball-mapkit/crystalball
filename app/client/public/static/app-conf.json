@@ -17,7 +17,7 @@
     "minZoom": 1,
     "maxZoom": 21,
     "zoom": 1,
-    "geoserverWorkspace": "petropolis",
+    "geoserverWorkspace": "deeptime",
     "resolutions": [
       156543.03,
       78271.52,
@@ -108,7 +108,7 @@
         "type": "XYZ",
         "name": "headwaters",
         "group": "backgroundLayers",
-        "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
+        "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/{z}/{x}/{y}.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0,
         "maxResolution": 16000,
         "opacity": 1,
@@ -123,8 +123,8 @@
         "default": {
           "layers": [
             "headwaters",
-            "miss_coal_power",
-            "miss_coal_ash"
+            "miss_coal_ash",
+            "miss_coal_power"
           ],
           "center": [-88.73, 40.04],
           "resolution": 800,
