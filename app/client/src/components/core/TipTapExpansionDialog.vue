@@ -30,7 +30,8 @@ export default {
     return {
       title: '',
       command: null,
-      show: false
+      show: false,
+      color: this.$appConfig.app.color.primary
     };
   },
   methods: {
