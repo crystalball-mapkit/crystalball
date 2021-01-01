@@ -45,7 +45,7 @@
           Cancel
         </v-btn>
         <v-btn
-          :disabled="!postFeature && isEditingPost"
+          :disabled="!postFeature && isEditingPost || [`<p></p>`, ''].includes(htmlContent)"
           class="mt-2 mr-5"
           @click="save"
           text
