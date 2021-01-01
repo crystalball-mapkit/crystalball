@@ -134,7 +134,7 @@ const getters = {
   postIconTitle: (state, getters, rootState, rootGetters) => {
     if (state.popup.activeFeature && state.popup.activeFeature.get('icon')) {
       const icon = rootGetters['app/postIcons'].filter(
-        i => (i.iconUrl = state.popup.activeFeature.get('icon'))
+        i => i.iconUrl == state.popup.activeFeature.get('icon')
       );
 
       return icon.length > 0 ? icon[0].title : '';

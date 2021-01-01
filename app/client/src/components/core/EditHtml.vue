@@ -45,7 +45,10 @@
           Cancel
         </v-btn>
         <v-btn
-          :disabled="!postFeature && isEditingPost || [`<p></p>`, ''].includes(htmlContent)"
+          :disabled="
+            (!postFeature && isEditingPost) ||
+              [`<p></p>`, ''].includes(htmlContent)
+          "
           class="mt-2 mr-5"
           @click="save"
           text
@@ -368,7 +371,7 @@ export default {
     postIconTitle() {
       if (this.postFeature && this.postFeature.get('icon')) {
         const icon = this.postIcons.filter(
-          i => (i.iconUrl = this.postFeature.get('icon'))
+          i => i.iconUrl == this.postFeature.get('icon')
         );
         return icon.length > 0 ? icon[0].title : '';
       }
