@@ -44,7 +44,7 @@
       {
         "type": "VECTOR",
         "name": "miss_coal_power",
-        "url": "geojson/miss_coal_power.geojson",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_power&outputFormat=application/json&srsname=EPSG:3857",
         "group": "petropolisCoal",
         "queryable": true,
         "displayInLegend": true,
@@ -69,7 +69,7 @@
       {
         "type": "VECTOR",
         "name": "miss_coal_ash",
-        "url": "geojson/miss_coal_ash.geojson",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_ash&outputFormat=application/json&srsname=EPSG:3857",
         "group": "petropolisCoal",
         "queryable": true,
         "displayInLegend": true,
