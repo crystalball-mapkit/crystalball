@@ -91,6 +91,30 @@
           "iconAnchorYUnits": "pixels"
         }
       },
+      {
+        "type": "VECTORTILE",
+        "name": "miss_tri",
+        "url": "./geoserver/gwc/service/tms/1.0.0/deeptime:miss_tri@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "petropolisOil&Gas",
+        "queryable": true,
+        "renderMode": "vector",
+        "displayInLegend": true,
+        "legendDisplayName": "Toxics Release Inventory",
+        "format": "MVT",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 200,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "type": "circle",
+          "radius": 6,
+          "strokeColor": "white",
+          "strokeWidth": 0.5,
+          "fillColor": "red"
+        }
+      },
 
       {
         "type": "XYZ",
@@ -149,7 +173,8 @@
       "urban_ecology": {
         "default": {
           "layers": [
-            "urban_ecology"
+            "urban_ecology",
+            "miss_tri"
           ],
           "center": [-87.34, 41.7],
           "resolution": 1500,
