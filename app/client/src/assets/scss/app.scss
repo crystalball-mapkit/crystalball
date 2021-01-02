@@ -69,7 +69,7 @@ html {
 .ol-popup:before {
   top: 100%;
   border: solid transparent;
-  content: " ";
+  content: ' ';
   height: 0;
   width: 0;
   position: absolute;
@@ -95,7 +95,6 @@ html {
   cursor: pointer;
 }
 
-
 .icon-border {
   display: inline-block;
   border-radius: 27px;
@@ -118,7 +117,7 @@ html {
 }
 
 .edit-tooltip {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-style: normal;
   position: relative;
   background-color: rgba(140, 140, 140, 0.9);
@@ -126,4 +125,70 @@ html {
   color: white;
   padding: 2px 8px;
   font-size: 12px;
+}
+
+/*
+ CSS for the expansion panel
+*/
+
+.ep-accordion {
+  margin-bottom: 1em;
+  max-width: 100%;
+}
+
+.ep-accordion p:last-child {
+  margin-bottom: 0;
+}
+
+.ep-accordion > input[type='checkbox'] {
+  position: absolute;
+  left: -100vw;
+}
+
+.ep-accordion .content {
+  overflow-y: hidden;
+  height: 0;
+  transition: height 3.3s ease;
+}
+
+.ep-accordion > input[type='checkbox']:checked ~ .content {
+  height: auto;
+  overflow: visible;
+  padding: 15px;
+  border: 1px solid #e8e8e8;
+  border-top: 0;
+}
+
+.ep-accordion .handle {
+  margin: 0;
+  font-size: 1.125em;
+  line-height: 1.2em;
+}
+
+.ep-accordion label {
+  display: block;
+  color: #333;
+  cursor: pointer;
+  font-weight: normal;
+  padding: 15px;
+  background: #e8e8e8;
+}
+
+.ep-accordion label:hover,
+.ep-accordion label:focus {
+  background: #d8d8d8;
+}
+
+.ep-accordion .handle label:before {
+  font-family: 'fontawesome';
+  content: '\f054';
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 0.58em;
+  line-height: 1.556em;
+  vertical-align: middle;
+}
+
+.ep-accordion > input[type='checkbox']:checked ~ .handle label:before {
+  content: '\f078';
 }

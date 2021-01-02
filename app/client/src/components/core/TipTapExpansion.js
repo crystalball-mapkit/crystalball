@@ -1,6 +1,6 @@
-import { Node } from 'tiptap';
-
-export default class Expansion extends Node {
+import { Mark } from 'tiptap';
+import { updateMark, removeMark } from 'tiptap-commands';
+export default class Expansion extends Mark {
   get name() {
     return 'expansion';
   }
@@ -8,35 +8,84 @@ export default class Expansion extends Node {
   get schema() {
     return {
       attrs: {
-        src: {
+        title: {
+          default: null
+        },
+        uid: {
+          default: null
+        },
+        state: {
           default: null
         }
       },
-      group: 'block',
+      inclusive: false,
       selectable: true,
       draggable: true,
       atom: true,
+      // parseDOM and toDOM is still required to make copy and paste work
       parseDOM: [
         {
-          tag: 'div',
+          tag: 'section',
           getAttrs: dom => ({
-            src: dom.getAttribute('src')
+            title: dom.getAttribute('title'),
+            uid: dom.getAttribute('uid')
           })
         }
       ],
-      toDOM: () => ['div', {}]
+      toDOM: node => [
+        'section',
+        {
+          class: 'ep-accordion'
+        },
+        [
+          'input',
+          node.attrs.state === 'collapsed'
+            ? {
+                type: 'checkbox',
+                name: 'collapse',
+                id: node.attrs.uid
+              }
+            : {
+                type: 'checkbox',
+                name: 'collapse',
+                id: node.attrs.uid,
+                checked: "checked"
+              }
+        ],
+        [
+          'h2',
+          {
+            class: 'handle'
+          },
+          [
+            'label',
+            {
+              for: node.attrs.uid
+            },
+            node.attrs.title // Expansion panel title
+          ]
+        ],
+        [
+          'div',
+          {
+            class: 'content'
+          },
+          [
+            'p',
+            {},
+            0 // Expansion panel body
+          ]
+        ]
+      ]
     };
   }
 
   commands({ type }) {
-    return attrs => (state, dispatch) => {
-      const { selection } = state;
-      const position = selection.$cursor
-        ? selection.$cursor.pos
-        : selection.$to.pos;
-      const node = type.create(attrs);
-      const transaction = state.tr.insert(position, node);
-      dispatch(transaction);
+    return attrs => {
+      if (attrs.title && attrs.uid) {
+        return updateMark(type, attrs);
+      }
+      return removeMark(type);
     };
   }
 }

@@ -9,6 +9,10 @@
       <v-divider></v-divider>
       <v-card-text>
         <v-text-field class="mt-4" v-model="title" label="Title" />
+        <v-radio-group v-model="state" class="mt-1 pt-0" row>
+          <v-radio label="Collapsed" value="collapsed"></v-radio>
+          <v-radio label="Expanded" value="expanded"></v-radio>
+        </v-radio-group>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -29,6 +33,7 @@ export default {
   data() {
     return {
       title: '',
+      state: "collapsed",
       command: null,
       show: false,
       color: this.$appConfig.app.color.primary
@@ -45,7 +50,9 @@ export default {
       const data = {
         command: this.command,
         data: {
-          title: this.title
+          title: this.title,
+          uid: (Date.now() + Math.random()).toString(),
+          state: this.state
         }
       };
 
