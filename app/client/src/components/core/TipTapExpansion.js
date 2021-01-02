@@ -19,17 +19,19 @@ export default class Expansion extends Mark {
         }
       },
       inclusive: false,
-      selectable: true,
-      draggable: true,
-      atom: true,
       // parseDOM and toDOM is still required to make copy and paste work
       parseDOM: [
         {
           tag: 'section',
-          getAttrs: dom => ({
-            title: dom.getAttribute('title'),
-            uid: dom.getAttribute('uid')
-          })
+          getAttrs: dom => {
+            return {
+              title: dom.childNodes[2].childNodes[0].innerHTML,
+              uid: dom.childNodes[0].getAttribute('id'),
+              state: dom.childNodes[0].getAttribute('checked')
+                ? 'expanded'
+                : 'collapsed'
+            };
+          }
         }
       ],
       toDOM: node => [
@@ -49,7 +51,7 @@ export default class Expansion extends Mark {
                 type: 'checkbox',
                 name: 'collapse',
                 id: node.attrs.uid,
-                checked: "checked"
+                checked: 'checked'
               }
         ],
         [
