@@ -9,27 +9,25 @@ export default class Expansion extends Mark {
     return {
       attrs: {
         title: {
-          default: null
+          default: ''
         },
         uid: {
           default: null
-        },
-        state: {
-          default: null
         }
       },
-      inclusive: false,
-      selectable: true,
+      group: 'block',
       draggable: true,
-      atom: true,
-      // parseDOM and toDOM is still required to make copy and paste work
+      isolating: true,
       parseDOM: [
         {
           tag: 'section',
-          getAttrs: dom => ({
-            title: dom.getAttribute('title'),
-            uid: dom.getAttribute('uid')
-          })
+          contentElement: 'div',
+          getAttrs: dom => {
+            return {
+              title: dom.childNodes[1].childNodes[0].innerHTML,
+              uid: dom.childNodes[0].getAttribute('id')
+            };
+          }
         }
       ],
       toDOM: node => [
@@ -39,18 +37,11 @@ export default class Expansion extends Mark {
         },
         [
           'input',
-          node.attrs.state === 'collapsed'
-            ? {
-                type: 'checkbox',
-                name: 'collapse',
-                id: node.attrs.uid
-              }
-            : {
-                type: 'checkbox',
-                name: 'collapse',
-                id: node.attrs.uid,
-                checked: "checked"
-              }
+          {
+            type: 'checkbox',
+            name: 'collapse',
+            id: node.attrs.uid
+          }
         ],
         [
           'h2',
@@ -70,11 +61,7 @@ export default class Expansion extends Mark {
           {
             class: 'content'
           },
-          [
-            'p',
-            {},
-            0 // Expansion panel body
-          ]
+          0
         ]
       ]
     };

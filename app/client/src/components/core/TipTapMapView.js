@@ -24,7 +24,11 @@ export default class MapView extends Mark {
           default: null
         }
       },
-      inclusive: false,
+      group: 'block',
+      selectable: true,
+      draggable: true,
+      atom: true,
+      inclusive: true,
       parseDOM: [
         {
           tag: 'a[href]',

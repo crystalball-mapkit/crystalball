@@ -19,9 +19,11 @@ export default class Audio extends Node {
       parseDOM: [
         {
           tag: 'audio',
-          getAttrs: dom => ({
-            src: dom.getAttribute('src')
-          })
+          getAttrs: dom => {
+            return {
+              src: dom.childNodes[0].getAttribute('src')
+            };
+          }
         }
       ],
       toDOM: node => [
