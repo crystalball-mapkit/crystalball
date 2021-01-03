@@ -104,7 +104,7 @@
         "visible": true,
         "zIndex": 0,
         "minResolution": 1,
-        "maxResolution": 200,
+        "maxResolution": 300,
         "label": null,
         "hoverable": true,
         "style": {
@@ -113,6 +113,29 @@
           "strokeColor": "white",
           "strokeWidth": 0.5,
           "fillColor": "red"
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "headwaters_mask",
+        "url": "./geoserver/gwc/service/tms/1.0.0/deeptime:headwaters_mask@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "petropolisOil&Gas",
+        "queryable": true,
+        "renderMode": "vector",
+        "displayInLegend": true,
+        "legendDisplayName": "Headwaters Mask",
+        "format": "MVT",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "type": "fill",
+          "strokeColor": "white",
+          "strokeWidth": 0.5,
+          "fillColor": "rgba(232, 230, 223, 1)"
         }
       },
 
@@ -132,13 +155,23 @@
         "type": "XYZ",
         "name": "headwaters",
         "group": "backgroundLayers",
-        "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/{z}/{x}/{y}.png?key=JsAgs5z1cl0FbVKCSe5V",
+        "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0,
         "maxResolution": 16000,
         "opacity": 1,
         "queryable": false,
         "visible": true,
         "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "imagery",
+        "group": "backgroundLayers",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
+        "minResolution": 0.25,
+        "maxResolution": 1000,
+        "queryable": false,
+        "visible": true
       }
     ],
 
