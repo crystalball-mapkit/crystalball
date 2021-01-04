@@ -12,7 +12,7 @@ export default class Expansion extends Mark {
           default: ''
         },
         uid: {
-          default: null
+          default: (Date.now() + Math.random()).toString()
         }
       },
       group: 'block',
@@ -25,7 +25,7 @@ export default class Expansion extends Mark {
           getAttrs: dom => {
             return {
               title: dom.childNodes[1].childNodes[0].innerHTML,
-              uid: dom.childNodes[0].getAttribute('id')
+              uid: (Date.now() + Math.random()).toString()
             };
           }
         }

@@ -1224,7 +1224,8 @@ export default {
       popupInfo: 'popupInfo',
       splittedEntities: 'splittedEntities',
       htmlPostLayerConf: 'htmlPostLayerConf',
-      geoserverWorkspace: 'geoserverWorkspace'
+      geoserverWorkspace: 'geoserverWorkspace',
+      persistentLayers: 'persistentLayers'
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser'
@@ -1291,6 +1292,10 @@ export default {
       // Emit group change event.
       EventBus.$emit('group-changed');
       EventBus.$emit('clearEditHtml');
+      //Update html_posts
+      if (this.persistentLayers['html_posts']) {
+        this.persistentLayers['html_posts'].getSource().refresh();
+      }
     },
     isEditingLayer() {
       // Disables double click zoom when user is editing.

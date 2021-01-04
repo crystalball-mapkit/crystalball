@@ -31,7 +31,13 @@ const actions = {
 const getters = {
   asideHidden: state => state.asideHidden,
   sidebarHtml: state => state.sidebarHtml,
-  postIcons: state => state.postIcons,
+  postIcons: (state, getters, rootState, rootGetters) => {
+    const activeGroup = rootGetters['map/activeLayerGroup'].navbarGroup;
+    const filteredIcons = state.postIcons.filter(i =>
+      i.group.includes(activeGroup)
+    );
+    return filteredIcons;
+  },
   getField
 };
 
