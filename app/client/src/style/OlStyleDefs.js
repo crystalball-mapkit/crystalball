@@ -376,12 +376,31 @@ export function colorMapStyle(layerName, colorField) {
   };
   return styleFunction;
 }
+export function htmlLayerStyle() {
+  const styleFunction = feature => {
+    const group  = feature.get('group');
+
+    if (group === store.state.activeLayerGroup.navbarGroup) {
+      return new OlStyle({
+        image: new OlIconStyle({
+          src: feature.get('icon'),
+          scale: 1,
+          opacity: 1
+        })
+      })
+    } else {
+      return []
+    }
+  };
+  return styleFunction;
+}
 
 export const styleRefs = {
   defaultStyle: defaultStyle,
   popupInfoStyle: popupInfoStyle,
   baseStyle: baseStyle,
-  colorMapStyle: colorMapStyle
+  colorMapStyle: colorMapStyle,
+  htmlLayerStyle: htmlLayerStyle
 };
 
 export const defaultLimits = {

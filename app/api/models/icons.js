@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      group: DataTypes.STRING,
       title: DataTypes.STRING,
       iconUrl: DataTypes.STRING
     },

@@ -258,9 +258,9 @@
       }
     },
     "groupTitles": {
-      "health": "One Health",
-      "headwaters": "Headwaters",
-      "renewables": "Stop Line 3"
+      "headwaters_il": "Headwaters IL",
+      "urban_ecology": "Urban Ecology",
+      "headwaters_mn": "Headwater MN"
     },
     "regionTitles": {
       "local": "Local",

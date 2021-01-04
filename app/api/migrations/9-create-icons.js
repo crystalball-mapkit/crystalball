@@ -7,6 +7,9 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
+      group: {
+        type: Sequelize.STRING
+      },
       title: {
         type: Sequelize.STRING,
       },
