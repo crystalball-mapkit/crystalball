@@ -3,7 +3,7 @@
     <template
       v-if="!selectedCoorpNetworkEntity && !isEditingPost && !isEditingHtml"
     >
-      <vue-scroll>
+      <vue-scroll ref="vs">
         <v-row class="mx-0 px-0">
           <v-col class="mt-0 pt-0">
             <div v-if="isFeatureGetInfo">
@@ -439,6 +439,17 @@ export default {
       }
     },
     isHtmlViewer() {
+      // Move scroll to top.
+      const scrollEl = this.$refs['vs'];
+      if (scrollEl && scrollEl.scrollTo) {
+        scrollEl.scrollTo(
+          {
+            y: 0
+          },
+          100,
+          'easeInQuad'
+        );
+      }
       if (this.popup.activeFeature && this.popup.activeFeature.get('html')) {
         return true;
       } else {
