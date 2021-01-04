@@ -10,6 +10,12 @@ module.exports = {
       icon: {
         type: Sequelize.STRING,
       },
+      title: {
+        type: Sequelize.STRING,
+      },
+      group: {
+        type: Sequelize.STRING,
+      },
       html: {
         type: Sequelize.TEXT,
       },
