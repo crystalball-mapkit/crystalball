@@ -72,11 +72,7 @@ const state = {
     hoverable: true,
     canEdit: false,
     style: {
-      hoverTextColor: 'white',
-      hoverBackgroundColor: 'rgba(176, 31, 20, 1)',
-      stylePropFnRef: {
-        iconUrl: 'icon'
-      }
+      styleRef: 'htmlLayerStyle'
     }
   },
   postEditLayer: null, // user for

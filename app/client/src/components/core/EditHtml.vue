@@ -103,6 +103,7 @@ export default {
     };
   },
   created() {
+    console.log(this.activeLayerGroup);
     EventBus.$on('deletePost', feature => {
       let clonedFeature;
       let fId = feature.getId();
@@ -266,6 +267,8 @@ export default {
       if (type !== 'delete') {
         payload.properties = {
           icon: this.postFeature.get('icon'),
+          group: this.activeLayerGroup.navbarGroup,
+          title: this.postIconTitle,
           html: this.htmlContent,
           createdBy: null // The value is added from the api.
         };
@@ -366,6 +369,7 @@ export default {
     }),
     ...mapGetters('map', {
       persistentLayers: 'persistentLayers',
+      activeLayerGroup: 'activeLayerGroup',
       groupName: 'groupName'
     }),
     postIconTitle() {
