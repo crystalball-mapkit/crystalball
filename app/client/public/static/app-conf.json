@@ -92,27 +92,29 @@
         }
       },
       {
-        "type": "VECTORTILE",
+        "type": "VECTOR",
         "name": "miss_tri",
-        "url": "./geoserver/gwc/service/tms/1.0.0/deeptime:miss_tri@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil&Gas",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_tri&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "petropolisCoal",
         "queryable": true,
-        "renderMode": "vector",
         "displayInLegend": true,
-        "legendDisplayName": "Toxics Release Inventory",
-        "format": "MVT",
+        "legendDisplayName": "Coal Power",
+        "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
         "minResolution": 1,
-        "maxResolution": 300,
+        "maxResolution": 600,
         "label": null,
         "hoverable": true,
         "style": {
           "type": "circle",
-          "radius": 6,
-          "strokeColor": "white",
-          "strokeWidth": 0.5,
-          "fillColor": "red"
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "stylePropFnRef": {
+            "circleRadiusFn": "variable2",
+            "fillColor": "variable1"
+          },
+          "strokeColor": "white"
         }
       },
       {
