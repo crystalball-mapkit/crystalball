@@ -43,9 +43,9 @@
     "layers": [
       {
         "type": "VECTOR",
-        "name": "miss_coal_power",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_power&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "petropolisCoal",
+        "name": "miss_coal_ghg",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_ghg&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "headwaters_il",
         "queryable": true,
         "displayInLegend": true,
         "legendDisplayName": "Coal Power",
@@ -70,10 +70,10 @@
         "type": "VECTOR",
         "name": "miss_coal_ash",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_ash&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "petropolisCoal",
+        "group": "headwaters_il",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Coal Power",
+        "legendDisplayName": "Regulated Coal Ash",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
@@ -93,12 +93,37 @@
       },
       {
         "type": "VECTOR",
-        "name": "miss_tri",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_tri&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "petropolisCoal",
+        "name": "miss_legacy",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_legacy&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "headwaters_il",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Coal Power",
+        "legendDisplayName": "Legacy Coal Site",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/LegacyPlant.png",
+          "scale": 0.5,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "iconAnchor": [0.5, 50],
+          "iconAnchorXUnits": "fraction",
+          "iconAnchorYUnits": "pixels"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "miss_tri",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_tri&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Toxics Release Inventory",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
@@ -115,29 +140,6 @@
             "fillColor": "variable1"
           },
           "strokeColor": "white"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "headwaters_mask",
-        "url": "./geoserver/gwc/service/tms/1.0.0/deeptime:headwaters_mask@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil&Gas",
-        "queryable": true,
-        "renderMode": "vector",
-        "displayInLegend": true,
-        "legendDisplayName": "Headwaters Mask",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 64000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "type": "fill",
-          "strokeColor": "white",
-          "strokeWidth": 0.5,
-          "fillColor": "rgba(232, 230, 223, 1)"
         }
       },
 
@@ -183,7 +185,8 @@
           "layers": [
             "headwaters",
             "miss_coal_ash",
-            "miss_coal_power"
+            "miss_legacy",
+            "miss_coal_ghg"
           ],
           "center": [-88.73, 40.04],
           "resolution": 800,
@@ -259,8 +262,8 @@
     },
     "groupTitles": {
       "headwaters_il": "Headwaters IL",
-      "urban_ecology": "Urban Ecology",
-      "headwaters_mn": "Headwater MN"
+      "urban_ecology": "URBAN ECOLOGY",
+      "headwaters_mn": "Headwaters MN"
     },
     "regionTitles": {
       "local": "Local",

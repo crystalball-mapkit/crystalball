@@ -144,7 +144,7 @@
                         "
                       >
                         <v-icon small class="mr-1">fas fa-search-plus</v-icon>
-                        DIVE
+                        ZOOM
                       </v-btn>
                       <v-btn
                         @click="back"
