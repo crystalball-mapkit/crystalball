@@ -108,19 +108,12 @@ export function postEditLayerStyle() {
     new OlStyle({
       image: new OlCircle({
         radius: 27,
+        stroke: new OlStroke({
+          color: "red",
+          width: 3
+        }),
         fill: new OlFill({
-          color: 'red'
-        })
-      }),
-      zIndex: 1000
-    })
-  );
-  styles.push(
-    new OlStyle({
-      image: new OlCircle({
-        radius: 25,
-        fill: new OlFill({
-          color: 'rgba(236, 236, 236, 0.75)'
+          color: 'rgba(236, 236, 236, 0.5)'
         })
       }),
       zIndex: 1000
