@@ -43,6 +43,106 @@
     "layers": [
       {
         "type": "VECTOR",
+        "name": "dtc_walks",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:dtc_walks&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Walkaboutit",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 400,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dtc/DTC2.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "iconAnchor": [0.5, 50],
+          "iconAnchorXUnits": "fraction",
+          "iconAnchorYUnits": "pixels"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "dtc_galleries",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:dtc_galleries&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Walkaboutit",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 400,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dtc/DTC2.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "iconAnchor": [0.5, 50],
+          "iconAnchorXUnits": "fraction",
+          "iconAnchorYUnits": "pixels"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "inheritance",
+        "url": "geojson/inheritance.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Inheritance",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1200,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dtc/DTC3.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "iconAnchor": [0.5, 50],
+          "iconAnchorXUnits": "fraction",
+          "iconAnchorYUnits": "pixels"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "timeslips",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:timeslips&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Timeslips",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1200,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dtc/DTC4.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "iconAnchor": [0.5, 50],
+          "iconAnchorXUnits": "fraction",
+          "iconAnchorYUnits": "pixels"
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "miss_coal_ghg",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_ghg&outputFormat=application/json&srsname=EPSG:3857",
         "group": "headwaters_il",
@@ -128,15 +228,15 @@
         "visible": true,
         "zIndex": 0,
         "minResolution": 1,
-        "maxResolution": 600,
+        "maxResolution": 220,
         "label": null,
         "hoverable": true,
         "style": {
           "type": "circle",
+          "radius": 4,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "stylePropFnRef": {
-            "circleRadiusFn": "variable2",
             "fillColor": "variable1"
           },
           "strokeColor": "white"
@@ -191,7 +291,7 @@
           "center": [-88.73, 40.04],
           "resolution": 800,
           "minResolution": 0.25,
-          "maxResolution": 32000
+          "maxResolution": 64000
         },
         "local": {
           "layers": [],
@@ -212,12 +312,16 @@
         "default": {
           "layers": [
             "urban_ecology",
-            "miss_tri"
+            "miss_tri",
+            "dtc_walks",
+            "dtc_galleries",
+            "inheritance",
+            "timeslips"
           ],
-          "center": [-87.34, 41.7],
-          "resolution": 1500,
+          "center": [-88.24, 41.9],
+          "resolution": 1300,
           "minResolution": 0.25,
-          "maxResolution": 32000
+          "maxResolution": 64000
         },
         "local": {
           "layers": [],
@@ -262,7 +366,7 @@
     },
     "groupTitles": {
       "headwaters_il": "Headwaters IL",
-      "urban_ecology": "URBAN ECOLOGY",
+      "urban_ecology": "URBAN / ECOLOGY",
       "headwaters_mn": "Headwaters MN"
     },
     "regionTitles": {

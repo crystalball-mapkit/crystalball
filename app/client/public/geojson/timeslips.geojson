@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "timeslips",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "title": "Timeslips", "videoSrc": "https://player.vimeo.com/video/493914857" }, "geometry": { "type": "Point", "coordinates": [ -89.436753, 37.503555 ] } }
+]
+}
