@@ -25,12 +25,12 @@
           isEditingHtml
       "
     >
-      <v-toolbar v-if="postFeature && postFeature.get('icon')">
+      <!-- <v-toolbar v-if="postFeature && postFeature.get('icon')">
         <v-avatar v-if="postFeature && postFeature.get('icon')" class="mr-3">
           <v-img contain :src="postFeature.get('icon')"></v-img>
         </v-avatar>
         <v-toolbar-title class="h6">{{ postIconTitle }}</v-toolbar-title>
-      </v-toolbar>
+      </v-toolbar> -->
 
       <v-layout justify-space-between column fill-height>
         <tip-tap-editor
@@ -174,7 +174,7 @@ export default {
           name: 'post_edit_layer',
           isInteractive: false,
           queryable: false,
-          zIndex: 2001,
+          zIndex: 10000,
           source: postEditLayerSource,
           style: postEditLayerStyle
         }

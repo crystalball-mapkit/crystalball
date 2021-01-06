@@ -244,7 +244,38 @@
               </v-row>
             </div>
             <div v-if="isHtmlViewer" style="width:100%;">
-              <v-toolbar class="elevation-0">
+              <v-row>
+                <v-spacer></v-spacer>
+                <div v-if="loggedUser">
+                  <v-tooltip left>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        v-on="on"
+                        @click="deletePost(popup.activeFeature)"
+                        icon
+                        class="mr-3"
+                      >
+                        <v-icon>delete</v-icon>
+                      </v-btn> </template
+                    ><span>Delete Post</span>
+                  </v-tooltip>
+                  <v-tooltip left>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        v-on="on"
+                        @click="editPost(popup.activeFeature)"
+                        icon
+                        class="mr-3"
+                      >
+                        <v-icon>edit</v-icon>
+                      </v-btn> </template
+                    ><span>Edit Post</span></v-tooltip
+                  >
+                </div>
+              </v-row>
+              <v-divider v-if="loggedUser"></v-divider>
+
+              <!-- <v-toolbar class="elevation-0">
                 <v-avatar class="mr-3">
                   <v-img contain :src="popup.activeFeature.get('icon')"></v-img>
                 </v-avatar>
@@ -266,8 +297,7 @@
                 >
                   <v-icon>edit</v-icon>
                 </v-btn>
-              </v-toolbar>
-              <v-divider></v-divider>
+              </v-toolbar> -->
               <div class="px-2 mt-1">
                 <span v-html="popup.activeFeature.get('html')"></span>
               </div>
