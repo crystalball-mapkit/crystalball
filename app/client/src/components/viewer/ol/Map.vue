@@ -878,9 +878,9 @@ export default {
         if (feature) {
           const props = feature.getProperties();
           // Check if feature has video link
-          if (props.videoSrc || props.vimeoSrc) {
+          if (props.videoSrc || props.vimeoSrc || props.websiteUrl) {
             const mediabox = new MediaLightBox(
-              props.videoSrc || props.vimeoSrc,
+              props.videoSrc || props.vimeoSrc || props.websiteUrl,
               props.caption || props.vimeoTitle
             );
             mediabox.open();
@@ -888,7 +888,7 @@ export default {
           }
           // Check if feature has lightbox array of images
           if (props.lightbox) {
-            const images = JSON.parse(props.lightbox);
+            const images = props.lightbox;
             if (!Array.isArray(images)) return;
             images.forEach(image => {
               let imageUrl;
@@ -1193,7 +1193,8 @@ export default {
         activeLayerGroup.navbarGroup
       ][activeLayerGroup.region];
 
-      if (!this.noMapReset) {
+      // Set reset map group to true if the center is defined. 
+      if (!this.noMapReset || visibleGroup.center) {
         if (visibleGroup.center) {
           this.map.getView().setCenter(fromLonLat(visibleGroup.center));
         }
@@ -1201,7 +1202,11 @@ export default {
           this.map.getView().setResolution(visibleGroup.resolution);
         }
       }
-      this.noMapReset = false;
+
+      // Set reset map group to false if the center is defined. 
+      if (!visibleGroup.center) {
+        this.noMapReset = false;
+      }
 
       if (visibleGroup.minResolution && visibleGroup.maxResolution) {
         this.map.getView().minResolution_ = visibleGroup.minResolution;
@@ -1296,6 +1301,9 @@ export default {
       if (this.persistentLayers['html_posts']) {
         this.persistentLayers['html_posts'].getSource().refresh();
       }
+      // If user has provider
+      // const currentGroupRegion = this.$appConfig.map.groups[newValue.navbarGroup][newValue.region];
+      // if (map)
     },
     isEditingLayer() {
       // Disables double click zoom when user is editing.

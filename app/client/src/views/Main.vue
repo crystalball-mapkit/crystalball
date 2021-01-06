@@ -155,8 +155,7 @@ export default {
         title: regionTitles[regionName]
       });
     });
-    console.log(this.regions);
-    console.log(this.navbarGroups);
+   
     // Geoserver workspace
     this.geoserverWorkspace = this.$appConfig.map.geoserverWorkspace;
     // Set active layer group
