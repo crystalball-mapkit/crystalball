@@ -94,7 +94,7 @@
       {
         "type": "VECTOR",
         "name": "inheritance",
-        "url": "geojson/inheritance.geojson",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:inheritance&outputFormat=application/json&srsname=EPSG:3857",
         "group": "urban_ecology",
         "queryable": true,
         "displayInLegend": false,
