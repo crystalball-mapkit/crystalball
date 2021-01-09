@@ -113,7 +113,7 @@
         <v-divider></v-divider>
         <v-row class="my-1" justify="center">
           <span class="black--text text--darken-2 subtitle-2">
-            {{ title }} Legend
+            {{ title }}
           </span>
         </v-row>
       </v-expansion-panel>
