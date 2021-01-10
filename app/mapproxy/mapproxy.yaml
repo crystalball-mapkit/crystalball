@@ -1,6 +1,6 @@
 services:
   #sets up how to make the source data available
-  deeptime:
+  demo:
   tms:
   wms:
     #srs sets the coordinate reference systems as which you want to make your data available. MapProxy reprojects the source data very well to these projections.
