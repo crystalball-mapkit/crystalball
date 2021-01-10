@@ -25,6 +25,14 @@ services:
     depends_on:
       - deeptime_db
 
+  deeptime-mapproxy:
+    image: kartoza/mapproxy
+    volumes:
+      - ./app/mapproxy:/mapproxy
+    ports:
+      - 8282:8080
+    container_name: deeptime-mapproxy
+
   deeptime_db:
     image: kartoza/postgis:12.1
     container_name: deeptime_db
