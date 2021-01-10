@@ -341,6 +341,7 @@ export default {
     me.createLayers();
     me.createHtmlPostLayer();
 
+
     // Event bus setup for managing interactions
     EventBus.$on('ol-interaction-activated', startedInteraction => {
       me.activeInteractions.push(startedInteraction);
@@ -879,7 +880,7 @@ export default {
           const props = feature.getProperties();
           // Check if feature has video link
           if (props.websiteUrl) {
-            const mediabox = new MediaLightBox(props.websiteUrl,'','website');
+            const mediabox = new MediaLightBox(props.websiteUrl, '', 'website');
             mediabox.open();
             return;
           }
@@ -893,7 +894,9 @@ export default {
           }
           // Check if feature has lightbox array of images
           if (props.lightbox) {
-            const images = props.lightbox;
+            const images = Array.isArray(props.lightbox)
+              ? props.lightbox
+              : JSON.parse(props.lightbox);
             if (!Array.isArray(images)) return;
             images.forEach(image => {
               let imageUrl;
@@ -1302,10 +1305,11 @@ export default {
       // Emit group change event.
       EventBus.$emit('group-changed');
       EventBus.$emit('clearEditHtml');
-      //Update html_posts
+
       if (this.persistentLayers['html_posts']) {
         this.persistentLayers['html_posts'].getSource().refresh();
       }
+
       // If user has provider
       // const currentGroupRegion = this.$appConfig.map.groups[newValue.navbarGroup][newValue.region];
       // if (map)
