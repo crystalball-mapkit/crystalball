@@ -67,7 +67,7 @@ const state = {
     visible: true,
     zIndex: 50,
     minResolution: 1,
-    maxResolution: 64000,
+    maxResolution: 16000,
     label: null,
     hoverable: true,
     canEdit: false,
