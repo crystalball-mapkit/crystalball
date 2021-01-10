@@ -114,13 +114,10 @@ export default {
   },
   methods: {
     goToHome() {
-      if (this.$router.currentRoute.name === 'urban_ecology') {
-        EventBus.$emit('resetMap');
-      }
-      this.$router.push({ name: 'urban_ecology' });
+      EventBus.$emit('resetMap');
     },
     openWebsite() {
-      window.open('https://its.timetochange.today', '_blank');
+      window.open('https://map.deeptimechicago.org', '_blank');
     },
     zoomToLocation() {
       if (this.region === 'local') {
@@ -155,7 +152,7 @@ export default {
         title: regionTitles[regionName]
       });
     });
-   
+
     // Geoserver workspace
     this.geoserverWorkspace = this.$appConfig.map.geoserverWorkspace;
     // Set active layer group
