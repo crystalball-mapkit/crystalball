@@ -1,0 +1,6 @@
+seeds:
+  racial_dot_seed:
+    caches: [racial_dot_cache]
+    levels:
+      from: 5
+      to: 10

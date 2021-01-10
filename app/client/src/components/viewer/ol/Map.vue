@@ -878,6 +878,11 @@ export default {
         if (feature) {
           const props = feature.getProperties();
           // Check if feature has video link
+          if (props.websiteUrl) {
+            const mediabox = new MediaLightBox(props.websiteUrl,'','website');
+            mediabox.open();
+            return;
+          }
           if (props.videoSrc || props.vimeoSrc || props.websiteUrl) {
             const mediabox = new MediaLightBox(
               props.videoSrc || props.vimeoSrc || props.websiteUrl,
@@ -1193,7 +1198,7 @@ export default {
         activeLayerGroup.navbarGroup
       ][activeLayerGroup.region];
 
-      // Set reset map group to true if the center is defined. 
+      // Set reset map group to true if the center is defined.
       if (!this.noMapReset || visibleGroup.center) {
         if (visibleGroup.center) {
           this.map.getView().setCenter(fromLonLat(visibleGroup.center));
@@ -1203,15 +1208,15 @@ export default {
         }
       }
 
-      // Set reset map group to false if the center is defined. 
+      // Set reset map group to false if the center is defined.
       if (!visibleGroup.center) {
         this.noMapReset = false;
       }
 
-      if (visibleGroup.minResolution && visibleGroup.maxResolution) {
-        this.map.getView().minResolution_ = visibleGroup.minResolution;
-        this.map.getView().maxResolution_ = visibleGroup.maxResolution;
-      }
+      // if (visibleGroup.minResolution && visibleGroup.maxResolution) {
+      //   this.map.getView().minResolution_ = visibleGroup.minResolution;
+      //   this.map.getView().maxResolution_ = visibleGroup.maxResolution;
+      // }
     },
     ...mapActions('map', {
       fetchColorMapEntities: 'fetchColorMapEntities'

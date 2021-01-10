@@ -2,27 +2,38 @@
 
 import '../../assets/mediabox.css';
 export default class MediaLightBox {
-  constructor(url, caption) {
+  constructor(url, caption, type) {
     this.url = url;
-    this.caption = caption || ""
+    this.caption = caption || '';
+    this.type = type || '';
     this.root = document.querySelector('body');
   }
   open() {
-    this.render(this.url, this.caption);
+    this.render(this.url, this.caption, this.type);
     this.events();
   }
-  render(embedLink, caption) {
+  render(embedLink, caption, type) {
     var lightbox = this.template(
       `<div class="mediabox-wrap" role="dialog" aria-hidden="false">
-          <div class="mediabox-content" role="document" tabindex="0">
-          <span id="mediabox-esc" class="mediabox-close" aria-label="close" tabindex="1"></span>
+          <div class="${
+            type == 'website' ? 'mediabox-content-website' : 'mediabox-content'
+          }" role="document" tabindex="0">
+          <span id="mediabox-esc" class="${
+            type == 'website' ? 'mediabox-close-website' : 'mediabox-close'
+          }" aria-label="close" tabindex="1"></span>
           <iframe src="{embed}?autoplay=1" frameborder="0" allowfullscreen></iframe>
-          <span class="mediabox-caption" tabindex="0">{caption}</span>
+          ${
+            type == 'website'
+              ? ''
+              : '<span class="mediabox-caption" tabindex="0">{caption}</span>'
+          }
+          
           </div>
       </div>`,
       {
         embed: embedLink,
-        caption: caption
+        caption: caption,
+        type: type
       }
     );
 
@@ -40,7 +51,9 @@ export default class MediaLightBox {
         if (
           (e.target &&
             e.target.nodeName === 'SPAN' &&
-            e.target.className === 'mediabox-close') ||
+            ['mediabox-close', 'mediabox-close-website'].includes(
+              e.target.className
+            )) ||
           (e.target.nodeName === 'DIV' &&
             e.target.className === 'mediabox-wrap') ||
           (e.target.className === 'mediabox-content' &&
