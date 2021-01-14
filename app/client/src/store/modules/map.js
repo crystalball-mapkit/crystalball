@@ -67,9 +67,9 @@ const state = {
     visible: true,
     zIndex: 50,
     minResolution: 1,
-    maxResolution: 16000,
+    maxResolution: 1600,
     label: null,
-    hoverable: true,
+    hoverable: false,
     canEdit: false,
     style: {
       styleRef: 'htmlLayerStyle'
