@@ -2,6 +2,6 @@
 "type": "FeatureCollection",
 "name": "hopium",
 "features": [
-{ "type": "Feature", "properties": { "id": 1, "title": "Hopium Economy", "websiteUrl": "documents/Geissler_Sann.html", "caption": "" }, "geometry": { "type": "Point", "coordinates": [ -89.140, 36.983 ] } }
+{ "type": "Feature", "properties": { "id": 1, "title": "Hopium Economy", "websiteUrl": "documents/hopium.html", "caption": "" }, "geometry": { "type": "Point", "coordinates": [ -89.219021, 37.716316 ] } }
 ]
 }
