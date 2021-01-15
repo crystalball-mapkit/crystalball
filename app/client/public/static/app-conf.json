@@ -57,7 +57,32 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dtc/DTC2.png",
+          "iconUrl": "icons/dt35/DTC2.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "iconAnchor": [0.5, 50],
+          "iconAnchorXUnits": "fraction",
+          "iconAnchorYUnits": "pixels"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "witness_tree",
+        "url": "geojson/witness_tree.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Witness Tree",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC9.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
@@ -82,7 +107,7 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dtc/DTC2.png",
+          "iconUrl": "icons/dt35/DTC2.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
@@ -94,7 +119,7 @@
       {
         "type": "VECTOR",
         "name": "born_secret",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:born_secret&outputFormat=application/json&srsname=EPSG:3857",
+        "url": "geojson/born_secret.geojson",
         "group": "urban_ecology",
         "queryable": true,
         "displayInLegend": true,
@@ -107,7 +132,7 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dtc/DTC5.png",
+          "iconUrl": "icons/dt35/DTC5.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
@@ -132,7 +157,7 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dtc/DTC3.png",
+          "iconUrl": "icons/dt35/DTC3.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
@@ -157,7 +182,7 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dtc/DTC7.png",
+          "iconUrl": "icons/dt35/DTC7.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
@@ -182,7 +207,7 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dtc/DTC6.png",
+          "iconUrl": "icons/dt35/DTC6.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
@@ -207,7 +232,32 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dtc/DTC7.png",
+          "iconUrl": "icons/dt35/DTC10.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "iconAnchor": [0.5, 50],
+          "iconAnchorXUnits": "fraction",
+          "iconAnchorYUnits": "pixels"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "hopium2",
+        "url": "geojson/hopium2.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Hopium Economy",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.5,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC10.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
@@ -232,7 +282,7 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dtc/DTC4.png",
+          "iconUrl": "icons/dt35/DTC4.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
@@ -334,8 +384,6 @@
         "style": {
           "type": "circle",
           "radius": 4,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
           "stylePropFnRef": {
             "fillColor": "variable1"
           },
@@ -420,10 +468,12 @@
             "born_secret",
             "ignis_noster",
             "lounging",
-            "hopium"
+            "hopium",
+            "hopium2",
+            "witness_tree"
           ],
-          "center": [-88.24, 41.9],
-          "resolution": 1300,
+          "center": [-88.24, 40.3],
+          "resolution": 1400,
           "minResolution": 0.5,
           "maxResolution": 64000
         },
@@ -447,8 +497,8 @@
           "layers": [
             "headwaters"
           ],
-          "center": [-103, 42.0],
-          "resolution": 8500,
+          "center": [-94.568, 46.6],
+          "resolution": 800,
           "minResolution": 0.5,
           "maxResolution": 32000
         },
