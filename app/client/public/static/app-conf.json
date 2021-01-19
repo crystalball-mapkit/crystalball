@@ -44,7 +44,7 @@
       {
         "type": "VECTOR",
         "name": "dtc_walks",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:dtc_walks&outputFormat=application/json&srsname=EPSG:3857",
+        "url": "geojson/dtc_walks.geojson",
         "group": "urban_ecology",
         "queryable": true,
         "displayInLegend": true,
@@ -57,8 +57,9 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dt35/DTC2.png",
-          "scale": 1,
+          "stylePropFnRef": {
+            "iconUrl": "variable1"
+          },
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "iconAnchor": [0.5, 50],
@@ -293,6 +294,31 @@
       },
       {
         "type": "VECTOR",
+        "name": "confluence_ecologies",
+        "url": "geojson/confluence_ecologies.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Confluence Ecologies",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.5,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC4.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "iconAnchor": [0.5, 50],
+          "iconAnchorXUnits": "fraction",
+          "iconAnchorYUnits": "pixels"
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "miss_coal_ghg",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_ghg&outputFormat=application/json&srsname=EPSG:3857",
         "group": "headwaters_il",
@@ -417,6 +443,18 @@
       },
       {
         "type": "XYZ",
+        "name": "headwaters_mn",
+        "group": "backgroundLayers",
+        "url": "https://api.maptiler.com/maps/fd000e8f-ff38-4076-bd36-db44bb3e7785/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
+        "minResolution": 0.5,
+        "maxResolution": 6400,
+        "opacity": 1,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
         "name": "imagery",
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
@@ -470,10 +508,11 @@
             "lounging",
             "hopium",
             "hopium2",
-            "witness_tree"
+            "witness_tree",
+            "confluence_ecologies"
           ],
-          "center": [-88.24, 40.3],
-          "resolution": 1400,
+          "center": [-88.54, 40.3],
+          "resolution": 1500,
           "minResolution": 0.5,
           "maxResolution": 64000
         },
@@ -495,7 +534,7 @@
       "headwaters_mn": {
         "default": {
           "layers": [
-            "headwaters"
+            "headwaters_mn"
           ],
           "center": [-94.568, 46.6],
           "resolution": 800,
