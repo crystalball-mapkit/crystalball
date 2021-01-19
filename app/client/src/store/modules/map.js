@@ -69,10 +69,12 @@ const state = {
     minResolution: 1,
     maxResolution: 1600,
     label: null,
-    hoverable: false,
+    hoverable: true,
     canEdit: false,
     style: {
-      styleRef: 'htmlLayerStyle'
+      styleRef: 'htmlLayerStyle',
+      "hoverTextColor": "white",
+      "hoverBackgroundColor": "#000000"
     }
   },
   postEditLayer: null, // user for
