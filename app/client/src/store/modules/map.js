@@ -61,7 +61,7 @@ const state = {
     type: 'VECTOR',
     name: 'html_posts',
     queryable: true,
-    displayInLegend: true,
+    displayInLegend: false,
     legendDisplayName: 'Posts',
     format: 'GeoJSON',
     visible: true,

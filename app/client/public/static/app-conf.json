@@ -61,10 +61,7 @@
             "iconUrl": "variable1"
           },
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -86,10 +83,7 @@
           "iconUrl": "icons/dt35/DTC9.png",
           "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -111,10 +105,7 @@
           "iconUrl": "icons/dt35/DTC2.png",
           "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -136,10 +127,7 @@
           "iconUrl": "icons/dt35/DTC5.png",
           "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -161,10 +149,7 @@
           "iconUrl": "icons/dt35/DTC3.png",
           "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -174,7 +159,7 @@
         "group": "urban_ecology",
         "queryable": true,
         "displayInLegend": false,
-        "legendDisplayName": "IgnisNoster",
+        "legendDisplayName": "Ignis Noster",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
@@ -183,13 +168,10 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dt35/DTC7.png",
+          "iconUrl": "icons/dt35/DTC1.png",
           "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -211,10 +193,7 @@
           "iconUrl": "icons/dt35/DTC6.png",
           "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -236,10 +215,7 @@
           "iconUrl": "icons/dt35/DTC10.png",
           "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -261,16 +237,13 @@
           "iconUrl": "icons/dt35/DTC10.png",
           "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
         "type": "VECTOR",
         "name": "timeslips",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:timeslips&outputFormat=application/json&srsname=EPSG:3857",
+        "url": "geojson/timeslips.geojson",
         "group": "urban_ecology",
         "queryable": true,
         "displayInLegend": false,
@@ -286,10 +259,7 @@
           "iconUrl": "icons/dt35/DTC4.png",
           "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -308,13 +278,10 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dt35/DTC4.png",
+          "iconUrl": "icons/dt35/DTC2.png",
           "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -336,10 +303,7 @@
           "iconUrl": "icons/mapIcons-1.3.png",
           "scale": 0.5,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -361,10 +325,7 @@
           "iconUrl": "icons/mapIcons-2.1.png",
           "scale": 0.4,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -386,10 +347,7 @@
           "iconUrl": "icons/LegacyPlant.png",
           "scale": 0.5,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -414,6 +372,96 @@
             "fillColor": "variable1"
           },
           "strokeColor": "white"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "us_pipelines",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:us_pipelines&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "oil",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Crude Oil Pipelines",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "strokeColor": "gray",
+          "strokeWidth": 1.5
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "enbridge_pipes",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:enbridge_pipes&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "oil",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Enbridge Pipelines",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "strokeColor": "#44103c",
+          "strokeWidth": 3,
+          "opacity": 0.8
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "line3_replacement",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:line3_replacement&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "oil",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Line 3 \"Replacement\"",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "stylePropFnRef": {
+          },
+          "strokeColor": "#000000",
+          "strokeWidth": 5,
+          "lineDash": [10]
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "us_refineries",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:us_refineries&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "oil",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "US Refineries",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 2445.98,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/refinery.png",
+          "stylePropFnRef": {
+            "iconScaleFn": "variable2"
+          }
         }
       },
 
@@ -447,7 +495,6 @@
         "group": "backgroundLayers",
         "url": "https://api.maptiler.com/maps/fd000e8f-ff38-4076-bd36-db44bb3e7785/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0.5,
-        "maxResolution": 6400,
         "opacity": 1,
         "queryable": false,
         "visible": true,
@@ -534,9 +581,13 @@
       "headwaters_mn": {
         "default": {
           "layers": [
-            "headwaters_mn"
+            "headwaters_mn",
+            "us_pipelines",
+            "enbridge_pipes",
+            "us_refineries",
+            "line3_replacement"
           ],
-          "center": [-94.568, 46.6],
+          "center": [-93.670, 46.881],
           "resolution": 800,
           "minResolution": 0.5,
           "maxResolution": 32000
