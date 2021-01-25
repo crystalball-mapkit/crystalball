@@ -61,18 +61,20 @@ const state = {
     type: 'VECTOR',
     name: 'html_posts',
     queryable: true,
-    displayInLegend: true,
+    displayInLegend: false,
     legendDisplayName: 'Posts',
     format: 'GeoJSON',
     visible: true,
     zIndex: 50,
     minResolution: 1,
-    maxResolution: 16000,
+    maxResolution: 1600,
     label: null,
     hoverable: true,
     canEdit: false,
     style: {
-      styleRef: 'htmlLayerStyle'
+      styleRef: 'htmlLayerStyle',
+      "hoverTextColor": "white",
+      "hoverBackgroundColor": "#000000"
     }
   },
   postEditLayer: null, // user for

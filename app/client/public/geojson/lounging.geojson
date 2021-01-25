@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"name": "Lounging through the Flood",
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "title": "Lounging through the Flood", "websiteUrl": "https://jennykendler.com/section/483111-Lounging-Through-the-Flood.html", "caption": "" }, "geometry": { "type": "Point", "coordinates": [ -89.139, 36.984 ] } }
+]
+}
