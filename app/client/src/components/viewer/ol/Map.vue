@@ -341,7 +341,6 @@ export default {
     me.createLayers();
     me.createHtmlPostLayer();
 
-
     // Event bus setup for managing interactions
     EventBus.$on('ol-interaction-activated', startedInteraction => {
       me.activeInteractions.push(startedInteraction);
@@ -1220,7 +1219,7 @@ export default {
       //   this.map.getView().minResolution_ = visibleGroup.minResolution;
       //   this.map.getView().maxResolution_ = visibleGroup.maxResolution;
       // }
-      this.closePopup()
+      this.closePopup();
     },
     ...mapActions('map', {
       fetchColorMapEntities: 'fetchColorMapEntities'
@@ -1310,6 +1309,10 @@ export default {
       if (this.persistentLayers['html_posts']) {
         this.persistentLayers['html_posts'].getSource().refresh();
       }
+      // Reset fromEvent to false
+      setTimeout(() => {
+        this.$route.meta.fromEvent = false;
+      }, 1000);
 
       // If user has provider
       // const currentGroupRegion = this.$appConfig.map.groups[newValue.navbarGroup][newValue.region];

@@ -272,6 +272,15 @@
                     ><span>Edit Post</span></v-tooltip
                   >
                 </div>
+                <div>
+                  <v-tooltip left>
+                    <template v-slot:activator="{ on }">
+                      <v-btn v-on="on" @click="closePopupInfo" icon class="mr-3">
+                        <v-icon>close</v-icon>
+                      </v-btn> </template
+                    ><span>Close</span></v-tooltip
+                  >
+                </div>
               </v-row>
               <v-divider v-if="loggedUser"></v-divider>
 
