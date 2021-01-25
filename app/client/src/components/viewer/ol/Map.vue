@@ -1220,6 +1220,7 @@ export default {
       //   this.map.getView().minResolution_ = visibleGroup.minResolution;
       //   this.map.getView().maxResolution_ = visibleGroup.maxResolution;
       // }
+      this.closePopup()
     },
     ...mapActions('map', {
       fetchColorMapEntities: 'fetchColorMapEntities'
