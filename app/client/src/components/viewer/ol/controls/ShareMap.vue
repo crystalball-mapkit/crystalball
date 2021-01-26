@@ -173,6 +173,9 @@ export default {
       this.map.on('moveend', () => {
         this.previousMapZoom = this.map.getView().getZoom();
         this.updateRouterQuery();
+        setTimeout(() => {
+          this.$route.meta.fromEvent = false;
+        }, 1000);
       });
     }
   }
