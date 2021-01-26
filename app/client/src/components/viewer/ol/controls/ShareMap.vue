@@ -156,7 +156,6 @@ export default {
       }
     },
     $route(newValue, oldValue) {
-      console.log('route changed...');
       // Reset previous zoom if group is changed..
       if (newValue.path !== oldValue.path) {
         this.previousMapZoom = null;
@@ -174,11 +173,11 @@ export default {
       this.map.on('moveend', () => {
         this.previousMapZoom = this.map.getView().getZoom();
         this.updateRouterQuery();
+        setTimeout(() => {
+          this.$route.meta.fromEvent = false;
+        }, 1000);
       });
     }
-    setTimeout(() => {
-      this.$route.meta.fromEvent = false;
-    }, 1000);
   }
 };
 </script>
