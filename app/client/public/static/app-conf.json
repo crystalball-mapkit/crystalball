@@ -67,7 +67,7 @@
       {
         "type": "VECTOR",
         "name": "witness_tree",
-        "url": "geojson/witness_tree.geojson",
+        "url": "geojson/witness.geojson",
         "group": "urban_ecology",
         "queryable": true,
         "displayInLegend": true,
@@ -361,7 +361,7 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 1,
+        "minResolution": 0.25,
         "maxResolution": 220,
         "label": null,
         "hoverable": true,
@@ -376,8 +376,8 @@
       },
       {
         "type": "VECTOR",
-        "name": "us_pipelines",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:us_pipelines&outputFormat=application/json&srsname=EPSG:3857",
+        "name": "other_pipes",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:other_pipes&outputFormat=application/json&srsname=EPSG:3857",
         "group": "oil",
         "queryable": true,
         "displayInLegend": true,
@@ -391,7 +391,7 @@
         "isInteractive": true,
         "style": {
           "strokeColor": "gray",
-          "strokeWidth": 1.5
+          "strokeWidth": 3
         }
       },
       {
@@ -413,8 +413,8 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "strokeColor": "#44103c",
-          "strokeWidth": 3,
-          "opacity": 0.8
+          "strokeWidth": 4,
+          "opacity": 1
         }
       },
       {
@@ -444,9 +444,9 @@
       },
       {
         "type": "VECTOR",
-        "name": "us_refineries",
+        "name": "epa_refineries",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:epa_refineries&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
+        "group": "headwaters_mn",
         "queryable": true,
         "displayInLegend": true,
         "legendDisplayName": "US Refineries",
@@ -458,9 +458,10 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/refinery_sm.png",
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#000000",
+          "iconUrl": "icons/refinery.png",
+          "iconScale": "0.1"
         }
       },
 
@@ -469,7 +470,7 @@
         "name": "urban_ecology",
         "group": "backgroundLayers",
         "url": "https://api.maptiler.com/maps/e2be1255-22fd-497c-b2f7-66fd83718ae6/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
-        "minResolution": 0.5,
+        "minResolution": 0,
         "maxResolution": 64000,
         "opacity": 1,
         "queryable": false,
@@ -557,9 +558,9 @@
             "witness_tree",
             "confluence_ecologies"
           ],
-          "center": [-88.54, 40.3],
-          "resolution": 1500,
-          "minResolution": 0.5,
+          "center": [-88.421, 41.742],
+          "resolution": 800,
+          "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
@@ -581,13 +582,13 @@
         "default": {
           "layers": [
             "headwaters_mn",
-            "us_pipelines",
+            "other_pipes",
             "enbridge_pipes",
-            "us_refineries",
+            "epa_refineries",
             "line3_replacement"
           ],
           "center": [-93.670, 46.881],
-          "resolution": 800,
+          "resolution": 1000,
           "minResolution": 0.5,
           "maxResolution": 32000
         },
