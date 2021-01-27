@@ -467,6 +467,11 @@ export const layersStylePropFn = {
       return propertyValue;
     }
   },
+  epa_refineries: {
+    iconScaleFn: propertyValue => {
+      return getIconScaleValue(propertyValue, 0.0000001, 0.2, 1.2);
+    }
+  },
   coal_global2: {
     circleRadiusFn: propertyValue => {
       return getRadiusValue(propertyValue, 0.3, 4, 50);
