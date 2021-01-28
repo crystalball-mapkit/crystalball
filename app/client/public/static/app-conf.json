@@ -66,6 +66,29 @@
       },
       {
         "type": "VECTOR",
+        "name": "dtc_walks2",
+        "url": "geojson/dtc_walks2.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Walkaboutit",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "stylePropFnRef": {
+            "iconUrl": "variable1"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "witness_tree",
         "url": "geojson/witness.geojson",
         "group": "urban_ecology",
@@ -103,6 +126,28 @@
         "hoverable": true,
         "style": {
           "iconUrl": "icons/dt35/DTC2.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "dtc_galleries2",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:dtc_galleries&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Walkaboutit",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1500,
+        "maxResolution": 8000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC2.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -168,7 +213,7 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dt35/DTC1.png",
+          "iconUrl": "icons/dt35/DTC5.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -279,6 +324,204 @@
         "hoverable": true,
         "style": {
           "iconUrl": "icons/dt35/DTC2.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "witness_tree2",
+        "url": "geojson/witness.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Witness Tree",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC9.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "born_secret2",
+        "url": "geojson/born_secret.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Born Secret",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.5,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC5.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "inheritance2",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:inheritance&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Inheritance",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC3.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "ignis_noster2",
+        "url": "geojson/ignis_noster.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Ignis Noster",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC1.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "lounging2",
+        "url": "geojson/lounging.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Lounging through the Flood",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC6.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "hopium2",
+        "url": "geojson/hopium.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Hopium Economy",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC10.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "hopium22",
+        "url": "geojson/hopium2.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Hopium Economy",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC10.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "timeslips2",
+        "url": "geojson/timeslips.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Timeslips",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC4.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "confluence_ecologies2",
+        "url": "geojson/confluence_ecologies.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Confluence Ecologies",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC2.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -413,7 +656,7 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "strokeColor": "#44103c",
-          "strokeWidth": 4,
+          "strokeWidth": 5,
           "opacity": 1
         }
       },
@@ -547,16 +790,27 @@
             "urban_ecology",
             "miss_tri",
             "dtc_walks",
+            "dtc_walks2",
             "dtc_galleries",
+            "dtc_galleries2",
             "inheritance",
+            "inheritance2",
             "timeslips",
+            "timeslips2",
             "born_secret",
+            "born_secret2",
             "ignis_noster",
+            "ignis_noster2",
             "lounging",
+            "lounging2",
             "hopium",
             "hopium2",
+            "hopium2",
+            "hopium22",
             "witness_tree",
-            "confluence_ecologies"
+            "witness_tree2",
+            "confluence_ecologies",
+            "confluence_ecologies2"
           ],
           "center": [-88.421, 41.742],
           "resolution": 800,
@@ -587,8 +841,8 @@
             "epa_refineries",
             "line3_replacement"
           ],
-          "center": [-93.670, 46.881],
-          "resolution": 1000,
+          "center": [-93.679, 46.349],
+          "resolution": 1200,
           "minResolution": 0.5,
           "maxResolution": 32000
         },
