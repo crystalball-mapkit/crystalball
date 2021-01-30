@@ -366,7 +366,6 @@ export default {
   data: () => ({
     editType: null,
     dialogSelectedLayer: null, // Temporary selection (not active if user doesn't press ok)
-    selectedLayer: null,
     editButtons: [
       {
         icon: 'add',
@@ -454,7 +453,8 @@ export default {
   computed: {
     ...mapFields('map', {
       isEditingLayer: 'isEditingLayer',
-      isEditingPost: 'isEditingPost'
+      isEditingPost: 'isEditingPost',
+      selectedLayer: 'selectedLayer',
     }),
     ...mapGetters('map', {
       layersMetadata: 'layersMetadata'
