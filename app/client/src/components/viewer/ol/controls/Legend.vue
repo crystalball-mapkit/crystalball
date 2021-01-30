@@ -250,7 +250,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.sidebarHtml);
     this.updateTitle();
   },
   computed: {

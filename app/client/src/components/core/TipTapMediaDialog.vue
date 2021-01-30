@@ -162,7 +162,6 @@ export default {
       this.show = false;
     },
     readFile(file) {
-      console.log(this.tab);
       if (file) {
         // UPLOAD IN S3 Bucket.
         const formData = new FormData();

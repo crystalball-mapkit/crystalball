@@ -54,6 +54,7 @@ const state = {
   previousMapPosition: null,
   previousMapPositionSearch: null,
   isEditingLayer: false,
+  selectedLayer: null, // Selected layer for editing
   isEditingPost: false,
   isEditingHtml: false,
   htmlContent: '',
@@ -73,8 +74,8 @@ const state = {
     canEdit: false,
     style: {
       styleRef: 'htmlLayerStyle',
-      "hoverTextColor": "white",
-      "hoverBackgroundColor": "#000000"
+      hoverTextColor: 'white',
+      hoverBackgroundColor: '#000000'
     }
   },
   postEditLayer: null, // user for
@@ -90,6 +91,7 @@ const getters = {
   activeLayerGroup: state => state.activeLayerGroup,
   popup: state => state.popup,
   isEditingLayer: state => state.isEditingLayer,
+  selectedLayer: state => state.selectedLayer,
   isEditingHtml: state => state.isEditingHtml,
   isEditingPost: state => state.isEditingPost,
   popupInfo: state => {
