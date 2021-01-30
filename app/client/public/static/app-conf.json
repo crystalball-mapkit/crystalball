@@ -610,11 +610,12 @@
         "hoverable": true,
         "style": {
           "type": "circle",
-          "radius": 6,
+          "radius": 8,
           "stylePropFnRef": {
             "fillColor": "variable1"
           },
-          "strokeColor": "white"
+          "strokeColor": "white",
+          "strokeWidth": 2
         }
       },
       {
@@ -892,7 +893,10 @@
       "sidebarVideoSrc",
       "facility_id",
       "frs_id",
-      "primary_naics_code"
+      "primary_naics_code",
+      "facility_number",
+      "frsid",
+      "rsei_integer"
     ],
     "corporateEntitiesUrls": {
       "Enbridge": "https://its.timetochange.today/Enbridge/"
