@@ -1026,12 +1026,12 @@ export default {
       if (flyToSlideshow) {
         this.slideshow.isFlying = true;
         // Start from beginning if index is greater then positions array.
-        if (this.slideshow.currentIndex > flyToSlideshow.positions.length - 1) {
+        if (this.slideshow.currentIndex > flyToSlideshow.maplinks.length - 1) {
           this.slideshow.currentIndex = 0;
         }
         // Zoom to position
-        const position = flyToSlideshow.positions[this.slideshow.currentIndex];
-        window.location.href = position.maplink
+        const position = flyToSlideshow.maplinks[this.slideshow.currentIndex];
+        window.location.href = position
         // Increase or init the index
         this.slideshow.currentIndex = this.slideshow.currentIndex + 1;
         setTimeout(() => {
