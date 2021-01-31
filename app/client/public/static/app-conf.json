@@ -679,8 +679,7 @@
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
-          "stylePropFnRef": {
-          },
+          "stylePropFnRef": {},
           "strokeColor": "#000000",
           "strokeWidth": 5,
           "lineDash": [10]
@@ -755,7 +754,24 @@
         "visible": true
       }
     ],
-
+    "flyToSlideshow": {
+      "delayInSecondsForInitialStart": 30,
+      "delayInSecondsBetweenFrames": 10,
+      "positions": [
+        {
+          "coordinate": [-90.9, 31.5],
+          "resolution": 700
+        },
+        {
+          "coordinate": [-94.124895, 41.030031],
+          "resolution": 2400
+        },
+        {
+          "coordinate": [-87.3653, 40.9569],
+          "resolution": 2800
+        }
+      ]
+    },
     "groups": {
       "headwaters_il": {
         "default": {

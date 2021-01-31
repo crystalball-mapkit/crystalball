@@ -103,7 +103,6 @@ export default {
     };
   },
   created() {
-    console.log(this.activeLayerGroup);
     EventBus.$on('deletePost', feature => {
       let clonedFeature;
       let fId = feature.getId();
@@ -250,7 +249,6 @@ export default {
     }),
     transactPost(type) {
       const feature = this.postEditLayer.getSource().getFeatures()[0];
-      console.log(feature);
       const payload = {
         type: type,
         srid: '4326',
