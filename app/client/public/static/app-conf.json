@@ -759,16 +759,13 @@
       "delayInSecondsBetweenFrames": 10,
       "positions": [
         {
-          "coordinate": [-90.9, 31.5],
-          "resolution": 700
+          "maplink": "/#/urban_ecology?center=41.905,-87.725&zoom=16.000&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri&sidebar=false"
         },
         {
-          "coordinate": [-94.124895, 41.030031],
-          "resolution": 2400
+          "maplink": "/#/urban_ecology?center=41.831,-87.830&zoom=8.862&layers=dtc_walks2,witness_tree2,born_secret2,miss_tri&sidebar=true"
         },
         {
-          "coordinate": [-87.3653, 40.9569],
-          "resolution": 2800
+          "maplink": "/#/headwaters_il?center=40.059,-88.227&zoom=12.489&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash&sidebar=false"
         }
       ]
     },

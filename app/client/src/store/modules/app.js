@@ -1,7 +1,7 @@
 import { getField, updateField } from 'vuex-map-fields';
 
 const state = {
-  asideHidden: false,
+  sidebarState: true,
   sidebarHtml: {},
   postIcons: [],
   config: {}
@@ -15,9 +15,11 @@ const state = {
 const mutations = {
   toggle(state) {
     // console.log('store toggle!!')
-    state.asideHidden = !state.asideHidden;
+    state.sidebarState = !state.sidebarState;
   },
-
+  setSidebarInitialState(state, initialState) {
+    state.sidebarState = initialState;
+  },
   updateField
 };
 
@@ -29,7 +31,7 @@ const actions = {
 
 // getters are functions
 const getters = {
-  asideHidden: state => state.asideHidden,
+  sidebarState: state => state.sidebarState,
   sidebarHtml: state => state.sidebarHtml,
   postIcons: (state, getters, rootState, rootGetters) => {
     const activeGroup = rootGetters['map/activeLayerGroup'].navbarGroup;
