@@ -757,16 +757,10 @@
     "flyToSlideshow": {
       "delayInSecondsForInitialStart": 30,
       "delayInSecondsBetweenFrames": 10,
-      "positions": [
-        {
-          "maplink": "/#/urban_ecology?center=41.905,-87.725&zoom=16.000&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri&sidebar=false"
-        },
-        {
-          "maplink": "/#/urban_ecology?center=41.831,-87.830&zoom=8.862&layers=dtc_walks2,witness_tree2,born_secret2,miss_tri&sidebar=true"
-        },
-        {
-          "maplink": "/#/headwaters_il?center=40.059,-88.227&zoom=12.489&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash&sidebar=false"
-        }
+      "maplinks": [
+        "/#/headwaters_il?center=40.059,-88.227&zoom=12.489&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash&sidebar=false",
+        "/#/urban_ecology?center=41.905,-87.725&zoom=16.000&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri&sidebar=false",
+        "/#/headwaters_mn?center=46.696,-92.065&zoom=13.772&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries&sidebar=false"
       ]
     },
     "groups": {
