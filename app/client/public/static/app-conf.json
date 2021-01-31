@@ -510,8 +510,8 @@
       }
     ],
     "flyToSlideshow": {
-      "delayInSecondsForInitialStart": 10,
-      "delayInSecondsBetweenFrames": 2,
+      "delayInSecondsForInitialStart": 30,
+      "delayInSecondsBetweenFrames": 10,
       "positions": [
         {
           "coordinate": [-90.9, 31.5],
