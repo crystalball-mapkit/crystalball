@@ -993,7 +993,9 @@ export default {
     },
     initMapFly() {
       this.stopSlideshow();
+      // Timeout for initial start.
       this.slideshow.timeout = setTimeout(() => {
+        // Timer for slideshow.
         this.slideshow.timer = new Timer(
           this.mapFlyToFn,
           this.$appConfig.map.flyToSlideshow.delayInSecondsBetweenFrames * 1000
@@ -1010,7 +1012,13 @@ export default {
       }
     },
     mapFlyToFn() {
-      if (this.popup.activeFeature || this.isEditingLayer || this.isEditingPost || this.isEditingHtml || this.selectedLayer) {
+      if (
+        this.popup.activeFeature ||
+        this.isEditingLayer ||
+        this.isEditingPost ||
+        this.isEditingHtml ||
+        this.selectedLayer
+      ) {
         this.initMapFly();
         return;
       }
