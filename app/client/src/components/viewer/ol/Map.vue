@@ -201,7 +201,7 @@ import axios from 'axios';
 // Progress loader
 import ProgressLoader from '../../core/ProgressLoader';
 import Snackbar from '../../core/Snackbar';
-import { debounce } from '../../../utils/Helpers';
+import { debounce, Timer } from '../../../utils/Helpers';
 
 export default {
   components: {
@@ -247,7 +247,13 @@ export default {
         }
       },
       noMapReset: false,
-      layerVisibilityState: {}
+      layerVisibilityState: {},
+      slideshow: {
+        currentIndex: 0, // Index of current coordinate.
+        isFlying: false, // Use to check if pointdrap or movend is triggered from the flyToFn
+        timer: null, // timer between frames
+        timeout: null // timer for initial start.
+      }
     };
   },
   mixins: [SharedMethods],
@@ -296,6 +302,8 @@ export default {
       me.setupMapHoverOut();
       // Move end event
       this.setupMapMoveEnd();
+      // Setup slideshow;
+      this.setupMapFlyToSlideshow();
       // Create popup overlay for get info
       me.createPopupOverlay();
       // Fetch gas pipes entities for styling
@@ -800,6 +808,8 @@ export default {
       });
     },
 
+    setupMapMoveStart() {},
+
     /**
      * Map click event for Module.
      */
@@ -968,6 +978,69 @@ export default {
           }
         }
       });
+    },
+    /**
+    Slideshow map position every x seconds: 
+     */
+    setupMapFlyToSlideshow() {
+      this.initMapFly();
+      this.map.on(['pointerdrag', 'moveend'], () => {
+        // Event is triggered from user interaction (stop and start init timer)
+        if (this.slideshow.isFlying === false) {
+          this.initMapFly();
+        }
+      });
+    },
+    initMapFly() {
+      this.stopSlideshow();
+      // Timeout for initial start.
+      this.slideshow.timeout = setTimeout(() => {
+        // Timer for slideshow.
+        this.slideshow.timer = new Timer(
+          this.mapFlyToFn,
+          this.$appConfig.map.flyToSlideshow.delayInSecondsBetweenFrames * 1000
+        );
+        this.slideshow.timer.start();
+      }, this.$appConfig.map.flyToSlideshow.delayInSecondsForInitialStart * 1000);
+    },
+    stopSlideshow() {
+      if (this.slideshow.timer) {
+        this.slideshow.timer.stop();
+      }
+      if (this.slideshow.timeout) {
+        clearTimeout(this.slideshow.timeout);
+      }
+    },
+    mapFlyToFn() {
+      if (
+        this.popup.activeFeature ||
+        this.isEditingLayer ||
+        this.isEditingPost ||
+        this.isEditingHtml ||
+        this.selectedLayer
+      ) {
+        this.initMapFly();
+        return;
+      }
+      const flyToSlideshow = this.$appConfig.map.flyToSlideshow;
+      if (flyToSlideshow) {
+        this.slideshow.isFlying = true;
+        // Start from beginning if index is greater then positions array.
+        if (this.slideshow.currentIndex > flyToSlideshow.positions.length - 1) {
+          this.slideshow.currentIndex = 0;
+        }
+        // Zoom to position
+        const position = flyToSlideshow.positions[this.slideshow.currentIndex];
+        const coordinate = fromLonLat(position.coordinate);
+        const resolution = position.resolution;
+        this.map.getView().setCenter(coordinate);
+        this.map.getView().setResolution(resolution);
+        // Increase or init the index
+        this.slideshow.currentIndex = this.slideshow.currentIndex + 1;
+        setTimeout(() => {
+          this.slideshow.isFlying = false;
+        }, 50);
+      }
     },
     spotlight: function(e) {
       let ctx = e.context;
@@ -1248,6 +1321,8 @@ export default {
       popup: 'popup',
       isEditingLayer: 'isEditingLayer',
       isEditingPost: 'isEditingPost',
+      isEditingHtml: 'isEditingHtml',
+      selectedLayer: 'selectedLayer',
       geoserverLayerNames: 'geoserverLayerNames',
       layersMetadata: 'layersMetadata',
       layersWithEntityField: 'layersWithEntityField',

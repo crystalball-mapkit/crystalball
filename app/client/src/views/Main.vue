@@ -3,7 +3,11 @@
     <v-expand-transition>
       <v-navigation-drawer
         v-model="drawer"
-        :width="!selectedCoorpNetworkEntity ? 460 : 600"
+        :width="
+          !selectedCoorpNetworkEntity
+            ? sidebarWidth.default
+            : sidebarWidth.corporateNetworkSelected
+        "
         class="elevation-6"
         :color="$appConfig.app.sideBar.backgroundColor"
         stateless
@@ -109,7 +113,11 @@ export default {
   data() {
     return {
       drawer: this.$appConfig.app.sideBar.isVisible,
-      color: this.$appConfig.app.color
+      color: this.$appConfig.app.color,
+      sidebarWidth: {
+        default: 460,
+        corporateNetworkSelected: 600
+      }
     };
   },
   methods: {
@@ -127,6 +135,28 @@ export default {
     changeNavbarGroup(navbarGroup) {
       this.$router.push({ path: `/${navbarGroup.name}` });
       EventBus.$emit('noMapReset');
+    },
+    onResize() {
+      const winWidth = window.innerWidth;
+      let _default;
+      let _corporateNetworkSelected;
+      if (winWidth > 2000) {
+        // Values for larger screens 
+        _default = 600;
+        _corporateNetworkSelected = 600;
+      } else if (winWidth < 900) {
+        // Values for small screens (mini - tables or low resolutions)
+        _default = 350;
+        _corporateNetworkSelected = 350;
+      } else {
+        // Values for normal screens (default)
+        _default = 460;
+        _corporateNetworkSelected = 600;
+      }
+      this.sidebarWidth = {
+        default: _default,
+        corporateNetworkSelected: _corporateNetworkSelected
+      };
     },
     ...mapMutations('map', {
       setActiveLayerGroup: 'SET_ACTIVE_LAYERGROUP'
@@ -177,6 +207,12 @@ export default {
     // inform registered cmps that the app is mounted and the dynamic
     // components are available
     EventBus.$emit('app-mounted');
+    this.onResize();
+    window.addEventListener('resize', this.onResize, { passive: true });
+  },
+  beforeDestroy() {
+    if (typeof window === 'undefined') return;
+    window.removeEventListener('resize', this.onResize, { passive: true });
   }
 };
 </script>
