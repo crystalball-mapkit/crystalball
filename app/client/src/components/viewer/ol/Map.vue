@@ -1031,10 +1031,7 @@ export default {
         }
         // Zoom to position
         const position = flyToSlideshow.positions[this.slideshow.currentIndex];
-        const coordinate = fromLonLat(position.coordinate);
-        const resolution = position.resolution;
-        this.map.getView().setCenter(coordinate);
-        this.map.getView().setResolution(resolution);
+        window.location.href = position.maplink
         // Increase or init the index
         this.slideshow.currentIndex = this.slideshow.currentIndex + 1;
         setTimeout(() => {

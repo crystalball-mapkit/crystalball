@@ -2,7 +2,7 @@
   <v-app id="wg-app" data-app :class="{ 'wg-app': true }">
     <v-expand-transition>
       <v-navigation-drawer
-        v-model="drawer"
+        v-model="sidebarState"
         :width="
           !selectedCoorpNetworkEntity
             ? sidebarWidth.default
@@ -69,8 +69,8 @@
       <v-spacer></v-spacer><v-spacer></v-spacer>
 
       <!--      <span class="title pr-5">before it's too late</span>  -->
-      <v-btn icon @click.stop="drawer = !drawer"
-        ><v-icon medium>{{ drawer ? '$close' : '$menu' }}</v-icon></v-btn
+      <v-btn icon @click.stop="sidebarState = !sidebarState"
+        ><v-icon medium>{{ sidebarState ? '$close' : '$menu' }}</v-icon></v-btn
       >
     </v-app-bar>
 
@@ -104,6 +104,9 @@ export default {
     }),
     ...mapGetters('map', {
       activeLayerGroup: 'activeLayerGroup'
+    }),
+    ...mapFields('app', {
+      sidebarState: 'sidebarState'
     })
   },
   components: {
@@ -112,7 +115,6 @@ export default {
   },
   data() {
     return {
-      drawer: this.$appConfig.app.sideBar.isVisible,
       color: this.$appConfig.app.color,
       sidebarWidth: {
         default: 460,
@@ -141,7 +143,7 @@ export default {
       let _default;
       let _corporateNetworkSelected;
       if (winWidth > 2000) {
-        // Values for larger screens 
+        // Values for larger screens
         _default = 600;
         _corporateNetworkSelected = 600;
       } else if (winWidth < 900) {
@@ -160,6 +162,9 @@ export default {
     },
     ...mapMutations('map', {
       setActiveLayerGroup: 'SET_ACTIVE_LAYERGROUP'
+    }),
+    ...mapMutations('app', {
+      setSidebarInitialState: 'setSidebarInitialState'
     })
   },
   created() {
@@ -190,6 +195,8 @@ export default {
       navbarGroup: this.navbarGroup,
       region: this.region
     });
+    // Set initial state for sidebar.
+    // this.setSidebarInitialState(this.$appConfig.app.sideBar.isVisible);
   },
   watch: {
     $route(newValue, oldValue) {
