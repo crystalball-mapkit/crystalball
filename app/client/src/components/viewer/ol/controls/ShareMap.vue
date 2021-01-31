@@ -55,6 +55,7 @@
 </template>
 <script>
 import { toLonLat, fromLonLat } from 'ol/proj';
+import { mapFields } from 'vuex-map-fields';
 
 export default {
   props: {
@@ -77,7 +78,10 @@ export default {
           this.mapShareLink = '';
         }
       }
-    }
+    },
+    ...mapFields('app', {
+      sidebarState: 'sidebarState'
+    })
   },
   methods: {
     createShareLink() {
@@ -99,7 +103,9 @@ export default {
         .reverse();
       this.mapShareLink = `${url}?center=${centerLonLat.toString()}&zoom=${zoom
         .toFixed(3)
-        .toString()}&layers=${visibleLayers.toString()}`;
+        .toString()}&layers=${visibleLayers.toString()}&sidebar=${
+        this.sidebarState
+      }`;
     },
     copyMapLink() {
       let mapLink = this.$refs.mapLink.$el.querySelector('input');
@@ -147,6 +153,10 @@ export default {
             }
           }
         });
+      // Set sidebar state
+      if (this.$route.query && this.$route.query.sidebar) {
+        this.sidebarState = this.$route.query.sidebar == 'false' ? false : true;
+      }
     }
   },
   watch: {
