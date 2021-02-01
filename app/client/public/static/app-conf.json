@@ -704,7 +704,7 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "iconUrl": "icons/refinery.png",
-          "iconScale": "0.1"
+          "scale": 0.8
         }
       },
 
@@ -758,9 +758,7 @@
       "delayInSecondsForInitialStart": 30,
       "delayInSecondsBetweenFrames": 10,
       "maplinks": [
-        "/#/headwaters_il?center=40.059,-88.227&zoom=12.489&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash&sidebar=false",
-        "/#/urban_ecology?center=41.905,-87.725&zoom=16.000&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri&sidebar=false",
-        "/#/headwaters_mn?center=46.696,-92.065&zoom=13.772&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries&sidebar=false"
+        "/#/urban_ecology?center=40.552,-89.171&zoom=5.505&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri&sidebar=true", "/#/urban_ecology?center=42.052,-87.928&zoom=7.254&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri&sidebar=true", "/#/urban_ecology?center=41.841,-87.753&zoom=9.320&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri", "/#/urban_ecology?center=41.872,-87.677&zoom=11.517&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri", "/#/urban_ecology?center=41.880,-87.653&zoom=16.000&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri", "/#/headwaters_il?center=40.026,-92.577&zoom=4.190&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.040,-88.730&zoom=6.322&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.096,-87.681&zoom=10.038&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.878,-88.650&zoom=13.624&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.548,-89.680&zoom=13.889&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_mn?center=46.349,-93.311&zoom=3.009&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=29.668,-95.174&zoom=8.446&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=35.941,-96.746&zoom=13.269&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=44.325,-90.038&zoom=4.995&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=46.349,-93.679&zoom=5.737&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=47.145,-94.660&zoom=7.726&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=46.699,-93.506&zoom=13.092&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=46.698,-93.498&zoom=15.328&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries"
       ]
     },
     "groups": {
