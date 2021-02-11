@@ -164,7 +164,7 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "maxResolution": 1600,
         "label": null,
         "hoverable": true,
@@ -186,7 +186,29 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC3.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "refugium",
+        "url": "geojson/refugium.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Refugium for a Post-Anthropocenic World",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
         "maxResolution": 1600,
         "label": null,
         "hoverable": true,
@@ -208,12 +230,12 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "maxResolution": 1600,
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dt35/DTC5.png",
+          "iconUrl": "icons/dt35/DTC10.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -230,7 +252,7 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "maxResolution": 1600,
         "label": null,
         "hoverable": true,
@@ -252,7 +274,7 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "maxResolution": 1600,
         "label": null,
         "hoverable": true,
@@ -274,7 +296,7 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "maxResolution": 1600,
         "label": null,
         "hoverable": true,
@@ -296,7 +318,7 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "maxResolution": 1600,
         "label": null,
         "hoverable": true,
@@ -318,12 +340,34 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "maxResolution": 1600,
         "label": null,
         "hoverable": true,
         "style": {
           "iconUrl": "icons/dt35/DTC2.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "chicken_tenders",
+        "url": "geojson/chicken_tenders.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Chicken Tenders",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC1.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -362,7 +406,7 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "maxResolution": 1600,
         "label": null,
         "hoverable": true,
@@ -397,6 +441,28 @@
       },
       {
         "type": "VECTOR",
+        "name": "refugium2",
+        "url": "geojson/refugium.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Refugium for a Post-Anthropocenic World",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC3.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "ignis_noster2",
         "url": "geojson/ignis_noster.geojson",
         "group": "urban_ecology",
@@ -411,7 +477,7 @@
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/dt20/DTC1.png",
+          "iconUrl": "icons/dt20/DTC10.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -441,7 +507,7 @@
       },
       {
         "type": "VECTOR",
-        "name": "hopium2",
+        "name": "hopium_2",
         "url": "geojson/hopium.geojson",
         "group": "urban_ecology",
         "queryable": true,
@@ -463,7 +529,7 @@
       },
       {
         "type": "VECTOR",
-        "name": "hopium22",
+        "name": "hopium_22",
         "url": "geojson/hopium2.geojson",
         "group": "urban_ecology",
         "queryable": true,
@@ -522,6 +588,28 @@
         "hoverable": true,
         "style": {
           "iconUrl": "icons/dt20/DTC2.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "chicken_tenders2",
+        "url": "geojson/chicken_tenders.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Chicken Tenders",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC1.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -725,7 +813,7 @@
         "name": "headwaters",
         "group": "backgroundLayers",
         "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "maxResolution": 6400,
         "opacity": 1,
         "queryable": false,
@@ -737,7 +825,7 @@
         "name": "headwaters_mn",
         "group": "backgroundLayers",
         "url": "https://api.maptiler.com/maps/fd000e8f-ff38-4076-bd36-db44bb3e7785/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "opacity": 1,
         "queryable": false,
         "visible": true,
@@ -748,7 +836,7 @@
         "name": "imagery",
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
-        "minResolution": 0.5,
+        "minResolution": 0.25,
         "maxResolution": 1000,
         "queryable": false,
         "visible": true
@@ -772,21 +860,21 @@
           ],
           "center": [-88.73, 40.04],
           "resolution": 800,
-          "minResolution": 0.5,
+          "minResolution": 0.25,
           "maxResolution": 64000
         },
         "local": {
           "layers": [],
           "center": [-99, 42.9],
           "resolution": 9000,
-          "minResolution": 0.5,
+          "minResolution": 0.25,
           "maxResolution": 32000
         },
         "global": {
           "layers": [],
           "center": [2.44, 30.81],
           "resolution": 25000,
-          "minResolution": 0.5,
+          "minResolution": 0.25,
           "maxResolution": 64000
         }
       },
@@ -801,6 +889,8 @@
             "dtc_galleries2",
             "inheritance",
             "inheritance2",
+            "refugium",
+            "refugium2",
             "timeslips",
             "timeslips2",
             "born_secret",
@@ -811,12 +901,14 @@
             "lounging2",
             "hopium",
             "hopium2",
-            "hopium2",
-            "hopium22",
+            "hopium_2",
+            "hopium_22",
             "witness_tree",
             "witness_tree2",
             "confluence_ecologies",
-            "confluence_ecologies2"
+            "confluence_ecologies2",
+            "chicken_tenders",
+            "chicken_tenders2"
           ],
           "center": [-88.421, 41.742],
           "resolution": 800,
@@ -827,14 +919,14 @@
           "layers": [],
           "center": [-99, 42.9],
           "resolution": 9000,
-          "minResolution": 0.5,
+          "minResolution": 0.25,
           "maxResolution": 32000
         },
         "global": {
           "layers": [],
           "center": [-5, 30],
           "resolution": 32000,
-          "minResolution": 0.5,
+          "minResolution": 0.25,
           "maxResolution": 64000
         }
       },
@@ -849,21 +941,21 @@
           ],
           "center": [-93.679, 46.349],
           "resolution": 1200,
-          "minResolution": 0.5,
+          "minResolution": 0.25,
           "maxResolution": 32000
         },
         "local": {
           "layers": [],
           "center": [-97, 37],
           "resolution": 4500,
-          "minResolution": 0.5,
+          "minResolution": 0.25,
           "maxResolution": 16000
         },
         "global": {
           "layers": [],
           "center": [2.44, 31.01],
           "resolution": 30000,
-          "minResolution": 0.5,
+          "minResolution": 0.25,
           "maxResolution": 32000
         }
       }
