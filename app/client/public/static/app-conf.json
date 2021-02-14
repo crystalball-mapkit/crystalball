@@ -693,7 +693,7 @@
         "visible": true,
         "zIndex": 0,
         "minResolution": 0.25,
-        "maxResolution": 220,
+        "maxResolution": 400,
         "label": null,
         "hoverable": true,
         "style": {
