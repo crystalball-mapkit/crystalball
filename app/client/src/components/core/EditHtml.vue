@@ -25,15 +25,16 @@
           isEditingHtml
       "
     >
-      <v-toolbar v-if="postFeature && postFeature.get('icon')">
+      <!-- <v-toolbar v-if="postFeature && postFeature.get('icon')">
         <v-avatar v-if="postFeature && postFeature.get('icon')" class="mr-3">
           <v-img contain :src="postFeature.get('icon')"></v-img>
         </v-avatar>
         <v-toolbar-title class="h6">{{ postIconTitle }}</v-toolbar-title>
-      </v-toolbar>
+      </v-toolbar> -->
 
       <v-layout justify-space-between column fill-height>
         <tip-tap-editor
+          :map="map"
           v-if="postFeature || isEditingHtml"
           class="mx-1 mt-1"
         ></tip-tap-editor>
@@ -44,7 +45,10 @@
           Cancel
         </v-btn>
         <v-btn
-          :disabled="!postFeature && isEditingPost"
+          :disabled="
+            (!postFeature && isEditingPost) ||
+              [`<p></p>`, ''].includes(htmlContent)
+          "
           class="mt-2 mr-5"
           @click="save"
           text
@@ -169,7 +173,7 @@ export default {
           name: 'post_edit_layer',
           isInteractive: false,
           queryable: false,
-          zIndex: 2001,
+          zIndex: 10000,
           source: postEditLayerSource,
           style: postEditLayerStyle
         }
@@ -245,7 +249,6 @@ export default {
     }),
     transactPost(type) {
       const feature = this.postEditLayer.getSource().getFeatures()[0];
-      console.log(feature);
       const payload = {
         type: type,
         srid: '4326',
@@ -262,6 +265,8 @@ export default {
       if (type !== 'delete') {
         payload.properties = {
           icon: this.postFeature.get('icon'),
+          group: this.activeLayerGroup.navbarGroup,
+          title: this.postIconTitle,
           html: this.htmlContent,
           createdBy: null // The value is added from the api.
         };
@@ -362,12 +367,13 @@ export default {
     }),
     ...mapGetters('map', {
       persistentLayers: 'persistentLayers',
+      activeLayerGroup: 'activeLayerGroup',
       groupName: 'groupName'
     }),
     postIconTitle() {
       if (this.postFeature && this.postFeature.get('icon')) {
         const icon = this.postIcons.filter(
-          i => (i.iconUrl = this.postFeature.get('icon'))
+          i => i.iconUrl == this.postFeature.get('icon')
         );
         return icon.length > 0 ? icon[0].title : '';
       }
@@ -379,7 +385,7 @@ export default {
       if (value === true) {
         if (this.editType !== 'update') {
           this.toggleSnackbar({
-            type: '#dc143c',
+            type: this.$appConfig.app.color.primary,
             message: 'Zoom in close and click to add your post',
             timeout: 50000,
             state: true

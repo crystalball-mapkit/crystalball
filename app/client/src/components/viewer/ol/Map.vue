@@ -1,28 +1,38 @@
 <template>
   <div id="ol-map-container">
     <!-- Map Controls -->
-    <map-legend color="#dc143c" />
+    <map-legend :color="color.primary" />
     <div style="position:absolute;left:20px;top:10px;">
-      <login-button></login-button>
-      <zoom-control :map="map" />
-      <full-screen />
-      <share-map :map="map"></share-map>
-      <locate :map="map" />
-      <route-controls />
+      <login-button :color="color.primary"></login-button>
+      <zoom-control :color="color.primary" :map="map" />
+      <full-screen :color="color.primary" />
+      <share-map :color="color.primary" :map="map"></share-map>
+      <locate :color="color.primary" :map="map" />
+      <route-controls
+        :color="{
+          activeButton: color.secondary,
+          inactiveButton: color.primary
+        }"
+      />
     </div>
 
     <!-- Edit Controls (Only available for logged users ) -->
     <div v-if="loggedUser" style="position:absolute;right:20px;top:10px;">
-      <edit :map="map" />
+      <edit
+        :map="map"
+        :color="{ primary: color.primary, activeButton: color.secondary }"
+      />
     </div>
 
-    <div
+    <!-- <div
       v-show="spotlightMessage === true"
+      :style="`background-color: ${color.primary}`"
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
     >
       press ↑ or ↓ to change spotlight size
-    </div>
+    </div> -->
+
     <!-- Popup overlay  -->
     <overlay-popup
       :title="
@@ -191,7 +201,7 @@ import axios from 'axios';
 // Progress loader
 import ProgressLoader from '../../core/ProgressLoader';
 import Snackbar from '../../core/Snackbar';
-import { debounce } from '../../../utils/Helpers';
+import { debounce, Timer } from '../../../utils/Helpers';
 
 export default {
   components: {
@@ -216,7 +226,7 @@ export default {
       minZoom: this.$appConfig.map.minZoom,
       maxZoom: this.$appConfig.map.maxZoom,
       extent: this.$appConfig.map.extent,
-      color: this.$appConfig.controlsColor,
+      color: this.$appConfig.app.color,
       allLayers: [],
       queryableLayers: [],
       queryLayersGeoserverNames: null,
@@ -228,7 +238,7 @@ export default {
       lightBoxImages: [],
       progressLoading: {
         message: 'Fetching Corporate Network',
-        progressColor: '#dc143c',
+        progressColor: this.$appConfig.app.color.primary,
         value: false
       },
       ops: {
@@ -237,7 +247,13 @@ export default {
         }
       },
       noMapReset: false,
-      layerVisibilityState: {}
+      layerVisibilityState: {},
+      slideshow: {
+        currentIndex: 0, // Index of current coordinate.
+        isFlying: false, // Use to check if pointdrap or movend is triggered from the flyToFn
+        timer: null, // timer between frames
+        timeout: null // timer for initial start.
+      }
     };
   },
   mixins: [SharedMethods],
@@ -286,6 +302,8 @@ export default {
       me.setupMapHoverOut();
       // Move end event
       this.setupMapMoveEnd();
+      // Setup slideshow;
+      this.setupMapFlyToSlideshow();
       // Create popup overlay for get info
       me.createPopupOverlay();
       // Fetch gas pipes entities for styling
@@ -354,7 +372,7 @@ export default {
       me.createGetInfoLayer();
       const activeLayerGroup = this.activeLayerGroup;
       const visibleGroup = this.$appConfig.map.groups[
-        activeLayerGroup.fuelGroup
+        activeLayerGroup.navbarGroup
       ][activeLayerGroup.region];
       const visibleLayers = visibleGroup.layers;
       me.resetMap();
@@ -477,9 +495,8 @@ export default {
      * Sets the background color of the OL buttons to the color property.
      */
     setOlButtonColor() {
-      var me = this;
-
-      if (isCssColor(me.color)) {
+      const color = this.color.primary;
+      if (isCssColor(color)) {
         // directly apply the given CSS color
         const rotateEl = document.querySelector('.ol-rotate');
         if (rotateEl) {
@@ -488,7 +505,7 @@ export default {
           const rotateElStyle = document.querySelector(
             '.ol-rotate .ol-rotate-reset'
           ).style;
-          rotateElStyle.backgroundColor = me.color;
+          rotateElStyle.backgroundColor = color;
           rotateElStyle.borderRadius = '40px';
         }
         const attrEl = document.querySelector('.ol-attribution');
@@ -497,13 +514,13 @@ export default {
           const elStyle = document.querySelector(
             ".ol-attribution button[type='button']"
           ).style;
-          elStyle.backgroundColor = me.color;
+          elStyle.backgroundColor = color;
           elStyle.borderRadius = '40px';
         }
       } else {
         // apply vuetify color by transforming the color to the corresponding
         // CSS class (see https://vuetifyjs.com/en/framework/colors)
-        const [colorName, colorModifier] = me.color
+        const [colorName, colorModifier] = color
           .toString()
           .trim()
           .split(' ', 2);
@@ -791,6 +808,8 @@ export default {
       });
     },
 
+    setupMapMoveStart() {},
+
     /**
      * Map click event for Module.
      */
@@ -869,9 +888,14 @@ export default {
         if (feature) {
           const props = feature.getProperties();
           // Check if feature has video link
-          if (props.videoSrc || props.vimeoSrc) {
+          if (props.websiteUrl) {
+            const mediabox = new MediaLightBox(props.websiteUrl, '', 'website');
+            mediabox.open();
+            return;
+          }
+          if (props.videoSrc || props.vimeoSrc || props.websiteUrl) {
             const mediabox = new MediaLightBox(
-              props.videoSrc || props.vimeoSrc,
+              props.videoSrc || props.vimeoSrc || props.websiteUrl,
               props.caption || props.vimeoTitle
             );
             mediabox.open();
@@ -879,7 +903,9 @@ export default {
           }
           // Check if feature has lightbox array of images
           if (props.lightbox) {
-            const images = JSON.parse(props.lightbox);
+            const images = Array.isArray(props.lightbox)
+              ? props.lightbox
+              : JSON.parse(props.lightbox);
             if (!Array.isArray(images)) return;
             images.forEach(image => {
               let imageUrl;
@@ -953,6 +979,66 @@ export default {
         }
       });
     },
+    /**
+    Slideshow map position every x seconds: 
+     */
+    setupMapFlyToSlideshow() {
+      this.initMapFly();
+      this.map.on(['pointerdrag', 'moveend'], () => {
+        // Event is triggered from user interaction (stop and start init timer)
+        if (this.slideshow.isFlying === false) {
+          this.initMapFly();
+        }
+      });
+    },
+    initMapFly() {
+      this.stopSlideshow();
+      // Timeout for initial start.
+      this.slideshow.timeout = setTimeout(() => {
+        // Timer for slideshow.
+        this.slideshow.timer = new Timer(
+          this.mapFlyToFn,
+          this.$appConfig.map.flyToSlideshow.delayInSecondsBetweenFrames * 1000
+        );
+        this.slideshow.timer.start();
+      }, this.$appConfig.map.flyToSlideshow.delayInSecondsForInitialStart * 1000);
+    },
+    stopSlideshow() {
+      if (this.slideshow.timer) {
+        this.slideshow.timer.stop();
+      }
+      if (this.slideshow.timeout) {
+        clearTimeout(this.slideshow.timeout);
+      }
+    },
+    mapFlyToFn() {
+      if (
+        this.popup.activeFeature ||
+        this.isEditingLayer ||
+        this.isEditingPost ||
+        this.isEditingHtml ||
+        this.selectedLayer
+      ) {
+        this.initMapFly();
+        return;
+      }
+      const flyToSlideshow = this.$appConfig.map.flyToSlideshow;
+      if (flyToSlideshow) {
+        this.slideshow.isFlying = true;
+        // Start from beginning if index is greater then positions array.
+        if (this.slideshow.currentIndex > flyToSlideshow.maplinks.length - 1) {
+          this.slideshow.currentIndex = 0;
+        }
+        // Zoom to position
+        const position = flyToSlideshow.maplinks[this.slideshow.currentIndex];
+        window.location.href = position
+        // Increase or init the index
+        this.slideshow.currentIndex = this.slideshow.currentIndex + 1;
+        setTimeout(() => {
+          this.slideshow.isFlying = false;
+        }, 50);
+      }
+    },
     spotlight: function(e) {
       let ctx = e.context;
       const pixelRatio = e.frameState.pixelRatio;
@@ -975,7 +1061,7 @@ export default {
     },
     queryCorporateNetwork() {
       const entity = this.popup.activeFeature.get('entity');
-      const workspace = 'petropolis';
+      const workspace = this.geoserverWorkspace;
       if (!entity) return;
       this.selectedCoorpNetworkEntity = entity;
       if (!this.layersWithEntityField || !this.splittedEntities) return;
@@ -1113,9 +1199,8 @@ export default {
       const geoserverLayerNames = extractGeoserverLayerNames(
         this.$appConfig.map.layers
       );
-      const workspace = 'petropolis';
+      const workspace = this.geoserverWorkspace;
       if (!geoserverLayerNames[workspace]) return;
-
       const filterLayersWithEntity = [];
       geoserverLayerNames[workspace].names.forEach(geoserverLayerName => {
         http
@@ -1182,10 +1267,11 @@ export default {
       if (!this.map) return;
       const activeLayerGroup = this.activeLayerGroup;
       const visibleGroup = this.$appConfig.map.groups[
-        activeLayerGroup.fuelGroup
+        activeLayerGroup.navbarGroup
       ][activeLayerGroup.region];
 
-      if (!this.noMapReset) {
+      // Set reset map group to true if the center is defined.
+      if (!this.noMapReset || visibleGroup.center) {
         if (visibleGroup.center) {
           this.map.getView().setCenter(fromLonLat(visibleGroup.center));
         }
@@ -1193,12 +1279,17 @@ export default {
           this.map.getView().setResolution(visibleGroup.resolution);
         }
       }
-      this.noMapReset = false;
 
-      if (visibleGroup.minResolution && visibleGroup.maxResolution) {
-        this.map.getView().minResolution_ = visibleGroup.minResolution;
-        this.map.getView().maxResolution_ = visibleGroup.maxResolution;
+      // Set reset map group to false if the center is defined.
+      if (!visibleGroup.center) {
+        this.noMapReset = false;
       }
+
+      // if (visibleGroup.minResolution && visibleGroup.maxResolution) {
+      //   this.map.getView().minResolution_ = visibleGroup.minResolution;
+      //   this.map.getView().maxResolution_ = visibleGroup.maxResolution;
+      // }
+      this.closePopup();
     },
     ...mapActions('map', {
       fetchColorMapEntities: 'fetchColorMapEntities'
@@ -1215,7 +1306,9 @@ export default {
       activeLayerGroup: 'activeLayerGroup',
       popupInfo: 'popupInfo',
       splittedEntities: 'splittedEntities',
-      htmlPostLayerConf: 'htmlPostLayerConf'
+      htmlPostLayerConf: 'htmlPostLayerConf',
+      geoserverWorkspace: 'geoserverWorkspace',
+      persistentLayers: 'persistentLayers'
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser'
@@ -1225,15 +1318,17 @@ export default {
       popup: 'popup',
       isEditingLayer: 'isEditingLayer',
       isEditingPost: 'isEditingPost',
+      isEditingHtml: 'isEditingHtml',
+      selectedLayer: 'selectedLayer',
       geoserverLayerNames: 'geoserverLayerNames',
       layersMetadata: 'layersMetadata',
       layersWithEntityField: 'layersWithEntityField',
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity'
     }),
     activeLayerGroupConf() {
-      const group = this.$appConfig.map.groups[this.activeLayerGroup.fuelGroup][
-        this.activeLayerGroup.region
-      ];
+      const group = this.$appConfig.map.groups[
+        this.activeLayerGroup.navbarGroup
+      ][this.activeLayerGroup.region];
       return group;
     },
     hiddenProps() {
@@ -1282,6 +1377,18 @@ export default {
       // Emit group change event.
       EventBus.$emit('group-changed');
       EventBus.$emit('clearEditHtml');
+
+      if (this.persistentLayers['html_posts']) {
+        this.persistentLayers['html_posts'].getSource().refresh();
+      }
+      // Reset fromEvent to false
+      setTimeout(() => {
+        this.$route.meta.fromEvent = false;
+      }, 1000);
+
+      // If user has provider
+      // const currentGroupRegion = this.$appConfig.map.groups[newValue.navbarGroup][newValue.region];
+      // if (map)
     },
     isEditingLayer() {
       // Disables double click zoom when user is editing.
@@ -1342,7 +1449,6 @@ div.ol-control button {
 }
 
 .spotlight-message {
-  background-color: #dc143c;
   position: fixed;
   left: 40%;
   top: 70px;

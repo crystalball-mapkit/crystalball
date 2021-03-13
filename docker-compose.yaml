@@ -183,4 +183,8 @@ services:
 #    ports:
 #      - 10500:3000
 #    networks:
+<<<<<<< HEAD
 #      proxy:
+=======
+#      proxy:
+>>>>>>> origin/switch

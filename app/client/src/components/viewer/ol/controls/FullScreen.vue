@@ -8,7 +8,7 @@
           fab
           dark
           x-small
-          color="#dc143c"
+          :color="color"
           @click="toggleFullScreen"
         >
           <v-icon medium>{{
@@ -28,6 +28,9 @@ export default {
   data: () => ({
     isFullscreen: false
   }),
+  props: {
+    color: { type: String }
+  },
   methods: {
     /**
      * Switch to/from fullscreen mode.

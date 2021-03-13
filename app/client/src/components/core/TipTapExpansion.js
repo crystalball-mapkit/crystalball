@@ -1,6 +1,6 @@
-import { Node } from 'tiptap';
-
-export default class Expansion extends Node {
+import { Mark } from 'tiptap';
+import { updateMark, removeMark } from 'tiptap-commands';
+export default class Expansion extends Mark {
   get name() {
     return 'expansion';
   }
@@ -8,35 +8,71 @@ export default class Expansion extends Node {
   get schema() {
     return {
       attrs: {
-        src: {
-          default: null
+        title: {
+          default: ''
+        },
+        uid: {
+          default: (Date.now() + Math.random()).toString()
         }
       },
       group: 'block',
-      selectable: true,
       draggable: true,
-      atom: true,
+      isolating: true,
       parseDOM: [
         {
-          tag: 'div',
-          getAttrs: dom => ({
-            src: dom.getAttribute('src')
-          })
+          tag: 'section',
+          contentElement: 'div',
+          getAttrs: dom => {
+            return {
+              title: dom.childNodes[1].childNodes[0].innerHTML,
+              uid: (Date.now() + Math.random()).toString()
+            };
+          }
         }
       ],
-      toDOM: () => ['div', {}]
+      toDOM: node => [
+        'section',
+        {
+          class: 'ep-accordion'
+        },
+        [
+          'input',
+          {
+            type: 'checkbox',
+            name: 'collapse',
+            id: node.attrs.uid
+          }
+        ],
+        [
+          'h2',
+          {
+            class: 'handle'
+          },
+          [
+            'label',
+            {
+              for: node.attrs.uid
+            },
+            node.attrs.title // Expansion panel title
+          ]
+        ],
+        [
+          'div',
+          {
+            class: 'content'
+          },
+          0
+        ]
+      ]
     };
   }
 
   commands({ type }) {
-    return attrs => (state, dispatch) => {
-      const { selection } = state;
-      const position = selection.$cursor
-        ? selection.$cursor.pos
-        : selection.$to.pos;
-      const node = type.create(attrs);
-      const transaction = state.tr.insert(position, node);
-      dispatch(transaction);
+    return attrs => {
+      if (attrs.title && attrs.uid) {
+        return updateMark(type, attrs);
+      }
+      return removeMark(type);
     };
   }
 }

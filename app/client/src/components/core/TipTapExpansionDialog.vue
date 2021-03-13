@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="show" persistent max-width="500px">
     <v-card v-if="command">
-      <v-app-bar flat color="#dc143c" height="50" dark>
+      <v-app-bar flat :color="color" height="50" dark>
         <v-icon class="mr-3">playlist_add</v-icon>
         <v-toolbar-title>Expansion title</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -30,7 +30,8 @@ export default {
     return {
       title: '',
       command: null,
-      show: false
+      show: false,
+      color: this.$appConfig.app.color.primary
     };
   },
   methods: {
@@ -44,7 +45,8 @@ export default {
       const data = {
         command: this.command,
         data: {
-          title: this.title
+          title: this.title,
+          uid: (Date.now() + Math.random()).toString()
         }
       };
 

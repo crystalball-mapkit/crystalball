@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"name": "witness_tree",
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "title": "Witness Tree", "lightbox": [ { "imageUrl": "images\/witness\/1.jpg", "caption": "Witness Tree is a marker in both space and time." }, { "imageUrl": "images\/witness\/2.jpg", "caption": " The title phrase is drawn from the colonial land survey practice used to grid the landscape into rectilinear plots for private land ownership." }, { "imageUrl": "images\/witness\/3.jpg", "caption": " In open prairie scapes, trees were used as stable land markers from which coordinates were plotted and property lines were drawn." }, { "imageUrl": "images\/witness\/4.jpg", "caption": "This Witness Tree is an entire young oak that has been transformed, through charcoalizatin,  into pure carbon." }, { "imageUrl": "images\/witness\/5.jpg", "caption": "" } ] }, "geometry": { "type": "Point", "coordinates": [ -89.384, 41.963 ] } }
+]
+}

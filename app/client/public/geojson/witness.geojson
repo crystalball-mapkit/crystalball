@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"name": "witness_tree",
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "title": "Witness Tree", "websiteUrl": "documents/witness.html", "caption": "" }, "geometry": { "type": "Point", "coordinates": [  -87.6278, 41.8820 ] } }
+]
+}

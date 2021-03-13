@@ -7,9 +7,9 @@ import appStore from './store/modules/app';
 import VueCookies from 'vue-cookies';
 import InfoPopUp, { infoPopUpName } from './components/core/InfoPopUp.vue';
 import VueLazyLoad from 'vue-lazyload';
-import router from './router';
 import store from './store/index';
 import axios from 'axios';
+import router, { getRoutes } from './router';
 
 require('../node_modules/ol/ol.css');
 require('./assets/scss/app.scss');
@@ -60,6 +60,7 @@ fetch('./static/app-conf.json')
     // Examine the text in the response
     response.json().then(function(data) {
       // Make app config accessible for all components
+      router.addRoutes(getRoutes(data));
       Vue.prototype.$appConfig = data;
       new Vue({
         router,

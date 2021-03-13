@@ -1,12 +1,23 @@
 {
-  "title": "Time to change",
-  "baseColor": "red darken-3",
-  "controlsColor": "#dc143c",
+  "app": {
+    "title": "Deep Time Chicago",
+    "color": {
+      "primary": "#00000e",
+      "secondary": "#00000e"
+    },
+    "legend": { "isVisible": false },
+    "sideBar": {
+      "isVisible": true,
+      "backgroundColor": "#fefefe",
+      "textColor": "black"
+    }
+  },
   "map": {
     "projectionCode": "EPSG:3857",
     "minZoom": 1,
     "maxZoom": 21,
     "zoom": 1,
+    "geoserverWorkspace": "deeptime",
     "resolutions": [
       156543.03,
       78271.52,
@@ -32,1568 +43,766 @@
     "layers": [
       {
         "type": "VECTOR",
-        "name": "contested_pipelines",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:contested_pipelines&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "legendDisplayName": "Contested Pipelines",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 10,
-        "minResolution": 1,
-        "maxResolution": 16000,
-        "hoverable": true,
-        "displayInLegend": true,
-        "displaySidebarInfo": true,
-        "legendIcon": "icons/contestedLegendIcon.png",
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "featureStyles": [
-            {
-              "strokeColor": "black",
-              "strokeWidth": 8
-            },
-            {
-              "strokeColor": "#ff6011",
-              "strokeWidth": 5
-            }
-          ]
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "cancelled_pipelines",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:cancelled_pipelines&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
+        "name": "dtc_walks",
+        "url": "geojson/dtc_walks.geojson",
+        "group": "urban_ecology",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Cancelled Pipelines",
-        "displaySidebarInfo": true,
+        "legendDisplayName": "Walkaboutit",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
         "minResolution": 1,
-        "maxResolution": 32000,
-        "hoverable": true,
-        "legendIcon": "icons/legendCancelledPipelines.png",
-        "style": {
-          "type": "line",
-          "stylePropFnRef": {
-            "strokeColor": "variable2"
-          },
-          "strokeWidth": 5,
-          "lineDash": [10]
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "all_pipes",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:all_pipes&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "displaySidebarInfo": true,
-        "legendDisplayName": "Crude Oil Pipelines",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 64000,
-        "opacity": 1,
-        "hoverable": true,
-        "style": {
-          "strokeColor": "black",
-          "strokeWidth": 3
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "global_pipes",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:global_pipes@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "displaySidebarInfo": true,
-        "legendDisplayName": "Crude Oil Pipelines",
-        "sidebarDefaultMedia": {"top": "images/WaterIsLife.png"},
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "hoverable": true,
-        "isInteractive": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "strokeColor": "#272622",
-          "strokeWidth": 3
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "epa_electric_power",
-        "url": "geojson/epa_electric_power.geojson",
-        "group": "petropolisCoal",
-        "queryable": true,
-        "showZoomToFeature": false,
-        "displayInLegend": true,
-        "legendDisplayName": "Electric Power",
-        "format": "GeoJSON",
-        "opacity": 0.8,
-        "visible": false,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 3500,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "style": {
-          "type": "circle",
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "stylePropFnRef": {
-            "circleRadiusFn": "variable2",
-            "fillColor": "variable1"
-          },
-          "strokeColor": "black"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "all_refineries",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:all_refineries&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Refineries",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "type": "circle",
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "stylePropFnRef": {
-            "circleRadiusFn": "variable1"
-          },
-          "strokeColor": "rgba(255, 255, 255, 1)",
-          "strokeWidth": 1,
-          "fillColor": "rgba(0, 0, 0, 0.8)"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "global_power",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:global_power@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Power Plants",
-        "format": "MVT",
-        "renderMode": "vector",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "legendIcon": "icons/legendGlobalPower.png",
-        "style": {
-          "type": "circle",
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "stylePropFnRef": {
-            "circleRadiusFn": "capacity",
-            "fillColor": "colorkey"
-          },
-          "strokeColor": "black"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "petro_onshore",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:petro_onshore@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Onshore Oil&Gas",
-        "format": "MVT",
-        "visible": false,
-        "zIndex": 0,
-        "opacity": 1,
-        "minResolution": 20,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "strokeColor": "#000000",
-          "strokeWidth": 0.5,
-          "fillColor": "rgba(125, 44, 23, 0.7)"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "petro_offshore",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:petro_offshore@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Offshore Oil&Gas",
-        "format": "MVT",
-        "visible": false,
-        "zIndex": 0,
-        "opacity": 1,
-        "minResolution": 20,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "strokeColor": "#000000",
-          "strokeWidth": 0.5,
-          "fillColor": "rgba(218, 121, 219, 0.7)"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "video_pipelines",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:video_pipelines&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Actions & Testimony",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 4891.97,
+        "maxResolution": 1600,
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/Eycon.png",
-          "scale": 0.6,
+          "stylePropFnRef": {
+            "iconUrl": "variable1"
+          },
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
       },
       {
-        "type": "VECTORTILE",
-        "name": "north_america",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:north_america@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "coal",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "North America",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1222.99,
-        "maxResolution": 64000,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "strokeColor": "gray",
-          "strokeWidth": 0.7
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "north_america1",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:north_america@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "coal",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "North America",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 15000,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "strokeColor": "gray",
-          "strokeWidth": 0.7
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "north_america2",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:north_america@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "renewables",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "North America",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 20,
-        "maxResolution": 64000,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "strokeColor": "white",
-          "strokeWidth": 0.6
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "north_america3",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:north_america@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisRenewables",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "North America",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 440,
-        "maxResolution": 64000,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "strokeColor": "gray",
-          "strokeWidth": 1
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "rest_of_world",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:rest-of-world@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "coal",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "Rest of the World",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1222.99,
-        "maxResolution": 64000,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "strokeColor": "gray",
-          "strokeWidth": 0.7
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "rest_of_world1",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:rest-of-world@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "coal",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "Rest of the World",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 15000,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "strokeColor": "gray",
-          "strokeWidth": 0.7
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "rest_of_world2",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:rest-of-world@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "coal",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "Rest of the World",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 20,
-        "maxResolution": 64000,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "strokeColor": "white",
-          "strokeWidth": 0.6
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "all_wind",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:all_wind@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Wind Blows",
-        "format": "MVT",
-        "renderMode": "image",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "strokeColor": "#a51e16",
-          "fillColor": "#ff3b30",
-          "radius": 4
-        }
-      },
-      {
         "type": "VECTOR",
-        "name": "oil_majors",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:oil_majors&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "petropolisOil",
+        "name": "dtc_walks2",
+        "url": "geojson/dtc_walks2.geojson",
+        "group": "urban_ecology",
         "queryable": true,
-        "legendDisplayName": "Top 20 Oil Parade",
+        "displayInLegend": true,
+        "legendDisplayName": "Walkaboutit",
         "format": "GeoJSON",
-        "visible": false,
-        "zIndex": 10,
-        "minResolution": 1,
-        "maxResolution": 32000,
-        "hoverable": true,
-        "displayInLegend": true,
-        "legendIcon": "icons/oil_majorsLegendIcon.png",
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "rgba(176, 31, 20, 1)",
-          "stylePropFnRef": {
-            "iconUrl": "variable2"
-          }
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "all_solar",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:all_solar@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Sun Shines",
-        "format": "MVT",
-        "renderMode": "image",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "label": true,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
         "hoverable": true,
         "style": {
-          "strokeColor": "#fb5c04",
-          "strokeWidth": 0.5,
-          "fillColor": "#FFD241",
-          "radius": 4
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "us_grid",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:us_grid@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "US Grid",
-        "format": "MVT",
-        "renderMode": "hybrid",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 2000,
-        "label": false,
-        "opacity": 0.8,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "gray",
-          "strokeColor": "#009df5",
           "stylePropFnRef": {
-            "strokeWidth": "variable1"
+            "iconUrl": "variable1"
           },
-          "lineDash": [0]
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "na_grid",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:na_grid@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "oil",
-        "queryable": false,
-        "displayInLegend": true,
-        "legendDisplayName": "North American Grid",
-        "format": "MVT",
-        "renderMode": "image",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "label": false,
-        "hoverable": false,
-        "style": {
-          "strokeColor": "#009df5",
-          "width": 1.6
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
         "type": "VECTOR",
-        "name": "epa_refineries",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:epa_refineries&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
+        "name": "witness_tree",
+        "url": "geojson/witness.geojson",
+        "group": "urban_ecology",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "EPA Refineries",
+        "legendDisplayName": "Witness Tree",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
         "minResolution": 1,
-        "maxResolution": 2445.98,
+        "maxResolution": 1600,
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/Refinery0.png",
-          "stylePropFnRef": {
-            "iconScaleFn": "variable2"
-          }
+          "iconUrl": "icons/dt35/DTC9.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
         "type": "VECTOR",
-        "name": "Terminals",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:terminals&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Oil Terminals",
-        "sidebarDefaultMedia": {"top": "images/Iridescent.png", "bottom": "images/Iridescent2.png"},
-        "format": "GeoJSON",
-        "visible": false,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 1222.99,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/terminal.png",
-          "scale": 0.6
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "crude_derailment",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:crude_derailments&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Crude Derailments",
-        "format": "GeoJSON",
-        "visible": false,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 2445.98,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/Explosion3.png",
-          "scale": 0.8
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "Spills_20yrs",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:spills_20yrs&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "showZoomToFeature": false,
-        "displayInLegend": true,
-        "legendDisplayName": "Spills, Last 20 years",
-        "format": "GeoJSON",
-        "visible": false,
-        "zIndex": 0,
-        "minResolution": 4,
-        "maxResolution": 1222.99,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "variable1"
-          },
-          "strokeColor": "rgba(175, 21, 21, 0.7)",
-          "fillColor": "rgba(175, 21, 21, 0.4)"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "MacLean",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:maclean&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
+        "name": "dtc_galleries",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:dtc_galleries&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
         "queryable": true,
         "displayInLegend": false,
-        "legendDisplayName": "MacLean",
+        "legendDisplayName": "Walkaboutit",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
         "minResolution": 1,
-        "maxResolution": 4000,
+        "maxResolution": 1600,
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/Eycon.png",
-          "scale": 0.6
+          "iconUrl": "icons/dt35/DTC2.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
         "type": "VECTOR",
-        "name": "tar_sands",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:tar_sands&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": false,
+        "name": "dtc_galleries2",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:dtc_galleries&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
+        "queryable": true,
         "displayInLegend": false,
+        "legendDisplayName": "Walkaboutit",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 2000,
-        "maxResolution": 16000,
+        "minResolution": 1500,
+        "maxResolution": 8000,
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/TarSands.png",
-          "scale": 0.6
-        }
-      },
-      {
-        "type": "XYZ",
-        "name": "Toner-Labels",
-        "group": "oil",
-        "url": "https://stamen-tiles-{a-d}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.png",
-        "minResolution": 1222.99,
-        "maxResolution": 9783.94,
-        "queryable": false,
-        "visible": true,
-        "opacity": 0.99
-      },
-      {
-        "type": "XYZ",
-        "name": "Terrain-Labels",
-        "group": "oil",
-        "url": "https://stamen-tiles-{a-d}.a.ssl.fastly.net/terrain-labels/{z}/{x}/{y}.png",
-        "minResolution": 1,
-        "maxResolution": 7000,
-        "queryable": false,
-        "visible": true,
-        "opacity": 0.99
-      },
-      {
-        "type": "XYZ",
-        "name": "Toner-Lite",
-        "group": "oil",
-        "url": "https://stamen-tiles-{a-d}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png",
-        "minResolution": 0.25,
-        "maxResolution": 1222.99,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "Toner-Lite1",
-        "group": "petropolisOil",
-        "url": "https://stamen-tiles-{a-d}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png",
-        "minResolution": 0.25,
-        "maxResolution": 1500,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "Toner-Lite2",
-        "group": "oil",
-        "url": "https://stamen-tiles-{a-d}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png",
-        "minResolution": 305.76,
-        "maxResolution": 1222.99,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "VECTOR",
-        "name": "OilPorts",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:oil_ports&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Oil Ports",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 2445.98,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/OilPort.png",
-          "scale": 0.8
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "major_gas_pipes",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:major_gas_pipes@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "gas",
-        "includeInSearch": false,
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Major Gas Pipes",
-        "format": "MVT",
-        "visible": false,
-        "hoverable": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 4891.97,
-        "isInteractive": true,
-        "style": {
-          "styleRef": "colorMapStyle",
-          "colorField": "Operator",
-          "colormap": "bluered"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "gas_pipes",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:gas_pipes@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "gas",
-        "includeInSearch": false,
-        "renderMode": "vector",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Natural Gas Pipes",
-        "format": "MVT",
-        "visible": false,
-        "hoverable": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 4891.97,
-        "isInteractive": true,
-        "legendIcon": "icons/GasColors.png",
-        "style": {
+          "iconUrl": "icons/dt20/DTC2.png",
+          "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "styleRef": "colorMapStyle",
-          "colorField": "entity",
-          "colormap": "blackbody"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "gas1",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:gas@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil&Gas",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Natural Gas Generators",
-        "format": "MVT",
-        "visible": false,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 4891.97,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/NatGas3.png",
-          "scale": 0.4
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
         "type": "VECTOR",
-        "name": "LNGterminals",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:lng_terminals&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "gas",
+        "name": "born_secret",
+        "url": "geojson/born_secret.geojson",
+        "group": "urban_ecology",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "LNG Terminals",
-        "format": "GeoJSON",
-        "visible": false,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 4891.97,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/LNGterminal.png",
-          "scale": 0.6
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "all_permits",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:all_permits&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "New Permits",
-        "format": "GeoJSON",
-        "visible": false,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 4891.97,
-        "label": null,
-        "hoverable": true,
-        "legendIcon": "icons/PermitsLegendIcon.png",
-        "style": {
-          "type": "circle",
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "stylePropFnRef": {
-            "circleRadiusFn": "variable1",
-            "fillColor": "variable2"
-          },
-          "strokeColor": "black"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "ContestedGasLines1",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:contested_gas_lines&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "gas",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Contested Gas Lines",
+        "legendDisplayName": "Born Secret",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
         "minResolution": 0.25,
-        "maxResolution": 16000,
-        "hoverable": true,
-        "style": {
-          "strokeColor": "black",
-          "strokeWidth": 6.5
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "Global_LNG",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:global_lng&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "gas",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Global LNG",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 64000,
+        "maxResolution": 1600,
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/LNGtanker.png"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "coal_global1",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:coal_global@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisCoal",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Coal",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 64000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/CoalPower2.png",
-          "scale": 0.7,
+          "iconUrl": "icons/dt35/DTC5.png",
+          "scale": 1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconAnchor": [0.5, 50],
-          "iconAnchorXUnits": "fraction",
-          "iconAnchorYUnits": "pixels"
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
         "type": "VECTOR",
-        "name": "Coal_Mines",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:coal_mines&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "coal",
+        "name": "inheritance",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:inheritance&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
         "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Coal Mines",
+        "displayInLegend": false,
+        "legendDisplayName": "Inheritance",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 4,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC3.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "refugium",
+        "url": "geojson/refugium.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Refugium for a Post-Anthropocenic World",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC3.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "ignis_noster",
+        "url": "geojson/ignis_noster.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Ignis Noster",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC10.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "lounging",
+        "url": "geojson/lounging.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Lounging through the Flood",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC6.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "hopium",
+        "url": "geojson/hopium.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Hopium Economy",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC10.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "hopium2",
+        "url": "geojson/hopium2.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Hopium Economy",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC10.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "timeslips",
+        "url": "geojson/timeslips.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Timeslips",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC4.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "confluence_ecologies",
+        "url": "geojson/confluence_ecologies.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Confluence Ecologies",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC2.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "chicken_tenders",
+        "url": "geojson/chicken_tenders.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Chicken Tenders",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt35/DTC1.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "witness_tree2",
+        "url": "geojson/witness.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Witness Tree",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC9.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "born_secret2",
+        "url": "geojson/born_secret.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Born Secret",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 1600,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC5.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "inheritance2",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:inheritance&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Inheritance",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC3.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "refugium2",
+        "url": "geojson/refugium.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Refugium for a Post-Anthropocenic World",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC3.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "ignis_noster2",
+        "url": "geojson/ignis_noster.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Ignis Noster",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC10.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "lounging2",
+        "url": "geojson/lounging.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Lounging through the Flood",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC6.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "hopium_2",
+        "url": "geojson/hopium.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Hopium Economy",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC10.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "hopium_22",
+        "url": "geojson/hopium2.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Hopium Economy",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC10.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "timeslips2",
+        "url": "geojson/timeslips.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Timeslips",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC4.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "confluence_ecologies2",
+        "url": "geojson/confluence_ecologies.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Confluence Ecologies",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC2.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "chicken_tenders2",
+        "url": "geojson/chicken_tenders.geojson",
+        "group": "urban_ecology",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Chicken Tenders",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1200,
+        "maxResolution": 12000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/dt20/DTC1.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "miss_coal_ghg",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_ghg&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "headwaters_il",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Coal Power",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
         "maxResolution": 64000,
         "label": null,
         "hoverable": true,
         "style": {
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "variable2"
-          },
-          "strokeColor": "rgba(255, 255, 255, 1)",
-          "fillColor": "rgba(150, 88, 70, 0.8)"
+          "iconUrl": "icons/mapIcons-1.3.png",
+          "scale": 0.5,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
         "type": "VECTOR",
-        "name": "CoalAsh",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:coal_ash&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "coal",
+        "name": "miss_coal_ash",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_ash&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "headwaters_il",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Coal Ash",
+        "legendDisplayName": "Regulated Coal Ash",
         "format": "GeoJSON",
         "visible": true,
-        "zIndex": 100,
+        "zIndex": 0,
         "minResolution": 1,
-        "maxResolution": 1223,
+        "maxResolution": 800,
         "label": null,
         "hoverable": true,
         "style": {
-          "iconUrl": "icons/AshHeap.png",
+          "iconUrl": "icons/mapIcons-2.1.png",
           "scale": 0.4,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
       },
       {
-        "type": "XYZ",
-        "name": "railway_map",
-        "group": "petropolisCoalLocal",
-        "url": "http://c.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png",
-        "minResolution": 1,
-        "maxResolution": 1223,
-        "opacity": 0.99,
-        "queryable": false,
-        "visible": true,
-        "legendDisplayName": "Open Railway Map",
-        "legendIcon": "icons/OpenRailwayLegend.png",
-        "displayInLegend": true
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "abandoned_mines",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:abandoned_mines@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "coal",
-        "renderMode": "image",
-        "includeInSearch": false,
+        "type": "VECTOR",
+        "name": "miss_legacy_ash",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_legacy_ash&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "headwaters_il",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Abandoned Mines",
-        "format": "MVT",
+        "legendDisplayName": "Legacy Coal Site",
+        "format": "GeoJSON",
         "visible": true,
-        "hoverable": true,
         "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 800,
-        "isInteractive": true,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "label": null,
+        "hoverable": true,
         "style": {
-          "type": "circle",
-          "radius": 4,
-          "strokeColor": "black",
-          "strokeWidth": 0.5,
-          "fillColor": "#dc143c"
+          "iconUrl": "icons/LegacyPlant.png",
+          "scale": 0.5,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
         "type": "VECTOR",
-        "name": "steel",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:steel&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "petropolisCoal",
+        "name": "miss_tri",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_tri&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "urban_ecology",
         "queryable": true,
-        "showZoomToFeature": false,
         "displayInLegend": true,
-        "legendDisplayName": "Steel Mills",
+        "legendDisplayName": "Toxics Release Inventory",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 4000,
+        "minResolution": 0.25,
+        "maxResolution": 400,
         "label": null,
         "hoverable": true,
-        "isInteractive": true,
         "style": {
           "type": "circle",
-          "radius": 6,
+          "radius": 24,
+          "stylePropFnRef": {
+            "fillColor": "variable1"
+          },
           "strokeColor": "white",
-          "strokeWidth": 0.5,
-          "fillColor": "#3f51b2"
+          "strokeWidth": 1
         }
       },
       {
         "type": "VECTOR",
-        "name": "cement",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=petropolis:cement&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "petropolisCoal",
+        "name": "other_pipes",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:other_pipes&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "oil",
         "queryable": true,
-        "showZoomToFeature": false,
         "displayInLegend": true,
-        "legendDisplayName": "Cement Plants",
+        "legendDisplayName": "Crude Oil Pipelines",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 4000,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "style": {
-          "type": "circle",
-          "radius": 6,
-          "strokeColor": "white",
-          "strokeWidth": 0.5,
-          "fillColor": "#F88017"
-        }
-      },
-
-      {
-        "type": "XYZ",
-        "name": "Open-Railway-Map",
-        "group": "backgroundLayers",
-        "url": "https://{a-c}.tiles.openrailwaymap.org/signals/{z}/{x}/{y}.png",
-        "minResolution": 2,
-        "maxResolution": 4000,
-        "crossOrigin": null,
-        "tilePixelRatio": 2,
-        "maxZoom": 2,
-        "opaque": false,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "na_rr",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:na_rr@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisCoal",
-        "renderMode": "image",
-        "includeInSearch": false,
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Railroads",
-        "format": "MVT",
-        "visible": true,
-        "hoverable": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 4000,
-        "isInteractive": false,
-        "legendIcon": "icons/legendRailroad.png",
-        "style": {
-          "strokeColor": "silver",
-          "strokeWidth": 0.5
-        }
-      },
-
-     
-
-      {
-        "type": "XYZ",
-        "name": "il_layer",
-        "group": "backgroundLayers",
-        "url": "./styles/racial_dot/{z}/{x}/{y}.png",
-        "legendDisplayName": "Racial Dot",
-        "legendIcon": "icons/legendRailroad.png",
-        "queryable": false,
-        "displayInLegend": true,
-        "visible": true
-      },
-
-      {
-        "type": "VECTORTILE",
-        "name": "publically_owned_utilities",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:publically_owned_utilities@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisRenewables",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Public Utilities",
-        "format": "MVT",
-        "renderMode": "hybrid",
-        "visible": false,
-        "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 1,
         "maxResolution": 64000,
-        "label": true,
         "hoverable": true,
         "isInteractive": true,
-        "opacity": 0.6,
-        "legendIcon": "icons/legendPublicUtilities.png",
+        "style": {
+          "strokeColor": "gray",
+          "strokeWidth": 3
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "enbridge_pipes",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:enbridge_pipes&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "oil",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Enbridge Pipelines",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "hoverable": true,
+        "isInteractive": true,
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
-          "styleRef": "colorMapStyle",
-          "colorField": "title",
-          "colormap": "portland",
-          "strokeWidth": 1,
-          "strokeColor": "black"
+          "strokeColor": "#44103c",
+          "strokeWidth": 5,
+          "opacity": 1
         }
       },
       {
-        "type": "VECTORTILE",
-        "name": "investor_owned",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:investor_owned@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisRenewables",
+        "type": "VECTOR",
+        "name": "line3_replacement",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:line3_replacement&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "oil",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Investor Owned",
-        "format": "MVT",
-        "renderMode": "hybrid",
-        "visible": false,
+        "legendDisplayName": "Line 3 \"Replacement\"",
+        "format": "GeoJSON",
+        "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 1,
         "maxResolution": 64000,
-        "label": true,
         "hoverable": true,
         "isInteractive": true,
-        "opacity": 0.7,
-        "legendIcon": "icons/legendInvestorOwned.png",
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
-          "styleRef": "colorMapStyle",
-          "colorField": "title",
-          "colormap": "blackbody",
-          "strokeWidth": 2,
-          "strokeColor": "black"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "all_solar2",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:all_solar@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Solar Electricity",
-        "format": "MVT",
-        "renderMode": "image",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 2000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "black",
-          "hoverBackgroundColor": "#FFD241",
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "variable2"
-          },
+          "stylePropFnRef": {},
           "strokeColor": "#000000",
-          "strokeWidth": 1,
-          "fillColor": "#FFD241"
+          "strokeWidth": 5,
+          "lineDash": [10]
         }
       },
       {
-        "type": "VECTORTILE",
-        "name": "all_wind2",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:all_wind@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil",
+        "type": "VECTOR",
+        "name": "epa_refineries",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:epa_refineries&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "headwaters_mn",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Wind Electricity",
-        "format": "MVT",
-        "renderMode": "image",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 2000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "black",
-          "hoverBackgroundColor": "#ff3b30",
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "variable2"
-          },
-          "strokeColor": "#000000",
-          "strokeWidth": 1,
-          "fillColor": "#ff3b30"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "hydro_power",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:hydro_power@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Hydro Power",
-        "format": "MVT",
-        "renderMode": "image",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 900,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "type": "circle",
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#3f8ef5",
-          "stylePropFnRef": {
-            "circleRadiusFn": "capacity"
-          },
-          "strokeColor": "#142c76",
-          "strokeWidth": 0.8,
-          "fillColor": "#3f8ef5"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "nuclear_power",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:nuclear_power@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Nuclear Power",
-        "format": "MVT",
-        "renderMode": "image",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 900,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#AC129A",
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "capacity"
-          },
-          "strokeColor": "#000000",
-          "fillColor": "#AC129A"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "geothermal",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:geothermal@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Geothermal",
-        "format": "MVT",
-        "renderMode": "image",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 900,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "black",
-          "hoverBackgroundColor": "#D05B6E",
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "capacity"
-          },
-          "strokeColor": "#000000",
-          "strokeWidth": 1,
-          "fillColor": "#D05B6E"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "wave_tidal",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:wave_tidal@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Wave & Tide",
-        "format": "MVT",
-        "renderMode": "image",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 900,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "black",
-          "hoverBackgroundColor": "#20B1AA",
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "capacity"
-          },
-          "strokeColor": "#000000",
-          "strokeWidth": 1,
-          "fillColor": "#20B1AA"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "gas2",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:gas@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil&Gas",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Natural Gas",
-        "format": "MVT",
+        "legendDisplayName": "US Refineries",
+        "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
         "minResolution": 1,
-        "maxResolution": 900,
+        "maxResolution": 2445.98,
         "label": null,
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#ec6e23",
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "capacity"
-          },
-          "strokeColor": "#000000",
-          "strokeWidth": 1,
-          "fillColor": "#ec6e23"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "coal_global2",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:coal@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisCoal",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Coal-Fired",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 900,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "darkgray",
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "capacity"
-          },
-          "strokeColor": "black",
-          "strokeWidth": 1,
-          "fillColor": "darkgray"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "oil",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:oil@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil&Gas",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Oil-Fired",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 900,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#965846",
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "capacity"
-          },
-          "strokeColor": "#000000",
-          "strokeWidth": 1,
-          "fillColor": "#965846"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "biomass",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:biomass@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil&Gas",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Biomass Electricity",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 900,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#294A34",
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "capacity"
-          },
-          "strokeColor": "#000000",
-          "strokeWidth": 1,
-          "fillColor": "#294A34"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "waste",
-        "url": "./geoserver/gwc/service/tms/1.0.0/petropolis:waste@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "petropolisOil&Gas",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Waste Electricity",
-        "format": "MVT",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 900,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "gray",
-          "type": "circle",
-          "stylePropFnRef": {
-            "circleRadiusFn": "capacity"
-          },
-          "strokeColor": "#000000",
-          "strokeWidth": 1,
-          "fillColor": "gray"
+          "hoverBackgroundColor": "#000000",
+          "iconUrl": "icons/refinery.png",
+          "scale": 0.8
         }
       },
 
       {
         "type": "XYZ",
-        "name": "Base_Midnight",
+        "name": "urban_ecology",
         "group": "backgroundLayers",
-        "url": "https://cartocdn_{a-d}.global.ssl.fastly.net/base-midnight/{z}/{x}/{y}.png",
-        "minResolution": 439,
-        "maxResolution": 64000,
-        "opacity": 0.8,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "PositronLabels",
-        "group": "backgroundLayers",
-        "url": "https://{a-d}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png",
-        "minResolution": 439,
-        "maxResolution": 64000,
-        "opacity": 0.8,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "Citylights-2012",
-        "group": "backgroundLayers",
-        "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_CityLights_2012/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg",
-        "minResolution": 901,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "Dark2",
-        "group": "backgroundLayers",
-        "url": "https://{a-d}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
-        "minResolution": 0.25,
-        "maxResolution": 900,
-        "opacity": 0.9,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "Dark",
-        "group": "backgroundLayers",
-        "url": "https://{a-d}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
-        "minResolution": 56,
-        "opacity": 1,
-        "queryable": false,
-        "zIndex": -10,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "Dark1",
-        "group": "backgroundLayers",
-        "url": "https://{a-d}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
-        "minResolution": 0.25,
-        "opacity": 1,
-        "queryable": false,
-        "zIndex": -10,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "Dark2",
-        "group": "backgroundLayers",
-        "url": "https://{a-d}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png",
-        "minResolution": 0.25,
-        "maxResolution": 700,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "ESRI-World-Terrain",
-        "group": "backgroundLayers",
-        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 80,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "ESRI-World-Street-Map",
-        "group": "backgroundLayers",
-        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}.png",
-        "minResolution": 0.25,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "maptiler_topo",
-        "group": "backgroundLayers",
-        "url": "https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}.png?key=JsAgs5z1cl0FbVKCSe5V",
-        "minResolution": 0.25,
-        "maxResolution": 1223,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "maptiler_topo1",
-        "group": "backgroundLayers",
-        "url": "https://devtiles.timetochange.today/styles/racial_dot/{z}/{x}/{y}@2x.jpg",
-        "minResolution": 0.25,
-        "maxResolution": 16000,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "maptiler_topo2",
-        "group": "backgroundLayers",
-        "url": "https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}.png?key=JsAgs5z1cl0FbVKCSe5V",
+        "url": "https://api.maptiler.com/maps/e2be1255-22fd-497c-b2f7-66fd83718ae6/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0,
-        "maxResolution": 56,
+        "maxResolution": 64000,
         "opacity": 1,
         "queryable": false,
         "visible": true,
@@ -1601,354 +810,170 @@
       },
       {
         "type": "XYZ",
-        "name": "ESRI-World-Reference",
+        "name": "headwaters",
         "group": "backgroundLayers",
-        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 200,
-        "maxResolution": 2000,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "ESRI-World-Imagery",
-        "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0.25,
-        "maxResolution": 20,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "us_imagery",
-        "group": "coal",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 20,
+        "maxResolution": 6400,
+        "opacity": 1,
         "queryable": false,
         "visible": true,
-        "legendDisplayName": "USGS Spotlight",
-        "legendIcon": "icons/imageryLegendIcon.png",
-        "displayInLegend": false
+        "updatewhileanimating": true
       },
       {
         "type": "XYZ",
-        "name": "ESRI-World-Imagery2",
+        "name": "headwaters_mn",
         "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "url": "https://api.maptiler.com/maps/fd000e8f-ff38-4076-bd36-db44bb3e7785/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0.25,
-        "maxResolution": 64000,
+        "opacity": 1,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "imagery",
+        "group": "backgroundLayers",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
+        "minResolution": 0.25,
+        "maxResolution": 1000,
         "queryable": false,
         "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "ESRI-World-Imagery3",
-        "group": "coal",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 3,
-        "queryable": false,
-        "visible": true,
-        "displayInLegend": true
-      },
-      {
-        "type": "XYZ",
-        "name": "SunPotential",
-        "group": "petropolisRenewables",
-        "url": "https://s3.us-east-2.amazonaws.com/ecotopia.today/Data/SunPotential/{z}/{x}/{y}.png",
-        "minResolution": 20,
-        "maxResolution": 64000,
-        "queryable": false,
-        "visible": false,
-        "opacity": 0.7,
-        "legendDisplayName": "Potential Solar",
-        "legendIcon": "icons/legendSunPotential.png",
-        "displayInLegend": true
-      },
-      {
-        "type": "XYZ",
-        "name": "wind_potential",
-        "group": "petropolisRenewables",
-        "url": "https://s3.us-east-2.amazonaws.com/ecotopia.today/Data/WindPotential/{z}/{x}/{y}.png",
-        "minResolution": 20,
-        "maxResolution": 64000,
-        "queryable": false,
-        "visible": false,
-        "opacity": 0.9,
-        "legendDisplayName": "Potential Wind",
-        "legendIcon": "icons/legendWindPotential.png",
-        "displayInLegend": true
-      },
-      {
-        "type": "BING-QUADKEY",
-        "name": "BING-Layer",
-        "group": "backgroundLayers",
-        "url": "https://t0.tiles.virtualearth.net/tiles/t",
-        "maxZoom": 19,
-        "visible": true,
-        "attributions": "© Microsoft Coorporation © Digital Globe ©CNES Distribution Airbus DS <a href='https://www.microsoft.com/en-us/maps/product'>Terms of use</a> "
       }
     ],
-
+    "flyToSlideshow": {
+      "delayInSecondsForInitialStart": 900,
+      "delayInSecondsBetweenFrames": 12,
+      "maplinks": [
+        "/#/urban_ecology?center=40.552,-89.171&zoom=5.505&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri&sidebar=true", "/#/urban_ecology?center=42.052,-87.928&zoom=7.254&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri&sidebar=true", "/#/urban_ecology?center=41.841,-87.753&zoom=9.320&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri", "/#/urban_ecology?center=41.872,-87.677&zoom=11.517&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri", "/#/urban_ecology?center=41.880,-87.653&zoom=16.000&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri", "/#/headwaters_il?center=40.026,-92.577&zoom=4.190&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.040,-88.730&zoom=6.322&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.096,-87.681&zoom=10.038&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.878,-88.650&zoom=13.624&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.548,-89.680&zoom=13.889&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_mn?center=46.349,-93.311&zoom=3.009&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=29.668,-95.174&zoom=8.446&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=35.941,-96.746&zoom=13.269&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=44.325,-90.038&zoom=4.995&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=46.349,-93.679&zoom=5.737&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=47.145,-94.660&zoom=7.726&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=46.699,-93.506&zoom=13.092&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=46.698,-93.498&zoom=15.328&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries"
+      ]
+    },
     "groups": {
-      "oil": {
+      "headwaters_il": {
         "default": {
           "layers": [
-            "Toner-Lite",
-            "Toner-Labels",
-            "maptiler_topo",
-            "rest_of_world",
-            "north_america",
-            "ESRI-World-Imagery",
-            "gas_pipes",
-            "Spills_20yrs",
-            "cancelled_pipelines",
-            "global_pipes",
-            "contested_pipelines",
-            "Terminals",
-            "epa_refineries",
-            "LNGterminals",
-            "all_permits",
-            "crude_derailment",
-            "gas1",
-            "MacLean",
-            "tar_sands",
-            "video_pipelines",
-            "il_layer"
+            "headwaters",
+            "miss_coal_ash",
+            "miss_legacy_ash",
+            "miss_coal_ghg"
           ],
-          "center": [-103, 42.0],
-          "resolution": 8500,
+          "center": [-88.73, 40.04],
+          "resolution": 800,
           "minResolution": 0.25,
-          "maxResolution": 32000,
-          "sidePanel": {
-            "legendUrl": "images/NoPipelineEver.png",
-            "bodyText": "<em>No Pipelines</em> by Landon Sheely, <a href='https://landonsheely.com/post/149729117542/no-pipeline-anywhere-ever-landon-sheely-2016' target='_blank'>source</a><br><br>",
-            "headerText": "There are forms of civilization that have to disappear. You're looking at one of them. It's the Great River of Oil, known to Indigenous peoples as the Black Snake, writhing from the Tar Sands all the way to the Gulf of Mexico.",
-            "bodyText1": "Examine the energy systems of this world and ask yourself one question: What does \"decarbonization\" really mean? Does it mean ceasing to burn any fossil fuels whatsoever&mdash;and therefore, dismantling entire industries? How to do that while maintaining livelihoods and avoiding civil war? Could restorative employment at the neighborhood level change some basic rules of capitalist democracy? Could the results turn out better for everyone involved?"
-          }
+          "maxResolution": 64000
         },
         "local": {
-          "layers": [
-            "Toner-Lite",
-            "Toner-Labels",
-            "maptiler_topo",
-            "rest_of_world",
-            "north_america",
-            "ESRI-World-Imagery",
-            "gas_pipes",
-            "Spills_20yrs",
-            "cancelled_pipelines",
-            "global_pipes",
-            "contested_pipelines",
-            "Terminals",
-            "epa_refineries",
-            "LNGterminals",
-            "all_permits",
-            "crude_derailment",
-            "gas1",
-            "MacLean",
-            "video_pipelines"
-          ],
+          "layers": [],
           "center": [-99, 42.9],
           "resolution": 9000,
           "minResolution": 0.25,
-          "maxResolution": 32000,
-          "sidePanel": {
-            "legendUrl": "images/FenceNoPipeline.png",
-            "headerText": "A map is an instrument of perception. It can expand your awareness of things around you.",
-            "bodyText1": "In the 2010's North America was overtaken by pipeline frenzy&mdash;and by explosive growth in oil-by-rail transport. These were only the most visible signs of a decade-long investment boom in the oil patch: new drilling technologies, expanding refineries, existing pipelines reversed toward Gulf Coast ports, and proliferating natural gas infrastructure (including new facilities for plastics and synthetic nitrogen). With fracking as well as regulatory rollback, North America became a major exporter of fossil fuels in the 2010s, with continual pressure to build more pipelines for ubiquitous natural gas, Bakken crude and Canadian Tar Sands production. The consequences of that decade&mdash;and increasingly, its ruins&mdash;can be seen in every region.",
-            "bodyText2": "As energy prices strike pandemic lows and the entire shale-oil industry rolls over into bankruptcy, many people are wondering: Isn't there a better way to prepare for onrushing climate change? What's society's next move?"
-          }
+          "maxResolution": 32000
         },
         "global": {
-          "layers": [
-            "ESRI-World-Terrain",
-            "Toner-Lite1",
-            "petro_onshore",
-            "petro_offshore",
-            "ESRI-World-Imagery",
-            "rest_of_world1",
-            "north_america1",
-            "global_pipes",
-            "all_refineries",
-            "oil_majors"
-          ],
-          "center": [-5, 30],
-          "resolution": 64000,
-          "minResolution": 0.25,
-          "maxResolution": 64000,
-          "sidePanel": {
-            "legendUrl": "images/OilHead.png",
-            "headerText": "The oil industry has held the world in political lockdown since the Seventies. Permanent war and climate change are the heavy costs of cheap fuel.",
-            "bodyText1": "This is why the progressive left seeks transformative investment in renewables. The aim is to find a pathway through the current depression, toward a viable future. But it's not just a dream, it's a policy. The International Energy Agency aka World Bank calls for a <a href='https://www.iea.org/reports/sustainable-recovery' traget='_blank'>Sustainable Recovery</a>, which means printing billions of dollars for new energy technologies and broader social retooling. The EU has already embarked on its <a href='https://ec.europa.eu/info/strategy/priorities-2019-2024/european-green-deal_en' target='_blank'>European Green Deal</a>, putting that theory into practice. In the US, civil rights activists and climate campaigners have come together around the <https://ocasio-cortez.house.gov/sites/ocasio-cortez.house.gov/files/Resolution%20on%20a%20Green%20New%20Deal.pdf' target='_blank'>Green New Deal</a> launched by Alexandria Ocasio-Cortez and the Sunrise Movement.",
-            "bodyText2": "Only grassroots pressure can keep these plans focused on social and environmental justice. It's not just about rebuilding the energy system, it's about remaking society. We have to push back against the dead weight of fossil bureaucracies&mdash;while learning how everyone can contribute to a restorative economy."
-          }
-        }
-      },
-      "coal": {
-        "default": {
-          "layers": [
-            "Dark",
-            "maptiler_topo1",
-            "rest_of_world",
-            "ESRI-World-Imagery3",
-            "epa_electric_power"
-          ],
-          "center": [-103, 42.0],
-          "resolution": 6500,
-          "minResolution": 0,
-          "maxResolution": 32000,
-          "sidePanel": {
-            "legendUrl": "images/Longwall.png",
-            "headerText": "In the 20th century, every new coal plant spelled progress. But in the US, half of them have shut down over the past decade. Cheap natural gas and heavy environmental regulation made them too expensive&mdash;a positive outcome, since CO2 from coal is the largest factor in climate change. Now's the time to phase out coal entirely, while protecting the communities that still depend on it.",
-            "bodyText1": "Red-and-white smokestacks mark the remaining generators. Dive in to see them on the ground, hooked directly into the river, with large cooling ponds and waste dumps exposed to the floods. Brown circles represent many thousands of active underground and surface mines in the Midwest and Northeast, and a smaller number of vastly more productive strip mines in the West. Why maintain employment in an increasingly automated industry that promises to kill ourselves and every other species? Why not take care of the workers by hiring them for restoration projects&mdash;like cleaning up the toxic legacies of coal?"
-          }
-        },
-        "local": {
-          "layers": [
-            "Dark",
-            "maptiler_topo",
-            "rest_of_world",
-            "north_america3",
-            "railway_map",
-            "ESRI-World-Imagery",
-            "abandoned_mines",
-            "cement",
-            "steel",
-            "coal_global1",
-            "Coal_Mines",
-            "CoalAsh"
-          ],
-          "center": [-99, 42.9],
-          "resolution": 9000,
-          "minResolution": 0,
-          "maxResolution": 32000,
-          "sidePanel": {
-            "legendUrl": "images/Coalman.png",
-            "headerText": "To make electricity, pulverized coal is blown into furnaces to boil water for turbines. Coal is also used for very high heat in steel and cement plants. Rail and barge are fundamental for transport. Together these make up the diagram of early 20th-century modernism&mdash;grandfathered in by law, but obsolete and dangerous.",
-            "bodyText1": "Coal power yields an easily forgotten byproduct: toxic ash heaps known as \"Coal Cumbustion Residuals.\" CCRs contain trace metals such as arsenic, beryllium, boron, cadmium, chromium, hexavalent chromium, cobalt, lead, manganese, mercury, molybdenum, selenium, strontium, thallium or vanadium. The ash is slurried to de-watering pools near the plants, almost always on river floodplains. Over time, the toxic metals can leak into the groundwater, especially if the containment ponds are not protectively lined. In a flood, thousands of tons of ash can reliquefy and pollute large areas. As for the abandoned mineshafts&mdash;the descriptions in the data are sobering. Once cleanup is factored in, there will be no shortage of employment in the twenty-first century."
-          }
-        },
-        "global": {
-          "layers": [
-            "Toner-Lite2",
-            "maptiler_topo",
-            "Dark",
-            "rest_of_world",
-            "north_america",
-            "ESRI-World-Imagery",
-            "coal_global1"
-          ],
+          "layers": [],
           "center": [2.44, 30.81],
           "resolution": 25000,
           "minResolution": 0.25,
-          "maxResolution": 64000,
-          "sidePanel": {
-            "legendUrl": "images/Coalcloud.png",
-            "headerText": "China, India and other Asian countries have grown consumer economies at unbelievable speed, attaining Western standards in one generation. Can they live through the environmental consequences of prosperity? ",
-            "bodyText1": "The largest historical producers of CO2 have a responsibility to invest in solutions to the climate crisis. Yet the US has continually sought to flee that responsibility. It's an attitude that can't last. After the American-led globalization of the Nineties, with its speed-up of production, there is no realistic way to escape major climate impacts in the very short term. The question is whether societies can find the strength for a fundamental change of course over the upcoming few decades. Can the tremendous human energy that built all these coal-fired plants find a constructive pathway beyond the old industrial system?"
-          }
+          "maxResolution": 64000
         }
       },
-      "renewables": {
+      "urban_ecology": {
         "default": {
           "layers": [
-            "Dark2",
-            "Citylights-2012",
-            "na_grid",
-            "rest_of_world2",
-            "north_america2",
-            "ESRI-World-Imagery",
-            "all_solar",
-            "all_wind",
-            "geothermal",
-            "wave_tidal",
-            "hydro_power",
-            "nuclear_power",
-            "gas2",
-            "coal_global2",
-            "oil",
-            "biomass",
-            "waste"
+            "urban_ecology",
+            "miss_tri",
+            "dtc_walks",
+            "dtc_walks2",
+            "dtc_galleries",
+            "dtc_galleries2",
+            "inheritance",
+            "inheritance2",
+            "refugium",
+            "refugium2",
+            "timeslips",
+            "timeslips2",
+            "born_secret",
+            "born_secret2",
+            "ignis_noster",
+            "ignis_noster2",
+            "lounging",
+            "lounging2",
+            "hopium",
+            "hopium2",
+            "hopium_2",
+            "hopium_22",
+            "witness_tree",
+            "witness_tree2",
+            "confluence_ecologies",
+            "confluence_ecologies2",
+            "chicken_tenders",
+            "chicken_tenders2"
           ],
-          "center": [-103, 42.0],
-          "resolution": 8500,
-          "minResolution": 0.25,
-          "maxResolution": 32000,
-          "sidePanel": {
-            "legendUrl": "images/SolarSculpture.png",
-            "headerText": "What would it be like to build a new society?",
-            "bodyText1": "The pandemic is a nightmare&mdash;but it's also a historic opportunity. Oil companies are falling into bankruptcy. New pipelines are being stopped in the courts. Investors are betting on renewables. The potential is real&mdash;just look at this map of already existing low-carbon electricity.",
-            "bodyText2": "With government support, entire branches of the energy sector could be replaced outright. New kinds of eco-tech jobs would be created alongside community solar projects and pervasive climate retrofitting in the neighborhoods. Without that kind of meaningful employment, society has become a nightmare. But the point is to turn it in a different direction.",
-            "bodyText3": "Now's the time. Before it's too late. In the midst of a breakdown we finally have a chance to do things differently."
-          }
+          "center": [-88.421, 41.742],
+          "resolution": 800,
+          "minResolution": 0,
+          "maxResolution": 64000
         },
         "local": {
+          "layers": [],
+          "center": [-99, 42.9],
+          "resolution": 9000,
+          "minResolution": 0.25,
+          "maxResolution": 32000
+        },
+        "global": {
+          "layers": [],
+          "center": [-5, 30],
+          "resolution": 32000,
+          "minResolution": 0.25,
+          "maxResolution": 64000
+        }
+      },
+      "headwaters_mn": {
+        "default": {
           "layers": [
-            "Dark2",
-            "Citylights-2012",
-            "na_grid",
-            "rest_of_world2",
-            "north_america2",
-            "ESRI-World-Imagery",
-            "all_solar",
-            "all_wind",
-            "geothermal",
-            "wave_tidal",
-            "hydro_power",
-            "nuclear_power",
-            "gas2",
-            "coal_global2",
-            "oil",
-            "biomass",
-            "waste"
+            "headwaters_mn",
+            "other_pipes",
+            "enbridge_pipes",
+            "epa_refineries",
+            "line3_replacement"
           ],
+          "center": [-93.679, 46.349],
+          "resolution": 1200,
+          "minResolution": 0.25,
+          "maxResolution": 32000
+        },
+        "local": {
+          "layers": [],
           "center": [-97, 37],
           "resolution": 4500,
           "minResolution": 0.25,
-          "maxResolution": 16000,
-          "sidePanel": {
-            "legendUrl": "images/ShilohTemple.png",
-            "headerText": "Environmental justice means grassroots action on the ground&mdash;or on the roof.",
-            "bodyText1": "Wherever you live, there will be solar or wind power nearby. But they're outnumbered by the climate-changers. The map shows dams and nuclear stations (low carbon, but still ecologically damaging) and coal, natural gas, biomass and oil-fired generators (death on the installment plan). How to keep the new energy technologies from repeating old patterns of concentration, exploitation and control?",
-            "bodyText2": "Under pessure from the left, the US Democrats are seeking a $2 trillion climate plan that combines jobs with alternative energy. The idea is not only to put up turbines and rebuild the grid, but also to hire people for solarization and weatherization at the neighborhood level. It could reduce structural unemployment, overcome environmental racism and prepare for the future. Of course the entrenched monopolies&mdash;so-called \"public utilities\"&mdash;will stand squarely in the way, along with the larger, more competitive investor-owned utilities. The challenge of a socialist generation is to overcome them.",
-            "bodyText3": "All the pieces of the global power puzzle are on this local map. Check them out, one by one."
-          }
+          "maxResolution": 16000
         },
         "global": {
-          "layers": [
-            "ESRI-World-Imagery2",
-            "north_america2",
-            "rest_of_world2",
-            "SunPotential",
-            "wind_potential",
-            "all_solar",
-            "all_wind"
-          ],
+          "layers": [],
           "center": [2.44, 31.01],
           "resolution": 30000,
           "minResolution": 0.25,
-          "maxResolution": 32000,
-          "sidePanel": {
-            "legendUrl": "images/Windmills.png",
-            "headerText": "\"P\" is for power&mdash;and for potential.",
-            "bodyText1": "Renewable energies have attained global scale. But they are small by design, and their cumulative output is still dwarfed by traditional sources, including low-carbon hydro and nuclear. If we want to exit from fossil fuels and survive the twenty-first century, much more will have to be done to tap the abundant powers of the sun, the wind, the waves and the earth's heat. You can see maps of potential solar and wind power here.",
-            "bodyText2": "But there's a lot more to system change than solar panels. Alternative energy is useless without an alternative society that learns how to live more lightly on the earth. One of the best things you can do for the future is turn off the power you don't need&mdash;and seek the potentials of a better society in the open air."
-          }
+          "maxResolution": 32000
         }
       }
+    },
+    "groupTitles": {
+      "headwaters_il": "Headwaters IL",
+      "urban_ecology": "URBAN / ECOLOGY",
+      "headwaters_mn": "Headwaters MN"
+    },
+    "regionTitles": {
+      "local": "Local",
+      "global": "global",
+      "default": "Default"
     },
     "popupFieldsMapping": {
       "default": {
         "title": "NAME",
         "entity": "OWNER"
-      },
-      "cancelled_pipelines": {
-        "title": "PROJECT NAME",
-        "entity": "PROPOSED BY",
-        "description": "WHY IT FAILED"
       }
     },
     "featureInfoHiddenProps": [
@@ -1965,7 +990,10 @@
       "sidebarVideoSrc",
       "facility_id",
       "frs_id",
-      "primary_naics_code"
+      "primary_naics_code",
+      "facility_number",
+      "frsid",
+      "rsei_integer"
     ],
     "corporateEntitiesUrls": {
       "Enbridge": "https://its.timetochange.today/Enbridge/"
