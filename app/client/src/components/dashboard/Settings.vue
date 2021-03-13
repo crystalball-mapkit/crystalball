@@ -18,9 +18,7 @@ export default {
   },
   data() {
     return {
-      json: {
-        
-      }
+      json: {}
     };
   },
   methods: {
@@ -36,7 +34,7 @@ export default {
 
 <style>
 .jsoneditor-menu {
-  background-color: #dc143c;
+  background-color: #00000e;
 }
 
 .jsoneditor {

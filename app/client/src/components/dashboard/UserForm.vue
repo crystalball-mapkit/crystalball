@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
-        <v-app-bar dark color="#dc143c" dense flat>
+        <v-app-bar dark :color="color" dense flat>
           <v-app-bar-nav-icon
             ><v-icon>{{ options.icon }}</v-icon></v-app-bar-nav-icon
           >
@@ -159,6 +159,9 @@ export default {
       email: value => /.+@.+/.test(value) || 'E-mail must be valid'
     }
   }),
+  props: {
+    color: { type: String }
+  },
   methods: {
     open(mode, title, confirmText, cancelText, options, user) {
       this.mode = mode;

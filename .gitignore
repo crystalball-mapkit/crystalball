@@ -18,3 +18,4 @@ dist
 /app/tileserver-gl/config.json
 /app/api/.env
 /app/config/api/*
+cache_data

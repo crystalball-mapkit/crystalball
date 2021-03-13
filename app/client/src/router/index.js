@@ -1,71 +1,42 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Petropolis from '../views/Petropolis.vue';
+import Main from '../views/Main.vue';
 Vue.use(VueRouter);
 import { validateToken } from '../utils/Helpers';
 
-const routes = [
-  {
+export function getRoutes(config) {
+  console.log(config);
+  const groups = config.map.groups;
+  const groupNames = Object.keys(groups);
+  const routes = [];
+  // Base route
+  routes.push({
     path: '/',
     name: 'map',
-    redirect: '/oil'
-  },
-  {
-    path: '/oil',
-    name: 'oil',
-    component: Petropolis,
-    props: { fuelGroup: 'oil', region: 'default' }
-  },
-  {
-    path: '/oil/local',
-    name: 'oilLocal',
-    component: Petropolis,
-    props: { fuelGroup: 'oil', region: 'local' }
-  },
-  {
-    path: '/oil/global',
-    name: 'oilGlobal',
-    component: Petropolis,
-    props: { fuelGroup: 'oil', region: 'global' }
-  },
-  {
-    path: '/coal',
-    name: 'coal',
-    component: Petropolis,
-    props: { fuelGroup: 'coal', region: 'default' }
-  },
-  {
-    path: '/coal/local',
-    name: 'coalLocal',
-    component: Petropolis,
-    props: { fuelGroup: 'coal', region: 'local' }
-  },
-  {
-    path: '/coal/global',
-    name: 'coalGlobal',
-    component: Petropolis,
-    props: { fuelGroup: 'coal', region: 'global' }
-  },
-  {
-    path: '/renewables',
-    name: 'renewables',
-    component: Petropolis,
-    props: { fuelGroup: 'renewables', region: 'default' }
-  },
-  {
-    path: '/renewables/local',
-    name: 'renewablesLocal',
-    component: Petropolis,
-    props: { fuelGroup: 'renewables', region: 'local' }
-  },
-  {
-    path: '/renewables/global',
-    name: 'renewablesGlobal',
-    component: Petropolis,
-    props: { fuelGroup: 'renewables', region: 'global' }
-  },
-  // Admin dashboard view...
-  {
+    redirect: `/${groupNames[1]}` // TODO: Get the default route from app-conf
+  });
+  // Map routes.
+  groupNames.forEach(groupName => {
+    const regions = groups[groupName];
+    const regionNames = Object.keys(regions);
+    regionNames.forEach(regionName => {
+      const region = regions[regionName];
+      if (region.layers.length > 0) {
+        routes.push({
+          path:
+            regionName === 'default'
+              ? `/${groupName}`
+              : `/${groupName}/${regionName}`,
+          name:
+            regionName === 'default' ? groupName : `${groupName}${regionName}`,
+          component: Main,
+          props: { navbarGroup: groupName, region: regionName }
+        });
+      }
+    });
+  });
+  // Admin routes.
+  routes.push({
     path: '/admin',
     // lazy-loaded
     component: () => import('../views/Admin.vue'),
@@ -99,13 +70,11 @@ const routes = [
         }
       }
     ]
-  }
-];
+  });
+  return routes;
+}
 
-const router = new VueRouter({
-  routes
-});
-
+const router = new VueRouter({});
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
   if (!requiresAuth) {

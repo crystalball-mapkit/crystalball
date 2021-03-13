@@ -306,25 +306,26 @@ def main():
                              help="Verbose output")
     args = args_parser.parse_args()
 
-    postgres_host = os.environ['POSTGRES_HOST']
-    postgres_port = os.environ['POSTGRES_PORT']
-    postgres_db = os.environ['POSTGRES_DBNAME']
+    postgres_host = os.environ.get('POSTGRES_HOST')
+    postgres_port = os.environ.get('POSTGRES_PORT')
+    postgres_db = os.environ.get('POSTGRES_DBNAME')
     postgres_restore = "{}_restore".format(postgres_db)
-    postgres_user = os.environ['POSTGRES_USER']
-    postgres_password = os.environ['POSTGRES_PASS']
-    aws_bucket_name = os.environ['BUCKET_NAME']
-    aws_bucket_postgres_path = os.environ['BUCKET_POSTGRES_BACKUP_PATH']
-    aws_bucket_wp_path = os.environ['BUCKET_WP_BACKUP_PATH']
-    aws_bucket_geoserver_path = os.environ['BUCKET_GEOSERVER_BACKUP_PATH']
-    storage_engine = os.environ['STORAGE_ENGINE']
+    postgres_restore = postgres_restore.replace("-", "_")
+    postgres_user = os.environ.get('POSTGRES_USER')
+    postgres_password = os.environ.get('POSTGRES_PASS')
+    aws_bucket_name = os.environ.get('BUCKET_NAME')
+    aws_bucket_postgres_path = os.environ.get('BUCKET_POSTGRES_BACKUP_PATH')
+    aws_bucket_wp_path = os.environ.get('BUCKET_WP_BACKUP_PATH')
+    aws_bucket_geoserver_path = os.environ.get('BUCKET_GEOSERVER_BACKUP_PATH')
+    storage_engine = os.environ.get('STORAGE_ENGINE')
     timestr = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
  
     restore_filename = '/tmp/restore.dump.gz'
     restore_uncompressed = '/tmp/restore.dump'
-    local_storage_path = os.environ['LOCAL_STORAGE']
-    aws_access_key_id = os.environ['AWS_ACCESS_KEY_ID']
-    aws_secret_access_key = os.environ['AWS_SECRET_ACCESS_KEY']
-    aws_region_name = os.environ['AWS_REGION_NAME']
+    local_storage_path = os.environ.get('LOCAL_STORAGE')
+    aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID')
+    aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    aws_region_name = os.environ.get('AWS_REGION_NAME')
 
     manager_config = {
         'AWS_BUCKET_NAME': aws_bucket_name,

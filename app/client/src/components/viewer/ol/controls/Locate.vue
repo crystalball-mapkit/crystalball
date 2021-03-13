@@ -8,7 +8,7 @@
           fab
           dark
           x-small
-          color="#dc143c"
+          :color="color"
           @click="handleZoomToMe()"
         >
           <v-icon medium>fas fa-location-arrow</v-icon>
@@ -16,7 +16,7 @@
       </template>
       <span>Locate Me</span>
     </v-tooltip>
-    <confirm-location ref="confirm"></confirm-location>
+    <confirm-location ref="confirm" :color="color"></confirm-location>
   </div>
 </template>
 <script>
@@ -34,7 +34,8 @@ import { EventBus } from '../../../../EventBus';
 
 export default {
   props: {
-    map: { type: Object, required: true }
+    map: { type: Object, required: true },
+    color: { type: String }
   },
   components: {
     'confirm-location': ConfirmDialog
@@ -61,7 +62,7 @@ export default {
       if (!this.$cookies.get('locationRequested')) {
         this.$refs.confirm
           .open('Zoom to my location?', '', 'Share my location', 'Cancel', {
-            color: '#dc143c'
+            color: this.color
           })
           .then(confirm => {
             if (confirm) {
@@ -74,7 +75,6 @@ export default {
       if (this.$cookies.get('locationRequested')) {
         this.handleGetUserLocation(this.userLocSource, this.map);
       }
-
     },
     handleGetUserLocation: function(source, map) {
       const watchId = navigator.geolocation.watchPosition(

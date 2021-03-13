@@ -3,7 +3,7 @@
     <template
       v-if="!selectedCoorpNetworkEntity && !isEditingPost && !isEditingHtml"
     >
-      <vue-scroll>
+      <vue-scroll ref="vs">
         <v-row class="mx-0 px-0">
           <v-col class="mt-0 pt-0">
             <div v-if="isFeatureGetInfo">
@@ -144,7 +144,7 @@
                         "
                       >
                         <v-icon small class="mr-1">fas fa-search-plus</v-icon>
-                        DIVE
+                        ZOOM
                       </v-btn>
                       <v-btn
                         @click="back"
@@ -244,7 +244,47 @@
               </v-row>
             </div>
             <div v-if="isHtmlViewer" style="width:100%;">
-              <v-toolbar class="elevation-0">
+              <v-row>
+                <v-spacer></v-spacer>
+                <div v-if="loggedUser">
+                  <v-tooltip left>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        v-on="on"
+                        @click="deletePost(popup.activeFeature)"
+                        icon
+                        class="mr-3"
+                      >
+                        <v-icon>delete</v-icon>
+                      </v-btn> </template
+                    ><span>Delete Post</span>
+                  </v-tooltip>
+                  <v-tooltip left>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        v-on="on"
+                        @click="editPost(popup.activeFeature)"
+                        icon
+                        class="mr-3"
+                      >
+                        <v-icon>edit</v-icon>
+                      </v-btn> </template
+                    ><span>Edit Post</span></v-tooltip
+                  >
+                </div>
+                <div>
+                  <v-tooltip left>
+                    <template v-slot:activator="{ on }">
+                      <v-btn v-on="on" @click="closePopupInfo" icon class="mr-3">
+                        <v-icon>close</v-icon>
+                      </v-btn> </template
+                    ><span>Close</span></v-tooltip
+                  >
+                </div>
+              </v-row>
+              <v-divider v-if="loggedUser"></v-divider>
+
+              <!-- <v-toolbar class="elevation-0">
                 <v-avatar class="mr-3">
                   <v-img contain :src="popup.activeFeature.get('icon')"></v-img>
                 </v-avatar>
@@ -266,8 +306,7 @@
                 >
                   <v-icon>edit</v-icon>
                 </v-btn>
-              </v-toolbar>
-              <v-divider></v-divider>
+              </v-toolbar> -->
               <div class="px-2 mt-1">
                 <span v-html="popup.activeFeature.get('html')"></span>
               </div>
@@ -311,7 +350,7 @@
             <v-btn
               @click="closeCorpNetworkSelection()"
               dark
-              color="#dc143c"
+              :color="color"
               small
               class="ml-1 elevation-0"
             >
@@ -324,7 +363,7 @@
           class="mt-n1"
           indeterminate
           height="5"
-          color="#dc143c"
+          :color="color"
         ></v-progress-linear>
         <vue-scroll>
           <v-container
@@ -423,7 +462,8 @@ export default {
   },
   data() {
     return {
-      isIframeLoading: true
+      isIframeLoading: true,
+      color: this.$appConfig.app.color.primary
     };
   },
   computed: {
@@ -438,6 +478,17 @@ export default {
       }
     },
     isHtmlViewer() {
+      // Move scroll to top.
+      const scrollEl = this.$refs['vs'];
+      if (scrollEl && scrollEl.scrollTo) {
+        scrollEl.scrollTo(
+          {
+            y: 0
+          },
+          100,
+          'easeInQuad'
+        );
+      }
       if (this.popup.activeFeature && this.popup.activeFeature.get('html')) {
         return true;
       } else {
@@ -446,7 +497,7 @@ export default {
     },
     visibleGroup() {
       const visibleGroup = this.$appConfig.map.groups[
-        this.activeLayerGroup.fuelGroup
+        this.activeLayerGroup.navbarGroup
       ][this.activeLayerGroup.region];
       return visibleGroup;
     },
@@ -606,7 +657,7 @@ export default {
       if (this.popup.activeFeature.getGeometry().getType() === 'Point') {
         this.map.getView().animate({
           center: this.popup.activeFeature.getGeometry().getCoordinates(),
-          zoom: 14,
+          zoom: 15,
           duration: 800
         });
       }

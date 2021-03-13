@@ -6,7 +6,7 @@
           class="share-button"
           v-on="on"
           @click="visible = true"
-          color="#dc143c"
+          :color="color"
           fab
           dark
           x-small
@@ -18,7 +18,7 @@
     <!-- CREATE SCENARIO DIALOG -->
     <v-dialog v-model="show" max-width="400" @keydown.esc="visible = false">
       <v-card class="pb-1">
-        <v-app-bar color="#dc143c" flat height="50" dark>
+        <v-app-bar :color="color" flat height="50" dark>
           <v-icon class="mr-3">fas fa-share</v-icon>
           <v-toolbar-title>Link to map </v-toolbar-title>
           <v-spacer></v-spacer>
@@ -55,10 +55,12 @@
 </template>
 <script>
 import { toLonLat, fromLonLat } from 'ol/proj';
+import { mapFields } from 'vuex-map-fields';
 
 export default {
   props: {
-    map: { type: Object, required: true }
+    map: { type: Object, required: true },
+    color: { type: String }
   },
   data: () => ({
     mapShareLink: '',
@@ -76,7 +78,10 @@ export default {
           this.mapShareLink = '';
         }
       }
-    }
+    },
+    ...mapFields('app', {
+      sidebarState: 'sidebarState'
+    })
   },
   methods: {
     createShareLink() {
@@ -93,10 +98,14 @@ export default {
             visibleLayers.push(layer.get('name'));
           }
         });
-      const centerLonLat = toLonLat(center).map(e => e.toFixed(3)).reverse();
+      const centerLonLat = toLonLat(center)
+        .map(e => e.toFixed(3))
+        .reverse();
       this.mapShareLink = `${url}?center=${centerLonLat.toString()}&zoom=${zoom
         .toFixed(3)
-        .toString()}&layers=${visibleLayers.toString()}`;
+        .toString()}&layers=${visibleLayers.toString()}&sidebar=${
+        this.sidebarState
+      }`;
     },
     copyMapLink() {
       let mapLink = this.$refs.mapLink.$el.querySelector('input');
@@ -105,7 +114,9 @@ export default {
     },
     updateRouterQuery() {
       const center = this.map.getView().getCenter();
-      const centerLonLat = toLonLat(center).map(e => e.toFixed(3)).reverse();
+      const centerLonLat = toLonLat(center)
+        .map(e => e.toFixed(3))
+        .reverse();
       this.$route.meta.fromEvent = true;
       this.$router.replace({ query: { center: centerLonLat.toString() } });
     },
@@ -142,6 +153,10 @@ export default {
             }
           }
         });
+      // Set sidebar state
+      if (this.$route.query && this.$route.query.sidebar) {
+        this.sidebarState = this.$route.query.sidebar == 'false' ? false : true;
+      }
     }
   },
   watch: {
@@ -168,6 +183,9 @@ export default {
       this.map.on('moveend', () => {
         this.previousMapZoom = this.map.getView().getZoom();
         this.updateRouterQuery();
+        setTimeout(() => {
+          this.$route.meta.fromEvent = false;
+        }, 1000);
       });
     }
   }

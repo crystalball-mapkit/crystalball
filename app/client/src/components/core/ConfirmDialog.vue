@@ -15,7 +15,7 @@
           <v-btn color="primary darken-1" text @click.native="agree">{{
             confirmText
           }}</v-btn>
-          <v-btn color="#dc143c" text @click.native="cancel">{{
+          <v-btn :color="color" text @click.native="cancel">{{
             cancelText
           }}</v-btn>
         </v-card-actions>
@@ -40,6 +40,9 @@ export default {
       zIndex: 200
     }
   }),
+  props: {
+    color: { type: String }
+  },
   methods: {
     open(title, message, confirmText, cancelText, options) {
       this.dialog = true;

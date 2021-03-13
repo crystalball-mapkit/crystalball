@@ -125,6 +125,7 @@ exports.icons_get = (req, res) => {
 exports.icons_post = (req, res) => {
   permissionController.hasPermission(req, res, "edit_layers", () => {
     const payload = {
+      group: req.body.group,
       iconUrl: req.body.iconUrl,
       title: req.body.title
     };

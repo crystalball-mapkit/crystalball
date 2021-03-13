@@ -8,7 +8,7 @@ import store from '../store/modules/map';
 let strokeColor = 'rgba(236, 236, 236, 0.7)';
 let fillColor = 'rgba(255,0,0, 0.2)';
 let imageColor = 'blue';
-let radiusHighlightColor = 'rgba(0,0,255,0.3)';
+let radiusHighlightColor = 'rgba(232,223,181,0.3)';
 let zIndex = 100;
 
 // Resets cache when map groups is changed.
@@ -108,19 +108,12 @@ export function postEditLayerStyle() {
     new OlStyle({
       image: new OlCircle({
         radius: 27,
+        stroke: new OlStroke({
+          color: "red",
+          width: 3
+        }),
         fill: new OlFill({
-          color: 'red'
-        })
-      }),
-      zIndex: 1000
-    })
-  );
-  styles.push(
-    new OlStyle({
-      image: new OlCircle({
-        radius: 25,
-        fill: new OlFill({
-          color: 'rgba(236, 236, 236, 0.75)'
+          color: 'rgba(236, 236, 236, 0.5)'
         })
       }),
       zIndex: 1000
@@ -376,12 +369,31 @@ export function colorMapStyle(layerName, colorField) {
   };
   return styleFunction;
 }
+export function htmlLayerStyle() {
+  const styleFunction = feature => {
+    const group  = feature.get('group');
+
+    if (group === store.state.activeLayerGroup.navbarGroup) {
+      return new OlStyle({
+        image: new OlIconStyle({
+          src: feature.get('icon'),
+          scale: 1,
+          opacity: 1
+        })
+      })
+    } else {
+      return []
+    }
+  };
+  return styleFunction;
+}
 
 export const styleRefs = {
   defaultStyle: defaultStyle,
   popupInfoStyle: popupInfoStyle,
   baseStyle: baseStyle,
-  colorMapStyle: colorMapStyle
+  colorMapStyle: colorMapStyle,
+  htmlLayerStyle: htmlLayerStyle
 };
 
 export const defaultLimits = {
@@ -455,45 +467,9 @@ export const layersStylePropFn = {
       return propertyValue;
     }
   },
-  cancelled_pipelines: {
-    strokeColor: propertyValue => propertyValue
-  },
-  us_grid: {
-    strokeWidth: propertyValue => propertyValue
-  },
-  Spills_20yrs: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.7);
-    }
-  },
-  wave_tidal: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3, 4, 50);
-    }
-  },
-  all_solar2: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3, 4, 50);
-    }
-  },
-  all_wind2: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3, 4, 50);
-    }
-  },
-  geothermal: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3, 4, 50);
-    }
-  },
-  nuclear_power: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3, 4, 50);
-    }
-  },
-  hydro_power: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3, 4, 50);
+  epa_refineries: {
+    iconScaleFn: propertyValue => {
+      return getIconScaleValue(propertyValue, 0.0000001, 0.2, 1.2);
     }
   },
   coal_global2: {
@@ -501,65 +477,12 @@ export const layersStylePropFn = {
       return getRadiusValue(propertyValue, 0.3, 4, 50);
     }
   },
-  oil: {
+  miss_tri: {
     circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3, 4, 50);
-    }
-  },
-  biomass: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3, 4, 50);
-    }
-  },
-  waste: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3, 4, 50);
-    }
-  },
-  all_permits: {
-    circleRadiusFn: propertyValue => {
-      return Math.sqrt(propertyValue) * 0.008;
+      return getRadiusValue(propertyValue, 1, 7);
     },
     fillColor: propertyValue => {
       return propertyValue;
-    }
-  },
-  epa_electric_power: {
-    circleRadiusFn: propertyValue => {
-      return Math.sqrt(propertyValue) * 0.004;
-    },
-    fillColor: propertyValue => {
-      return propertyValue;
-    }
-  },
-  global_gas: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.15);
-    }
-  },
-  gas2: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3);
-    }
-  },
-  all_refineries: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 1.4);
-    }
-  },
-  epa_refineries: {
-    iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 5000000, 0.5, 2);
-    }
-  },
-  GiantOilFields: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3);
-    }
-  },
-  Coal_Mines: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.00666);
     }
   }
 };

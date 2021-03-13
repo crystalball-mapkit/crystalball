@@ -6,7 +6,7 @@
           v-on="on"
           style="position:fixed;left:16px;bottom:40px;z-index:1000;"
           v-show="!isVisible"
-          color="#dc143c"
+          :color="color"
           @click="toggleLegend"
           fab
           small
@@ -31,7 +31,9 @@
         text
         min-width="30px"
         x-small
-        style="z-index:100;background-color:rgb(228, 76, 107);position:absolute;bottom:30px;right:-19px;"
+        :style="
+          `z-index:100;background-color:${color};position:absolute;bottom:30px;right:-19px;`
+        "
       >
         <v-icon class="ml-0" x-small>fas fa-chevron-up</v-icon></v-btn
       >
@@ -111,7 +113,7 @@
         <v-divider></v-divider>
         <v-row class="my-1" justify="center">
           <span class="black--text text--darken-2 subtitle-2">
-            {{ title }} Legend
+            {{ title }}
           </span>
         </v-row>
       </v-expansion-panel>
@@ -136,7 +138,7 @@ export default {
       panel: 0,
       isReady: false,
       title: '',
-      isVisible: true
+      isVisible: this.$appConfig.app.legend.isVisible
     };
   },
   methods: {
@@ -231,9 +233,9 @@ export default {
     },
     updateTitle() {
       let title = ``;
-      this.fuelGroups.forEach(fuelGroup => {
-        if (fuelGroup.name === this.activeLayerGroup.fuelGroup) {
-          title += fuelGroup.title;
+      this.navbarGroups.forEach(navbarGroup => {
+        if (navbarGroup.name === this.activeLayerGroup.navbarGroup) {
+          title += navbarGroup.title;
         }
       });
       this.regions.forEach(region => {
@@ -248,14 +250,13 @@ export default {
     }
   },
   mounted() {
-    console.log(this.sidebarHtml);
     this.updateTitle();
   },
   computed: {
     ...mapGetters('map', {
       layers: 'layers',
       activeLayerGroup: 'activeLayerGroup',
-      fuelGroups: 'fuelGroups',
+      navbarGroups: 'navbarGroups',
       regions: 'regions'
     }),
     ...mapGetters('app', {
