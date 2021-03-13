@@ -1,17 +1,29 @@
 version: "3.7"
 
+networks:
+   default:
+      external:
+         name: app-net
+
+volumes:
+  crystalball_postgres_data:
+  # wpdb_data:
+
 services:
-  deeptime-client:
+
+#-----APP-----#
+
+  crystalball-client:
     build:
       dockerfile: Dockerfile
       context: ./app/client
-    image: deeptime-client
+    image: crystalball_client
     volumes:
       - /app/node_modules
       - ./app/client:/app
-    container_name: deeptime-client
+    container_name: crystalball_client
 
-  deeptime-geoserver:
+  crystalball-geoserver:
     image: oscarfonts/geoserver:2.17.0
     volumes:
       - ./app/geoserver/geoserver_data:/var/local/geoserver
@@ -20,28 +32,20 @@ services:
       - ./app/geoserver/web.xml:/usr/local/geoserver/WEB-INF/web.xml
     env_file:
       - ./app/config/docker-env/geoserver.env
-    container_name: deeptime-geoserver
+    container_name: crystalball_geoserver
     restart: on-failure
     depends_on:
-      - deeptime_db
+      - crystalball-db
 
-  deeptime-mapproxy:
-    image: kartoza/mapproxy
-    volumes:
-      - ./app/mapproxy:/mapproxy
-    ports:
-      - 8282:8080
-    container_name: deeptime-mapproxy
-
-  deeptime_db:
+  crystalball-db:
     image: kartoza/postgis:12.1
-    container_name: deeptime_db
+    container_name: crystalball_database
     restart: on-failure
     volumes:
       # we are mounting a named volume here instead of a data directory path because of
       # a windows 10 premission issue. See https://github.com/docker-library/postgres/issues/435)
       # .........
-      - deeptime_postgres_data:/var/lib/postgresql
+      - crystalball_postgres_data:/var/lib/postgresql
       - ./app/database:/opt
       - ./app/config:/opt/config
     env_file:
@@ -49,110 +53,134 @@ services:
     ports:
       - "55432:5432"
 
-  deeptime-api:
+  crystalball-api:
     build:
       context: ./app/api
     volumes:
       - /app/node_modules
       - ./app/api:/app
       - ./app/api/config:/app/config
-    container_name: deeptime-api
+    container_name: crystalball_api
     env_file:
       - ./app/config/docker-env/cron.env
       - ./app/config/docker-env/api.env
 
-  #-----WORDPRESS-----#
-
-  # wp:
-  #   image: wordpress:latest # https://hub.docker.com/_/wordpress/
-  #   container_name: petropolis-wp
-  #   ports:
-  #     - 5000:80 # change ip if required
-  #   volumes:
-  #     - ./app/config/wp/php.conf.ini:/usr/local/etc/php/conf.d/conf.ini
-  #     - ./app/wp/wp-app:/var/www/html # Full wordpress project
-  #     #- ./plugin-name/trunk/:/var/www/html/wp-content/plugins/plugin-name # Plugin development
-  #     #- ./theme-name/trunk/:/var/www/html/wp-content/themes/theme-name # Theme development
-  #   env_file:
-  #     - ./app/config/docker-env/wp.env
-  #   depends_on:
-  #     - wpdb
-  #   networks:
-  #     proxy:
-
-  # wpcli:
-  #   image: wordpress:cli
-  #   container_name: petropolis-wpcli
-  #   volumes:
-  #     - ./app/config/php.conf.ini:/usr/local/etc/php/conf.d/conf.ini
-  #     - ./app/wp/wp-app:/var/www/html
-  #   depends_on:
-  #     - wpdb
-  #     - wp
-  #   networks:
-  #     proxy:
-
-  # wppma:
-  #   image: phpmyadmin/phpmyadmin
-  #   container_name: petropolis-wppma
-  #   env_file:
-  #     - ./app/config/docker-env/wp.env
-  #   ports:
-  #     - 8000:80
-  #   networks:
-  #     proxy:
-
-  # wpdb:
-  #   image: mysql:latest # https://hub.docker.com/_/mysql/ - or mariadb https://hub.docker.com/_/mariadb
-  #   container_name: petropolis-wpdb
-  #   env_file:
-  #     - ./app/config/docker-env/wp.env
-  #   ports:
-  #     - 3307:3306 # change ip if required
-  #   command: [
-  #       '--default_authentication_plugin=mysql_native_password',
-  #       '--character-set-server=utf8mb4',
-  #       '--collation-server=utf8mb4_unicode_ci'
-  #   ]
-  #   volumes:
-  #     - ./app/wp/wp-data:/docker-entrypoint-initdb.d
-  #     - wpdb_data:/var/lib/mysql
-  #   networks:
-  #     proxy:
-
-  #-----CRON (Used for maintenance)-----#
-  deeptime-cron:
+  crystalball-cron:
     build:
       dockerfile: Dockerfile
       context: ./app/cron
-    image: deeptime-cron
+    image: crystalball_cron
     volumes:
       - ./app/cron/scripts:/opt/scripts
       - ./app/geoserver:/mnt/geoserver_data
-    container_name: deeptime-cron
+    container_name: crystalball_cron
     env_file:
       - ./app/config/docker-env/db.env
       - ./app/config/docker-env/cron.env
+
+#-----PROXY-----#
+
+  # nginx:
+  #   container_name: crystalball_nginx
+  #   image: nginx:alpine
+  #   volumes:
+  #     - ./app/config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+  #     - ./app/config/nginx/map.threecrises.org.conf:/etc/nginx/sites-enabled/map.threecrises.org.conf
+  #     - ./app/config/nginx/nginx.conf:/etc/nginx/nginx.conf
+  #     - ./app/config/ssl/certbot/conf:/etc/letsencrypt
+  #     - ./app/config/ssl/certbot/www:/var/www/certbot
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   restart: always
+  #   command: /bin/sh -c "while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g 'daemon off;'"    
+  #   networks:
+  #     proxy:
+  
+  # certbot:
+  #   container_name: crystalball_certbot
+  #   image: certbot/certbot
+  #   volumes:
+  #     - ./app/config/ssl/certbot/conf:/etc/letsencrypt
+  #     - ./app/config/ssl/certbot/www:/var/www/certbot
+  #   restart: unless-stopped
+  #   entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;"
+  #   depends_on:
+  #     - nginx
+  #   networks:
+  #     proxy: 
+#-----WORDPRESS-----#
+
+#  wp:
+#    image: wordpress:latest # https://hub.docker.com/_/wordpress/
+#    container_name: crystalball_wp
+#    ports:
+#      - 5000:80 # change ip if required
+#    volumes:
+#      - ./app/config/wp/php.conf.ini:/usr/local/etc/php/conf.d/conf.ini
+#      - ./app/wp/wp-app:/var/www/html # Full wordpress project
+      #- ./plugin-name/trunk/:/var/www/html/wp-content/plugins/plugin-name # Plugin development
+      #- ./theme-name/trunk/:/var/www/html/wp-content/themes/theme-name # Theme development
+#    env_file:
+#      - ./app/config/docker-env/wp.env
+#    depends_on:
+#      - wpdb
+#    networks:
+#      proxy:
+
+#  wpcli:
+#    image: wordpress:cli
+#    container_name: crystalball_wpcli
+#    volumes:
+#      - ./app/config/php.conf.ini:/usr/local/etc/php/conf.d/conf.ini
+#      - ./app/wp/wp-app:/var/www/html
+#    depends_on:
+#      - wpdb
+#      - wp
+#    networks:
+#      proxy:
+  
+#  wppma:
+#    image: phpmyadmin/phpmyadmin
+#    container_name: crystalball_wppma
+#    env_file:
+#      - ./app/config/docker-env/wp.env
+#    ports:
+#      - 8000:80
+#    networks:
+#      proxy:
+
+#  wpdb:
+#    image: mysql:latest # https://hub.docker.com/_/mysql/ - or mariadb https://hub.docker.com/_/mariadb
+#    container_name: crystalball_wpdb
+#    env_file:
+#      - ./app/config/docker-env/wp.env
+#    ports:
+#      - 3307:3306 # change ip if required
+#    command: [
+#        '--default_authentication_plugin=mysql_native_password',
+#        '--character-set-server=utf8mb4',
+#        '--collation-server=utf8mb4_unicode_ci'
+#    ]
+#    volumes:
+#      - ./app/wp/wp-data:/docker-entrypoint-initdb.d
+#      - wpdb_data:/var/lib/mysql
+#    networks:
+#      proxy:
+
+#-----CRON (Used for maintenance)-----#
+
 #-----WIKI-----#
 
-# wiki:
-#   image: requarks/wiki:2.4.105
-#   depends_on:
-#     - db
-#   env_file:
-#     - ./app/config/docker-env/wiki.env
-#   container_name: petropolis-wiki
-#   restart: unless-stopped
-#   ports:
-#     - 10500:3000
-#   networks:
-#     proxy:
-
-networks:
-   default:
-      external:
-         name: app-net
-
-volumes:
-  deeptime_postgres_data:
-  # wpdb_data:
+#  wiki:
+#    image: requarks/wiki:2.4.105
+#    depends_on:
+#      - db
+#    env_file:
+#      - ./app/config/docker-env/wiki.env
+#    container_name: crystalball_wiki
+#    restart: unless-stopped
+#    ports:
+#      - 10500:3000
+#    networks:
+#      proxy:
