@@ -35,9 +35,9 @@ services:
     container_name: crystalball_geoserver
     restart: on-failure
     depends_on:
-      - crystalball-db
+      - crystalball_db
 
-  crystalball-db:
+  crystalball_db:
     image: kartoza/postgis:12.1
     container_name: crystalball_database
     restart: on-failure
@@ -183,8 +183,5 @@ services:
 #    ports:
 #      - 10500:3000
 #    networks:
-<<<<<<< HEAD
 #      proxy:
-=======
-#      proxy:
->>>>>>> origin/switch
+
