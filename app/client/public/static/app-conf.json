@@ -136,8 +136,8 @@
           "layers": [
             "streets"
           ],
-          "center": [-88.421, 41.742],
-          "resolution": 800,
+          "center": [-95, 41.742],
+          "resolution": 10000,
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -161,10 +161,10 @@
           "layers": [
             "headwaters"
           ],
-          "center": [-93.679, 46.349],
-          "resolution": 1200,
+          "center": [-90.9, 39.8],
+          "resolution": 2000,
           "minResolution": 0.25,
-          "maxResolution": 32000
+          "maxResolution": 64000
         },
         "local": {
           "layers": [],
