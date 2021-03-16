@@ -1,7 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "ignis_noster",
-"features": [
-{ "type": "Feature", "properties": { "id": 1, "title": "Ignis Noster", "websiteUrl": "documents/ignis_noster.html", "caption": "" }, "geometry": { "type": "Point", "coordinates": [ -87.701342, 41.904642 ] } }
-]
-}

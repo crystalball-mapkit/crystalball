@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "chicken_tenders",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "title": "Chicken Tenders", "websiteUrl": "documents/chicken_tenders.html" }, "geometry": { "type": "Point", "coordinates": [ -89.2152, 37.7288 ] } }
-]
-}

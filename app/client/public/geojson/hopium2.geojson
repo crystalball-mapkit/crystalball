@@ -1,7 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "hopium2",
-"features": [
-{ "type": "Feature", "properties": { "id": 1, "title": "Hopium Economy", "websiteUrl": "documents/hopium2.html", "caption": "" }, "geometry": { "type": "Point", "coordinates": [ -90.061424, 29.936050 ] } }
-]
-}
