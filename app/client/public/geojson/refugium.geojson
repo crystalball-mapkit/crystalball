@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "refugium",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "title": "Refugium for a Post-Anthropocenic World", "websiteUrl": "http://collectivecommunities.weinbergnewtongallery.com/refugium", "caption": "" }, "geometry": { "type": "Point", "coordinates": [ -87.652, 41.894 ] } }
-]
-}

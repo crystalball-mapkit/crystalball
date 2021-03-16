@@ -17,7 +17,7 @@
     "minZoom": 1,
     "maxZoom": 21,
     "zoom": 1,
-    "geoserverWorkspace": "deeptime",
+    "geoserverWorkspace": "workspace1",
     "resolutions": [
       156543.03,
       78271.52,
@@ -41,7 +41,40 @@
     ],
     "center": [0, 0],
     "layers": [
-      
+
+      {
+        "type": "VECTOR",
+        "name": "data_display",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:hot_issues&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "coal",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Data Display",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 100,
+        "minResolution": 0.5,
+        "maxResolution": 80000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "icons/Marker-red.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+
+      {
+        "type": "XYZ",
+        "name": "Citylights",
+        "group": "backgroundLayers",
+        "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_CityLights_2012/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg",
+        "minResolution": 0.25,
+        "opacity": 1,
+        "queryable": false,
+        "visible": true
+      },
       {
         "type": "XYZ",
         "name": "streets",
@@ -56,32 +89,11 @@
       },
       {
         "type": "XYZ",
-        "name": "Citylights",
-        "group": "backgroundLayers",
-        "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_CityLights_2012/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg",
-        "minResolution": 0.25,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
         "name": "headwaters",
         "group": "backgroundLayers",
         "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0.25,
-        "maxResolution": 6400,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "headwaters_mn",
-        "group": "backgroundLayers",
-        "url": "https://api.maptiler.com/maps/fd000e8f-ff38-4076-bd36-db44bb3e7785/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
-        "minResolution": 0.25,
+        "maxResolution": 64000,
         "opacity": 1,
         "queryable": false,
         "visible": true,
@@ -106,7 +118,7 @@
       ]
     },
     "groups": {
-      "headwaters_il": {
+      "one": {
         "default": {
           "layers": [
             "Citylights"
@@ -131,10 +143,11 @@
           "maxResolution": 64000
         }
       },
-      "urban_ecology": {
+      "two": {
         "default": {
           "layers": [
-            "streets"
+            "streets",
+            "data_display"
           ],
           "center": [-95, 41.742],
           "resolution": 10000,
@@ -156,7 +169,7 @@
           "maxResolution": 64000
         }
       },
-      "headwaters_mn": {
+      "three": {
         "default": {
           "layers": [
             "headwaters"
@@ -183,9 +196,9 @@
       }
     },
     "groupTitles": {
-      "headwaters_il": "ONE",
-      "urban_ecology": "TWO",
-      "headwaters_mn": "THREE"
+      "one": "ONE",
+      "two": "TWO",
+      "three": "THREE"
     },
     "regionTitles": {
       "local": "Local",
@@ -199,26 +212,17 @@
       }
     },
     "featureInfoHiddenProps": [
-      "BPD",
       "caption",
-      "graphUrl",
       "variable1",
       "variable2",
       "imageUrl",
       "sidebarMediaTop",
       "sidebarMediaBottom",
       "videoUrl",
-      "videoSrc",
-      "sidebarVideoSrc",
-      "facility_id",
-      "frs_id",
-      "primary_naics_code",
-      "facility_number",
-      "frsid",
-      "rsei_integer"
+      "videoSrc"
     ],
     "corporateEntitiesUrls": {
-      "Enbridge": "https://its.timetochange.today/Enbridge/"
+      "Enbridge": ""
     }
   }
 }
