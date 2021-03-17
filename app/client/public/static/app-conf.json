@@ -101,11 +101,11 @@
       },
       {
         "type": "XYZ",
-        "name": "imagery",
+        "name": "ESRI-World-Imagery",
         "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.25,
-        "maxResolution": 1000,
+        "maxResolution": 20,
         "queryable": false,
         "visible": true
       }
@@ -123,10 +123,10 @@
           "layers": [
             "Citylights"
           ],
-          "center": [-24, 41],
-          "resolution": 64000,
-          "minResolution": 0.25,
-          "maxResolution": 96000
+          "center": [-40.746, 35.311],
+          "resolution": 30000,
+          "minResolution": 0,
+          "maxResolution": 64000
         },
         "local": {
           "layers": [],
@@ -147,10 +147,11 @@
         "default": {
           "layers": [
             "streets",
+            "ESRI-World-Imagery",
             "data_display"
           ],
-          "center": [-95, 41.742],
-          "resolution": 10000,
+          "center": [-40.746, 35.311],
+          "resolution": 30000,
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -174,8 +175,8 @@
           "layers": [
             "headwaters"
           ],
-          "center": [-90.9, 39.8],
-          "resolution": 2000,
+          "center": [-94, 41],
+          "resolution": 2800,
           "minResolution": 0.25,
           "maxResolution": 64000
         },

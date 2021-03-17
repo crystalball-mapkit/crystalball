@@ -657,7 +657,7 @@ export default {
       if (this.popup.activeFeature.getGeometry().getType() === 'Point') {
         this.map.getView().animate({
           center: this.popup.activeFeature.getGeometry().getCoordinates(),
-          zoom: 15,
+          zoom: 13.5,
           duration: 800
         });
       }
