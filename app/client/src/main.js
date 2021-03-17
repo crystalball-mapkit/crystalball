@@ -48,7 +48,9 @@ axios
 
 // App Configuration
 // eslint-disable-next-line no-undef
-fetch('./static/app-conf.json')
+fetch(
+  'https://s3.us-east-2.amazonaws.com/ecotopia.today/assets/prod/crystalball/settings/app-conf.json'
+)
   .then(function(response) {
     if (response.status !== 200) {
       console.log(
