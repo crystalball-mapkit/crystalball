@@ -1,8 +1,8 @@
 {
-  "name": "deeptime",
+  "name": "crystalball",
   "version": "0.0.1",
   "private": true,
-  "description": "Deeptime chicago openlayers component prototype",
+  "description": "Crystalball mapping software template version",
   "author": "brianholmes",
   "scripts": {
     "serve": "vue-cli-service serve",
