@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Deep Time Chicago",
+    "title": "crystalball",
     "color": {
       "primary": "#00000e",
       "secondary": "#00000e"
@@ -17,7 +17,7 @@
     "minZoom": 1,
     "maxZoom": 21,
     "zoom": 1,
-    "geoserverWorkspace": "deeptime",
+    "geoserverWorkspace": "workspace1",
     "resolutions": [
       156543.03,
       78271.52,
@@ -41,766 +41,45 @@
     ],
     "center": [0, 0],
     "layers": [
+
       {
         "type": "VECTOR",
-        "name": "dtc_walks",
-        "url": "geojson/dtc_walks.geojson",
-        "group": "urban_ecology",
+        "name": "data_display",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:hot_issues&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "coal",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Walkaboutit",
+        "legendDisplayName": "Data Display",
         "format": "GeoJSON",
         "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 1600,
-        "label": null,
+        "zIndex": 100,
+        "minResolution": 0.5,
+        "maxResolution": 80000,
+        "label": true,
         "hoverable": true,
         "style": {
-          "stylePropFnRef": {
-            "iconUrl": "variable1"
-          },
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "dtc_walks2",
-        "url": "geojson/dtc_walks2.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Walkaboutit",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "stylePropFnRef": {
-            "iconUrl": "variable1"
-          },
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "witness_tree",
-        "url": "geojson/witness.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Witness Tree",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC9.png",
+          "iconUrl": "icons/Marker-red.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "dtc_galleries",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:dtc_galleries&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Walkaboutit",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC2.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "dtc_galleries2",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:dtc_galleries&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Walkaboutit",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1500,
-        "maxResolution": 8000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC2.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "born_secret",
-        "url": "geojson/born_secret.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Born Secret",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC5.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "inheritance",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:inheritance&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Inheritance",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC3.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "refugium",
-        "url": "geojson/refugium.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Refugium for a Post-Anthropocenic World",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC3.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "ignis_noster",
-        "url": "geojson/ignis_noster.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Ignis Noster",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC10.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "lounging",
-        "url": "geojson/lounging.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Lounging through the Flood",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC6.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "hopium",
-        "url": "geojson/hopium.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Hopium Economy",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC10.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "hopium2",
-        "url": "geojson/hopium2.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Hopium Economy",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC10.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "timeslips",
-        "url": "geojson/timeslips.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Timeslips",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC4.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "confluence_ecologies",
-        "url": "geojson/confluence_ecologies.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Confluence Ecologies",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC2.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "chicken_tenders",
-        "url": "geojson/chicken_tenders.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Chicken Tenders",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt35/DTC1.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "witness_tree2",
-        "url": "geojson/witness.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Witness Tree",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC9.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "born_secret2",
-        "url": "geojson/born_secret.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Born Secret",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 1600,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC5.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "inheritance2",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:inheritance&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Inheritance",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC3.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "refugium2",
-        "url": "geojson/refugium.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Refugium for a Post-Anthropocenic World",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC3.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "ignis_noster2",
-        "url": "geojson/ignis_noster.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Ignis Noster",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC10.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "lounging2",
-        "url": "geojson/lounging.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Lounging through the Flood",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC6.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "hopium_2",
-        "url": "geojson/hopium.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Hopium Economy",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC10.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "hopium_22",
-        "url": "geojson/hopium2.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Hopium Economy",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC10.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "timeslips2",
-        "url": "geojson/timeslips.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Timeslips",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC4.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "confluence_ecologies2",
-        "url": "geojson/confluence_ecologies.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Confluence Ecologies",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC2.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "chicken_tenders2",
-        "url": "geojson/chicken_tenders.geojson",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Chicken Tenders",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1200,
-        "maxResolution": 12000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/dt20/DTC1.png",
-          "scale": 1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "miss_coal_ghg",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_ghg&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "headwaters_il",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Coal Power",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 64000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/mapIcons-1.3.png",
-          "scale": 0.5,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "miss_coal_ash",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_coal_ash&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "headwaters_il",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Regulated Coal Ash",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 800,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/mapIcons-2.1.png",
-          "scale": 0.4,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "miss_legacy_ash",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_legacy_ash&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "headwaters_il",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Legacy Coal Site",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 64000,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "icons/LegacyPlant.png",
-          "scale": 0.5,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "miss_tri",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:miss_tri&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "urban_ecology",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Toxics Release Inventory",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.25,
-        "maxResolution": 400,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "type": "circle",
-          "radius": 24,
-          "stylePropFnRef": {
-            "fillColor": "variable1"
-          },
-          "strokeColor": "white",
-          "strokeWidth": 1
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "other_pipes",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:other_pipes&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Crude Oil Pipelines",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 64000,
-        "hoverable": true,
-        "isInteractive": true,
-        "style": {
-          "strokeColor": "gray",
-          "strokeWidth": 3
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "enbridge_pipes",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:enbridge_pipes&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Enbridge Pipelines",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 64000,
-        "hoverable": true,
-        "isInteractive": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "strokeColor": "#44103c",
-          "strokeWidth": 5,
-          "opacity": 1
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "line3_replacement",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:line3_replacement&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "oil",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Line 3 \"Replacement\"",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 64000,
-        "hoverable": true,
-        "isInteractive": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "stylePropFnRef": {},
-          "strokeColor": "#000000",
-          "strokeWidth": 5,
-          "lineDash": [10]
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "epa_refineries",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=deeptime:epa_refineries&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "headwaters_mn",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "US Refineries",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 1,
-        "maxResolution": 2445.98,
-        "label": null,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "iconUrl": "icons/refinery.png",
-          "scale": 0.8
         }
       },
 
       {
         "type": "XYZ",
-        "name": "urban_ecology",
+        "name": "Citylights",
         "group": "backgroundLayers",
-        "url": "https://api.maptiler.com/maps/e2be1255-22fd-497c-b2f7-66fd83718ae6/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
+        "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_CityLights_2012/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg",
+        "minResolution": 0.25,
+        "opacity": 1,
+        "queryable": false,
+        "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "streets",
+        "group": "backgroundLayers",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0,
         "maxResolution": 64000,
         "opacity": 1,
@@ -814,7 +93,7 @@
         "group": "backgroundLayers",
         "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0.25,
-        "maxResolution": 6400,
+        "maxResolution": 64000,
         "opacity": 1,
         "queryable": false,
         "visible": true,
@@ -822,22 +101,11 @@
       },
       {
         "type": "XYZ",
-        "name": "headwaters_mn",
+        "name": "ESRI-World-Imagery",
         "group": "backgroundLayers",
-        "url": "https://api.maptiler.com/maps/fd000e8f-ff38-4076-bd36-db44bb3e7785/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.25,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "imagery",
-        "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png",
-        "minResolution": 0.25,
-        "maxResolution": 1000,
+        "maxResolution": 20,
         "queryable": false,
         "visible": true
       }
@@ -846,21 +114,18 @@
       "delayInSecondsForInitialStart": 900,
       "delayInSecondsBetweenFrames": 12,
       "maplinks": [
-        "/#/urban_ecology?center=40.552,-89.171&zoom=5.505&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri&sidebar=true", "/#/urban_ecology?center=42.052,-87.928&zoom=7.254&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri&sidebar=true", "/#/urban_ecology?center=41.841,-87.753&zoom=9.320&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri", "/#/urban_ecology?center=41.872,-87.677&zoom=11.517&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri", "/#/urban_ecology?center=41.880,-87.653&zoom=16.000&layers=dtc_walks,dtc_walks2,witness_tree,born_secret,witness_tree2,born_secret2,miss_tri", "/#/headwaters_il?center=40.026,-92.577&zoom=4.190&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.040,-88.730&zoom=6.322&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.096,-87.681&zoom=10.038&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.878,-88.650&zoom=13.624&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_il?center=40.548,-89.680&zoom=13.889&layers=miss_coal_ghg,miss_coal_ash,miss_legacy_ash", "/#/headwaters_mn?center=46.349,-93.311&zoom=3.009&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=29.668,-95.174&zoom=8.446&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=35.941,-96.746&zoom=13.269&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=44.325,-90.038&zoom=4.995&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=46.349,-93.679&zoom=5.737&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=47.145,-94.660&zoom=7.726&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=46.699,-93.506&zoom=13.092&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries", "/#/headwaters_mn?center=46.698,-93.498&zoom=15.328&layers=other_pipes,enbridge_pipes,line3_replacement,epa_refineries"
+        ""
       ]
     },
     "groups": {
-      "headwaters_il": {
+      "one": {
         "default": {
           "layers": [
-            "headwaters",
-            "miss_coal_ash",
-            "miss_legacy_ash",
-            "miss_coal_ghg"
+            "Citylights"
           ],
-          "center": [-88.73, 40.04],
-          "resolution": 800,
-          "minResolution": 0.25,
+          "center": [-40.746, 35.311],
+          "resolution": 30000,
+          "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
@@ -878,40 +143,15 @@
           "maxResolution": 64000
         }
       },
-      "urban_ecology": {
+      "two": {
         "default": {
           "layers": [
-            "urban_ecology",
-            "miss_tri",
-            "dtc_walks",
-            "dtc_walks2",
-            "dtc_galleries",
-            "dtc_galleries2",
-            "inheritance",
-            "inheritance2",
-            "refugium",
-            "refugium2",
-            "timeslips",
-            "timeslips2",
-            "born_secret",
-            "born_secret2",
-            "ignis_noster",
-            "ignis_noster2",
-            "lounging",
-            "lounging2",
-            "hopium",
-            "hopium2",
-            "hopium_2",
-            "hopium_22",
-            "witness_tree",
-            "witness_tree2",
-            "confluence_ecologies",
-            "confluence_ecologies2",
-            "chicken_tenders",
-            "chicken_tenders2"
+            "streets",
+            "ESRI-World-Imagery",
+            "data_display"
           ],
-          "center": [-88.421, 41.742],
-          "resolution": 800,
+          "center": [-40.746, 35.311],
+          "resolution": 30000,
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -930,19 +170,15 @@
           "maxResolution": 64000
         }
       },
-      "headwaters_mn": {
+      "three": {
         "default": {
           "layers": [
-            "headwaters_mn",
-            "other_pipes",
-            "enbridge_pipes",
-            "epa_refineries",
-            "line3_replacement"
+            "headwaters"
           ],
-          "center": [-93.679, 46.349],
-          "resolution": 1200,
+          "center": [-94, 41],
+          "resolution": 2800,
           "minResolution": 0.25,
-          "maxResolution": 32000
+          "maxResolution": 64000
         },
         "local": {
           "layers": [],
@@ -961,9 +197,9 @@
       }
     },
     "groupTitles": {
-      "headwaters_il": "Headwaters IL",
-      "urban_ecology": "URBAN / ECOLOGY",
-      "headwaters_mn": "Headwaters MN"
+      "one": "ONE",
+      "two": "TWO",
+      "three": "THREE"
     },
     "regionTitles": {
       "local": "Local",
@@ -977,26 +213,17 @@
       }
     },
     "featureInfoHiddenProps": [
-      "BPD",
       "caption",
-      "graphUrl",
       "variable1",
       "variable2",
       "imageUrl",
       "sidebarMediaTop",
       "sidebarMediaBottom",
       "videoUrl",
-      "videoSrc",
-      "sidebarVideoSrc",
-      "facility_id",
-      "frs_id",
-      "primary_naics_code",
-      "facility_number",
-      "frsid",
-      "rsei_integer"
+      "videoSrc"
     ],
     "corporateEntitiesUrls": {
-      "Enbridge": "https://its.timetochange.today/Enbridge/"
+      "Enbridge": ""
     }
   }
 }
