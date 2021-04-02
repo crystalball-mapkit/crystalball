@@ -24,14 +24,14 @@
       />
     </div>
 
-    <!-- <div
+    <div
       v-show="spotlightMessage === true"
       :style="`background-color: ${color.primary}`"
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
     >
       press ↑ or ↓ to change spotlight size
-    </div> -->
+    </div>
 
     <!-- Popup overlay  -->
     <overlay-popup
