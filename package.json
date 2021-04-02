@@ -1,0 +1,22 @@
+{
+  "name": "crystalball",
+  "version": "1.0.0",
+  "description": "An online map of political ecology, metropolitan metabolism and community struggles for environmental justice, featuring artworks and research by the group Deep Time Chicago along with friends and allies. Based on an open-source mapping program by Brian Holmes (cartographer) and Majk Shkurti (GIS developer). For more, see http://deeptimechicago.org, as well as the software repo at https://github.com/Brian393/petropolis.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brian393/crystalball.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Brian393/crystalball/issues"
+  },
+  "homepage": "https://github.com/Brian393/crystalball#readme"
+}
