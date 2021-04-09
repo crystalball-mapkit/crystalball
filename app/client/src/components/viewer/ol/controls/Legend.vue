@@ -239,8 +239,8 @@ export default {
         }
       });
       this.regions.forEach(region => {
-        if (region.name === this.activeLayerGroup.region) {
-          title += ` ${region.title}`;
+        if (region.name === this.activeLayerGroup.region && region.name !== "default") {
+          title += ` (${region.title})`;
         }
       });
       this.title = title;
