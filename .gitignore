@@ -5,14 +5,12 @@
 /.sass-cache
 node_modules
 dist
-/app/geoserver/**/*.pbf
 /.vscode
 /app/backups
 /app/config/ssl/certbot
 /app/wp/wp-app
 /app/wp/wp-data
 /app/config/docker-env
-/app/geoserver/*
 /app/tileserver-gl/mbtiles/*
 /app/tileserver-gl/styles/*
 /app/tileserver-gl/config.json
