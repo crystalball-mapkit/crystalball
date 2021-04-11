@@ -22,6 +22,16 @@ module.exports = {
           relatedRoleID: 2,
           createdAt: Sequelize.fn('NOW'),
           updatedAt: Sequelize.fn('NOW')
+        },
+        {
+          userID: 3,
+          firstName: 'Brian',
+          lastName: 'Holmes',
+          userName: 'bhcontinentaldrift@gmail.com',
+          email: 'bhcontinentaldrift@gmail.com',
+          relatedRoleID: 1,
+          createdAt: Sequelize.fn('NOW'),
+          updatedAt: Sequelize.fn('NOW')
         }
       ], {});
   },
