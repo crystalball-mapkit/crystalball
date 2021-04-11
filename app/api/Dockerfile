@@ -15,5 +15,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 
+RUN chmod a+x *.sh
+ENTRYPOINT ["./entrypoint.sh" ]
+
 EXPOSE 3000
-CMD [ "node", "app.js" ]

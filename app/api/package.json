@@ -6,7 +6,8 @@
     "dev": "npm run-script reset && npm run-script setup && npm start",
     "migrate": "node_modules/.bin/sequelize db:migrate",
     "seed": "npx sequelize-cli db:seed:all",
-    "setup": "node_modules/.bin/sequelize db:migrate && node_modules/.bin/sequelize db:seed:all",
+    "setup": "node_modules/.bin/sequelize db:migrate && node_modules/.bin/sequelize && db:seed:all",
+    "production": "npm run-script setup; node app.js",
     "reset": "node_modules/.bin/sequelize db:migrate:undo:all"
   },
   "dependencies": {
