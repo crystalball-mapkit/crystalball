@@ -4,14 +4,12 @@ const multerS3 = require("multer-s3");
 var path = require("path");
 
 aws.config.update({
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  region: process.env.AWS_REGION_NAME,
+  secretAccessKey: process.env.S3_SECRET_KEY,
+  accessKeyId: process.env.S3_ACCESS_KEY,
+  region: process.env.S3_REGION,
 });
 
 const s3 = new aws.S3();
-const uploadFolder = process.env.BUCKET_ENV_UPLOAD_FOLDER;
-const baseFolder = process.env.UPLOAD_BASE_FOLDER;
 const jwtDecode = require("jwt-decode");
 
 const fileFilter = (req, file, cb) => {
@@ -31,7 +29,7 @@ const upload = multer({
   fileFilter,
   storage: multerS3({
     s3,
-    bucket: process.env.BUCKET_NAME,
+    bucket: process.env.S3_BUCKET,
     acl: "public-read",
     metadata: function (req, file, cb) {
       const decodedToken = jwtDecode(req.headers.authorization);
@@ -48,13 +46,7 @@ const upload = multer({
       } else {
         cb(new Error("Invalid Mime Type, only JPEG, PNG, MP3 and WAV"), false);
       }
-      const path =
-        baseFolder +
-        uploadFolder +
-        assetSubfolder +
-        Date.now() +
-        "_" +
-        file.originalname;
+      const path = "assets/" + assetSubfolder + Date.now() + "_" + file.originalname;
       console.log(path);
       cb(null, path); //Appending extension
     },

@@ -2,17 +2,17 @@ version: '3.7'
 
 services:
   geoserver:
-    image: ${DOCKER_ID}/${PROJECT_NAME}:geoserver-${PROJECT_VERSION}
+    image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:geoserver-${PROJECT_VERSION}
     volumes:
       - ./_volume_geodatadir:/geodatadir/
 
   pgdumper:
-    image: ${DOCKER_ID}/${PROJECT_NAME}:pgdumper-${PROJECT_VERSION}
+    image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:pgdumper-${PROJECT_VERSION}
     volumes:
       - ./_volume_pgdumps:/pgdumps/
 
   rclone:
-    image: ${DOCKER_ID}/${PROJECT_NAME}:rclone-${PROJECT_VERSION}
+    image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:rclone-${PROJECT_VERSION}
     volumes:
       - ./_volume_pgdumps:/pgdumps/
       - ./_volume_geodatadir:/geodatadir/

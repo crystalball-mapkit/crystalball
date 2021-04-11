@@ -3,8 +3,6 @@ const secret = process.env.JWT_SECRET;
 
 // Returns secret only known to server at runtime
 exports.getSecret = () => {
-  const secret = require("../../config/secret.json").secret;
-  console.log("secret", secret);
   return secret;
 };
 

@@ -1,0 +1,13 @@
+tcp:
+  services:
+    wstunnel:
+      loadBalancer:
+        servers:
+          - address: "host.docker.internal:4443"
+
+  routers:
+    wstunnel:
+      rule: "HostSNI(`wss.domain.com`)"
+      service: "wstunnel"
+      tls:
+        passthrough: true
