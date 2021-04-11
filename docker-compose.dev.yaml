@@ -111,7 +111,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_DB_NAME=${COMPOSE_PROJECT_NAME}
-      - DATABASE_URL=postgis://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${COMPOSE_PROJECT_NAME}
+      - DATABASE_URL=postgis://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${COMPOSE_PROJECT_NAME}_db:5432/${COMPOSE_PROJECT_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
       # uncomment to enable remote connections to postgres
@@ -159,7 +159,7 @@ services:
     restart: on-failure
     environment:
       - DATABASE=${COMPOSE_PROJECT_NAME}
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${COMPOSE_PROJECT_NAME}
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${COMPOSE_PROJECT_NAME}_db:5432/${COMPOSE_PROJECT_NAME}
 
   rclone:
     image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:rclone-${PROJECT_VERSION}
