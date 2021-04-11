@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.9"
 
 networks:
    default:
@@ -76,6 +76,11 @@ services:
       # uncomment to enable remote connections to postgres
     ports:
       - "${POSTGRES_OUTER_PORT}:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "$${POSTGRES_USER}", "-d", "$${COMPOSE_PROJECT_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: on-failure
 
   api:
@@ -105,6 +110,10 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_api.tls.certresolver=myhttpchallenge"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_api.tls=true"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}_api.loadBalancer.server.port=3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
 
   pgdumper:
     image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:pgdumper-${PROJECT_VERSION}
@@ -113,10 +122,13 @@ services:
     hostname: ${COMPOSE_PROJECT_NAME}_pgdumper
     volumes:
       - pgdumps:/pgdumps/
-    restart: on-failure
     environment:
       - DATABASE=${COMPOSE_PROJECT_NAME}
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${COMPOSE_PROJECT_NAME}_db:5432/${COMPOSE_PROJECT_NAME}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
 
   rclone:
     image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:rclone-${PROJECT_VERSION}
@@ -131,4 +143,7 @@ services:
     volumes:
       - pgdumps:/pgdumps/
       - geodatadir:/geodatadir/
+    depends_on:
+      db:
+        condition: service_healthy
     restart: on-failure

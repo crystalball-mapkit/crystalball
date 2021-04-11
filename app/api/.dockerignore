@@ -23,4 +23,3 @@ yarn-error.log*
 **/node_modules/
 **/bower_components/
 **/wwwroot/lib/*
-**/config/*
