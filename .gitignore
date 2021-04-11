@@ -19,3 +19,5 @@ dist
 /app/api/.env
 /app/config/api/*
 cache_data
+.env
+_volume_*
