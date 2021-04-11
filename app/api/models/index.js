@@ -4,8 +4,15 @@ var fs        = require('fs');
 var path      = require('path');
 var Sequelize = require('sequelize');
 var basename  = path.basename(__filename);
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config.json')[env];
+var config = {
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB_NAME,
+  host: `${process.env.POSTGRES_DB_NAME}_db`,
+  port: "5432",
+  dialect: "postgres",
+};
+
 var db        = {};
 
 if (config.use_env_variable) {

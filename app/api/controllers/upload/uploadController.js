@@ -1,6 +1,4 @@
 const permissionController = require("../auth/permissionController");
-const sequelize = require("../../db.js");
-
 const upload = require("../../services/file-upload");
 
 const singleUpload = upload.single("file");
@@ -12,10 +10,12 @@ exports.file_upload = (req, res) => {
           errors: [{ title: "File Upload Error", detail: err.message }],
         });
       }
-      const fileUrl = process.env.CLOUDFRONT_BASE_URL
-        ? process.env.CLOUDFRONT_BASE_URL +
-          req.file.key.replace(process.env.UPLOAD_BASE_FOLDER, "")
+
+      const fileUrl = process.env.AWS_CLOUDFRONT_URL
+        ? process.env.AWS_CLOUDFRONT_URL +
+          req.file.key.replace("assets", "")
         : process.file.location;
+        
       return res.json({ fileUrl });
     });
   });

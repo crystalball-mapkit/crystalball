@@ -16,9 +16,8 @@ exports.layer_post = (req, res) => {
         payload.hasOwnProperty("sidebarPosition")
       ) {
         payload.properties[payload.sidebarPosition] = process.env
-          .CLOUDFRONT_BASE_URL
-          ? process.env.CLOUDFRONT_BASE_URL +
-            req.file.key.replace(process.env.UPLOAD_BASE_FOLDER, "")
+          .AWS_CLOUDFRONT_URL
+          ? process.env.AWS_CLOUDFRONT_URL + req.file.key.replace("assets", "")
           : process.file.location;
       }
       if (payload.table.charAt(0) === "_") {
