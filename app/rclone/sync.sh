@@ -4,7 +4,7 @@
 set -e
 
 if [ ! -z "${S3_ACCESS_KEY}" ]; then
-    rclone sync -v --config /rclone.s3.conf /geodatadir/ crystalball:geodatadir/
+    rclone sync -v --config /rclone.s3.conf /opt/geoserver/data_dir/ crystalball:geodatadir/
     rclone sync -v --config /rclone.s3.conf /pgdumps/ crystalball:pgdumps/
 
     echo "S3 sync successful !!"
