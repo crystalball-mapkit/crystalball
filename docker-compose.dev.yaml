@@ -102,27 +102,20 @@ services:
     build: ./app/geoserver
     container_name: ${COMPOSE_PROJECT_NAME}_geoserver
     hostname: ${COMPOSE_PROJECT_NAME}_geoserver
-    networks:
-      - proxy_dev
     volumes:
-      - geodatadir:/geodatadir/
+      - geodatadir:/opt/geoserver/data_dir
     environment:
       - INITIAL_MEMORY=${INITIAL_MEMORY}
       - MAXIMUM_MEMORY=${MAXIMUM_MEMORY}
-      - HTTPS_HOST=
-      - HTTPS_PORT=
-      - HTTP_HOST=localhost
-      - HTTP_PORT=80
-      - ADMIN_USERNAME=${ADMIN_USERNAME}
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
+      - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}_geoserver.loadBalancer.server.port=8080"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_geoserver.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/geoserver`)"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_geoserver.entrypoints=web"
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     restart: on-failure
 
   api:
@@ -188,7 +181,7 @@ services:
       - S3_BUCKET=${S3_BUCKET}
     volumes:
       - pgdumps:/pgdumps/
-      - geodatadir:/geodatadir/
+      - geodatadir:/opt/geoserver/data_dir
     depends_on:
       db:
         condition: service_healthy

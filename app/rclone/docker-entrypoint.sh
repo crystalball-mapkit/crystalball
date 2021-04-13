@@ -15,7 +15,7 @@ date
 echo "-----------------------------------------------------"
 echo "1. Assert there is data to be backed up"
 
-if [ "$(ls -A /geodatadir)" ] || [ "$(ls -A /pgdumps)" ]; then
+if [ "$(ls -A /opt/geoserver/data_dir)" ] || [ "$(ls -A /pgdumps)" ]; then
     echo 'Found data do backup'
 else
     # If all backups directories are empty, we quit, because
