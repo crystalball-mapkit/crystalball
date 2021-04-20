@@ -14,6 +14,7 @@
         app
         clipped
         right
+        :style="`color:${$appConfig.app.sideBar.textColor};`"
       >
         <side-panel></side-panel>
       </v-navigation-drawer>
