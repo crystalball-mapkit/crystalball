@@ -197,7 +197,7 @@ export default {
       region: this.region
     });
     // Set initial state for sidebar.
-    // this.setSidebarInitialState(this.$appConfig.app.sideBar.isVisible);
+     this.setSidebarInitialState(this.$appConfig.app.sideBar.isVisible);
   },
   watch: {
     $route(newValue, oldValue) {

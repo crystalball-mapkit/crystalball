@@ -784,7 +784,7 @@ export default {
       this.imageUpload.selectedFile = null;
       this.$refs.imageUploader.value = null;
       this.imageUpload.errorMessage = '';
-      this.imageUpload.position = 'top';
+      this.imageUpload.position = 'sidebarMediaTop';
     },
     /**
      * Popup action buttons
