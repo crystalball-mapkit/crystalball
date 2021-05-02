@@ -23,7 +23,7 @@ RUN /usr/bin/crontab crontab
 RUN rm crontab
 
 ADD rclone.s3.conf.envsubst rclone.s3.conf.envsubst
-
+RUN chmod a+x *.sh
 # We run cron in foreground to update the certificates
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/usr/sbin/crond", "-f"]

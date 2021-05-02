@@ -28,14 +28,13 @@ services:
     restart: always
 
   traefik:
-    image: traefik:v2.3.5
+    image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:traefik-2.3.5
+    build: ./app/traefik/
     container_name: ${COMPOSE_PROJECT_NAME}_traefik
     ports:
       - 80:80
     depends_on:
       - socket-proxy
-    entrypoint:
-      - /entrypoint-shim.sh
     command:
       - "--providers.docker=true"
       - "--providers.docker.endpoint=tcp://socket-proxy:2375"
