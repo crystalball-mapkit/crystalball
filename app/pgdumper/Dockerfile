@@ -7,6 +7,8 @@ RUN apk add --no-cache gettext
 ADD crontab crontab.envsubst
 ADD docker-entrypoint.sh /
 
+RUN chmod a+x *.sh
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # We run cron in foreground to update the certificates
