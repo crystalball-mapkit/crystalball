@@ -339,7 +339,7 @@ export default {
       }).extend([attribution]),
       view: new View({
         center: me.center || [0, 0],
-        minResolution: 0.5,
+        minResolution: 0,
         maxResolution: 64000
       })
     });
