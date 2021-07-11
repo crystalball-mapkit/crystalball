@@ -18,6 +18,7 @@
     "axios": "^0.19.2",
     "colormap": "^2.3.0",
     "core-js": "^3.6.4",
+    "deps": "^1.0.0",
     "jwt-decode": "^2.2.0",
     "location": "0.0.1",
     "material-design-icons": "^3.0.1",

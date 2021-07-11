@@ -3,6 +3,7 @@ import OlStroke from 'ol/style/Stroke';
 import OlFill from 'ol/style/Fill';
 import OlCircle from 'ol/style/Circle';
 import OlIconStyle from 'ol/style/Icon';
+import OlText from 'ol/style/Text';
 import store from '../store/modules/map';
 
 let strokeColor = 'rgba(236, 236, 236, 0.7)';
@@ -109,7 +110,7 @@ export function postEditLayerStyle() {
       image: new OlCircle({
         radius: 27,
         stroke: new OlStroke({
-          color: "red",
+          color: 'red',
           width: 3
         }),
         fill: new OlFill({
@@ -207,6 +208,7 @@ export function baseStyle(config) {
         strokeWidth,
         lineDash,
         fillColor,
+        featureLabelText,
         circleRadiusFn,
         iconUrl,
         iconScaleFn,
@@ -218,6 +220,21 @@ export function baseStyle(config) {
         stylePropFnRef
       } = config;
       const geometryType = feature.getGeometry().getType();
+      let labelText;
+      if (feature.get(featureLabelText)) {
+        labelText = new OlText({
+
+          text: "test",
+          fill: new OlFill({
+            color: '#000'
+          }),
+          stroke: new OlStroke({
+            color: '#fff',
+            width: 3
+          })
+        });
+      }
+
       switch (geometryType) {
         /**
          * Style used for geometry point type. It will render a circle based on the given formula
@@ -226,7 +243,7 @@ export function baseStyle(config) {
         case 'MultiPoint': {
           let style;
           if (iconUrl || iconScaleFn) {
-            style = new OlStyle({
+            const options = {
               image: new OlIconStyle({
                 src:
                   stylePropFnRef &&
@@ -243,9 +260,13 @@ export function baseStyle(config) {
                 anchorXUnits: iconAnchorXUnits,
                 anchorYUnits: iconAnchorYUnits
               })
-            });
+            };
+            if (labelText) {
+              options.text = labelText;
+            }
+            style = new OlStyle(options);
           } else {
-            style = new OlStyle({
+            const options = {
               image: new OlCircle({
                 stroke: new OlStroke({
                   color:
@@ -275,8 +296,24 @@ export function baseStyle(config) {
                   circleRadiusFn instanceof Function
                     ? circleRadiusFn(feature.get(stylePropFnRef.circleRadiusFn))
                     : 5
+              }),
+              text: new OlText({
+                textAlign: 'left',
+                offsetX: 100,
+                text: 'test',
+                fill: new OlFill({
+                  color: '#000'
+                }),
+                stroke: new OlStroke({
+                  color: '#fff',
+                  width: 3
+                })
               })
-            });
+            };
+            // if (labelText) {
+            //   options.text = labelText;
+            // }
+            style = new OlStyle(options);
           }
 
           if (cacheId) {
@@ -291,7 +328,7 @@ export function baseStyle(config) {
          */
         case 'LineString':
         case 'MultiLineString': {
-          const style = new OlStyle({
+          const options = {
             stroke: new OlStroke({
               color:
                 stylePropFnRef &&
@@ -307,7 +344,11 @@ export function baseStyle(config) {
                   : strokeWidth || 4,
               lineDash: lineDash || [6]
             })
-          });
+          };
+          if (labelText) {
+            options.text = labelText;
+          }
+          const style = new OlStyle(options);
 
           if (cacheId) {
             styleCache[cacheId] = style;
@@ -371,7 +412,7 @@ export function colorMapStyle(layerName, colorField) {
 }
 export function htmlLayerStyle() {
   const styleFunction = feature => {
-    const group  = feature.get('group');
+    const group = feature.get('group');
 
     if (group === store.state.activeLayerGroup.navbarGroup) {
       return new OlStyle({
@@ -380,9 +421,9 @@ export function htmlLayerStyle() {
           scale: 1,
           opacity: 1
         })
-      })
+      });
     } else {
-      return []
+      return [];
     }
   };
   return styleFunction;
