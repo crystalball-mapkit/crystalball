@@ -85,8 +85,8 @@ export const LayerFactory = {
    * @return {ol.style} Ol Style
    */
   renderStyle(styleProps, layerName) {
-    let { styleRef, stylePropFnRef, featureLabelText } = styleProps;
-    if ((stylePropFnRef && !styleRef) || featureLabelText) {
+    let { styleRef, stylePropFnRef, label } = styleProps;
+    if ((stylePropFnRef && !styleRef) || label) {
       styleRef = 'baseStyle';
     }
     if (!stylePropFnRef) {
@@ -94,7 +94,7 @@ export const LayerFactory = {
     }
     if (
       (styleProps && styleRef && stylePropFnRef && styleRefs[styleRef]) ||
-      featureLabelText
+      label
     ) {
       // Get style function reference (default is baseStyle)
       const styleFn = styleRefs[styleRef];
