@@ -87,13 +87,13 @@
           "label": {
             "text": "capacity",
             "fill": {
-              "color": "black"
+              "color": "white"
             },
             "stroke": {
-              "color": "white",
-              "width": 3
+              "color": "red",
+              "width": 4
             },
-            "offsetX": 12,
+            "offsetX": 14,
             "offsetY": 0,
             "maxResolution": 1200,
             "placement": "point",
@@ -101,7 +101,7 @@
             "textWrap": "normal",
             "fontType": "Arial",
             "fontSize": 12,
-            "fontWeight": "normal"
+            "fontWeight": "bold"
           }
         }
       },

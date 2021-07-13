@@ -222,13 +222,17 @@ export function baseStyle(config) {
       const geometryType = feature.getGeometry().getType();
       let labelText;
       if (feature.get(label.text)) {
-        const font =
-          label.fontWeight |
-          ('normal' + ' ' + label.fontSize) |
-          (12 + '/' + 1 + ' ' + label.fontType) |
-          'Arial';
-        const placement = ['Point', 'MultiPoint'].includes(geometryType);
-        
+        const fontWeight = label.fontWeight || 'normal';
+        const fontSize = label.fontSize || 12;
+        const fontType = label.fontType || 'Arial';
+        const font = fontWeight + ' ' + fontSize + '/' + 1 + ' ' + fontType;
+        const placement =
+          (!['Point', 'MultiPoint'].includes(geometryType) &&
+            label.placement !== 'point') ||
+          !label.placement
+            ? 'point'
+            : label.placement;
+
         labelText = new OlText({
           font,
           textAlign: label.textAlign,
@@ -236,14 +240,14 @@ export function baseStyle(config) {
             feature.get(label.text),
             resolution,
             label.maxResolution || 1200,
-            label.placement
+            placement
           ),
-          offsetX: label.offsetX,
-          offsetY: label.offsetY,
-          fill: new OlFill({ color: label.fill.color }),
+          offsetX: label.offsetX || 12,
+          offsetY: label.offsetY || 0,
+          fill: new OlFill({ color: label.fill.color || 'black' }),
           stroke: new OlStroke({
-            color: label.stroke.color,
-            width: label.stroke.width
+            color: label.stroke.color || 'white',
+            width: label.stroke.width || 3
           })
         });
       }
