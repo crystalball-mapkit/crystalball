@@ -84,7 +84,25 @@
           "scale": 0.7,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
-          "featureLabelText": "capacity"
+          "label": {
+            "text": "capacity",
+            "fill": {
+              "color": "black"
+            },
+            "stroke": {
+              "color": "white",
+              "width": 3
+            },
+            "offsetX": 12,
+            "offsetY": 0,
+            "maxResolution": 1200,
+            "placement": "point",
+            "textAlign": "left",
+            "textWrap": "normal",
+            "fontType": "Arial",
+            "fontSize": 12,
+            "fontWeight": "normal"
+          }
         }
       },
       {
