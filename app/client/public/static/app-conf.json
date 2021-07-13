@@ -7,7 +7,7 @@
     },
     "legend": { "isVisible": false },
     "sideBar": {
-      "isVisible": false,
+      "isVisible": true,
       "backgroundColor": "#fefefe",
       "textColor": "black"
     }
@@ -45,86 +45,22 @@
         "type": "VECTOR",
         "name": "data_display",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:hot_issues&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "two",
+        "group": "coal",
         "queryable": true,
         "displayInLegend": true,
         "legendDisplayName": "Data Display",
         "format": "GeoJSON",
         "visible": true,
-        "zIndex": 10000,
+        "zIndex": 100,
         "minResolution": 0.5,
         "maxResolution": 80000,
-        "label": false,
+        "label": true,
         "hoverable": true,
         "style": {
-          "iconUrl": "https://s3.us-east-2.amazonaws.com/ecotopia.today/assets/prod/crystalball/icons/purple.png",
+          "iconUrl": "icons/Marker-red.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "solar",
-        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:solar@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "one",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Solar Power",
-        "format": "MVT",
-        "renderMode": "image",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "https://s3.us-east-2.amazonaws.com/ecotopia.today/assets/prod/crystalball/icons/sun.png",
-          "scale": 0.7,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "label": {
-            "text": "capacity",
-            "fill": {
-              "color": "white"
-            },
-            "stroke": {
-              "color": "red",
-              "width": 4
-            },
-            "offsetX": 14,
-            "offsetY": 0,
-            "maxResolution": 1200,
-            "placement": "point",
-            "textAlign": "left",
-            "textWrap": "normal",
-            "fontType": "Arial",
-            "fontSize": 12,
-            "fontWeight": "bold"
-          }
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "wind",
-        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:wind@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "one",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Wind Power",
-        "format": "MVT",
-        "renderMode": "image",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "strokeColor": "#a51e16",
-          "fillColor": "#ff3b30",
-          "radius": 4
         }
       },
 
@@ -133,79 +69,31 @@
         "name": "Citylights",
         "group": "backgroundLayers",
         "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_CityLights_2012/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg",
-        "minResolution": 20,
+        "minResolution": 0.25,
         "opacity": 1,
         "queryable": false,
         "visible": true
       },
       {
         "type": "XYZ",
-        "name": "tree_tiles2",
-        "group": "three",
-        "url": "https://s3.us-east-2.amazonaws.com/crystalball-mapkit/assets/prod/maptime/tiles/tree_tiles2/{z}/{x}/{y}.png",
-        "minResolution": 4,
-        "maxResolution": 64000,
-        "opacity": 1,
-        "queryable": false,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "hillshade",
+        "name": "streets",
         "group": "backgroundLayers",
-        "url": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "opacity": 0.5,
-        "queryable": false,
-        "visible": true,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "watercolor",
-        "group": "backgroundLayers",
-        "url": "https://stamen-tiles-{a-d}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png",
-        "minResolution": 0.25,
-        "maxResolution": 8,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "labels",
-        "group": "backgroundLayers",
-        "url": "https://stamen-tiles-{a-d}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.png",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0,
         "maxResolution": 64000,
-        "opacity": 0.99,
+        "opacity": 1,
         "queryable": false,
         "visible": true,
         "updatewhileanimating": true
       },
       {
         "type": "XYZ",
-        "name": "osm",
-        "group": "three",
-        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm%3Aosm_transparencies@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "name": "headwaters",
+        "group": "backgroundLayers",
+        "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
         "minResolution": 0.25,
         "maxResolution": 64000,
-        "displayInLegend": true,
-        "legendDisplayName": "OSM tile layer",
-        "opacity": 0.9,
-        "visible": true,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "toner_light",
-        "group": "backgroundLayers",
-        "url": "https://stamen-tiles-{a-d}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.png",
-        "minResolution": 0.25,
-        "maxResolution": 800,
-        "opacity": 0.7,
+        "opacity": 1,
         "queryable": false,
         "visible": true,
         "updatewhileanimating": true
@@ -219,37 +107,6 @@
         "maxResolution": 20,
         "queryable": false,
         "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "aerial1",
-        "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 2,
-        "opacity": 0.1,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "aerial2",
-        "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0,
-        "maxResolution": 0.25,
-        "opacity": 0.9,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "BING-QUADKEY",
-        "name": "BING-Layer",
-        "group": "backgroundLayers",
-        "url": "https://t0.tiles.virtualearth.net/tiles/t",
-        "maxZoom": 19,
-        "visible": true,
-        "attributions": "© Microsoft Coorporation © Digital Globe ©CNES Distribution Airbus DS <a href='https://www.microsoft.com/en-us/maps/product'>Terms of use</a> "
       }
     ],
     "flyToSlideshow": {
@@ -260,15 +117,9 @@
     "groups": {
       "one": {
         "default": {
-          "layers": [
-            "Citylights",
-            "toner_light",
-            "ESRI-World-Imagery",
-            "wind",
-            "solar"
-          ],
-          "center": [27.091, 36.911],
-          "resolution": 3500,
+          "layers": ["Citylights"],
+          "center": [-40.746, 35.311],
+          "resolution": 30000,
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -289,12 +140,7 @@
       },
       "two": {
         "default": {
-          "layers": [
-            "watercolor",
-            "ESRI-World-Imagery",
-            "data_display",
-            "labels"
-          ],
+          "layers": ["streets", "ESRI-World-Imagery", "data_display"],
           "center": [-40.746, 35.311],
           "resolution": 30000,
           "minResolution": 0,
@@ -317,23 +163,16 @@
       },
       "three": {
         "default": {
-          "layers": [
-            "watercolor",
-            "tree_tiles2",
-            "osm",
-            "aerial1",
-            "aerial2",
-            "data_display"
-          ],
-          "center": [-93.88, 39.58],
-          "resolution": 4000,
+          "layers": ["headwaters"],
+          "center": [-94, 41],
+          "resolution": 2800,
           "minResolution": 0.25,
           "maxResolution": 64000
         },
         "local": {
           "layers": [],
           "center": [-97, 37],
-          "resolution": 6000,
+          "resolution": 4500,
           "minResolution": 0.25,
           "maxResolution": 16000
         },
@@ -358,7 +197,8 @@
     },
     "popupFieldsMapping": {
       "default": {
-        "title": "NAME"
+        "title": "NAME",
+        "entity": "OWNER"
       }
     },
     "featureInfoHiddenProps": [
