@@ -188,7 +188,7 @@ export function worldOverlayFill() {
  */
 let styleCache = {};
 export function baseStyle(config) {
-  const styleFunction = feature => {
+  const styleFunction = (feature, resolution) => {
     // Get cache uid.
     let cacheId;
     if (config.stylePropFnRef) {
@@ -208,7 +208,7 @@ export function baseStyle(config) {
         strokeWidth,
         lineDash,
         fillColor,
-        featureLabelText,
+        label,
         circleRadiusFn,
         iconUrl,
         iconScaleFn,
@@ -221,16 +221,29 @@ export function baseStyle(config) {
       } = config;
       const geometryType = feature.getGeometry().getType();
       let labelText;
-      if (feature.get(featureLabelText)) {
+      if (feature.get(label.text)) {
+        const font =
+          label.fontWeight |
+          ('normal' + ' ' + label.fontSize) |
+          (12 + '/' + 1 + ' ' + label.fontType) |
+          'Arial';
+        const placement = ['Point', 'MultiPoint'].includes(geometryType);
+        
         labelText = new OlText({
-
-          text: "test",
-          fill: new OlFill({
-            color: '#000'
-          }),
+          font,
+          textAlign: label.textAlign,
+          text: getText(
+            feature.get(label.text),
+            resolution,
+            label.maxResolution || 1200,
+            label.placement
+          ),
+          offsetX: label.offsetX,
+          offsetY: label.offsetY,
+          fill: new OlFill({ color: label.fill.color }),
           stroke: new OlStroke({
-            color: '#fff',
-            width: 3
+            color: label.stroke.color,
+            width: label.stroke.width
           })
         });
       }
@@ -296,23 +309,11 @@ export function baseStyle(config) {
                   circleRadiusFn instanceof Function
                     ? circleRadiusFn(feature.get(stylePropFnRef.circleRadiusFn))
                     : 5
-              }),
-              text: new OlText({
-                textAlign: 'left',
-                offsetX: 100,
-                text: 'test',
-                fill: new OlFill({
-                  color: '#000'
-                }),
-                stroke: new OlStroke({
-                  color: '#fff',
-                  width: 3
-                })
               })
             };
-            // if (labelText) {
-            //   options.text = labelText;
-            // }
+            if (labelText) {
+              options.text = labelText;
+            }
             style = new OlStyle(options);
           }
 
@@ -349,7 +350,6 @@ export function baseStyle(config) {
             options.text = labelText;
           }
           const style = new OlStyle(options);
-
           if (cacheId) {
             styleCache[cacheId] = style;
           } else {
@@ -449,6 +449,41 @@ export const defaultLimits = {
     defaultMultiplier: 0.3
   }
 };
+
+const getText = function(text, resolution, maxResolution, placement, textWrap) {
+  if (resolution > maxResolution) {
+    text = '';
+  } else if (textWrap == 'hide') {
+    text = '';
+  } else if (textWrap == 'shorten') {
+    text = text.trunc(12);
+  } else if (textWrap == 'wrap' && (!placement || placement != 'line')) {
+    text = stringDivider(text, 16, '\n');
+  }
+
+  return text;
+};
+
+// https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
+function stringDivider(str, width, spaceReplacer) {
+  if (str.length > width) {
+    let p = width;
+    while (p > 0 && str[p] != ' ' && str[p] != '-') {
+      p--;
+    }
+    if (p > 0) {
+      let left;
+      if (str.substring(p, p + 1) == '-') {
+        left = str.substring(0, p + 1);
+      } else {
+        left = str.substring(0, p);
+      }
+      const right = str.substring(p + 1);
+      return left + spaceReplacer + stringDivider(right, width, spaceReplacer);
+    }
+  }
+  return str;
+}
 
 const getIconScaleValue = (
   propertyValue,
