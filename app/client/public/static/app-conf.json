@@ -41,6 +41,7 @@
     ],
     "center": [0, 0],
     "layers": [
+
       {
         "type": "VECTOR",
         "name": "data_display",
@@ -55,12 +56,52 @@
         "minResolution": 0.5,
         "maxResolution": 80000,
         "label": true,
-        "hoverable": true,
+        "hoverable": false,
         "style": {
           "iconUrl": "icons/Marker-red.png",
-          "scale": 1,
+          "label": {
+          "text": "title",
+          "fill": {
+          "color": "black"
+            },
+          "stroke": {
+            "color": "white",
+            "width": 6
+            },
+          "offsetX": 12,
+          "offsetY": 0,
+          "maxResolution": 32000,
+          "placement": "point",
+          "textAlign": "left",
+          "textWrap": "normal",
+          "fontType": "Zen Dots",
+          "fontSize": 40,
+          "fontWeight": "bold"
+          }
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "solar",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:solar@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "one",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Solar Power",
+        "format": "MVT",
+        "renderMode": "image",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.5,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://s3.us-east-2.amazonaws.com/ecotopia.today/assets/prod/crystalball/icons/sun.png",
+          "scale": 0.7,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#000000",
+          "featureLabelText": "capacity"
         }
       },
 
@@ -76,9 +117,9 @@
       },
       {
         "type": "XYZ",
-        "name": "streets",
+        "name": "world_map",
         "group": "backgroundLayers",
-        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}.png",
         "minResolution": 0,
         "maxResolution": 64000,
         "opacity": 1,
@@ -112,12 +153,16 @@
     "flyToSlideshow": {
       "delayInSecondsForInitialStart": 900,
       "delayInSecondsBetweenFrames": 12,
-      "maplinks": [""]
+      "maplinks": [
+        ""
+      ]
     },
     "groups": {
       "one": {
         "default": {
-          "layers": ["Citylights"],
+          "layers": [
+            "Citylights"
+          ],
           "center": [-40.746, 35.311],
           "resolution": 30000,
           "minResolution": 0,
@@ -127,20 +172,25 @@
           "layers": [],
           "center": [-99, 42.9],
           "resolution": 9000,
-          "minResolution": 0.25,
-          "maxResolution": 32000
+          "minResolution": 0,
+          "maxResolution": 64000
         },
         "global": {
           "layers": [],
           "center": [2.44, 30.81],
           "resolution": 25000,
-          "minResolution": 0.25,
+          "minResolution": 0,
           "maxResolution": 64000
         }
       },
       "two": {
         "default": {
-          "layers": ["streets", "ESRI-World-Imagery", "data_display"],
+          "layers": [
+            "world_map",
+            "ESRI-World-Imagery",
+            "regiones2",
+            "data_display"
+          ],
           "center": [-40.746, 35.311],
           "resolution": 30000,
           "minResolution": 0,
@@ -150,20 +200,22 @@
           "layers": [],
           "center": [-99, 42.9],
           "resolution": 9000,
-          "minResolution": 0.25,
-          "maxResolution": 32000
+          "minResolution": 0,
+          "maxResolution": 64000
         },
         "global": {
           "layers": [],
           "center": [-5, 30],
           "resolution": 32000,
-          "minResolution": 0.25,
+          "minResolution": 0,
           "maxResolution": 64000
         }
       },
       "three": {
         "default": {
-          "layers": ["headwaters"],
+          "layers": [
+            "headwaters"
+          ],
           "center": [-94, 41],
           "resolution": 2800,
           "minResolution": 0.25,

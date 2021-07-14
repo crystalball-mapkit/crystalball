@@ -46,7 +46,7 @@
       <v-spacer></v-spacer>
       <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
         <v-btn
-          min-width="100"
+          min-width="200"
           class="mx-10"
           :dark="
             activeLayerGroup.navbarGroup === navbarGroup.name ? false : true
@@ -128,7 +128,7 @@ export default {
       EventBus.$emit('resetMap');
     },
     openWebsite() {
-      window.open('https://casariolab.art', '_blank');
+      window.open('https://wiki.timetochange.today', '_blank');
     },
     zoomToLocation() {
       if (this.region === 'local') {
