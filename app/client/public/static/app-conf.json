@@ -214,7 +214,8 @@
       "three": {
         "default": {
           "layers": [
-            "headwaters"
+            "headwaters",
+            "solar"
           ],
           "center": [-94, 41],
           "resolution": 2800,
