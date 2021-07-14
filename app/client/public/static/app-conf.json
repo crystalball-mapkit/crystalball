@@ -161,7 +161,8 @@
       "one": {
         "default": {
           "layers": [
-            "Citylights"
+            "Citylights",
+            "solar"
           ],
           "center": [-40.746, 35.311],
           "resolution": 30000,
@@ -214,8 +215,7 @@
       "three": {
         "default": {
           "layers": [
-            "headwaters",
-            "solar"
+            "headwaters"
           ],
           "center": [-94, 41],
           "resolution": 2800,
