@@ -38,7 +38,7 @@
             color="gray"
             class="ml-0"
             @click="openWebsite()"
-            ><v-icon medium>fas fa-question</v-icon></v-btn
+            ><v-icon small>fas fa-home</v-icon></v-btn
           > </template
         ><span>Open Website</span>
       </v-tooltip>
@@ -46,7 +46,7 @@
       <v-spacer></v-spacer>
       <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
         <v-btn
-          min-width="200"
+          min-width="100"
           class="mx-10"
           :dark="
             activeLayerGroup.navbarGroup === navbarGroup.name ? false : true
@@ -128,7 +128,7 @@ export default {
       EventBus.$emit('resetMap');
     },
     openWebsite() {
-      window.open('https://wiki.timetochange.today', '_blank');
+      window.open('https://casariolab.art', '_blank');
     },
     zoomToLocation() {
       if (this.region === 'local') {

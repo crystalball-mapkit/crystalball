@@ -85,11 +85,17 @@ export const LayerFactory = {
    * @return {ol.style} Ol Style
    */
   renderStyle(styleProps, layerName) {
-    let { styleRef, stylePropFnRef } = styleProps;
-    if (stylePropFnRef && !styleRef) {
+    let { styleRef, stylePropFnRef, label } = styleProps;
+    if ((stylePropFnRef && !styleRef) || label) {
       styleRef = 'baseStyle';
     }
-    if (styleProps && styleRef && stylePropFnRef && styleRefs[styleRef]) {
+    if (!stylePropFnRef) {
+      stylePropFnRef = {};
+    }
+    if (
+      (styleProps && styleRef && stylePropFnRef && styleRefs[styleRef]) ||
+      label
+    ) {
       // Get style function reference (default is baseStyle)
       const styleFn = styleRefs[styleRef];
       // Get the functions of the layer
@@ -98,12 +104,12 @@ export const LayerFactory = {
       Object.keys(stylePropFnRef).forEach(fnName => {
         let fn;
         if (layersStylePropFn[layerName]) {
-           fn =
+          fn =
             layersStylePropFn[layerName][fnName] ||
             layersStylePropFn.default[fnName];
         } else {
           if (layersStylePropFn.default[fnName]) {
-            fn = layersStylePropFn.default[fnName]
+            fn = layersStylePropFn.default[fnName];
           }
         }
         if (fn) {
@@ -111,7 +117,7 @@ export const LayerFactory = {
         }
       });
       const props = { ...styleProps, ...stylePropFn, layerName };
-      return styleFn(props,layerName);
+      return styleFn(props, layerName);
     } else if (styleRef) {
       // Edge case for colormap palete
       if (styleRef === 'colorMapStyle') {
@@ -123,7 +129,7 @@ export const LayerFactory = {
       }
       return styleRefs[styleRef](layerName);
     } else {
-      // Just a generic style 
+      // Just a generic style
       return OlStyleFactory.getInstance(styleProps);
     }
   },
