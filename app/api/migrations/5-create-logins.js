@@ -4,9 +4,8 @@ module.exports = {
     return queryInterface.createTable('_logins', {
       loginID: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       userName: {
         type: Sequelize.STRING(50),
@@ -15,13 +14,13 @@ module.exports = {
       passwordSalt: Sequelize.STRING,
       passwordHash: Sequelize.STRING,
       relatedUserID: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: '_users', // foreign key on users
           key: 'userID'
         },
       },
-      relatedRoleID:{
+      relatedRoleID: {
         type: Sequelize.INTEGER,
         references: {
           model: '_roles', // foreign key on users

@@ -150,7 +150,8 @@ export default {
     },
     roleItems: [
       { value: 1, display: 'Admin User' },
-      { value: 2, display: 'Regular User' }
+      { value: 2, display: 'Regular User' },
+      { value: 3, display: 'Guest User' }
     ],
     rules: {
       required: value => !!value || 'Required.',

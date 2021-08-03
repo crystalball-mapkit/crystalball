@@ -43,6 +43,18 @@ const actions = {
       }
     );
   },
+  registerGuestUser({ commit }, user) {
+    return AuthService.registerGuestUser(user).then(
+      response => {
+        commit('registerSuccess');
+        return Promise.resolve(response.data);
+      },
+      error => {
+        commit('registerFailure');
+        return Promise.reject(error);
+      }
+    );
+  },
   // eslint-disable-next-line no-unused-vars
   updateUser({ commit }, user) {
     return AuthService.updateUser(user).then(

@@ -4,9 +4,8 @@ module.exports = {
     return queryInterface.createTable('_users', {
       userID: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       relatedRoleID: {
         type: Sequelize.INTEGER,

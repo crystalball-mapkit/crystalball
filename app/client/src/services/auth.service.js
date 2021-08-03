@@ -25,6 +25,10 @@ class AuthService {
   registerUser(user) {
     return axios.post('/api/register', user, { headers: authHeader() });
   }
+  registerGuestUser(user) {
+    user.username = user.email;
+    return axios.post('/api/register_guest', user)
+  }
   updateUser(user) {
     return axios.patch(`/api/users/${user.userID}`, user, {
       headers: authHeader()

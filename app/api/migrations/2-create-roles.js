@@ -3,14 +3,14 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('_roles', {
       roleID: {
-         type: Sequelize.INTEGER,
-         primaryKey: true,
-         allowNull: false,
-         autoIncrement: true
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
       },
       roleName: Sequelize.STRING,
       relatedAccountID: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: '_accounts', // foreign key on accounts
           key: 'accountID'

@@ -3,9 +3,9 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("_icons", {
       id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         primaryKey: true,
-        autoIncrement: true,
+        allowNull: false,
       },
       group: {
         type: Sequelize.STRING
@@ -16,12 +16,20 @@ module.exports = {
       iconUrl: {
         type: Sequelize.STRING,
       },
+      createdBy: {
+        allowNull: false,
+        type: Sequelize.UUID,
+        references: {
+          model: '_users', // foreign key on users
+          key: 'userID'
+        },
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
       updatedAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE,
       },
     });

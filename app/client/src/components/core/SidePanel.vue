@@ -71,7 +71,8 @@
                         }}</span
                       >
                       <v-spacer></v-spacer>
-                      <div v-if="loggedUser">
+                      <!-- EDIT SIDEBAR TEXT BUTTON -->
+                      <div v-if="canEditSidebar">
                         <v-tooltip left>
                           <template v-slot:activator="{ on }">
                             <v-btn
@@ -86,7 +87,7 @@
                         >
                       </div>
                     </v-row>
-                    <v-divider v-if="loggedUser"></v-divider>
+                    <v-divider v-if="canEditSidebar"></v-divider>
 
                     <!-- CAPTION - USE BY UNCOMMENTING
               <div class="caption font-italic font-weight-medium">
@@ -243,10 +244,11 @@
                 </v-col>
               </v-row>
             </div>
+            <!-- EDIT POST BUTTONS -->
             <div v-if="isHtmlViewer" style="width:100%;">
               <v-row>
                 <v-spacer></v-spacer>
-                <div v-if="loggedUser">
+                <div v-if="canEditPost">
                   <v-tooltip left>
                     <template v-slot:activator="{ on }">
                       <v-btn
@@ -275,14 +277,19 @@
                 <div>
                   <v-tooltip left>
                     <template v-slot:activator="{ on }">
-                      <v-btn v-on="on" @click="closePopupInfo" icon class="mr-3">
+                      <v-btn
+                        v-on="on"
+                        @click="closePopupInfo"
+                        icon
+                        class="mr-3"
+                      >
                         <v-icon>close</v-icon>
                       </v-btn> </template
                     ><span>Close</span></v-tooltip
                   >
                 </div>
               </v-row>
-              <v-divider v-if="loggedUser"></v-divider>
+              <v-divider v-if="canEditPost"></v-divider>
 
               <!-- <v-toolbar class="elevation-0">
                 <v-avatar class="mr-3">
@@ -522,7 +529,34 @@ export default {
       }
       return 'CORPORATE NETWORK';
     },
-
+    canEditPost() {
+      if (!this.loggedUser) {
+        return false;
+      }
+      // Can edit all posts
+      if (this.loggedUser.roles.includes('admin_user')) {
+        return true;
+      }
+      // Can edit only posts created from logged user
+      if (
+        this.popup.activeFeature.get('createdBy') ===
+        this.loggedUser.user.userID
+      ) {
+        return true;
+      }
+      return false;
+    },
+    canEditSidebar() {
+      if (
+        this.loggedUser &&
+        ['admin_user', 'regular_user'].some(i =>
+          this.loggedUser.roles.includes(i)
+        )
+      ) {
+        return true;
+      }
+      return false;
+    },
     ...mapGetters('map', {
       map: 'map',
       activeLayerGroup: 'activeLayerGroup',

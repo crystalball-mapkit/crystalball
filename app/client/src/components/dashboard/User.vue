@@ -215,7 +215,8 @@ export default {
       loading: false,
       roles: {
         1: 'Admin User',
-        2: 'Regular User'
+        2: 'Regular User',
+        3: 'Guest User'
       },
       color: this.$appConfig.app.color.primary
     };

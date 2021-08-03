@@ -68,6 +68,15 @@ export function getRoutes(config) {
           requiresAuth: true,
           scope: 'admin_user'
         }
+      },
+      {
+        path: 'assets',
+        name: 'admin.assets',
+        component: () => import('../components/dashboard/Assets.vue'),
+        meta: {
+          requiresAuth: true,
+          scope: 'admin_user'
+        }
       }
     ]
   });
