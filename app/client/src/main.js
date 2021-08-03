@@ -28,17 +28,22 @@ Vue.component(infoPopUpName, InfoPopUp);
 
 const getIcons = axios.get('./api/icons');
 const getSidebarHtml = axios.get('./api/html');
+const serverConfig = axios.get('./api/config');
 axios
-  .all([getSidebarHtml, getIcons])
+  .all([getSidebarHtml, getIcons, serverConfig])
   .then(
     axios.spread((...responses) => {
       const sidebarHtml = responses[0];
       const postIcons = responses[1];
+      const serverConfig = responses[2];
       if (sidebarHtml.data) {
         appStore.state.sidebarHtml = sidebarHtml.data;
       }
       if (postIcons.data) {
         appStore.state.postIcons = postIcons.data;
+      }
+      if (serverConfig.data) {
+        appStore.state.serverConfig = serverConfig.data;
       }
     })
   )
@@ -49,7 +54,7 @@ axios
 // App Configuration
 // eslint-disable-next-line no-undef
 fetch(' https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/settings/app-conf.json ')
-  .then(function(response) {
+  .then(function (response) {
     if (response.status !== 200) {
       console.log(
         'Looks like there was a problem. Status Code: ' + response.status
@@ -58,7 +63,7 @@ fetch(' https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/settings/ap
     }
 
     // Examine the text in the response
-    response.json().then(function(data) {
+    response.json().then(function (data) {
       // Make app config accessible for all components
       router.addRoutes(getRoutes(data));
       Vue.prototype.$appConfig = data;
@@ -70,7 +75,7 @@ fetch(' https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/settings/ap
       }).$mount('#app');
     });
   })
-  .catch(function(err) {
+  .catch(function (err) {
     console.log('Fetch Error :-S', err);
   });
 

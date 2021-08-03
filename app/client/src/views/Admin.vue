@@ -114,6 +114,11 @@ export default {
     items: [
       { icon: 'dashboard', text: 'Dashboard', to: { name: 'admin.dashboard' } },
       { icon: 'person', text: 'User', to: { name: 'admin.users' } },
+      {
+        icon: 'mdi-chart-bubble',
+        text: 'Assets',
+        to: { name: 'admin.assets' }
+      },
       { icon: 'settings', text: 'Settings', to: { name: 'admin.settings' } }
     ]
   }),

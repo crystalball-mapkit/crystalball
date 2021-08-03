@@ -16,7 +16,7 @@
       />
     </div>
 
-    <!-- Edit Controls (Only available for logged users ) -->
+    <!-- Edit Controls (Only available for logged users which aren't guests ) -->
     <div v-if="loggedUser" style="position:absolute;right:20px;top:10px;">
       <edit
         :map="map"
@@ -1031,7 +1031,7 @@ export default {
         }
         // Zoom to position
         const position = flyToSlideshow.maplinks[this.slideshow.currentIndex];
-        window.location.href = position
+        window.location.href = position;
         // Increase or init the index
         this.slideshow.currentIndex = this.slideshow.currentIndex + 1;
         setTimeout(() => {

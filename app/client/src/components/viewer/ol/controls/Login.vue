@@ -1,6 +1,6 @@
 <template>
   <div class="my-4">
-    <!-- USER LOGIN BUTTON -->
+    <!-- USER AUTH BUTTON -->
     <template v-if="!loggedUser">
       <v-tooltip right>
         <template v-slot:activator="{ on }">
@@ -79,7 +79,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import Login from '../../../../components/core/Login';
+import Login from '../../../../components/core/LoginRegister';
 
 export default {
   name: 'login-button',

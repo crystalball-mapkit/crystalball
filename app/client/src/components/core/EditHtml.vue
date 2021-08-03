@@ -268,7 +268,10 @@ export default {
           group: this.activeLayerGroup.navbarGroup,
           title: this.postIconTitle,
           html: this.htmlContent,
-          createdBy: null // The value is added from the api.
+          createdBy: null, // The value is added from the api
+          updatedBy: null, // The value is added from the api,
+          createdAt: null, // The value is added from the api,
+          updatedAt: null // The value is added from the api,
         };
       }
       const formData = new FormData();

@@ -3,9 +3,8 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('_permissions', {
       permissionID: {
-         type: Sequelize.INTEGER,
-         primaryKey: true,
-         autoIncrement: true
+        type: Sequelize.UUID,
+        primaryKey: true,
       },
       relatedRoleID: {
         type: Sequelize.INTEGER,
@@ -14,7 +13,7 @@ module.exports = {
           key: 'roleID'
         }
       },
-      permissionName:  {
+      permissionName: {
         type: Sequelize.STRING
       },
       resourceName: Sequelize.STRING,

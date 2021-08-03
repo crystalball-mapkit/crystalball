@@ -1,0 +1,8 @@
+FROM node:12.22.3-alpine3.13
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+CMD [ "npm", "start" ]
+EXPOSE 3000

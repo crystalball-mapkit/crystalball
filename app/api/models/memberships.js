@@ -1,13 +1,15 @@
+const { v4: uuidv4 } = require('uuid');
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Memberships = sequelize.define('_memberships', {
     membershipID: {
-       type: DataTypes.INTEGER,
-       primaryKey: true,
-       autoIncrement: true
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: uuidv4(),
+      allowNull: false,
     },
-    relatedUserID: DataTypes.INTEGER,
-    relatedAccountID: DataTypes.INTEGER,
+    relatedUserID: DataTypes.UUID,
+    relatedAccountID: DataTypes.UUID,
     membershipEmailAddress: DataTypes.STRING
   });
   Memberships.associate = function (models) {

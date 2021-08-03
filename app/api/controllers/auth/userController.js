@@ -16,10 +16,10 @@ exports.users_get = (req, res) => {
       res.status(200);
       res.json(users);
     })
-    .catch((err) => {
-      res.status(500);
-      res.send(err);
-    });
+      .catch((err) => {
+        res.status(500);
+        res.send(err);
+      });
   });
 };
 
@@ -42,6 +42,18 @@ exports.user_patch = (req, res) => {
         }
       )
         .then((updatedUser) => {
+          // Update login
+          Logins.update(
+            {
+              userName: req.body.userName,
+              relatedRoleID: req.body.relatedRoleID
+            },
+            {
+              where: {
+                relatedUserID: req.params.id,
+              },
+            }
+          )
           res.status(204);
           return res.json({});
         })
@@ -72,15 +84,15 @@ exports.user_delete = (req, res) => {
           userID: req.params.id,
         },
       })
-      .then((deleted) => {
-        res.status(204);
-        res.json();
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500);
-        res.json();
-      });
+        .then((deleted) => {
+          res.status(204);
+          res.json();
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500);
+          res.json();
+        });
     } else {
       res.status(400);
       res.json();

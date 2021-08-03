@@ -4,19 +4,18 @@ module.exports = {
     return queryInterface.createTable('_memberships', {
       membershipID: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       relatedUserID: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: '_users', // foreign key on users
           key: 'userID'
         }
       },
       relatedAccountID: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: '_accounts', // foreign key on accounts
           key: 'accountID'

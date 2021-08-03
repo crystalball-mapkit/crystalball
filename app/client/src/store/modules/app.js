@@ -4,7 +4,8 @@ const state = {
   sidebarState: true,
   sidebarHtml: {},
   postIcons: [],
-  config: {}
+  config: {},
+  serverConfig: {} // TODO: Migrate all config settings here. (read from api endpoint)
 };
 
 // mutations are operations that actually mutates the state.
@@ -33,6 +34,7 @@ const actions = {
 const getters = {
   sidebarState: state => state.sidebarState,
   sidebarHtml: state => state.sidebarHtml,
+  serverConfig: state => state.serverConfig,
   postIcons: (state, getters, rootState, rootGetters) => {
     const activeGroup = rootGetters['map/activeLayerGroup'].navbarGroup;
     const filteredIcons = state.postIcons.filter(i =>

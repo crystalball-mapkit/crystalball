@@ -3,9 +3,9 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable("_html_sidebar", {
       id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+        type: Sequelize.UUID,
+        allowNull: false,
+        primaryKey: true
       },
       type: {
         type: Sequelize.STRING,
@@ -18,7 +18,19 @@ module.exports = {
       },
       createdBy: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
+        references: {
+          model: '_users', // foreign key on users
+          key: 'userID'
+        },
+      },
+      updatedBy: {
+        allowNull: true,
+        type: Sequelize.UUID,
+        references: {
+          model: '_users', // foreign key on users
+          key: 'userID'
+        }
       },
       createdAt: {
         allowNull: false,

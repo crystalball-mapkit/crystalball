@@ -36,6 +36,7 @@ const assignToken = (login, res) => {
       let user = values[0];
       let roles = values[1];
       let permissions = values[2];
+
       const payload = {
         sub: login.relatedUserID,
         iss: "auth-service",
@@ -46,7 +47,11 @@ const assignToken = (login, res) => {
         payload.roles = rolesArray;
       }
       if (permissions) {
-        const permissionsArray = permissions.map((obj) => obj.permissionName);
+        let permissionsArray = permissions.map((obj) => obj.permissionName);
+        // Remove duplicate values
+        if (Array.isArray(permissionsArray)) {
+          permissionsArray = [...new Set(permissionsArray)]
+        }
         payload.permissions = permissionsArray;
       }
       const secret = tokenController.getSecret();
@@ -102,3 +107,5 @@ exports.logins_get = (req, res) => {
       });
   });
 };
+
+exports.assign_token = assignToken;

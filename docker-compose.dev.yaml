@@ -1,9 +1,9 @@
 version: "3.9"
 
 networks:
-   proxy_dev:
+  proxy_dev:
     name: traefik-global-proxy-dev
-   socket_proxy_dev:
+  socket_proxy_dev:
     name: global-socket-proxy-dev
 
 volumes:
@@ -101,6 +101,8 @@ services:
     build: ./app/geoserver
     container_name: ${COMPOSE_PROJECT_NAME}_geoserver
     hostname: ${COMPOSE_PROJECT_NAME}_geoserver
+    networks:
+      - proxy_dev
     volumes:
       - geodatadir:/opt/geoserver/data_dir
     environment:
@@ -121,6 +123,7 @@ services:
     image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:api-${PROJECT_VERSION}
     build:
       context: ./app/api
+      dockerfile: Dockerfile.dev
     container_name: ${COMPOSE_PROJECT_NAME}_api
     hostname: ${COMPOSE_PROJECT_NAME}_api
     networks:
@@ -136,6 +139,8 @@ services:
       - AWS_CLOUDFRONT_URL=${AWS_CLOUDFRONT_URL}
       - NODE_ENV=${API_ENVIRONMENT}
       - JWT_SECRET=${API_JWT_SECRET}
+      - USERS_OPEN_REGISTRATION=${USERS_OPEN_REGISTRATION}
+      - API_PORT=3000
     volumes:
       - /app/node_modules
       - ./app/api:/app

@@ -36,9 +36,9 @@ exports.html_sidebar_get = (req, res) => {
 };
 
 exports.html_sidebar_post = (req, res) => {
-  permissionController.hasPermission(req, res, "edit_layers", () => {
+  permissionController.hasPermission(req, res, "edit_html", () => {
     const decodedToken = jwtDecode(req.headers.authorization);
-    const uploaderId = parseInt(decodedToken.user.userID);
+    const uploaderId = decodedToken.user.userID;
     const payload = {
       type: req.body.type,
       name: req.body.name,
@@ -58,10 +58,13 @@ exports.html_sidebar_post = (req, res) => {
   });
 };
 exports.html_sidebar_patch = (req, res) => {
-  permissionController.hasPermission(req, res, "edit_layers", () => {
+  permissionController.hasPermission(req, res, "edit_html", () => {
+    const decodedToken = jwtDecode(req.headers.authorization);
+    const userID = decodedToken.user.userID;
     HtmlSidebar.update(
       {
         html: req.body.html,
+        updatedBy: userID
       },
       {
         where: {
@@ -82,7 +85,7 @@ exports.html_sidebar_patch = (req, res) => {
 };
 
 exports.html_sidebar_delete = (req, res) => {
-  permissionController.hasPermission(req, res, "edit_layers", () => {
+  permissionController.hasPermission(req, res, "edit_html", () => {
     if (req.body.name) {
       HtmlSidebar.destroy({
         where: {
@@ -123,7 +126,7 @@ exports.icons_get = (req, res) => {
 };
 
 exports.icons_post = (req, res) => {
-  permissionController.hasPermission(req, res, "edit_layers", () => {
+  permissionController.hasPermission(req, res, "edit_icons", () => {
     const payload = {
       group: req.body.group,
       iconUrl: req.body.iconUrl,
@@ -142,7 +145,7 @@ exports.icons_post = (req, res) => {
   });
 };
 exports.icons_delete = (req, res) => {
-  permissionController.hasPermission(req, res, "edit_layers", () => {
+  permissionController.hasPermission(req, res, "edit_icons", () => {
     if (req.body.id) {
       Icons.destroy({
         where: {

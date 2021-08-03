@@ -14,6 +14,7 @@ const permissionController = require("./controllers/auth/permissionController.js
 const layerController = require("./controllers/gis/layerController.js");
 const uploadController = require("./controllers/upload/uploadController.js");
 const htmlSidebarController = require("./controllers/gis/htmlSidebarController.js");
+const configController = require("./controllers/other/configController.js")
 const upload = require("./services/file-upload.js");
 
 // Use middleware
@@ -24,6 +25,10 @@ app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 app
   .route("/api/register")
   .post(registerController.validate, registerController.register_post);
+
+app
+  .route("/api/register_guest")
+  .post(registerController.validate, registerController.register_guest_post)
 
 app
   .route("/api/updateUserPassword")
@@ -77,10 +82,19 @@ app
   .patch(htmlSidebarController.html_sidebar_patch)
   .post(htmlSidebarController.html_sidebar_post);
 
-app.route("/api/icons")
-    .get(htmlSidebarController.icons_get)
-    .post(htmlSidebarController.icons_post)
-    .delete(htmlSidebarController.icons_delete)
-    
+app
+  .route("/api/icons")
+  .get(htmlSidebarController.icons_get)
+  .post(htmlSidebarController.icons_post)
+  .delete(htmlSidebarController.icons_delete);
+
+app
+  .route("/api/config")
+  .get(configController.config_get);
+
+
+console.log(process.env.S3_BUCKET)
 // Run server on port
-app.listen(3000, () => console.log("API listening on port 3000!"));
+app.listen(process.env.API_PORT || 3000, () =>
+  console.log(`API listening on port ${process.env.API_PORT || 3000}!`)
+);

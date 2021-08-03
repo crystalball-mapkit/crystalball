@@ -1,13 +1,14 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
   var Roles = sequelize.define('_roles', {
     roleID: {
-       type: DataTypes.INTEGER,
-       primaryKey: true,
-       autoIncrement: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
     },
     roleName: DataTypes.STRING,
-    relatedAccountID: DataTypes.INTEGER,
+    relatedAccountID: DataTypes.UUID,
     roleEmail: {
       type: DataTypes.STRING, // ex: admin@company.com
       unique: true

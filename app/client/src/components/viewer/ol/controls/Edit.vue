@@ -1,6 +1,11 @@
 <template>
   <div class="mt-4 mb-2">
-    <div>
+    <div
+      v-if="
+        Array.isArray(loggedUser.roles) &&
+          !loggedUser.roles.includes('guest_user')
+      "
+    >
       <v-layout>
         <v-spacer></v-spacer>
         <div v-if="!selectedLayer">
@@ -454,10 +459,13 @@ export default {
     ...mapFields('map', {
       isEditingLayer: 'isEditingLayer',
       isEditingPost: 'isEditingPost',
-      selectedLayer: 'selectedLayer',
+      selectedLayer: 'selectedLayer'
     }),
     ...mapGetters('map', {
       layersMetadata: 'layersMetadata'
+    }),
+    ...mapGetters('auth', {
+      loggedUser: 'loggedUser'
     }),
     imageUploadButtonText() {
       return this.imageUpload.selectedFile
