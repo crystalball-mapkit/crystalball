@@ -39,7 +39,10 @@ const upload = multer({
     },
     key: function (req, file, cb) {
       let assetSubfolder = "";
-      if (["image/jpeg", "image/png"].includes(file.mimetype)) {
+      if (req.body.folder) {
+        assetSubfolder = `${req.body.folder}/`
+      }
+      else if (["image/jpeg", "image/png"].includes(file.mimetype)) {
         assetSubfolder = "images/";
       } else if (["audio/wav", "audio/mpeg"].includes(file.mimetype)) {
         assetSubfolder = "audios/";

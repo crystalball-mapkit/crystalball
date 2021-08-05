@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { getField, updateField } from 'vuex-map-fields';
 
 const state = {
@@ -21,13 +22,24 @@ const mutations = {
   setSidebarInitialState(state, initialState) {
     state.sidebarState = initialState;
   },
+  getIconsSuccess(state, icons) {
+    state.postIcons = icons;
+  },
+  getIconsFailure(state) {
+    state.postIcons = [];
+  },
   updateField
 };
 
 const actions = {
   toggle(context) {
     context.commit('toggle');
-  }
+  },
+  getIcons({ commit }) {
+    axios.get('/api/icons').then(response => {
+      commit('getIconsSuccess', response.data);
+    }).catch(() => { commit('getIconsFailure'); });
+  },
 };
 
 // getters are functions
@@ -35,6 +47,7 @@ const getters = {
   sidebarState: state => state.sidebarState,
   sidebarHtml: state => state.sidebarHtml,
   serverConfig: state => state.serverConfig,
+  icons: state => state.postIcons,
   postIcons: (state, getters, rootState, rootGetters) => {
     const activeGroup = rootGetters['map/activeLayerGroup'].navbarGroup;
     const filteredIcons = state.postIcons.filter(i =>
