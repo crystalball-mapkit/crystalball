@@ -7,7 +7,7 @@
         @click="openHtmlEditor(icon)"
       >
         <v-list-item-avatar>
-          <v-img :src="icon.iconUrl"></v-img>
+          <v-img :src="icon.iconUrl" max-height="50" contain></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content>

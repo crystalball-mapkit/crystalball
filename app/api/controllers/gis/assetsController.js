@@ -3,6 +3,7 @@ const sequelize = require("../../db.js");
 const HtmlSidebar = sequelize.import("../../models/html_sidebar.js");
 const Icons = sequelize.import("../../models/icons.js");
 const jwtDecode = require("jwt-decode");
+const { v4: uuidv4 } = require('uuid');
 
 /** HTML ENDPOINT */
 
@@ -40,6 +41,7 @@ exports.html_sidebar_post = (req, res) => {
     const decodedToken = jwtDecode(req.headers.authorization);
     const uploaderId = decodedToken.user.userID;
     const payload = {
+      id: uuidv4(),
       type: req.body.type,
       name: req.body.name,
       html: req.body.html,
@@ -127,15 +129,19 @@ exports.icons_get = (req, res) => {
 
 exports.icons_post = (req, res) => {
   permissionController.hasPermission(req, res, "edit_icons", () => {
+    const decodedToken = jwtDecode(req.headers.authorization);
+    const uploaderId = decodedToken.user.userID;
     const payload = {
+      id: uuidv4(),
       group: req.body.group,
       iconUrl: req.body.iconUrl,
-      title: req.body.title
+      title: req.body.title,
+      createdBy: uploaderId,
     };
     Icons.create(payload)
       .then(() => {
         res.status(200);
-        return res.json("icon added successfuly");
+        res.json("Icon added successfully!")
       })
       .catch((err) => {
         console.log(err);
@@ -144,12 +150,52 @@ exports.icons_post = (req, res) => {
       });
   });
 };
-exports.icons_delete = (req, res) => {
+
+
+exports.icons_patch = (req, res) => {
   permissionController.hasPermission(req, res, "edit_icons", () => {
-    if (req.body.id) {
-      Icons.destroy({
+    Icons.update(
+      {
+        iconUrl: req.body.iconUrl,
+        title: req.body.title,
+        group: req.body.group
+      },
+      {
         where: {
           id: req.body.id,
+        },
+      }
+    )
+      .then(() => {
+        // Update all html posts containing the previous icon
+        let sql = `UPDATE html_posts SET icon = $$${req.body.iconUrl}$$, title = $$${req.body.title}$$, "group" = $$${req.body.group}$$ WHERE icon = $$${req.body.previousIconUrl}$$;`;
+        sequelize
+          .query(sql)
+          .then(() => {
+            res.json("Icons and posts updated successfuly!")
+            res.status(200);
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(500);
+            res.json({ err: err });
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json();
+      });
+  });
+};
+
+
+exports.icons_delete = (req, res) => {
+  permissionController.hasPermission(req, res, "edit_icons", () => {
+    if (req.params.id) {
+      Icons.destroy({
+        where: {
+          id: req.params.id,
         },
       })
         .then((deleted) => {
@@ -167,3 +213,48 @@ exports.icons_delete = (req, res) => {
     }
   });
 };
+
+exports.icons_count_posts = (req, res) => {
+  permissionController.hasPermission(req, res, "edit_icons", () => {
+    if (req.body.iconUrl) {
+      let sql = `SELECT Count(*) FROM html_posts WHERE icon = $$${req.body.iconUrl}$$;`;
+      sequelize
+        .query(sql)
+        .then((response) => {
+          res.json(response[0][0])
+          res.status(200);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500);
+          res.json({ err: err });
+        });
+    } else {
+      res.status(400);
+      res.json();
+    }
+  });
+}
+
+exports.icons_replace_posts = (req, res) => {
+  permissionController.hasPermission(req, res, "edit_icons", () => {
+    if (req.body.iconUrl && req.body.title && req.body.group && req.body.previousIconUrl) {
+      // Update all html posts containing the previous icon
+      let sql = `UPDATE html_posts SET icon = $$${req.body.iconUrl}$$, title = $$${req.body.title}$$, "group" = $$${req.body.group}$$ WHERE icon = $$${req.body.previousIconUrl}$$;`;
+      sequelize
+        .query(sql)
+        .then(() => {
+          res.json("Post Icons updated successfuly!")
+          res.status(200);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500);
+          res.json({ err: err });
+        });
+    } else {
+      res.status(400);
+      res.json();
+    }
+  });
+}

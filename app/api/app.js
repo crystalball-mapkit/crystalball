@@ -13,7 +13,7 @@ const roleController = require("./controllers/auth/roleController.js");
 const permissionController = require("./controllers/auth/permissionController.js");
 const layerController = require("./controllers/gis/layerController.js");
 const uploadController = require("./controllers/upload/uploadController.js");
-const htmlSidebarController = require("./controllers/gis/htmlSidebarController.js");
+const assetsController = require("./controllers/gis/assetsController.js");
 const configController = require("./controllers/other/configController.js")
 const upload = require("./services/file-upload.js");
 
@@ -77,16 +77,30 @@ app.route("/api/upload").post(uploadController.file_upload);
 
 app
   .route("/api/html")
-  .get(htmlSidebarController.html_sidebar_get)
-  .delete(htmlSidebarController.html_sidebar_delete)
-  .patch(htmlSidebarController.html_sidebar_patch)
-  .post(htmlSidebarController.html_sidebar_post);
+  .get(assetsController.html_sidebar_get)
+  .delete(assetsController.html_sidebar_delete)
+  .patch(assetsController.html_sidebar_patch)
+  .post(assetsController.html_sidebar_post);
+
 
 app
   .route("/api/icons")
-  .get(htmlSidebarController.icons_get)
-  .post(htmlSidebarController.icons_post)
-  .delete(htmlSidebarController.icons_delete);
+  .get(assetsController.icons_get)
+  .post(assetsController.icons_post)
+  .patch(assetsController.icons_patch);
+
+app
+  .route("/api/icons/:id")
+  .delete(assetsController.icons_delete);
+
+app
+  .route("/api/icons/count-posts")
+  .post(assetsController.icons_count_posts);
+
+app
+  .route("/api/icons/replace_posts")
+  .post(assetsController.icons_replace_posts);
+
 
 app
   .route("/api/config")

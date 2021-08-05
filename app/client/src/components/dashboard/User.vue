@@ -1,181 +1,186 @@
 <template>
   <div>
-    <!-- /search -->
-    <v-divider class="pb-2" />
-    <div class="d-flex flex-row">
-      <div class="flex-grow-1 pa-2">
-        <v-btn @click="registerNewUser" class="lighten-1" :color="color" dark>
-          New User
-          <v-icon right dark>add</v-icon>
-        </v-btn>
+    <v-card>
+      <!-- /search -->
+      <v-card-title>
+        User List
+      </v-card-title>
+
+      <div class="d-flex flex-row">
+        <div class="flex-grow-1 pa-2">
+          <v-btn @click="registerNewUser" class="lighten-1" :color="color" dark>
+            New User
+            <v-icon right dark>add</v-icon>
+          </v-btn>
+        </div>
+        <div class="flex-grow-1 pa-2">
+          <v-btn
+            :disabled="true"
+            @click="manageRoles"
+            class="float-right"
+            :color="color"
+            dark
+          >
+            Manage Roles <v-icon right dark>supervisor_account</v-icon>
+          </v-btn>
+          <v-btn
+            @click="managePermissions"
+            :disabled="true"
+            class="float-right mr-2"
+            :color="color"
+            dark
+          >
+            Manage Permissions <v-icon right dark>vpn_key</v-icon>
+          </v-btn>
+        </div>
+
+        <v-spacer></v-spacer>
+        <v-text-field
+          class="mr-3"
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
       </div>
-      <div class="flex-grow-1 pa-2">
-        <v-btn
-          :disabled="true"
-          @click="manageRoles"
-          class="float-right"
-          :color="color"
-          dark
-        >
-          Manage Roles <v-icon right dark>supervisor_account</v-icon>
-        </v-btn>
-        <v-btn
-          @click="managePermissions"
-          :disabled="true"
-          class="float-right mr-2"
-          :color="color"
-          dark
-        >
-          Manage Permissions <v-icon right dark>vpn_key</v-icon>
-        </v-btn>
-      </div>
-    </div>
-    <v-card-title>
-      User List
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-progress-linear
-      :active="loading"
-      indeterminate
-      :color="color"
-    ></v-progress-linear>
-    <!-- data table -->
-    <v-data-table
-      hide-default-header
-      :headers="headers"
-      :search="search"
-      :items-per-page="10"
-      :items="users"
-      class="elevation-1"
-    >
-      <template v-slot:header="{ props: { headers } }">
-        <thead>
-          <tr>
-            <th v-for="header in headers" :key="header.text">
-              <div
-                v-if="header.value == 'firstName'"
-                :class="`text-${header.align}`"
-              >
-                <v-icon>person</v-icon> {{ header.text }}
-              </div>
-              <div
-                v-else-if="header.value == 'lastName'"
-                :class="`text-${header.align}`"
-              >
-                <v-icon>person</v-icon> {{ header.text }}
-              </div>
 
-              <div
-                v-else-if="header.value == 'userName'"
-                :class="`text-${header.align}`"
-              >
-                <v-icon>person</v-icon> {{ header.text }}
-              </div>
-
-              <div
-                v-else-if="header.value == 'email'"
-                :class="`text-${header.align}`"
-              >
-                <v-icon>email</v-icon> {{ header.text }}
-              </div>
-
-              <div
-                v-else-if="header.value == 'relatedRoleID'"
-                :class="`text-${header.align}`"
-              >
-                <v-icon>supervisor_account</v-icon> {{ header.text }}
-              </div>
-
-              <div v-else :class="`text-${header.align}`">
-                {{ header.text }}
-              </div>
-            </th>
-          </tr>
-        </thead>
-      </template>
-      <template v-slot:body="{ items }">
-        <tbody>
-          <tr v-for="user in items" :key="user.userID">
-            <td>{{ user.firstName || '---' }}</td>
-            <td>{{ user.lastName || '---' }}</td>
-            <td>{{ user.userName }}</td>
-            <td>{{ user.email }}</td>
-
-            <td>
-              <v-chip outlined>
-                {{
-                  roles[user.relatedRoleID] || user.relatedRoleID || 'No role'
-                }}
-              </v-chip>
-            </td>
-            <td>
-              <div>
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-on="on"
-                      @click="editUser(user)"
-                      class="ma-1"
-                      small
-                      outlined
-                      icon
-                      color="info"
-                    >
-                      <v-icon small>edit</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Edit User Profile</span></v-tooltip
+      <v-progress-linear
+        :active="loading"
+        indeterminate
+        :color="color"
+      ></v-progress-linear>
+      <!-- data table -->
+      <v-data-table
+        hide-default-header
+        :headers="headers"
+        :search="search"
+        :items-per-page="10"
+        :items="users"
+        class="elevation-1"
+      >
+        <template v-slot:header="{ props: { headers } }">
+          <thead>
+            <tr>
+              <th v-for="header in headers" :key="header.text">
+                <div
+                  v-if="header.value == 'firstName'"
+                  :class="`text-${header.align}`"
                 >
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-on="on"
-                      @click="changePassword(user)"
-                      class="ma-1"
-                      small
-                      outlined
-                      icon
-                      color="info"
-                    >
-                      <v-icon small>lock</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Change password</span></v-tooltip
+                  <v-icon>person</v-icon> {{ header.text }}
+                </div>
+                <div
+                  v-else-if="header.value == 'lastName'"
+                  :class="`text-${header.align}`"
                 >
-                <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      v-on="on"
-                      @click="trash(user)"
-                      class="ma-1"
-                      small
-                      outlined
-                      icon
-                      :color="color"
-                    >
-                      <v-icon small>delete</v-icon>
-                    </v-btn>
-                  </template>
-                  <span>Delete User</span></v-tooltip
+                  <v-icon>person</v-icon> {{ header.text }}
+                </div>
+
+                <div
+                  v-else-if="header.value == 'userName'"
+                  :class="`text-${header.align}`"
                 >
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </template>
-    </v-data-table>
+                  <v-icon>person</v-icon> {{ header.text }}
+                </div>
 
-    <v-divider class="py-5" />
+                <div
+                  v-else-if="header.value == 'email'"
+                  :class="`text-${header.align}`"
+                >
+                  <v-icon>email</v-icon> {{ header.text }}
+                </div>
 
-    <confirm-dialog ref="confirm"></confirm-dialog>
-    <user-form-dialog ref="userForm" :color="color"></user-form-dialog>
+                <div
+                  v-else-if="header.value == 'relatedRoleID'"
+                  :class="`text-${header.align}`"
+                >
+                  <v-icon>supervisor_account</v-icon> {{ header.text }}
+                </div>
+
+                <div v-else :class="`text-${header.align}`">
+                  {{ header.text }}
+                </div>
+              </th>
+            </tr>
+          </thead>
+        </template>
+        <template v-slot:body="{ items }">
+          <tbody>
+            <tr v-for="user in items" :key="user.userID">
+              <td>{{ user.firstName || '---' }}</td>
+              <td>{{ user.lastName || '---' }}</td>
+              <td>{{ user.userName }}</td>
+              <td>{{ user.email }}</td>
+
+              <td>
+                <v-chip outlined>
+                  {{
+                    roles[user.relatedRoleID] || user.relatedRoleID || 'No role'
+                  }}
+                </v-chip>
+              </td>
+              <td>
+                <div>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        v-on="on"
+                        @click="editUser(user)"
+                        class="ma-1"
+                        small
+                        outlined
+                        icon
+                        color="info"
+                      >
+                        <v-icon small>edit</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Edit User Profile</span></v-tooltip
+                  >
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        v-on="on"
+                        @click="changePassword(user)"
+                        class="ma-1"
+                        small
+                        outlined
+                        icon
+                        color="info"
+                      >
+                        <v-icon small>lock</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Change password</span></v-tooltip
+                  >
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on }">
+                      <v-btn
+                        v-on="on"
+                        @click="trash(user)"
+                        class="ma-1"
+                        small
+                        outlined
+                        icon
+                        :color="color"
+                      >
+                        <v-icon small>delete</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Delete User</span></v-tooltip
+                  >
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+      </v-data-table>
+
+      <v-divider />
+
+      <confirm-dialog ref="confirm"></confirm-dialog>
+      <user-form-dialog ref="userForm" :color="color"></user-form-dialog>
+    </v-card>
   </div>
 </template>
 
@@ -233,7 +238,6 @@ export default {
   mounted() {
     this.$store.dispatch('auth/getUsers');
   },
-  watch: {},
   methods: {
     ...mapMutations('map', {
       toggleSnackbar: 'TOGGLE_SNACKBAR'
