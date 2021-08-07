@@ -558,9 +558,6 @@ export const layersStylePropFn = {
     }
   },
   miss_tri: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 1, 7);
-    },
     fillColor: propertyValue => {
       return propertyValue;
     }
