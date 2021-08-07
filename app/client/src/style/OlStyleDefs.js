@@ -221,7 +221,7 @@ export function baseStyle(config) {
       } = config;
       const geometryType = feature.getGeometry().getType();
       let labelText;
-      if (feature.get(label.text)) {
+      if (label && feature.get(label.text)) {
         const fontWeight = label.fontWeight || 'normal';
         const fontSize = label.fontSize || 12;
         const fontType = label.fontType || 'Arial';
@@ -229,7 +229,7 @@ export function baseStyle(config) {
         const placement =
           (!['Point', 'MultiPoint'].includes(geometryType) &&
             label.placement !== 'point') ||
-          !label.placement
+            !label.placement
             ? 'point'
             : label.placement;
 
@@ -264,8 +264,8 @@ export function baseStyle(config) {
               image: new OlIconStyle({
                 src:
                   stylePropFnRef &&
-                  stylePropFnRef.iconUrl &&
-                  iconUrl instanceof Function
+                    stylePropFnRef.iconUrl &&
+                    iconUrl instanceof Function
                     ? iconUrl(feature.get(stylePropFnRef.iconUrl))
                     : iconUrl,
                 scale:
@@ -288,29 +288,29 @@ export function baseStyle(config) {
                 stroke: new OlStroke({
                   color:
                     stylePropFnRef &&
-                    stylePropFnRef.strokeColor &&
-                    strokeColor instanceof Function
+                      stylePropFnRef.strokeColor &&
+                      strokeColor instanceof Function
                       ? strokeColor(feature.get(stylePropFnRef.strokeColor))
                       : strokeColor || 'rgba(255, 255, 255, 1)',
                   width:
                     stylePropFnRef &&
-                    stylePropFnRef.strokeWidth &&
-                    strokeWidth instanceof Function
+                      stylePropFnRef.strokeWidth &&
+                      strokeWidth instanceof Function
                       ? strokeWidth(feature.get(stylePropFnRef.strokeWidth))
                       : strokeWidth || 1
                 }),
                 fill: new OlFill({
                   color:
                     stylePropFnRef &&
-                    stylePropFnRef.fillColor &&
-                    fillColor instanceof Function
+                      stylePropFnRef.fillColor &&
+                      fillColor instanceof Function
                       ? fillColor(feature.get(stylePropFnRef.fillColor))
                       : fillColor || 'rgba(129, 56, 17, 0.7)'
                 }),
                 radius:
                   stylePropFnRef &&
-                  stylePropFnRef.circleRadiusFn &&
-                  circleRadiusFn instanceof Function
+                    stylePropFnRef.circleRadiusFn &&
+                    circleRadiusFn instanceof Function
                     ? circleRadiusFn(feature.get(stylePropFnRef.circleRadiusFn))
                     : 5
               })
@@ -337,14 +337,14 @@ export function baseStyle(config) {
             stroke: new OlStroke({
               color:
                 stylePropFnRef &&
-                stylePropFnRef.strokeColor &&
-                strokeColor instanceof Function
+                  stylePropFnRef.strokeColor &&
+                  strokeColor instanceof Function
                   ? strokeColor(feature.get(stylePropFnRef.strokeColor))
                   : strokeColor || 'rgba(255, 255, 255, 1)',
               width:
                 stylePropFnRef &&
-                stylePropFnRef.strokeWidth &&
-                strokeWidth instanceof Function
+                  stylePropFnRef.strokeWidth &&
+                  strokeWidth instanceof Function
                   ? strokeWidth(feature.get(stylePropFnRef.strokeWidth))
                   : strokeWidth || 4,
               lineDash: lineDash || [6]
@@ -454,7 +454,7 @@ export const defaultLimits = {
   }
 };
 
-const getText = function(text, resolution, maxResolution, placement, textWrap) {
+const getText = function (text, resolution, maxResolution, placement, textWrap) {
   if (resolution > maxResolution) {
     text = '';
   } else if (textWrap == 'hide') {
