@@ -131,16 +131,13 @@
         <v-select
           class="mx-4 my-2"
           :items="
-            map
-              .getLayers()
-              .getArray()
-              .filter(
-                l =>
-                  ['VECTORTILE', 'VECTOR'].includes(l.get('type')) &&
-                  l.get('name') &&
-                  l.get('legendDisplayName') &&
-                  l.get('canEdit') !== false
-              )
+            flatLayers.filter(
+              l =>
+                ['VECTORTILE', 'VECTOR'].includes(l.get('type')) &&
+                l.get('name') &&
+                l.get('legendDisplayName') &&
+                l.get('canEdit') !== false
+            )
           "
           v-model="dialogSelectedLayer"
           return-object
@@ -471,6 +468,20 @@ export default {
       return this.imageUpload.selectedFile
         ? this.imageUpload.selectedFile.name
         : this.imageUpload.defaultButtonText;
+    },
+    flatLayers() {
+      const layers = [];
+      this.map
+        .getLayers()
+        .getArray()
+        .forEach(layer => {
+          if (layer.get('type') === 'GROUP') {
+            layers.push(...layer.getLayers().getArray());
+          } else {
+            layers.push(layer);
+          }
+        });
+      return layers;
     }
   },
   methods: {

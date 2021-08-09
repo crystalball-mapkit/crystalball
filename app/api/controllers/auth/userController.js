@@ -71,17 +71,25 @@ exports.user_patch = (req, res) => {
 
 exports.user_delete = (req, res) => {
   permissionController.hasPermission(req, res, "delete_user", () => {
-    if (req.params.id) {
+    if (req.body.userID) {
       // Delete login row if user is already logged
       Logins.destroy({
         where: {
-          relatedUserID: req.params.id
+          relatedUserID: req.body.userID
         }
       })
+
+      // Delete html posts created by the user (optional parameter) 
+      if (req.body.deletePosts) {
+        let sql = `DELETE FROM html_posts WHERE "createdBy" = $$${req.body.userID}$$;`;
+        sequelize
+          .query(sql);
+      }
+
       // Delete user row. 
       Users.destroy({
         where: {
-          userID: req.params.id,
+          userID: req.body.userID
         },
       })
         .then((deleted) => {

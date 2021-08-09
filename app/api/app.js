@@ -51,7 +51,9 @@ app
   .route("/api/users/:id")
   .get(userController.users_get)
   .patch(userController.user_patch)
-  .delete(userController.user_delete);
+
+app.route("/api/delete-user")
+  .post(userController.user_delete)
 
 app.route("/api/roles").get(roleController.roles_get);
 

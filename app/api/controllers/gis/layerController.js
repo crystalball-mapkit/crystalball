@@ -15,7 +15,7 @@ exports.layer_post = async (req, res) => {
     singleUpload(req, res, async function (err) {
       const payload = JSON.parse(req.body.payload);
       // Restrict update/delete/insert of all other layers on guest users.
-      if (!decodedToken.roles.includes('guest_user') && payload.table !== "html_posts") {
+      if (decodedToken.roles.includes('guest_user') && payload.table !== "html_posts") {
         res.status(401);
         res.json("Action is not allowed for this user role!")
       }
