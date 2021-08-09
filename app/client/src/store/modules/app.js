@@ -6,7 +6,8 @@ const state = {
   sidebarHtml: {},
   postIcons: [],
   config: {},
-  serverConfig: {} // TODO: Migrate all config settings here. (read from api endpoint)
+  serverConfig: {}, // TODO: Migrate all config settings here. (read from api endpoint)
+  geoserverConfig: {}
 };
 
 // mutations are operations that actually mutates the state.

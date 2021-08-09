@@ -383,7 +383,7 @@ export default {
       this.$appConfig.map.layers.forEach(lConf => {
         const layerIndex = visibleLayers.indexOf(lConf.name);
         if (layerIndex === -1) return;
-        const layer = LayerFactory.getInstance(lConf);
+        const layer = LayerFactory.getInstance(lConf, layerIndex);
         layer.setZIndex(layerIndex);
         // Restore the previous layer visibility state if exists.
         if (layer.get('name') in this.layerVisibilityState) {
@@ -1068,11 +1068,20 @@ export default {
       ///////////////////////
       if (!this.queryLayersGeoserverNames) {
         const queryableLayers = [];
+        const flatLayers = [];
         this.$appConfig.map.layers.forEach(layer => {
-          if (
-            this.activeLayerGroupConf.layers.includes(layer.name) &&
-            layer.includeInSearch !== false
-          ) {
+          if (this.activeLayerGroupConf.layers.includes(layer.name)) {
+            if (layer.type === 'GROUP') {
+              layer.layers.forEach(subLayer => {
+                flatLayers.push(subLayer);
+              });
+            } else {
+              flatLayers.push(layer);
+            }
+          }
+        });
+        flatLayers.forEach(layer => {
+          if (layer.includeInSearch !== false) {
             queryableLayers.push(layer);
           }
         });
@@ -1116,7 +1125,17 @@ export default {
       this.popup.highlightLayer.getSource().clear();
       this.popup.worldExtentLayer.getSource().clear();
       this.popup.selectedCorpNetworkLayer.getSource().clear();
-      const mapLayers = this.map.getLayers().getArray();
+      const mapLayers = [];
+      this.map
+        .getLayers()
+        .getArray()
+        .forEach(layer => {
+          if (layer.get('type') === 'GROUP') {
+            mapLayers.push(...layer.getLayers().getArray());
+          } else {
+            mapLayers.push(layer);
+          }
+        });
       axios
         .all(promiseArray)
         .then(results => {
@@ -1196,9 +1215,17 @@ export default {
         });
     },
     fetchDescribeFeatureTypes() {
-      const geoserverLayerNames = extractGeoserverLayerNames(
-        this.$appConfig.map.layers
-      );
+      const flatLayers = [];
+      this.$appConfig.map.layers.forEach(layer => {
+        if (layer.type === 'GROUP') {
+          layer.layers.forEach(subLayer => {
+            flatLayers.push(subLayer);
+          });
+        } else {
+          flatLayers.push(layer);
+        }
+      });
+      const geoserverLayerNames = extractGeoserverLayerNames(flatLayers);
       const workspace = this.geoserverWorkspace;
       if (!geoserverLayerNames[workspace]) return;
       const filterLayersWithEntity = [];

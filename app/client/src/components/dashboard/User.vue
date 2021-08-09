@@ -56,7 +56,7 @@
         :headers="headers"
         :search="search"
         :items-per-page="10"
-        :items="users"
+        :items="filteredUser"
         class="elevation-1"
       >
         <template v-slot:header="{ props: { headers } }">
@@ -178,7 +178,7 @@
 
       <v-divider />
 
-      <confirm-dialog ref="confirm"></confirm-dialog>
+      <user-delete ref="confirm"></user-delete>
       <user-form-dialog ref="userForm" :color="color"></user-form-dialog>
     </v-card>
   </div>
@@ -187,7 +187,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 
-import ConfirmDialog from './ConfirmDelete';
+import UserDelete from './UserDelete';
 import UserFormDialog from './UserForm';
 
 export default {
@@ -227,13 +227,20 @@ export default {
     };
   },
   components: {
-    'confirm-dialog': ConfirmDialog,
+    'user-delete': UserDelete,
     'user-form-dialog': UserFormDialog
   },
   computed: {
     ...mapGetters('auth', {
-      users: 'users'
-    })
+      users: 'users',
+      loggedUser: 'loggedUser'
+    }),
+    // Users array without the logged user
+    filteredUser() {
+      return this.users.filter(user => {
+        return user.userID !== this.loggedUser.user.userID;
+      });
+    }
   },
   mounted() {
     this.$store.dispatch('auth/getUsers');
@@ -248,7 +255,8 @@ export default {
           color: this.color
         })
         .then(confirm => {
-          if (confirm) {
+          if (confirm.deleteUser === true) {
+            user.deletePosts = confirm.deletePosts;
             this.loading = true;
             this.$store.dispatch('auth/deleteUser', user).then(
               () => {

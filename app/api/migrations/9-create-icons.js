@@ -18,11 +18,7 @@ module.exports = {
       },
       createdBy: {
         allowNull: false,
-        type: Sequelize.UUID,
-        references: {
-          model: '_users', // foreign key on users
-          key: 'userID'
-        },
+        type: Sequelize.UUID
       },
       createdAt: {
         allowNull: false,

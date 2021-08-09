@@ -24,19 +24,11 @@ module.exports = {
       },
       createdBy: {
         allowNull: false,
-        type: Sequelize.UUID,
-        references: {
-          model: '_users', // foreign key on users
-          key: 'userID'
-        }
+        type: Sequelize.UUID
       },
       updatedBy: {
         allowNull: true,
-        type: Sequelize.UUID,
-        references: {
-          model: '_users', // foreign key on users
-          key: 'userID'
-        }
+        type: Sequelize.UUID
       },
       createdAt: {
         allowNull: true,

@@ -50,9 +50,7 @@ class AuthService {
     return axios.get('/api/users', { headers: authHeader() });
   }
   deleteUser(user) {
-    console.log(user);
-    const userId = user.userID;
-    return axios.delete(`api/users/${userId}`, { headers: authHeader() });
+    return axios.post(`/api/delete-user`, user, { headers: authHeader() });
   }
 }
 

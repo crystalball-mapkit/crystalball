@@ -106,7 +106,7 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="icon.title"
-                    label="Sidebar Title*"
+                    label="Icon title (enter one blank space for no title)*"
                     prepend-icon="fas fa-heading"
                     :rules="[rules.required]"
                   ></v-text-field>
@@ -118,7 +118,7 @@
                     :items="groups"
                     item-text="display"
                     item-value="value"
-                    label="Group*"
+                    label="Navbar group*"
                     :rules="[rules.required]"
                   ></v-select>
                 </v-col>

@@ -151,13 +151,13 @@ export default {
         },
         { text: 'Icon URL', value: 'iconUrl', align: 'left', sortable: false },
         {
-          text: 'Group Name',
+          text: 'Navbar group',
           value: 'group',
           align: 'left',
           sortable: false
         },
         {
-          text: 'Sidebar Title',
+          text: 'Icon title',
           value: 'title',
           align: 'left',
           sortable: false
