@@ -335,7 +335,7 @@ export default {
             timeout: 2000,
             state: true
           });
-          if (this.type === 'layer') {
+          if (type === 'layer') {
             const layers = this.sidebarHtml.layers;
             addProps(layers, `${this.lastSelectedLayer}.type`, 'layer');
             addProps(
