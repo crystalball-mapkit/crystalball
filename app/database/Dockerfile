@@ -1,5 +1,2 @@
-FROM mdillon/postgis:11-alpine
+FROM postgis/postgis:13-master
 LABEL Crystalball-Mapkit Dev
-
-RUN chmod a+x *.sh
-COPY ./initdb.sh /docker-entrypoint-initdb.d/initdb.sh
