@@ -203,11 +203,11 @@ export function baseStyle(config) {
 
     let _style;
     if (!styleCache[cacheId]) {
-      const {
+      let {
         strokeColor,
+        fillColor,
         strokeWidth,
         lineDash,
-        fillColor,
         label,
         circleRadiusFn,
         iconUrl,
@@ -219,6 +219,7 @@ export function baseStyle(config) {
         iconAnchorYUnits,
         stylePropFnRef
       } = config;
+
       const geometryType = feature.getGeometry().getType();
       let labelText;
       if (label && feature.get(label.text)) {
@@ -350,6 +351,47 @@ export function baseStyle(config) {
               lineDash: lineDash || [6]
             })
           };
+          if (labelText) {
+            options.text = labelText;
+          }
+          const style = new OlStyle(options);
+          if (cacheId) {
+            styleCache[cacheId] = style;
+          } else {
+            _style = style;
+          }
+          break;
+        }
+        case 'Polygon':
+        case 'MultiPolygon': {
+          const options = {
+            fill: new OlFill({
+              color:
+                stylePropFnRef &&
+                  stylePropFnRef.fillColor &&
+                  fillColor instanceof Function
+                  ? fillColor(feature.get(stylePropFnRef.fillColor))
+                  : fillColor || 'rgba(255, 255, 255, 1)',
+            })
+          };
+
+          if ((stylePropFnRef && stylePropFnRef.strokeColor) || strokeColor) {
+            options.stroke = new OlStroke({
+              color:
+                stylePropFnRef &&
+                  stylePropFnRef.strokeColor &&
+                  strokeColor instanceof Function
+                  ? strokeColor(feature.get(stylePropFnRef.strokeColor))
+                  : strokeColor || '#ffffff',
+              width:
+                stylePropFnRef &&
+                  stylePropFnRef.strokeWidth &&
+                  strokeWidth instanceof Function
+                  ? strokeWidth(feature.get(stylePropFnRef.strokeWidth))
+                  : strokeWidth || 0,
+              lineDash: lineDash || null
+            })
+          }
           if (labelText) {
             options.text = labelText;
           }
@@ -558,6 +600,11 @@ export const layersStylePropFn = {
     }
   },
   miss_tri: {
+    fillColor: propertyValue => {
+      return propertyValue;
+    }
+  },
+  indigenous_territories: {
     fillColor: propertyValue => {
       return propertyValue;
     }
