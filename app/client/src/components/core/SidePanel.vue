@@ -688,9 +688,14 @@ export default {
         center,
         zoom
       };
-      if (this.popup.activeFeature.getGeometry().getType() === 'Point') {
+      const geomType = this.popup.activeFeature.getGeometry().getType();
+      if (['Point', 'MultiPoint'].includes(geomType)) {
+        const center =
+          geomType == 'Point'
+            ? this.popup.activeFeature.getGeometry().getCoordinates()
+            : this.popup.activeFeature.getGeometry().getFirstCoordinate();
         this.map.getView().animate({
-          center: this.popup.activeFeature.getGeometry().getCoordinates(),
+          center,
           zoom: 13.5,
           duration: 800
         });
