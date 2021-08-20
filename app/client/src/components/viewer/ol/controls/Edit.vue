@@ -569,7 +569,12 @@ export default {
       this.createSchemaFromLayerMetadata(); // Used for dynamic form rendering
       let geometryType;
       if (layerMetadata) {
-        geometryType = layerMetadata.properties[0].localType;
+        const geometryFields = layerMetadata.properties.filter(p =>
+          ['geom', 'geometry'].includes(p.name)
+        );
+        Array.isArray(geometryFields) && geometryFields.length > 0
+          ? (geometryType = geometryFields[0].localType)
+          : null;
       }
       if (!geometryType) return;
       this.createHelpTooltip();
