@@ -7,8 +7,14 @@
       <zoom-control :color="color.primary" :map="map" />
       <full-screen :color="color.primary" />
       <share-map :color="color.primary" :map="map"></share-map>
-      <locate :color="color.primary" :map="map" />
+      <!-- Show only on mobile -->
+      <locate
+        v-if="$vuetify.breakpoint.smAndDown"
+        :color="color.primary"
+        :map="map"
+      />
       <route-controls
+        v-if="!$vuetify.breakpoint.smAndDown"
         :color="{
           activeButton: color.secondary,
           inactiveButton: color.primary
