@@ -53,7 +53,7 @@ axios
 
 // App Configuration
 // eslint-disable-next-line no-undef
-fetch(' https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/settings/app-conf.json ')
+fetch('https://casario-mapa.s3.sa-east-1.amazonaws.com/assets/settings/app-conf.json')
   .then(function (response) {
     if (response.status !== 200) {
       console.log(

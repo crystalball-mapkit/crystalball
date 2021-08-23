@@ -1,26 +1,36 @@
 <template>
   <v-app id="wg-app" data-app :class="{ 'wg-app': true }">
-    <v-expand-transition>
-      <v-navigation-drawer
-        v-model="sidebarState"
-        :width="
-          !selectedCoorpNetworkEntity
-            ? sidebarWidth.default
-            : sidebarWidth.corporateNetworkSelected
-        "
-        class="elevation-6"
-        :color="$appConfig.app.sideBar.backgroundColor"
-        stateless
-        app
-        clipped
-        right
-        :style="`color:${$appConfig.app.sideBar.textColor};`"
-      >
-        <side-panel></side-panel>
-      </v-navigation-drawer>
-    </v-expand-transition>
+    <template v-if="!$vuetify.breakpoint.smAndDown">
+      <v-expand-transition>
+        <v-navigation-drawer
+          v-model="sidebarState"
+          :width="
+            !selectedCoorpNetworkEntity
+              ? sidebarWidth.default
+              : sidebarWidth.corporateNetworkSelected
+          "
+          class="elevation-6"
+          :color="$appConfig.app.sideBar.backgroundColor"
+          stateless
+          app
+          clipped
+          right
+          :style="`color:${$appConfig.app.sideBar.textColor};`"
+        >
+          <side-panel></side-panel>
+        </v-navigation-drawer>
+      </v-expand-transition>
+    </template>
 
-    <v-app-bar app clipped-right height="60" :color="color.primary" dark>
+    <!-- APP BAR DESKTOP -->
+    <v-app-bar
+      v-if="!$vuetify.breakpoint.smAndDown"
+      app
+      clipped-right
+      height="60"
+      :color="color.primary"
+      dark
+    >
       <v-toolbar-title
         @click="goToHome()"
         flat
@@ -75,6 +85,54 @@
       >
     </v-app-bar>
 
+    <!-- APP BAR MOBILE -->
+    <v-app-bar
+      v-if="$vuetify.breakpoint.smAndDown"
+      :color="color.primary"
+      height="60"
+      app
+      dark
+    >
+      <v-btn icon @click="navDrawer = !navDrawer"
+        ><v-icon medium>{{ navDrawer ? '$close' : '$menu' }}</v-icon></v-btn
+      >
+
+      <v-toolbar-title> Crystalball</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon>fas fa-home</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <!-- NAVIGATION DRAWER MOBILE -->
+    <v-navigation-drawer
+      v-if="$vuetify.breakpoint.smAndDown"
+      v-model="navDrawer"
+      absolute
+      left
+      temporary
+    >
+      <v-list nav dense>
+        <v-list-item-group active-class="text--accent-4">
+          <v-list-item>
+            <v-list-item-title>Foo</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title>Bar</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title>Fizz</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title>Buzz</v-list-item-title>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-content>
       <v-container style="max-height: 100%;" fluid fill-height class="pa-0">
         <app-viewer />
@@ -117,6 +175,7 @@ export default {
   data() {
     return {
       color: this.$appConfig.app.color,
+      navDrawer: false,
       sidebarWidth: {
         default: 460,
         corporateNetworkSelected: 600
