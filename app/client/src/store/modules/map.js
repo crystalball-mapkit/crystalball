@@ -79,8 +79,11 @@ const state = {
     }
   },
   postEditLayer: null, // user for
+  postFeature: null,
+  postEditType: null,
   lastSelectedLayer: null, // triggered from layer or group change
-  persistentLayers: {}
+  persistentLayers: {},
+  currentResolution: null,
 };
 
 const getters = {
@@ -148,6 +151,8 @@ const getters = {
       return `${state.activeLayerGroup.navbarGroup}_${state.activeLayerGroup.region}`;
     }
   },
+  currentResolution: state => state.currentResolution,
+  postFeature: state => state.postFeature,
   getField
 };
 

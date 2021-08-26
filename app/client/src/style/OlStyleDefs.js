@@ -128,7 +128,7 @@ export function postEditLayerStyle() {
         scale: 1,
         anchorXUnits: 'fraction',
         anchorYUnits: 'pixels',
-        src: 'icons/map/marker.png'
+        src: 'icons/marker-focused.png'
       }),
       zIndex: 1001
     })

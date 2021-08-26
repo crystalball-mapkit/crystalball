@@ -14,6 +14,7 @@
         :map="map"
       />
       <route-controls
+        v-show="!isEditingPost"
         v-if="!$vuetify.breakpoint.smAndDown"
         :color="{
           activeButton: color.secondary,
@@ -29,9 +30,17 @@
         :color="{ primary: color.primary, activeButton: color.secondary }"
       />
     </div>
-
     <div
-      v-show="spotlightMessage === true"
+      style="position:absolute;bottom:20px;left:50%;z-index:100;transform:translateX(-50%);"
+    >
+      <add-post :color="color.primary" :map="map"></add-post>
+    </div>
+    <div
+      v-show="
+        spotlightMessage === true &&
+          !$vuetify.breakpoint.smAndDown &&
+          !isEditingPost
+      "
       :style="`background-color: ${color.primary}`"
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
@@ -183,7 +192,7 @@ import Legend from './controls/Legend';
 import Login from './controls/Login';
 import Edit from './controls/Edit';
 import ShareMap from './controls/ShareMap';
-
+import AddPost from './controls/AddPost';
 // Interactions
 import DoubleClickZoom from 'ol/interaction/DoubleClickZoom';
 import { defaults as defaultInteractions } from 'ol/interaction';
@@ -211,6 +220,7 @@ import { debounce, Timer } from '../../../utils/Helpers';
 
 export default {
   components: {
+    'add-post': AddPost,
     'overlay-popup': OverlayPopup,
     'map-legend': Legend,
     'login-button': Login,
@@ -306,6 +316,8 @@ export default {
       me.setupMapPointerMove();
       // Map Hover out event
       me.setupMapHoverOut();
+      // Map change resolution even
+      me.setupMapChangeResolution();
       // Move end event
       this.setupMapMoveEnd();
       // Setup slideshow;
@@ -778,6 +790,17 @@ export default {
           me.updateMousePosition();
         }, 50);
       }
+    },
+    setupMapChangeResolution() {
+      const me = this;
+      me.currentResolution = this.map.getView().getResolution();
+      this.map.getView().on(
+        'change:resolution',
+        debounce(function() {
+          const res = me.map.getView().getResolution();
+          me.currentResolution = res;
+        }, 100)
+      );
     },
     updateMousePosition() {
       const me = this;
@@ -1356,7 +1379,8 @@ export default {
       geoserverLayerNames: 'geoserverLayerNames',
       layersMetadata: 'layersMetadata',
       layersWithEntityField: 'layersWithEntityField',
-      selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity'
+      selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
+      currentResolution: 'currentResolution'
     }),
     activeLayerGroupConf() {
       const group = this.$appConfig.map.groups[

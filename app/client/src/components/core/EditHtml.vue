@@ -68,11 +68,9 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import TipTapEditor from './TipTapEditor';
 import { Mapable } from '../../mixins/Mapable';
-import { unByKey } from 'ol/Observable';
 import Overlay from 'ol/Overlay.js';
 import { postEditLayerStyle } from '../../style/OlStyleDefs';
-import Feature from 'ol/Feature';
-import Point from 'ol/geom/Point';
+
 import axios from 'axios';
 import authHeader from '../../services/auth-header';
 import GeoJSON from 'ol/format/GeoJSON';
@@ -86,10 +84,6 @@ export default {
   },
   data() {
     return {
-      postFeature: null,
-      mapClickKey: null,
-      pointerMoveKey: null,
-      editType: null,
       // Help tooltip data
       helpMessage: '',
       helpTooltipElement: null,
@@ -162,6 +156,13 @@ export default {
       this.isEditingPost = false;
       this.isEditingHtml = false;
     },
+    closeInteraction() {
+      this.postEditLayer.getSource().clear();
+      this.postFeature = null;
+      this.htmlContent = '';
+
+      this.clearOverlays();
+    },
     createEditPostLayer() {
       //-  create an edit vector layer
       const postEditLayerSource = new VectorSource({
@@ -182,31 +183,14 @@ export default {
       this.map.addLayer(postEditLayer);
       this.postEditLayer = postEditLayer;
     },
-    startInteraction() {
-      this.createHelpTooltip();
-      this.pointerMoveKey = this.map.on('pointermove', this.onPointerMove);
-      this.mapClickKey = this.map.once('click', this.onMapClick);
-      this.helpMessage = 'Click to place point!';
-    },
+
     onPointerMove(evt) {
       const coordinate = evt.coordinate;
       this.helpTooltipElement.innerHTML = this.helpMessage;
       this.helpTooltip.setPosition(coordinate);
       this.map.getTarget().style.cursor = 'pointer';
     },
-    onMapClick(evt) {
-      const feature = new Feature({
-        geom: new Point(evt.coordinate),
-        icon: ''
-      });
-      this.toggleSnackbar({ state: false });
-      unByKey(this.pointerMoveKey);
-      this.clearOverlays();
-      feature.setGeometryName('geom');
-      this.postEditLayer.getSource().clear();
-      this.postEditLayer.getSource().addFeature(feature);
-      this.postFeature = feature;
-    },
+
     createHelpTooltip() {
       if (this.helpTooltipElement) {
         this.helpTooltipElement.parentNode.removeChild(this.helpTooltipElement);
@@ -232,18 +216,6 @@ export default {
       }
     },
 
-    closeInteraction() {
-      this.postEditLayer.getSource().clear();
-      this.postFeature = null;
-      this.htmlContent = '';
-      if (this.mapClickKey) {
-        unByKey(this.mapClickKey);
-      }
-      if (this.pointerMoveKey) {
-        unByKey(this.pointerMoveKey);
-      }
-      this.clearOverlays();
-    },
     ...mapMutations('map', {
       toggleSnackbar: 'TOGGLE_SNACKBAR'
     }),
@@ -366,6 +338,8 @@ export default {
       isEditingPost: 'isEditingPost',
       isEditingHtml: 'isEditingHtml',
       postEditLayer: 'postEditLayer',
+      postFeature: 'postFeature',
+      editType: 'postEditType',
       lastSelectedLayer: 'lastSelectedLayer'
     }),
     ...mapGetters('map', {
@@ -385,21 +359,8 @@ export default {
   },
   watch: {
     isEditingPost(value) {
-      if (value === true) {
-        if (this.editType !== 'update') {
-          this.toggleSnackbar({
-            type: this.$appConfig.app.color.primary,
-            message: 'Zoom in close and click to add your post',
-            timeout: 50000,
-            state: true
-          });
-          this.startInteraction();
-        }
-      } else {
+      if (value !== true) {
         this.editType = null;
-        this.toggleSnackbar({
-          state: false
-        });
         this.closeInteraction();
       }
     }

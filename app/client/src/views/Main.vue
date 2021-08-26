@@ -112,24 +112,77 @@
       left
       temporary
     >
+      <v-list nav dense class="mb-4">
+        <!-- Main groups -->
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon>map</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title class="font-weight-bold">MAP</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item
+          :dark="
+            activeLayerGroup.navbarGroup === navbarGroup.name ? true : false
+          "
+          :style="
+            `background-color:${
+              activeLayerGroup.navbarGroup === navbarGroup.name
+                ? color.primary
+                : 'white'
+            };`
+          "
+          @click="changeNavbarGroup(navbarGroup)"
+          v-for="(navbarGroup, index) in navbarGroups"
+          :color="
+            activeLayerGroup.navbarGroup === navbarGroup.name
+              ? 'white'
+              : color.primary
+          "
+          :key="index"
+        >
+          <v-list-item-title>{{
+            navbarGroup.title.toUpperCase()
+          }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+
+      <!-- Sub groups  -->
       <v-list nav dense>
-        <v-list-item-group active-class="text--accent-4">
-          <v-list-item>
-            <v-list-item-title>Foo</v-list-item-title>
-          </v-list-item>
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon>subject</v-icon>
+          </v-list-item-icon>
 
-          <v-list-item>
-            <v-list-item-title>Bar</v-list-item-title>
+          <v-list-item-content>
+            <v-list-item-title class="font-weight-bold"
+              >SUBCATEGORY</v-list-item-title
+            >
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider class="mb-4"></v-divider>
+        <template v-for="(region, index) in regions">
+          <v-list-item
+            @click="changeRegion(region)"
+            v-if="hasRegion(region)"
+            :dark="activeLayerGroup.region === region.name ? true : false"
+            :style="
+              `background-color:${
+                activeLayerGroup.region === region.name
+                  ? color.primary
+                  : 'white'
+              };`
+            "
+            :key="index"
+          >
+            <v-list-item-title>{{
+              region.title.toUpperCase()
+            }}</v-list-item-title>
           </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Fizz</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-title>Buzz</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
+        </template>
       </v-list>
     </v-navigation-drawer>
 
@@ -219,6 +272,26 @@ export default {
         default: _default,
         corporateNetworkSelected: _corporateNetworkSelected
       };
+    },
+    changeRegion(region) {
+      this.$router.push({
+        path: `/${this.activeLayerGroup.navbarGroup}/${region.name}`
+      });
+      if (region.name === 'local') {
+        EventBus.$emit('zoomToLocation');
+      }
+    },
+    hasRegion(region) {
+      const activeNavbarGroup = this.activeLayerGroup.navbarGroup;
+      const regions = this.$appConfig.map.groups[activeNavbarGroup];
+      if (region.name === 'default') {
+        return;
+      }
+      if (regions[region.name] && regions[region.name].layers.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
     },
     ...mapMutations('map', {
       setActiveLayerGroup: 'SET_ACTIVE_LAYERGROUP'

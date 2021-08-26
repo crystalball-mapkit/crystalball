@@ -78,7 +78,7 @@
             class="edit-buttons mt-2"
             v-on="on"
             @click="togglePostEdit"
-            :color="isEditingPost ? color.activeButton : color.primary"
+            :color="isEditingPost ? 'error' : color.primary"
             fab
             dark
             small
@@ -334,6 +334,7 @@ import { Mapable } from '../../../../mixins/Mapable';
 
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
+import PostMapMarkerLayer from '../../../../utils/PostMapMarker';
 import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
 import { LineString, MultiLineString, Polygon, MultiPolygon } from 'ol/geom';
@@ -449,14 +450,16 @@ export default {
       isSelecting: false,
       errorMessage: '',
       position: 'sidebarMediaTop'
-    }
+    },
+    postMapMarkerLayer_: null
   }),
   name: 'edit-control',
   computed: {
     ...mapFields('map', {
       isEditingLayer: 'isEditingLayer',
       isEditingPost: 'isEditingPost',
-      selectedLayer: 'selectedLayer'
+      selectedLayer: 'selectedLayer',
+      postFeature: 'postFeature'
     }),
     ...mapGetters('map', {
       layersMetadata: 'layersMetadata'
@@ -487,6 +490,7 @@ export default {
   methods: {
     onMapBound() {
       this.createLayers();
+      this.postMapMarkerLayer_ = new PostMapMarkerLayer();
     },
     createLayers() {
       //-  create an edit vector layer
@@ -898,6 +902,16 @@ export default {
       if (this.isEditingLayer) {
         this.closeEdit();
       }
+      if (this.isEditingPost) {
+        this.map.addLayer(this.postMapMarkerLayer_);
+        this.postMapMarkerLayer_.setFlashlightVisible(true);
+        this.map.once('moveend', () => {
+          this.postMapMarkerLayer_.setFlashlightVisible(false);
+        })
+      } else {
+        this.map.removeLayer(this.postMapMarkerLayer_);
+        this.postMapMarkerLayer_.setFlashlightVisible(false);
+      }
     },
     changeLayer() {
       this.layersDialog = true;
@@ -1097,6 +1111,12 @@ export default {
         return;
       }
       this.closeEdit();
+    },
+    postFeature(newValue) {
+      if(newValue) { 
+        this.map.removeLayer(this.postMapMarkerLayer_);
+        this.postMapMarkerLayer_.setFlashlightVisible(false);
+      }
     }
   }
 };
