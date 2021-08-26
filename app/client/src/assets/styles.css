@@ -1,38 +1,38 @@
-
-aside a, .link {
-	color: #A40C14;
-	text-decoration: none;
+aside a,
+.link {
+  color: #a40c14;
+  text-decoration: none;
 }
 
 .link:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
-aside a:visited, .link {
-	color: #A40C14;
+aside a:visited,
+.link {
+  color: #a40c14;
 }
-
 
 /* OpenLayers styling in Map* components */
-
 
 .ol-popup {
   position: absolute;
   background-color: #f7fcfe;
-  -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
-  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+  -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
   border-radius: 10px;
   border: 1px solid #cccccc;
   bottom: 12px;
   left: -50px;
   min-width: 370px;
-  max-height: 490px;                   /*This controls height of popup, content below*/
+  max-height: 490px; /*This controls height of popup, content below*/
   offset: 200px;
 }
-.ol-popup:after, .ol-popup:before {
+.ol-popup:after,
+.ol-popup:before {
   top: 100%;
   border: solid transparent;
-  content: " ";
+  content: ' ';
   height: 0;
   width: 0;
   position: absolute;
@@ -50,7 +50,8 @@ aside a:visited, .link {
   left: 48px;
   margin-left: -10px;
 }
-.ol-vimeopopup, .ol-vimeopopup .ol-popup-content {
+.ol-vimeopopup,
+.ol-vimeopopup .ol-popup-content {
   height: 380px;
   max-height: 380px;
 }
@@ -72,15 +73,15 @@ aside a:visited, .link {
   border-radius: 10px;
 }
 .ol-popup-closer:after {
-  content: "x";
+  content: 'x';
 }
 .ol-popup-content {
   position: relative;
   top: -30px;
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: 450px;        /*This controls height of content, actual popup height above*/
-	max-width: 330px;
+  max-height: 450px; /*This controls height of content, actual popup height above*/
+  max-width: 330px;
   width: calc(100% - 1em);
   padding: 0.5em;
 }
@@ -100,7 +101,6 @@ aside a:visited, .link {
   font-size: 12pt;
 }
 
-
 .ol-tooltip {
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
@@ -114,13 +114,13 @@ aside a:visited, .link {
 .spotlightControls {
   position: absolute;
   display: none;
-  background-color: rgba(0,60,136,0.5);
+  background-color: rgba(0, 60, 136, 0.5);
   border-radius: 2px;
   padding: 2px 5px;
-  top: calc(.5em);
+  top: calc(0.5em);
   left: 3rem;
   color: white;
-  border: 3px rgba(255,255,255,0.4) solid;
+  border: 3px rgba(255, 255, 255, 0.4) solid;
 }
 
 button:hover {
@@ -128,11 +128,12 @@ button:hover {
 }
 
 .button {
-	background: #f7fcfe;
+  background: #f7fcfe;
 }
 
 .locateMe-control {
   position: absolute;
   top: 4.5em;
-  left: .5em;
+  left: 0.5em;
 }
+

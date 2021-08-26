@@ -339,6 +339,9 @@
       "videoUrl",
       "videoSrc"
     ],
+    "addPost": {
+      "minResolution": 20 
+    },
     "corporateEntitiesUrls": {
       "Enbridge": ""
     }

@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on }">
         <v-btn
           v-on="on"
-          style="position:fixed;left:16px;bottom:40px;z-index:1000;"
+          style="position:fixed;left:16px;bottom:40px;z-index:1;"
           v-show="!isVisible"
           :color="color"
           @click="toggleLegend"
