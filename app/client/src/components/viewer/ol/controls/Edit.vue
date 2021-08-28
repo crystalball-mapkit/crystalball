@@ -355,6 +355,7 @@ import '@koumoul/vjsf/lib/VJsf.css';
 // you can also load them separately based on your needs
 import '@koumoul/vjsf/lib/deps/third-party.js';
 import authHeader from '../../../../services/auth-header';
+import { EventBus } from '../../../../EventBus';
 
 export default {
   components: {
@@ -907,7 +908,7 @@ export default {
         this.postMapMarkerLayer_.setFlashlightVisible(true);
         this.map.once('moveend', () => {
           this.postMapMarkerLayer_.setFlashlightVisible(false);
-        })
+        });
       } else {
         this.map.removeLayer(this.postMapMarkerLayer_);
         this.postMapMarkerLayer_.setFlashlightVisible(false);
@@ -1101,6 +1102,12 @@ export default {
         }
       }
     };
+    EventBus.$on('closeAll', () => {
+      if (this.isEditingPost) {
+        // Closes post editor
+        this.togglePostEdit();
+      }
+    });
   },
   beforeDestroy() {
     this.closeEdit();
@@ -1113,7 +1120,7 @@ export default {
       this.closeEdit();
     },
     postFeature(newValue) {
-      if(newValue) { 
+      if (newValue) {
         this.map.removeLayer(this.postMapMarkerLayer_);
         this.postMapMarkerLayer_.setFlashlightVisible(false);
       }

@@ -1,5 +1,5 @@
 <template>
-  <v-card width="100%">
+  <v-card width="100%" class="elevation-0">
     <v-list v-show="postFeature && !postFeature.get('icon')">
       <v-list-item
         v-for="icon in postIcons"

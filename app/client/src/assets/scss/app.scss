@@ -1,6 +1,16 @@
-html {
-  /* otherwise we have always vertical scrollbars */
-  overflow-y: hidden !important;
+html,
+body,
+#site-wrap,
+#app {
+  -webkit-print-color-adjust: exact;
+  width: 100%;
+  height: 100%;
+}
+
+@media only screen and (min-width: 960px) {
+  html {
+    overflow: hidden;
+  }
 }
 
 .wg-app {
@@ -192,4 +202,46 @@ html {
 
 .ep-accordion > input[type='checkbox']:checked ~ .handle label:before {
   content: '\f078';
+}
+
+// MOBILE STYLING
+.mobile-parent-wrap {
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.mobile-bottom-sheet {
+  position: absolute;
+  top: 60%;
+  width: 100%;
+  left: 0px;
+  height: unset;
+  background-color: rgb(255, 255, 255);
+  box-sizing: border-box;
+  box-shadow: rgb(0 0 0 / 10%) 0px -4px 3px;
+  z-index: 15;
+}
+
+.mobile-map-viewer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 60px;
+}
+
+.close-btn-mobile-panel {
+  position: absolute;
+  top: -40px;
+  left: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 0px;
+  background-color: rgb(255, 255, 255);
+  outline: none;
+  border: none;
+  font-size: 16px;
+  color: rgb(255, 94, 153);
+  box-shadow: rgb(0 0 0 / 10%) 4px -4px 3px;
+  padding: 10px 16px;
 }
