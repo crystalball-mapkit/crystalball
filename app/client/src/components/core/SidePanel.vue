@@ -176,6 +176,7 @@
                         {{ searchLabel }}
                       </v-btn>
                       <v-btn
+                        v-if="!$vuetify.breakpoint.smAndDown"
                         @click="closePopupInfo"
                         text
                         small
@@ -353,7 +354,11 @@
             </div>
           </v-flex>
 
-          <v-flex xs2 class="d-flex justify-center">
+          <v-flex
+            v-if="!$vuetify.breakpoint.smAndDown"
+            xs2
+            class="d-flex justify-center"
+          >
             <v-btn
               @click="closeCorpNetworkSelection()"
               dark
@@ -472,6 +477,12 @@ export default {
       isIframeLoading: true,
       color: this.$appConfig.app.color.primary
     };
+  },
+  created() {
+    EventBus.$on('closeAll', () => {
+      this.closeCorpNetworkSelection();
+      this.closePopupInfo();
+    });
   },
   computed: {
     isFeatureGetInfo() {
@@ -635,7 +646,7 @@ export default {
         // Render as image.
         html = `<img
                     class="my-3"
-                    style="max-width:425px;"
+                    style="max-width:100%;"
                     src="${url}"
                   >
                   </img>`;

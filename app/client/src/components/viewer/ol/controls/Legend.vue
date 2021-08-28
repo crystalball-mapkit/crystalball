@@ -4,7 +4,13 @@
       <template v-slot:activator="{ on }">
         <v-btn
           v-on="on"
-          style="position:fixed;left:16px;bottom:40px;z-index:1;"
+          :style="
+            `position:absolute;${
+              $vuetify.breakpoint.smAndDown ? 'right' : 'left'
+            }:16px;bottom:${
+              $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 40
+            }px;z-index:1;`
+          "
           v-show="!isVisible"
           :color="color"
           @click="toggleLegend"
@@ -22,7 +28,13 @@
       v-show="isVisible"
       class="elevation-3"
       :width="isVisible ? '250px' : '0px'"
-      style="position:absolute;left:25px;bottom:20px;max-width:200px;opacity:85%;"
+      :style="
+        `position:absolute;${
+          $vuetify.breakpoint.smAndDown ? 'right' : 'left'
+        }:25px;bottom:${
+          $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
+        }px;max-width:200px;opacity:85%;z-index:1000;`
+      "
     >
       <v-btn
         v-show="isVisible"
@@ -138,7 +150,9 @@ export default {
       panel: 0,
       isReady: false,
       title: '',
-      isVisible: this.$appConfig.app.legend.isVisible
+      isVisible: this.$vuetify.breakpoint.smAndDown
+        ? false
+        : this.$appConfig.app.legend.isVisible
     };
   },
   methods: {
@@ -218,6 +232,7 @@ export default {
       // Show html in the sidebar.
       if (item.getVisible() && item.get('displaySidebarInfo')) {
         this.lastSelectedLayer = item.get('name');
+        this.mobilemobilePanelState = true;
       }
     },
     toggleAllLayersVisibility(state) {
@@ -239,7 +254,10 @@ export default {
         }
       });
       this.regions.forEach(region => {
-        if (region.name === this.activeLayerGroup.region && region.name !== "default") {
+        if (
+          region.name === this.activeLayerGroup.region &&
+          region.name !== 'default'
+        ) {
           title += ` (${region.title})`;
         }
       });
@@ -257,13 +275,15 @@ export default {
       layers: 'layers',
       activeLayerGroup: 'activeLayerGroup',
       navbarGroups: 'navbarGroups',
-      regions: 'regions'
+      regions: 'regions',
+      mobilePanelState: 'mobilePanelState'
     }),
     ...mapGetters('app', {
       sidebarHtml: 'sidebarHtml'
     }),
     ...mapFields('map', {
-      lastSelectedLayer: 'lastSelectedLayer'
+      lastSelectedLayer: 'lastSelectedLayer',
+      mobilePanelState: 'mobilePanelState'
     })
   },
   watch: {

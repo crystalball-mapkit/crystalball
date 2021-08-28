@@ -84,6 +84,7 @@ const state = {
   lastSelectedLayer: null, // triggered from layer or group change
   persistentLayers: {},
   currentResolution: null,
+  mobilePanelState: true
 };
 
 const getters = {
@@ -153,6 +154,7 @@ const getters = {
   },
   currentResolution: state => state.currentResolution,
   postFeature: state => state.postFeature,
+  mobilePanelState: state => state.mobilePanelState,
   getField
 };
 
@@ -164,7 +166,7 @@ const actions = {
     }
     const layers = rootState.map.layers;
     const promiseArray = [];
-    Object.keys(layers).forEach(function(key) {
+    Object.keys(layers).forEach(function (key) {
       const layer = layers[key];
       if (layer.get('styleObj')) {
         const styleObj = JSON.parse(layer.get('styleObj'));
@@ -200,7 +202,7 @@ const actions = {
     if (promiseArray.length > 0) {
       axios
         .all(promiseArray)
-        .then(function(results) {
+        .then(function (results) {
           results.forEach(response => {
             const features = response.data.features;
             const configData = JSON.parse(response.config.data);
@@ -224,7 +226,7 @@ const actions = {
             commit('SET_COLORMAP_VALUES', { layerName, entities });
           });
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log('Fetch Error :-S', err);
         });
     }

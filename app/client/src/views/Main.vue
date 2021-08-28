@@ -1,197 +1,213 @@
 <template>
-  <v-app id="wg-app" data-app :class="{ 'wg-app': true }">
-    <template v-if="!$vuetify.breakpoint.smAndDown">
-      <v-expand-transition>
-        <v-navigation-drawer
-          v-model="sidebarState"
-          :width="
-            !selectedCoorpNetworkEntity
-              ? sidebarWidth.default
-              : sidebarWidth.corporateNetworkSelected
-          "
-          class="elevation-6"
-          :color="$appConfig.app.sideBar.backgroundColor"
-          stateless
-          app
-          clipped
-          right
-          :style="`color:${$appConfig.app.sideBar.textColor};`"
-        >
-          <side-panel></side-panel>
-        </v-navigation-drawer>
-      </v-expand-transition>
-    </template>
-
-    <!-- APP BAR DESKTOP -->
-    <v-app-bar
+  <div id="site-wrap">
+    <!-- ===DESKTOP=== -->
+    <v-app
       v-if="!$vuetify.breakpoint.smAndDown"
-      app
-      clipped-right
-      height="60"
-      :color="color.primary"
-      dark
+      id="wg-app"
+      data-app
+      :class="{ 'wg-app': true }"
     >
-      <v-toolbar-title
-        @click="goToHome()"
-        flat
-        :style="`background-color:${color.primary};text-color:white;`"
-        class="logo headline font-weight-bold gray--text mr-3 dark"
-        >{{ $appConfig.app.title }}</v-toolbar-title
-      >
-      <v-tooltip right>
-        <template v-slot:activator="{ on }">
+      <template>
+        <v-expand-transition>
+          <v-navigation-drawer
+            v-model="sidebarState"
+            :width="
+              !selectedCoorpNetworkEntity
+                ? sidebarWidth.default
+                : sidebarWidth.corporateNetworkSelected
+            "
+            class="elevation-6"
+            :color="$appConfig.app.sideBar.backgroundColor"
+            stateless
+            app
+            clipped
+            right
+            :style="`color:${$appConfig.app.sideBar.textColor};`"
+          >
+            <side-panel></side-panel>
+          </v-navigation-drawer>
+        </v-expand-transition>
+      </template>
+
+      <!-- APP BAR DESKTOP -->
+      <v-app-bar app clipped-right height="60" :color="color.primary" dark>
+        <v-toolbar-title
+          @click="goToHome()"
+          flat
+          :style="`background-color:${color.primary};text-color:white;`"
+          class="logo headline font-weight-bold gray--text mr-3 dark"
+          >{{ $appConfig.app.title }}</v-toolbar-title
+        >
+        <v-tooltip right>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              v-on="on"
+              small
+              depressed
+              fab
+              color="gray"
+              class="ml-0"
+              @click="openWebsite()"
+              ><v-icon small>fas fa-home</v-icon></v-btn
+            > </template
+          ><span>Open Website</span>
+        </v-tooltip>
+
+        <v-spacer></v-spacer>
+        <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
           <v-btn
-            v-on="on"
-            small
-            depressed
-            fab
-            color="gray"
-            class="ml-0"
-            @click="openWebsite()"
-            ><v-icon small>fas fa-home</v-icon></v-btn
-          > </template
-        ><span>Open Website</span>
-      </v-tooltip>
-
-      <v-spacer></v-spacer>
-      <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
-        <v-btn
-          min-width="200"
-          class="mx-10"
-          :dark="
-            activeLayerGroup.navbarGroup === navbarGroup.name ? false : true
-          "
-          @click="changeNavbarGroup(navbarGroup)"
-          :color="
-            activeLayerGroup.navbarGroup === navbarGroup.name
-              ? 'white'
-              : color.primary
-          "
-          :class="{
-            'elevation-0': activeLayerGroup.navbarGroup !== navbarGroup.name,
-            'font-weight-bold black--text':
-              activeLayerGroup.navbarGroup === navbarGroup.name,
-            'elevation-6': activeLayerGroup.navbarGroup === navbarGroup.name
-          }"
-        >
-          {{ navbarGroup.title }}
-        </v-btn>
-      </div>
-      <v-spacer></v-spacer><v-spacer></v-spacer>
-
-      <!--      <span class="title pr-5">before it's too late</span>  -->
-      <v-btn icon @click.stop="sidebarState = !sidebarState"
-        ><v-icon medium>{{ sidebarState ? '$close' : '$menu' }}</v-icon></v-btn
-      >
-    </v-app-bar>
-
-    <!-- APP BAR MOBILE -->
-    <v-app-bar
-      v-if="$vuetify.breakpoint.smAndDown"
-      :color="color.primary"
-      height="60"
-      app
-      dark
-    >
-      <v-btn icon @click="navDrawer = !navDrawer"
-        ><v-icon medium>{{ navDrawer ? '$close' : '$menu' }}</v-icon></v-btn
-      >
-
-      <v-toolbar-title> Crystalball</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>fas fa-home</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <!-- NAVIGATION DRAWER MOBILE -->
-    <v-navigation-drawer
-      v-if="$vuetify.breakpoint.smAndDown"
-      v-model="navDrawer"
-      absolute
-      left
-      temporary
-    >
-      <v-list nav dense class="mb-4">
-        <!-- Main groups -->
-        <v-list-item>
-          <v-list-item-icon>
-            <v-icon>map</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title class="font-weight-bold">MAP</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider></v-divider>
-        <v-list-item
-          :dark="
-            activeLayerGroup.navbarGroup === navbarGroup.name ? true : false
-          "
-          :style="
-            `background-color:${
+            min-width="200"
+            class="mx-10"
+            :dark="
+              activeLayerGroup.navbarGroup === navbarGroup.name ? false : true
+            "
+            @click="changeNavbarGroup(navbarGroup)"
+            :color="
               activeLayerGroup.navbarGroup === navbarGroup.name
-                ? color.primary
-                : 'white'
-            };`
-          "
-          @click="changeNavbarGroup(navbarGroup)"
-          v-for="(navbarGroup, index) in navbarGroups"
-          :color="
-            activeLayerGroup.navbarGroup === navbarGroup.name
-              ? 'white'
-              : color.primary
-          "
-          :key="index"
+                ? 'white'
+                : color.primary
+            "
+            :class="{
+              'elevation-0': activeLayerGroup.navbarGroup !== navbarGroup.name,
+              'font-weight-bold black--text':
+                activeLayerGroup.navbarGroup === navbarGroup.name,
+              'elevation-6': activeLayerGroup.navbarGroup === navbarGroup.name
+            }"
+          >
+            {{ navbarGroup.title }}
+          </v-btn>
+        </div>
+        <v-spacer></v-spacer><v-spacer></v-spacer>
+
+        <!--      <span class="title pr-5">before it's too late</span>  -->
+        <v-btn icon @click.stop="sidebarState = !sidebarState"
+          ><v-icon medium>{{
+            sidebarState ? '$close' : '$menu'
+          }}</v-icon></v-btn
         >
-          <v-list-item-title>{{
-            navbarGroup.title.toUpperCase()
-          }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
+      </v-app-bar>
 
-      <!-- Sub groups  -->
-      <v-list nav dense>
-        <v-list-item>
-          <v-list-item-icon>
-            <v-icon>subject</v-icon>
-          </v-list-item-icon>
+      <v-content>
+        <v-container style="max-height: 100%;" fluid fill-height class="pa-0">
+          <app-viewer />
+        </v-container>
+      </v-content>
+    </v-app>
 
-          <v-list-item-content>
-            <v-list-item-title class="font-weight-bold"
-              >SUBCATEGORY</v-list-item-title
-            >
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider class="mb-4"></v-divider>
-        <template v-for="(region, index) in regions">
+    <!-- ===MOBILE=== -->
+    <v-app
+      data-app
+      v-if="$vuetify.breakpoint.smAndDown"
+      class="mobile-parent-wrap"
+    >
+      <!-- APP BAR MOBILE -->
+      <v-app-bar :color="color.primary" height="60" absolute dark>
+        <v-btn icon @click="navDrawer = !navDrawer"
+          ><v-icon medium>{{ navDrawer ? '$close' : '$menu' }}</v-icon></v-btn
+        >
+
+        <v-toolbar-title> Crystalball</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn @click="goToHome()" icon>
+          <v-icon>fas fa-home</v-icon>
+        </v-btn>
+      </v-app-bar>
+
+      <!-- NAVIGATION DRAWER MOBILE -->
+      <v-navigation-drawer
+        style="z-index:1001;"
+        v-model="navDrawer"
+        absolute
+        left
+        temporary
+      >
+        <v-list nav dense class="mb-4">
+          <!-- Main groups -->
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>map</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold"
+                >MAP</v-list-item-title
+              >
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider></v-divider>
           <v-list-item
-            @click="changeRegion(region)"
-            v-if="hasRegion(region)"
-            :dark="activeLayerGroup.region === region.name ? true : false"
+            :dark="
+              activeLayerGroup.navbarGroup === navbarGroup.name ? true : false
+            "
             :style="
               `background-color:${
-                activeLayerGroup.region === region.name
+                activeLayerGroup.navbarGroup === navbarGroup.name
                   ? color.primary
                   : 'white'
               };`
             "
+            @click="changeNavbarGroup(navbarGroup)"
+            v-for="(navbarGroup, index) in navbarGroups"
+            :color="
+              activeLayerGroup.navbarGroup === navbarGroup.name
+                ? 'white'
+                : color.primary
+            "
             :key="index"
           >
             <v-list-item-title>{{
-              region.title.toUpperCase()
+              navbarGroup.title.toUpperCase()
             }}</v-list-item-title>
           </v-list-item>
-        </template>
-      </v-list>
-    </v-navigation-drawer>
+        </v-list>
 
-    <v-content>
-      <v-container style="max-height: 100%;" fluid fill-height class="pa-0">
-        <app-viewer />
-      </v-container>
-    </v-content>
-  </v-app>
+        <!-- Sub groups  -->
+        <v-list nav dense v-if="regionLength > 0">
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon>subject</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title class="font-weight-bold"
+                >SUBCATEGORY</v-list-item-title
+              >
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider class="mb-4"></v-divider>
+          <template v-for="(region, index) in regions">
+            <v-list-item
+              @click="changeRegion(region)"
+              v-if="hasRegion(region)"
+              :dark="activeLayerGroup.region === region.name ? true : false"
+              :style="
+                `background-color:${
+                  activeLayerGroup.region === region.name
+                    ? color.primary
+                    : 'white'
+                };`
+              "
+              :key="index"
+            >
+              <v-list-item-title>{{
+                region.title.toUpperCase()
+              }}</v-list-item-title>
+            </v-list-item>
+          </template>
+        </v-list>
+      </v-navigation-drawer>
+
+      <app-viewer
+        :style="`height: calc(${mobilePanelState ? 60 : 100}% - 60px);`"
+        class="mobile-map-viewer"
+      ></app-viewer>
+
+      <div class="mobile-bottom-sheet" v-show="mobilePanelState">
+        <side-panel></side-panel>
+        <button @click="closeAll()" class="close-btn-mobile-panel">✕</button>
+      </div>
+    </v-app>
+  </div>
 </template>
 
 <script>
@@ -210,6 +226,9 @@ export default {
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       isEditingPost: 'isEditingPost',
       isEditingHtml: 'isEditingHtml',
+      postFeature: 'postFeature',
+      popup: 'popup',
+      mobilePanelState: 'mobilePanelState',
       navbarGroups: 'navbarGroups',
       regions: 'regions',
       geoserverWorkspace: 'geoserverWorkspace'
@@ -219,7 +238,19 @@ export default {
     }),
     ...mapFields('app', {
       sidebarState: 'sidebarState'
-    })
+    }),
+    regionLength() {
+      const activeNavbarGroup = this.activeLayerGroup.navbarGroup;
+      const regions = this.$appConfig.map.groups[activeNavbarGroup];
+      const regionsArray = Object.keys(regions).filter(v => v !== 'default');
+      let count = 0;
+      regionsArray.forEach(region => {
+        if (regions[region].layers.length > 0) {
+          count++;
+        }
+      });
+      return count;
+    }
   },
   components: {
     'app-viewer': Viewer,
@@ -293,6 +324,10 @@ export default {
         return false;
       }
     },
+    closeAll() {
+      EventBus.$emit('closeAll');
+      this.mobilePanelState = false;
+    },
     ...mapMutations('map', {
       setActiveLayerGroup: 'SET_ACTIVE_LAYERGROUP'
     }),
@@ -341,6 +376,32 @@ export default {
         region: this.region
       });
       this.zoomToLocation();
+      // Activate mobile panel state
+      this.$nextTick(() => {
+        this.mobilePanelState = true;
+      });
+    },
+    postFeature(feature) {
+      if (feature) {
+        this.mobilePanelState = true;
+      } else {
+        this.mobilePanelState = false;
+      }
+    },
+    isEditingHtml(state) {
+      this.mobilePanelState = state;
+    },
+    isEditingPost(state) {
+      if (state === false) {
+        this.mobilePanelState = false;
+      }
+    },
+    'popup.activeFeature': function(feature) {
+      if (feature) {
+        this.mobilePanelState = true;
+      } else {
+        this.mobilePanelState = false;
+      }
     }
   },
   mounted() {

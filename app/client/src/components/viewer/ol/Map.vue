@@ -31,7 +31,11 @@
       />
     </div>
     <div
-      style="position:absolute;bottom:20px;left:50%;z-index:100;transform:translateX(-50%);"
+      :style="
+        `position:absolute;bottom:${
+          $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
+        }px;left:50%;z-index:100;transform:translateX(-50%);`
+      "
     >
       <add-post :color="color.primary" :map="map"></add-post>
     </div>
@@ -1364,7 +1368,8 @@ export default {
       splittedEntities: 'splittedEntities',
       htmlPostLayerConf: 'htmlPostLayerConf',
       geoserverWorkspace: 'geoserverWorkspace',
-      persistentLayers: 'persistentLayers'
+      persistentLayers: 'persistentLayers',
+      mobilePanelState: 'mobilePanelState'
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser'
@@ -1450,6 +1455,13 @@ export default {
     isEditingLayer() {
       // Disables double click zoom when user is editing.
       this.dblClickZoomInteraction.setActive(!this.isEditingLayer);
+    },
+    mobilePanelState() {
+      if (this.$vuetify.breakpoint.smAndDown) {
+        this.$nextTick(() => {
+          this.map.updateSize();
+        });
+      }
     }
   }
 };
