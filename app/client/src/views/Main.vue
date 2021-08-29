@@ -391,10 +391,8 @@ export default {
     isEditingHtml(state) {
       this.mobilePanelState = state;
     },
-    isEditingPost(state) {
-      if (state === false) {
-        this.mobilePanelState = false;
-      }
+    isEditingPost() {
+      this.mobilePanelState = false;
     },
     'popup.activeFeature': function(feature) {
       if (feature) {

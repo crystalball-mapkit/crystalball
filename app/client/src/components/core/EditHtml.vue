@@ -1,6 +1,6 @@
 <template>
-  <v-card width="100%" class="elevation-0 pb-3">
-    <v-list v-show="postFeature && !postFeature.get('icon')">
+  <v-card width="100%" class="elevation-0 pb-0">
+    <v-list class="pa-0 ma-0" v-show="postFeature && !postFeature.get('icon')">
       <v-list-item
         v-for="icon in postIcons"
         :key="icon.title"
@@ -41,7 +41,7 @@
       </v-layout>
       <v-row>
         <v-spacer></v-spacer>
-        <v-btn class="mt-2 mr-2" @click="cancel" text>
+        <v-btn class="mt-2 mr-2 mb-2" @click="cancel" text>
           Cancel
         </v-btn>
         <v-btn

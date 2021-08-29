@@ -903,16 +903,6 @@ export default {
       if (this.isEditingLayer) {
         this.closeEdit();
       }
-      if (this.isEditingPost) {
-        this.map.addLayer(this.postMapMarkerLayer_);
-        this.postMapMarkerLayer_.setFlashlightVisible(true);
-        this.map.once('moveend', () => {
-          this.postMapMarkerLayer_.setFlashlightVisible(false);
-        });
-      } else {
-        this.map.removeLayer(this.postMapMarkerLayer_);
-        this.postMapMarkerLayer_.setFlashlightVisible(false);
-      }
     },
     changeLayer() {
       this.layersDialog = true;
@@ -1121,6 +1111,18 @@ export default {
     },
     postFeature(newValue) {
       if (newValue) {
+        this.map.removeLayer(this.postMapMarkerLayer_);
+        this.postMapMarkerLayer_.setFlashlightVisible(false);
+      }
+    },
+    isEditingPost(state) {
+      if (state === true) {
+        this.map.addLayer(this.postMapMarkerLayer_);
+        this.postMapMarkerLayer_.setFlashlightVisible(true);
+        this.map.once('moveend', () => {
+          this.postMapMarkerLayer_.setFlashlightVisible(false);
+        });
+      } else {
         this.map.removeLayer(this.postMapMarkerLayer_);
         this.postMapMarkerLayer_.setFlashlightVisible(false);
       }
