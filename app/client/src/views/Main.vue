@@ -106,7 +106,7 @@
           ><v-icon medium>{{ navDrawer ? '$close' : '$menu' }}</v-icon></v-btn
         >
 
-        <v-toolbar-title> Crystalball</v-toolbar-title>
+        <v-toolbar-title>{{ title }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn @click="goToHome()" icon>
           <v-icon>fas fa-home</v-icon>
@@ -251,6 +251,22 @@ export default {
         }
       });
       return count;
+    },
+    title() {
+      const activeNavbarGroup = this.activeLayerGroup.navbarGroup;
+      const activeRegion = this.activeLayerGroup.region;
+      let title = ``;
+      this.navbarGroups.forEach(group => {
+        if (group.name === activeNavbarGroup) {
+          title = group.title.toUpperCase();
+        }
+      });
+      this.regions.forEach(region => {
+        if (region.name === activeRegion && region.name !== 'default') {
+          title += ` - ${region.title}`;
+        }
+      });
+      return title;
     }
   },
   components: {
