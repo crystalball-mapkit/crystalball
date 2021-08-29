@@ -198,7 +198,7 @@
       </v-navigation-drawer>
 
       <app-viewer
-        :style="`height: calc(${mobilePanelState ? 60 : 100}% - 60px);`"
+        :style="`height: calc(${mobilePanelState ? 60 : 100}% - 60px);touch-action: none;`"
         class="mobile-map-viewer"
       ></app-viewer>
 
