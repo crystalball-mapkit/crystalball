@@ -240,21 +240,27 @@
         "default": {
           "layers": ["Citylights", "solar"],
           "center": [-40.746, 35.311],
+          "mobileCenter": [-40.746, 35.311],
           "resolution": 30000,
+          "mobileResolution": 30000,
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
           "layers": [],
           "center": [-99, 42.9],
+          "mobileCenter": [-99, 42.9],
           "resolution": 9000,
+          "mobileResolution": 9000,
           "minResolution": 0,
           "maxResolution": 64000
         },
         "global": {
           "layers": [],
           "center": [2.44, 30.81],
+          "mobileCenter": [2.44, 30.81],
           "resolution": 25000,
+          "mobileResolution": 25000,
           "minResolution": 0,
           "maxResolution": 64000
         }

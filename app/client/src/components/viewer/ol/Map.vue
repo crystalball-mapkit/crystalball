@@ -353,7 +353,8 @@ export default {
       layers: [],
       interactions: defaultInteractions({
         altShiftDragRotate: me.rotateableMap,
-        doubleClickZoom: false
+        doubleClickZoom: false,
+        pinchRotate: false
       }).extend([this.dblClickZoomInteraction]),
       controls: defaultControls({
         attribution: false,
@@ -1013,7 +1014,7 @@ export default {
       });
     },
     /**
-    Slideshow map position every x seconds: 
+    Slideshow map position every x seconds:
      */
     setupMapFlyToSlideshow() {
       this.initMapFly();
@@ -1077,7 +1078,7 @@ export default {
       const pixelRatio = e.frameState.pixelRatio;
       ctx.save();
       ctx.beginPath();
-      if (this.mousePosition) {
+      if (this.mousePosition && !this.$vuetify.breakpoint.smAndDown) {
         // Only show a circle around the mouse --
         ctx.arc(
           this.mousePosition[0] * pixelRatio,
@@ -1086,7 +1087,17 @@ export default {
           0,
           2 * Math.PI
         );
+
         ctx.lineWidth = 6 * pixelRatio;
+        ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+        ctx.stroke();
+      } else if (this.$vuetify.breakpoint.smAndDown) {
+        // Show a circle around the map center --
+        const centerX = e.frameState.size[0] / 2;
+        const centerY = e.frameState.size[1] / 2;
+        const radius = Math.min(centerX, centerY) * 0.5;
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.lineWidth = 6;
         ctx.strokeStyle = 'rgba(0,0,0,0.5)';
         ctx.stroke();
       }
@@ -1332,11 +1343,18 @@ export default {
 
       // Set reset map group to true if the center is defined.
       if (!this.noMapReset || visibleGroup.center) {
-        if (visibleGroup.center) {
-          this.map.getView().setCenter(fromLonLat(visibleGroup.center));
+        const isMobile = this.$vuetify.breakpoint.smAndDown;
+        const center = isMobile
+          ? visibleGroup.mobileCenter || visibleGroup.center
+          : visibleGroup.center;
+        const resolution = isMobile
+          ? visibleGroup.mobileResolution || visibleGroup.resolution
+          : visibleGroup.resolution;
+        if (center) {
+          this.map.getView().setCenter(fromLonLat(center));
         }
-        if (visibleGroup.resolution) {
-          this.map.getView().setResolution(visibleGroup.resolution);
+        if (resolution) {
+          this.map.getView().setResolution(resolution);
         }
       }
 
