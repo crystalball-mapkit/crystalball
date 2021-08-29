@@ -22,6 +22,7 @@
                     "
                   >
                     <span
+                      id="sidebar-media-top"
                       v-html="
                         renderMediaHtml(
                           popup.activeFeature.get('sidebarMediaTop')
@@ -39,6 +40,7 @@
                     "
                   >
                     <span
+                      id="sidebar-default-media-top"
                       v-html="
                         renderMediaHtml(
                           popup.activeLayer.get('sidebarDefaultMedia').top
@@ -218,6 +220,7 @@
                     "
                   >
                     <span
+                      id="sidebar-media-bottom"
                       v-html="
                         renderMediaHtml(
                           popup.activeFeature.get('sidebarMediaBottom')
@@ -235,6 +238,7 @@
                     "
                   >
                     <span
+                      id="sidebar-default-media-bottom"
                       v-html="
                         renderMediaHtml(
                           popup.activeLayer.get('sidebarDefaultMedia').bottom
@@ -437,6 +441,7 @@
 
     <!-- // ADD OR EDIT POST-->
     <v-layout
+      :style="`overflow:${$vuetify.breakpoint.smAndDown ? 'hidden' : 'unset'};`"
       v-show="
         (isEditingPost &&
           postEditLayer &&
@@ -445,14 +450,17 @@
       "
       fill-height
     >
-      <edit-html
-        v-show="
-          (isEditingPost &&
-            postEditLayer &&
-            postEditLayer.getSource().getFeatures().length > 0) ||
-            isEditingHtml
-        "
-      />
+      <v-row align="center" justify="center" class="mx-0" style="width:100%;">
+        <v-layout align-center class="elevation-3 mb-1" style="width:100%;">
+          <edit-html
+            v-show="
+              (isEditingPost &&
+                postEditLayer &&
+                postEditLayer.getSource().getFeatures().length > 0) ||
+                isEditingHtml
+            "
+          /> </v-layout
+      ></v-row>
     </v-layout>
   </v-layout>
 </template>
@@ -746,6 +754,28 @@ export default {
       }
       this.previousMapPosition = null;
       this.previousMapPositionSearch = null;
+    },
+    'popup.activeFeature': function(feature) {
+      if (feature) {
+        this.$nextTick(() => {
+          const elementIds = [
+            'sidebar-media-top',
+            'sidebar-media-bottom',
+            'sidebar-default-media-top',
+            'sidebar-default-media-bottom'
+          ];
+          elementIds.forEach(elementId => {
+            const element = document.getElementById(elementId);
+            if (
+              element &&
+              element.firstChild &&
+              element.firstChild.tagName == 'IFRAME'
+            ) {
+              element.firstChild.width = '100%';
+            }
+          });
+        });
+      }
     }
   }
 };
