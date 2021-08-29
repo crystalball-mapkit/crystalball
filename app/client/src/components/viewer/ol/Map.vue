@@ -353,7 +353,8 @@ export default {
       layers: [],
       interactions: defaultInteractions({
         altShiftDragRotate: me.rotateableMap,
-        doubleClickZoom: false
+        doubleClickZoom: false,
+        pinchRotate: false
       }).extend([this.dblClickZoomInteraction]),
       controls: defaultControls({
         attribution: false,
@@ -1332,11 +1333,18 @@ export default {
 
       // Set reset map group to true if the center is defined.
       if (!this.noMapReset || visibleGroup.center) {
-        if (visibleGroup.center) {
-          this.map.getView().setCenter(fromLonLat(visibleGroup.center));
+        const isMobile = this.$vuetify.breakpoint.smAndDown;
+        const center = isMobile
+          ? visibleGroup.mobileCenter || visibleGroup.center
+          : visibleGroup.center;
+        const resolution = isMobile
+          ? visibleGroup.mobileResolution || visibleGroup.resolution
+          : visibleGroup.resolution;
+        if (center) {
+          this.map.getView().setCenter(fromLonLat(center));
         }
-        if (visibleGroup.resolution) {
-          this.map.getView().setResolution(visibleGroup.resolution);
+        if (resolution) {
+          this.map.getView().setResolution(resolution);
         }
       }
 

@@ -7,7 +7,7 @@
         <v-row class="mx-0 px-0">
           <v-col class="mt-0 pt-0">
             <div v-if="isFeatureGetInfo">
-              <v-row align="center" class="my-1 mx-1">
+              <v-row align="center" class="my-1 mx-1" style="word-break:break-word;">
                 <v-col class="mt-1 pt-0">
                   <div class="sidepanel-header">
                     <h1><span style="font-align:center;color:#c00;"></span></h1>
@@ -772,6 +772,29 @@ export default {
               element.firstChild.tagName == 'IFRAME'
             ) {
               element.firstChild.width = '100%';
+              this.$nextTick(() => {
+                const width = element.offsetWidth;
+                if (width > 0) {
+                  // Workaround to make the facebook iframe responsive.
+                  if (
+                    element.firstChild &&
+                    element.firstChild.src &&
+                    element.firstChild.src.includes('facebook') &&
+                    //Fb allows only width between 180 and 500.
+                    width > 180 &&
+                    width < 500
+                  ) {
+                    const updatedFbUrl = UrlUtil.updateQueryStringParameter(
+                      element.firstChild.src,
+                      'width',
+                      width
+                    );
+                    if (updatedFbUrl) {
+                      element.firstChild.src = updatedFbUrl;
+                    }
+                  }
+                }
+              });
             }
           });
         });
