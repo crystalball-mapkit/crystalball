@@ -450,8 +450,8 @@
       "
       fill-height
     >
-      <v-row align="center" justify="center" class="mx-0" style="width:100%;">
-        <v-layout align-center class="elevation-3 mb-1" style="width:100%;">
+      <v-row align="start" justify="center" class="mx-0" style="width:100%;">
+        <v-layout align-center class="elevation-0 mb-1" style="width:100%;">
           <edit-html
             v-show="
               (isEditingPost &&
