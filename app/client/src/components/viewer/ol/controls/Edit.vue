@@ -460,7 +460,8 @@ export default {
       isEditingLayer: 'isEditingLayer',
       isEditingPost: 'isEditingPost',
       selectedLayer: 'selectedLayer',
-      postFeature: 'postFeature'
+      postFeature: 'postFeature',
+      postEditType: 'postEditType'
     }),
     ...mapGetters('map', {
       layersMetadata: 'layersMetadata'
@@ -1116,7 +1117,7 @@ export default {
       }
     },
     isEditingPost(state) {
-      if (state === true) {
+      if (state === true && this.postEditType !== 'update') {
         this.map.addLayer(this.postMapMarkerLayer_);
         this.postMapMarkerLayer_.setFlashlightVisible(true);
         this.map.once('moveend', () => {
