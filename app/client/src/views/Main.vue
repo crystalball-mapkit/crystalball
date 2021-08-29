@@ -226,6 +226,7 @@ export default {
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       isEditingPost: 'isEditingPost',
       isEditingHtml: 'isEditingHtml',
+      postEditType: 'postEditType',
       postFeature: 'postFeature',
       popup: 'popup',
       mobilePanelState: 'mobilePanelState',
@@ -393,6 +394,11 @@ export default {
     },
     isEditingPost() {
       this.mobilePanelState = false;
+    },
+    postEditType(state) {
+      if (state === 'update') {
+        this.mobilePanelState = true;
+      }
     },
     'popup.activeFeature': function(feature) {
       if (feature) {

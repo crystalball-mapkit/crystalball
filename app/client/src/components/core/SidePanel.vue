@@ -279,7 +279,7 @@
                     ><span>Edit Post</span></v-tooltip
                   >
                 </div>
-                <div>
+                <div v-if="!$vuetify.breakpoint.smAndDown">
                   <v-tooltip left>
                     <template v-slot:activator="{ on }">
                       <v-btn
