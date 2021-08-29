@@ -106,7 +106,7 @@
           ><v-icon medium>{{ navDrawer ? '$close' : '$menu' }}</v-icon></v-btn
         >
 
-        <v-toolbar-title> Crystalball</v-toolbar-title>
+        <v-toolbar-title>{{ title }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn @click="goToHome()" icon>
           <v-icon>fas fa-home</v-icon>
@@ -198,7 +198,7 @@
       </v-navigation-drawer>
 
       <app-viewer
-        :style="`height: calc(${mobilePanelState ? 60 : 100}% - 60px);`"
+        :style="`height: calc(${mobilePanelState ? 60 : 100}% - 60px);touch-action: none;`"
         class="mobile-map-viewer"
       ></app-viewer>
 
@@ -226,6 +226,7 @@ export default {
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       isEditingPost: 'isEditingPost',
       isEditingHtml: 'isEditingHtml',
+      postEditType: 'postEditType',
       postFeature: 'postFeature',
       popup: 'popup',
       mobilePanelState: 'mobilePanelState',
@@ -250,6 +251,22 @@ export default {
         }
       });
       return count;
+    },
+    title() {
+      const activeNavbarGroup = this.activeLayerGroup.navbarGroup;
+      const activeRegion = this.activeLayerGroup.region;
+      let title = ``;
+      this.navbarGroups.forEach(group => {
+        if (group.name === activeNavbarGroup) {
+          title = group.title.toUpperCase();
+        }
+      });
+      this.regions.forEach(region => {
+        if (region.name === activeRegion && region.name !== 'default') {
+          title += ` - ${region.title}`;
+        }
+      });
+      return title;
     }
   },
   components: {
@@ -391,9 +408,12 @@ export default {
     isEditingHtml(state) {
       this.mobilePanelState = state;
     },
-    isEditingPost(state) {
-      if (state === false) {
-        this.mobilePanelState = false;
+    isEditingPost() {
+      this.mobilePanelState = false;
+    },
+    postEditType(state) {
+      if (state === 'update') {
+        this.mobilePanelState = true;
       }
     },
     'popup.activeFeature': function(feature) {
