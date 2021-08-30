@@ -138,6 +138,15 @@ body,
   font-size: 12px;
 }
 
+.image-upload-btn {
+  display: block;
+  max-width: 90px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /*
  CSS for the expansion panel
 */

@@ -100,9 +100,17 @@ export default class PostMapMarker extends Layer {
         centerY,
         (canvas.height * flashlightRadius) / d
       );
-      radGrd.addColorStop(0, this.startColor);
-      radGrd.addColorStop(0.8, this.midColor);
-      radGrd.addColorStop(1, this.endColor);
+      if (canvas.width < 960) {
+        // For some reason this is reverse in mobile
+        radGrd.addColorStop(0, this.endColor);
+        radGrd.addColorStop(0.8, this.midColor);
+        radGrd.addColorStop(1, this.startColor);
+      } else {
+        radGrd.addColorStop(0, this.startColor);
+        radGrd.addColorStop(0.8, this.midColor);
+        radGrd.addColorStop(1, this.endColor);
+      }
+
       this.context_.fillStyle = radGrd;
       this.context_.fillRect(centerX - d, centerY - d, 2 * d, 2 * d);
     }

@@ -84,7 +84,31 @@ const state = {
   lastSelectedLayer: null, // triggered from layer or group change
   persistentLayers: {},
   currentResolution: null,
-  mobilePanelState: true
+  mobilePanelState: true,
+  // EDITOR
+  formValid: true,
+  formSchema: {
+    type: 'object',
+    required: [],
+    properties: {}
+  },
+  formSchemaCache: {},
+  formOptions: {
+    debug: false,
+    disableAll: false,
+    autoFoldObjects: true
+  },
+  formData: {},
+  imageUpload: {
+    defaultButtonText: 'Upload',
+    selectedFile: null,
+    isSelecting: false,
+    errorMessage: '',
+    position: 'sidebarMediaTop'
+  },
+  editType: null,
+  editLayer: null,
+  highlightLayer: null,
 };
 
 const getters = {
@@ -155,6 +179,15 @@ const getters = {
   currentResolution: state => state.currentResolution,
   postFeature: state => state.postFeature,
   mobilePanelState: state => state.mobilePanelState,
+  imageUploadButtonText: state => {
+    return state.imageUpload.selectedFile
+      ? state.imageUpload.selectedFile.name
+      : state.imageUpload.defaultButtonText;
+  },
+  editLayer: state => state.editLayer,
+  editType: state => state.editType,
+  imageUpload: state => state.imageUpload,
+  highlightLayer: state => state.highlightLayer,
   getField
 };
 

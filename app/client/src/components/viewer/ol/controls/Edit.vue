@@ -176,6 +176,7 @@
 
     <!-- Popup overlay  -->
     <overlay-popup
+      v-if="!$vuetify.breakpoint.smAndDown"
       style="cursor: default;"
       :title="popup.title"
       v-show="popup.isVisible"
@@ -327,6 +328,33 @@
         </template>
       </template>
     </overlay-popup>
+
+    <!-- Mobile delete confirmation bottom sheet  -->
+    <v-bottom-sheet
+      v-if="$vuetify.breakpoint.smAndDown && editType === 'deleteFeature'"
+      v-model="showDeleteDialog"
+      inset
+    >
+      <v-card>
+        <v-app-bar :color="color.primary" dark dense flat>
+          <v-app-bar-nav-icon><v-icon>delete</v-icon></v-app-bar-nav-icon>
+          <v-toolbar-title class="white--text">Confirm?</v-toolbar-title>
+        </v-app-bar>
+
+        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0"
+          >Are you sure you want to delete the selected feature?</v-card-text
+        >
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary darken-1" text @click.native="popupOk"
+            >Yes</v-btn
+          >
+          <v-btn color="grey" @click.native="popupCancel">No</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-bottom-sheet>
   </div>
 </template>
 <script>
@@ -342,7 +370,7 @@ import { Modify, Draw } from 'ol/interaction';
 import { unByKey } from 'ol/Observable';
 import Overlay from 'ol/Overlay.js';
 import { mapFields } from 'vuex-map-fields';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 import { getFeatureHighlightStyle } from '../../../../style/OlStyleDefs';
 import OverlayPopup from './Overlay';
 import axios from 'axios';
@@ -368,7 +396,6 @@ export default {
     color: { type: Object }
   },
   data: () => ({
-    editType: null,
     dialogSelectedLayer: null, // Temporary selection (not active if user doesn't press ok)
     editButtons: [
       {
@@ -419,6 +446,12 @@ export default {
         start: 'Click to place the point. \nPres ESC to exit.'
       }
     },
+    editSnackbarMessages: {
+      modifyAttributes: 'Feature updated successfully!',
+      deleteFeature: 'Feature deleted successfully!',
+      addFeature: 'Feature added successfully!',
+      modifyFeature: 'Feature modified successfully!'
+    },
     // Popup
     popupOverlay: null,
     popup: {
@@ -427,32 +460,14 @@ export default {
       el: null
     },
     // Dynamic form
-    formValid: true,
-    formOptions: {
-      debug: false,
-      disableAll: false,
-      autoFoldObjects: true
-    },
-    formData: {},
     formTypesMapping: {
       string: 'string',
       int: 'integer',
       number: 'number'
     },
-    formSchema: {
-      type: 'object',
-      required: [],
-      properties: {}
-    },
-    formSchemaCache: {},
-    imageUpload: {
-      defaultButtonText: 'Upload',
-      selectedFile: null,
-      isSelecting: false,
-      errorMessage: '',
-      position: 'sidebarMediaTop'
-    },
-    postMapMarkerLayer_: null
+
+    postMapMarkerLayer_: null,
+    showDeleteDialog: false
   }),
   name: 'edit-control',
   computed: {
@@ -461,19 +476,25 @@ export default {
       isEditingPost: 'isEditingPost',
       selectedLayer: 'selectedLayer',
       postFeature: 'postFeature',
-      postEditType: 'postEditType'
+      postEditType: 'postEditType',
+      formValid: 'formValid',
+      formSchema: 'formSchema',
+      formSchemaCache: 'formSchemaCache',
+      formOptions: 'formOptions',
+      formData: 'formData',
+      imageUpload: 'imageUpload',
+      editType: 'editType',
+      mobilePanelState: 'mobilePanelState',
+      editLayer: 'editLayer',
+      highlightLayer: 'highlightLayer'
     }),
     ...mapGetters('map', {
-      layersMetadata: 'layersMetadata'
+      layersMetadata: 'layersMetadata',
+      imageUploadButtonText: 'imageUploadButtonText'
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser'
     }),
-    imageUploadButtonText() {
-      return this.imageUpload.selectedFile
-        ? this.imageUpload.selectedFile.name
-        : this.imageUpload.defaultButtonText;
-    },
     flatLayers() {
       const layers = [];
       this.map
@@ -528,16 +549,18 @@ export default {
       this.highlightLayer = highlightLayer;
     },
     createPopupOverlay() {
-      this.popupOverlay = new Overlay({
-        element: this.popup.el.$el,
-        autoPan: true,
-        autoPanMargin: 40,
-        autoPanAnimation: {
-          duration: 250
-        }
-      });
-      this.map.addOverlay(this.popupOverlay);
-      this.overlayersGarbageCollector.push(this.popupOverlay);
+      if (!this.$vuetify.breakpoint.smAndDown) {
+        this.popupOverlay = new Overlay({
+          element: this.popup.el.$el,
+          autoPan: true,
+          autoPanMargin: 40,
+          autoPanAnimation: {
+            duration: 250
+          }
+        });
+        this.map.addOverlay(this.popupOverlay);
+        this.overlayersGarbageCollector.push(this.popupOverlay);
+      }
     },
     createHelpTooltip() {
       if (this.helpTooltipElement) {
@@ -583,9 +606,11 @@ export default {
           : null;
       }
       if (!geometryType) return;
-      this.createHelpTooltip();
-      this.pointerMoveKey = this.map.on('pointermove', this.onPointerMove);
-      this.createPopupOverlay();
+      if (!this.$vuetify.breakpoint.smAndDown) {
+        this.createHelpTooltip();
+        this.pointerMoveKey = this.map.on('pointermove', this.onPointerMove);
+        this.createPopupOverlay();
+      }
       this.isEditingLayer = true;
       switch (editType) {
         case 'addFeature': {
@@ -622,6 +647,7 @@ export default {
       if (this.currentInteraction) {
         this.map.addInteraction(this.currentInteraction);
       }
+      this.mobilePanelState = false;
     },
     /**
      * Transforms layer metadata into a json structure which can be used to render dynamic vuetify components
@@ -692,11 +718,17 @@ export default {
         center: popupCoordinate,
         duration: 400
       });
-      this.popupOverlay.setPosition(popupCoordinate);
-      this.popup.title = 'Attributes';
-      this.popup.isVisible = true;
+      if (this.popupOverlay) {
+        this.popupOverlay.setPosition(popupCoordinate);
+        this.popup.title = 'Attributes';
+        this.popup.isVisible = true;
+      }
       this.sketch = null;
       this.startResetHelpTooltip();
+      if (this.$vuetify.breakpoint.smAndDown) {
+        this.mobilePanelState = true;
+        this.map.getView().setCenter(popupCoordinate);
+      }
     },
 
     /**
@@ -716,6 +748,7 @@ export default {
     async selectFeature(evt) {
       // Get feature attributes popup
       this.highlightLayer.getSource().clear();
+      this.mobilePanelState = false;
       const selectedLayer = this.selectedLayer;
       if (['VECTOR', 'VECTORTILE'].includes(this.selectedLayer.get('type'))) {
         const features = this.map.getFeaturesAtPixel(evt.pixel, {
@@ -767,13 +800,25 @@ export default {
                 center: closestPoint,
                 duration: 400
               });
-              this.popupOverlay.setPosition(closestPoint);
-              this.popup.isVisible = true;
+              if (this.popupOverlay) {
+                this.popupOverlay.setPosition(closestPoint);
+                this.popup.isVisible = true;
+              }
+
               if (this.editType === 'deleteFeature') {
                 this.popup.title = 'Confirm';
+                setTimeout(() => {
+                  this.$nextTick(() => {
+                    this.showDeleteDialog = true;
+                  });
+                }, 100);
               } else if (this.editType === 'modifyAttributes') {
                 this.popup.title = 'Modify Attributes';
                 this.formData = feature.getProperties();
+                if (this.$vuetify.breakpoint.smAndDown) {
+                  this.mobilePanelState = true;
+                  this.map.getView().setCenter(closestPoint);
+                }
               }
             } else if (this.editType === 'modifyFeature') {
               this.editLayer.getSource().clear();
@@ -797,7 +842,11 @@ export default {
         },
         { once: false }
       );
-      this.$refs.imageUploader.click();
+      if (this.$vuetify.breakpoint.smAndDown) {
+        EventBus.$emit('open-image-upload');
+      } else {
+        this.$refs.imageUploader.click();
+      }
     },
     onFileUploadChanged(e) {
       this.imageUpload.selectedFile = e.target.files[0];
@@ -806,7 +855,11 @@ export default {
       if (fileSize > 5) {
         this.imageUpload.errorMessage = 'File size exceeds 5 MB';
         setTimeout(() => {
-          this.clearUploadImage();
+          if (this.$vuetify.breakpoint.smAndDown) {
+            EventBus.$emit('clearUploadImage');
+          } else {
+            this.clearUploadImage();
+          }
         }, 2000);
       }
     },
@@ -846,6 +899,7 @@ export default {
       this.transact();
       // Close popup and clear previous interactions.
       this.popupCancel();
+      this.showDeleteDialog = false;
     },
     popupCancel() {
       if (this.popupOverlay) {
@@ -857,7 +911,13 @@ export default {
       }
       this.highlightLayer.getSource().clear();
       this.editLayer.getSource().clear();
-      this.clearUploadImage();
+      if (this.$vuetify.breakpoint.smAndDown) {
+        EventBus.$emit('clearUploadImage');
+      } else {
+        this.clearUploadImage();
+      }
+      this.mobilePanelState = false;
+      this.showDeleteDialog = false;
     },
 
     /**
@@ -950,6 +1010,7 @@ export default {
       this.editType = null;
       this.formData = {};
       this.clearOverlays();
+      this.showDeleteDialog = false;
       if (this.currentInteraction) {
         this.map.removeInteraction(this.currentInteraction);
         this.currentInteraction = null;
@@ -1071,9 +1132,18 @@ export default {
               this.selectedLayer.getSource().refresh({ force: true });
               this.selectedLayer.redraw();
             }
+            this.toggleSnackbar({
+              type: 'success',
+              message: this.editSnackbarMessages[this.editType],
+              timeout: 2000,
+              state: true
+            });
           }
         });
-    }
+    },
+    ...mapMutations('map', {
+      toggleSnackbar: 'TOGGLE_SNACKBAR'
+    })
   },
   mounted() {
     /**
@@ -1093,12 +1163,21 @@ export default {
         }
       }
     };
+
+    // Mobile close cb
     EventBus.$on('closeAll', () => {
       if (this.isEditingPost) {
         // Closes post editor
         this.togglePostEdit();
       }
+      if (this.selectedLayer) {
+        this.removeInteraction();
+      }
     });
+    EventBus.$on('popupOk', this.popupOk);
+    EventBus.$on('popupCancel', this.popupCancel);
+    EventBus.$on('openImageUpload', this.openImageUpload);
+    EventBus.$on('onFileUploadChanged', this.onFileUploadChanged);
   },
   beforeDestroy() {
     this.closeEdit();
@@ -1110,6 +1189,11 @@ export default {
       }
       this.closeEdit();
     },
+    selectedLayer(layer) {
+      if (layer && this.$vuetify.breakpoint.smAndDown) {
+        this.mobilePanelState = false;
+      }
+    },
     postFeature(newValue) {
       if (newValue) {
         this.map.removeLayer(this.postMapMarkerLayer_);
@@ -1118,11 +1202,15 @@ export default {
     },
     isEditingPost(state) {
       if (state === true && this.postEditType !== 'update') {
-        this.map.addLayer(this.postMapMarkerLayer_);
-        this.postMapMarkerLayer_.setFlashlightVisible(true);
-        this.map.once('moveend', () => {
-          this.postMapMarkerLayer_.setFlashlightVisible(false);
-        });
+        setTimeout(() => {
+          this.map.addLayer(this.postMapMarkerLayer_);
+          this.$nextTick(() => {
+            this.postMapMarkerLayer_.setFlashlightVisible(true);
+            this.map.once('moveend', () => {
+              this.postMapMarkerLayer_.setFlashlightVisible(false);
+            });
+          });
+        }, 20);
       } else {
         this.map.removeLayer(this.postMapMarkerLayer_);
         this.postMapMarkerLayer_.setFlashlightVisible(false);
@@ -1134,13 +1222,5 @@ export default {
 <style lang="css" scoped>
 .edit-buttons {
   z-index: 1;
-}
-.image-upload-btn {
-  display: block;
-  max-width: 90px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 </style>
