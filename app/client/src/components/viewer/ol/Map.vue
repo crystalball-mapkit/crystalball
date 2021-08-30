@@ -31,6 +31,7 @@
       />
     </div>
     <div
+      v-if="$vuetify.breakpoint.smAndDown"
       :style="
         `position:absolute;bottom:${
           $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
@@ -38,6 +39,7 @@
       "
     >
       <add-post :color="color.primary" :map="map"></add-post>
+      <edit-guide :color="color.primary" :map="map"></edit-guide>
     </div>
     <div
       v-show="
@@ -197,6 +199,7 @@ import Login from './controls/Login';
 import Edit from './controls/Edit';
 import ShareMap from './controls/ShareMap';
 import AddPost from './controls/AddPost';
+import EditGuide from './controls/EditGuide.vue';
 // Interactions
 import DoubleClickZoom from 'ol/interaction/DoubleClickZoom';
 import { defaults as defaultInteractions } from 'ol/interaction';
@@ -236,6 +239,7 @@ export default {
     locate: Locate,
     'progress-loader': ProgressLoader,
     edit: Edit,
+    'edit-guide': EditGuide, //mobile bottom info alerts
     Snackbar
   },
   name: 'app-ol-map',

@@ -232,7 +232,7 @@ export default {
       // Show html in the sidebar.
       if (item.getVisible() && item.get('displaySidebarInfo')) {
         this.lastSelectedLayer = item.get('name');
-        this.mobilemobilePanelState = true;
+        this.mobilePanelState = true;
       }
     },
     toggleAllLayersVisibility(state) {
