@@ -1,13 +1,24 @@
 <template>
   <v-layout justify-space-between column fill-height>
     <template
-      v-if="!selectedCoorpNetworkEntity && !isEditingPost && !isEditingHtml"
+      v-if="
+        !selectedCoorpNetworkEntity &&
+          !isEditingPost &&
+          !isEditingHtml &&
+          !editType &&
+          (!highlightLayer ||
+            !highlightLayer.getSource().getFeatures().length > 0)
+      "
     >
       <vue-scroll ref="vs">
         <v-row class="mx-0 px-0">
           <v-col class="mt-0 pt-0">
             <div v-if="isFeatureGetInfo">
-              <v-row align="center" class="my-1 mx-1" style="word-break:break-word;">
+              <v-row
+                align="center"
+                class="my-1 mx-1"
+                style="word-break:break-word;"
+              >
                 <v-col class="mt-1 pt-0">
                   <div class="sidepanel-header">
                     <h1><span style="font-align:center;color:#c00;"></span></h1>
@@ -439,7 +450,7 @@
       </v-row>
     </v-layout>
 
-    <!-- // ADD OR EDIT POST-->
+    <!-- ADD OR EDIT POST-->
     <v-layout
       :style="`overflow:${$vuetify.breakpoint.smAndDown ? 'hidden' : 'unset'};`"
       v-show="
@@ -450,8 +461,8 @@
       "
       fill-height
     >
-      <v-row align="center" justify="center" class="mx-0" style="width:100%;">
-        <v-layout align-center class="elevation-3 mb-1" style="width:100%;">
+      <v-row align="start" justify="center" class="mx-0" style="width:100%;">
+        <v-layout align-center class="elevation-0 mb-1" style="width:100%;">
           <edit-html
             v-show="
               (isEditingPost &&
@@ -462,6 +473,22 @@
           /> </v-layout
       ></v-row>
     </v-layout>
+
+    <!-- EDIT LAYER MOBILE -->
+
+    <v-layout
+      :style="`overflow:${$vuetify.breakpoint.smAndDown ? 'hidden' : 'unset'};`"
+      v-if="
+        ['addFeature', 'modifyAttributes'].includes(editType) &&
+          selectedLayer &&
+          highlightLayer.getSource().getFeatures().length > 0 &&
+          $vuetify.breakpoint.smAndDown
+      "
+      fill-height
+    >
+      <v-row align="start" justify="center" class="mx-0" style="width:100%;">
+        <layer-edit-form-mobile></layer-edit-form-mobile> </v-row
+    ></v-layout>
   </v-layout>
 </template>
 
@@ -474,11 +501,13 @@ import { SharedMethods } from '../../mixins/SharedMethods';
 import { EventBus } from '../../EventBus';
 import { formatPopupRows, getIframeUrl } from '../../utils/Layer';
 import EditHtml from '../core/EditHtml';
+import LayerEditFormMobile from '../core/LayerEditFormMobile.vue';
 
 export default {
   mixins: [SharedMethods],
   components: {
-    'edit-html': EditHtml
+    'edit-html': EditHtml,
+    'layer-edit-form-mobile': LayerEditFormMobile
   },
   data() {
     return {
@@ -586,7 +615,9 @@ export default {
       isEditingHtml: 'isEditingHtml',
       postEditLayer: 'postEditLayer',
       postIconTitle: 'postIconTitle',
-      groupName: 'groupName'
+      groupName: 'groupName',
+      editLayer: 'editLayer',
+      highlightLayer: 'highlightLayer'
     }),
     ...mapGetters('app', {
       sidebarHtml: 'sidebarHtml',
@@ -598,7 +629,9 @@ export default {
       popup: 'popup',
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       lastSelectedLayer: 'lastSelectedLayer',
-      layers: 'layers'
+      layers: 'layers',
+      editType: 'editType',
+      selectedLayer: 'selectedLayer'
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser'
