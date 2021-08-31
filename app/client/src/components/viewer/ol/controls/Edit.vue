@@ -834,14 +834,7 @@ export default {
      * Upload Image
      */
     openImageUpload() {
-      this.imageUpload.isSelecting = true;
-      window.addEventListener(
-        'focus',
-        () => {
-          this.imageUpload.isSelecting = false;
-        },
-        { once: false }
-      );
+      this.imageUpload.isSelecting = false;
       if (this.$vuetify.breakpoint.smAndDown) {
         EventBus.$emit('open-image-upload');
       } else {
