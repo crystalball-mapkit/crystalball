@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "crystalball",
+    "title": "Water Striders",
     "color": {
       "primary": "#00000e",
       "secondary": "#00000e"
@@ -41,155 +41,510 @@
     ],
     "center": [0, 0],
     "layers": [
+
       {
         "type": "GROUP",
-        "name": "group1",
-        "legendIcon": "https://casario-mapa.s3.sa-east-1.amazonaws.com/assets/icons/legends/leyenda_regiones.png",
+        "name": "indigenous_territories",
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/legend_indigenous.png",
         "minResolution": 1,
         "maxResolution": 40000,
         "displayInLegend": true,
-        "legendDisplayName": "Group Test",
-        "visible": true,
-        "group": "three",
+        "legendDisplayName": "Indigenous Lands",
+        "visible": false,
+        "hoverable": true,
+        "displaySidebarInfo": true,
+        "group": "two",
         "attributions": "Test attributions",
         "layers": [
           {
-            "type": "VECTOR",
-            "name": "data_display",
-            "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:data_display&outputFormat=application/json&srsname=EPSG:3857",
-            "queryable": true,
-            "displayInLegend": true,
-            "legendDisplayName": "Data Display",
-            "format": "GeoJSON",
-            "visible": true,
-            "minResolution": 0.5,
-            "maxResolution": 80000,
-            "label": true,
-            "hoverable": false,
-            "style": {
-              "iconUrl": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/red.png",
-              "label": {
-                "text": "title",
-                "fill": {
-                  "color": "black"
-                },
-                "stroke": {
-                  "color": "white",
-                  "width": 6
-                },
-                "offsetX": 12,
-                "offsetY": 0,
-                "maxResolution": 32000,
-                "placement": "point",
-                "textAlign": "left",
-                "textWrap": "normal",
-                "fontType": "Zen Dots",
-                "fontSize": 40,
-                "fontWeight": "bold"
-              }
-            }
-          },
-          {
-            "type": "VECTOR",
-            "name": "miss_tri",
-            "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_tri&outputFormat=application/json&srsname=EPSG:3857",
-            "queryable": true,
-            "legendDisplayName": "Toxics Release Inventory",
-            "format": "GeoJSON",
-            "visible": true,
-            "minResolution": 1,
-            "maxResolution": 40000,
-            "hoverable": true,
-            "style": {
-              "type": "circle",
-              "radius": 12,
-              "stylePropFnRef": {
-                "fillColor": "variable1"
-              },
-              "strokeColor": "white",
-              "strokeWidth": 1
-            }
-          }
-        ]
-      },
-      {
-        "type": "VECTOR",
-        "name": "regiones2",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:regiones2&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "two",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Regiones",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 8000,
-        "label": true,
-        "hoverable": false,
-        "style": {
+          "type": "VECTOR",
+          "name": "native_land",
+          "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:native_land&outputFormat=application/json&srsname=EPSG:3857",
+          "group": "two",
+          "queryable": true,
+          "format": "GeoJSON",
+          "opacity": 0.8,
+          "zIndex": 1000,
+          "minResolution": 0.25,
+          "maxResolution": 32000,
+          "style": {
           "label": {
-            "text": "label",
+            "text": "name",
             "fill": {
-              "color": "black"
-            },
+            "color": "black"
+              },
             "stroke": {
-              "color": "#fffaf0",
-              "width": 3
-            },
+              "color": "rgba( 255, 250, 240, 0.60 )",
+              "width": 1.5
+              },
             "offsetX": 0,
             "offsetY": 0,
             "maxResolution": 32000,
             "placement": "point",
             "textAlign": "center",
             "textWrap": "normal",
-            "fontType": "Zen Dots",
-            "fontSize": "14px",
-            "fontWeight": "bold"
-          }
+            "fontType": "Avenir",
+            "fontSize": "15px",
+            "fontWeight": "normal"
+          },
+          "strokeColor": "black",
+          "strokeWidth": 1,
+            "stylePropFnRef": {
+              "fillColor": "variable1"
+              }
+            }
+          },
+          {
+          "type": "VECTOR",
+          "name": "oceti_sakowin",
+          "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:oceti_sakowin&outputFormat=application/json&srsname=EPSG:3857",
+          "group": "two",
+          "queryable": true,
+          "format": "GeoJSON",
+          "opacity": 0.8,
+          "zIndex": 1000,
+          "minResolution": 0.25,
+          "maxResolution": 32000,
+          "style": {
+          "label": {
+            "text": "name",
+            "fill": {
+            "color": "black"
+              },
+            "stroke": {
+              "color": "rgba( 255, 250, 240, 0.70 )",
+              "width": 1.5
+              },
+            "offsetX": 0,
+            "offsetY": 0,
+            "maxResolution": 32000,
+            "placement": "point",
+            "textAlign": "center",
+            "textWrap": "normal",
+            "fontType": "Avenir",
+            "fontSize": "16px",
+            "fontWeight": "normal"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "strokeColor": "black",
+          "strokeWidth": 1,
+            "stylePropFnRef": {
+              "fillColor": "variable1"
+               }
+             }
+           }
+         ]
+       },  
+      {
+        "type": "VECTOR",
+        "name": "places",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:places&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "two",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Places",
+        "displaySidebarInfo": true,
+        "format": "GeoJSON",
+        "visible": false,
+        "zIndex": 10000,
+        "minResolution": 0.5,
+        "maxResolution": 40000,
+        "label": true,
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/legend_places.png",
+        "hoverable": true,
+          "style": {
+          "label": {
+            "text": "title",
+            "fill": {
+            "color": "black"
+              },
+            "stroke": {
+              "color": "rgba(255, 224, 204, 0.70 )",
+              "width": 2.8
+              },
+            "offsetX": 0,
+            "offsetY": 0,
+            "maxResolution": 80,
+            "placement": "point",
+            "textAlign": "center",
+            "textWrap": "normal",
+            "fontType": "Avenir",
+            "fontSize": "18px",
+            "fontWeight": "normal"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "type": "circle",
+          "radius": 1,
+          "fillColor": "rgba( 255, 250, 240, 0 )",
+          "strokeWidth": 0.5,
+          "strokeColor": "rgba( 255, 250, 240, 0 )"
+        }
+      },
+       {
+        "type": "GROUP",
+        "name": "navigation",
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/legend_navigation.png",
+        "minResolution": 0.5,
+        "maxResolution": 40000,
+        "displayInLegend": true,
+        "legendDisplayName": "Navigation",
+        "visible": false,
+        "hoverable": true,
+        "displaySidebarInfo": true,
+        "group": "two",
+        "attributions": "Test attributions",
+        "layers": [
+          {
+          "type": "VECTOR",
+          "name": "wing_dams",
+          "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:wing_dams&outputFormat=application/json&srsname=EPSG:3857",
+          "group": "two",
+          "queryable": false,
+          "format": "GeoJSON",
+          "includeInSearch": true,
+          "minResolution": 0.5,
+          "maxResolution": 40,
+          "hoverable": true,
+          "isInteractive": true,
+          "style": {
+            "hoverTextColor": "white",
+            "hoverBackgroundColor": "#000000",
+            "type": "line",
+            "strokeColor": "#ffffff",
+            "strokeWidth": 2
+              }
+           },
+          {
+          "type": "XYZ",
+          "name": "usace_charts",
+          "group": "two",
+          "url": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/tiles/navigation/{z}/{x}/{y}.png",
+          "minResolution": 1,
+          "maxResolution": 40000,
+          "opacity": 0.99,
+          "queryable": false
+        },
+        {
+          "type": "VECTORTILE",
+          "name": "miss_levees",
+          "group": "two",
+          "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:miss_levees@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+          "minResolution": 1,
+          "maxResolution": 80,
+          "opacity": 1,
+          "queryable": false,
+          "format": "MVT",
+          "hoverable": true,
+          "isInteractive": true,
+            "style": {
+              "hoverTextColor": "white",
+              "hoverBackgroundColor": "#000000",
+              "strokeColor": "rgba(136, 79, 55, 0.9",
+              "strokeWidth": 3
+              }
+           }
+        ]
+      },
+       {
+        "type": "VECTOR",
+        "name": "miss_gages",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_gages2&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "two",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "River Gages",
+        "displaySidebarInfo": true,
+        "format": "GeoJSON",
+        "visible": false,
+        "zIndex": 10000,
+        "minResolution": 0.5,
+        "maxResolution": 32000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/gage.png",
+          "scale": 0.7,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
-        "type": "WMS",
-        "name": "solar",
-        "url": "./geoserver/wms",
-        "layers": "workspace1:solar",
-        "group": "one",
-        "queryable": true,
+        "type": "XYZ",
+        "name": "openweather",
+        "group": "two",
+        "url": "https://maps.openweathermap.org/maps/2.0/weather/PA0/{z}/{x}/{y}?appid=fc9c7f7bfbe0f4497f6cb622f45cb050",
+        "minResolution": 0.5,
+        "maxResolution": 40000,
+          "zIndex": 10000,
         "displayInLegend": true,
-        "renderMode": "image",
-        "legendDisplayName": "Solar Power",
+        "legendDisplayName": "Precipitation",
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
+        "visible": true,
+        "opacity": 1,
+        "queryable": true
+      },
+      {
+        "type": "XYZ",
+        "name": "labels",
+        "group": "two",
+        "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmtob2xtZXMiLCJhIjoiNjlkYjI4MDUyYTRlZWEyYzkwYTdmOTgxNmMzOGYwMTUifQ.VSUo52PYOUzS60NR6jqXTw",
+        "minResolution": 0.5,
+        "maxResolution": 3800,
+        "displayInLegend": true,
+        "legendDisplayName": "Street Map",
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
+        "visible": false,
+        "opacity": 0.99,
+        "queryable": false
+      },
+      {
+        "type": "VECTOR",
+        "name": "miss_basin",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_basin&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "backgroundLayers",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "",
         "format": "GeoJSON",
         "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "label": false,
+        "zIndex": 0,
+        "minResolution": 400,
+        "maxResolution": 32000,
         "hoverable": true,
-        "isInteractive": true,
         "style": {
-          "iconUrl": "https://s3.us-east-2.amazonaws.com/ecotopia.today/assets/prod/crystalball/icons/sun.png",
+          "type": "line",
+          "strokeColor": "#ffffff",
+          "strokeWidth": 1,
+          "strokeOpacity": 0.5
+          
+        }
+      },
+      {
+        "type": "GROUP",
+        "name": "pipelines_refineries",
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/legend_pipelines_refineries.png",
+        "minResolution": 1,
+        "maxResolution": 8000,
+        "displayInLegend": true,
+        "legendDisplayName": "Oil System",
+        "visible": false,
+        "displaySidebarInfo": true,
+        "group": "two",
+        "attributions": "Test attributions",
+        "layers": [
+          {
+          "type": "VECTORTILE",
+          "name": "miss_pipelines",
+          "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:miss_pipes@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+          "queryable": true,
+          "format": "MVT",
+          "zIndex": 0,
+          "minResolution": 0.5,
+          "maxResolution": 8000,
+          "hoverable": true,
+          "isInteractive": true,
+            "style": {
+              "hoverTextColor": "white",
+              "hoverBackgroundColor": "#000000",
+              "strokeColor": "#CB1735",
+              "strokeWidth": 1.5
+              }
+          },
+          {
+          "type": "VECTORTILE",
+          "name": "gom_pipelines",
+          "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:gom_pipelines@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+          "queryable": true,
+          "format": "MVT",
+          "zIndex": 0,
+          "minResolution": 0.5,
+          "maxResolution": 8000,
+          "hoverable": true,
+          "isInteractive": true,
+            "style": {
+              "hoverTextColor": "white",
+              "hoverBackgroundColor": "#000000",
+              "strokeColor": "#CB1735",
+              "strokeWidth": 1
+              }
+          },
+          {
+          "type": "VECTOR",
+          "name": "refineries",
+          "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_refineries_ghg&outputFormat=application/json&srsname=EPSG:3857",
+          "queryable": true,
+          "format": "GeoJSON",
+          "zIndex": 0,
+          "minResolution": 1,
+          "maxResolution": 8000,
+          "label": null,
+          "hoverable": true,
+          "isInteractive": true,
+            "style": {
+            "iconUrl": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/refinery.png",
+            "scale": 0.5,
+            "hoverTextColor": "white",
+            "hoverBackgroundColor": "#000000"
+            }
+          }
+        ]
+      },
+      {
+        "type": "GROUP",
+        "name": "coal_power",
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/coal.png",
+        "minResolution": 1,
+        "maxResolution": 8000,
+        "displayInLegend": true,
+        "legendDisplayName": "Coal Power",
+        "visible": false,
+        "displaySidebarInfo": true,
+        "group": "two",
+        "attributions": "Test attributions",
+        "layers": [
+          {
+          "type": "VECTOR",
+          "name": "miss_coal_ghg",
+          "legendDisplayName": "Coal GHG",
+          "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_coal_ghg&outputFormat=application/json&srsname=EPSG:3857",
+          "group": "two",
+          "queryable": true,
+          "format": "GeoJSON",
+          "zIndex": 1000,
+          "minResolution": 1,
+          "maxResolution": 8000,
+          "label": null,
+          "hoverable": true,
+          "style": {
+            "iconUrl": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/coal.png",
+            "scale": 0.35,
+            "hoverTextColor": "white",
+            "hoverBackgroundColor": "#000000"
+             }
+          },
+          {
+          "type": "VECTOR",
+          "name": "miss_legacy_ash",
+          "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_legacy_ash&outputFormat=application/json&srsname=EPSG:3857",
+          "group": "two",
+          "queryable": true,
+          "format": "GeoJSON",
+          "zIndex": 100,
+          "minResolution": 1,
+          "maxResolution": 8000,
+          "label": null,
+          "hoverable": true,
+          "style": {
+            "iconUrl": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/legacy_coal.png",
+            "scale": 0.55,
+            "hoverTextColor": "white",
+            "hoverBackgroundColor": "#000000"
+             }
+          },
+          {
+          "type": "VECTOR",
+          "name": "miss_coal_ash",
+          "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_coal_ash&outputFormat=application/json&srsname=EPSG:3857",
+          "group": "two",
+          "queryable": true,
+          "format": "GeoJSON",
+          "zIndex": 1000,
+          "minResolution": 0.5,
+          "maxResolution": 400,
+          "label": null,
+          "hoverable": true,
+          "style": {
+            "iconUrl": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/coal_ash.png",
+            "scale": 0.6,
+            "hoverTextColor": "white",
+            "hoverBackgroundColor": "#000000"
+              }
+            }
+          ]
+        },
+       {
+        "type": "VECTOR",
+        "name": "cancer_alley_tri",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:cancer_alley_tri&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "two",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Cancer Alley",
+        "displaySidebarInfo": true,
+        "format": "GeoJSON",
+        "visible": false,
+        "zIndex": 10000,
+        "minResolution": 0.5,
+        "maxResolution": 32000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/toxic.png",
+          "scale": 0.7,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
       },
 
-      {
+       {
         "type": "XYZ",
-        "name": "Citylights",
-        "group": "backgroundLayers",
-        "url": "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_CityLights_2012/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg",
-        "minResolution": 0.25,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true
+        "name": "worldmap",
+        "group": "two",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:world_phys_saturated_yellow@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "minResolution": 40,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "updatewhileanimating": true
       },
       {
         "type": "XYZ",
-        "name": "world_map",
-        "group": "backgroundLayers",
-        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}.png",
+        "name": "osm_transparencies",
+        "group": "two",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_transparencies@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "minResolution": 0.5,
+        "maxResolution": 8000,
+        "displayInLegend": true,
+        "legendDisplayName": "OSM",
+        "opacity": 0.99,
+        "visible": false,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "mississippi",
+        "group": "two",
+        "url": "https://maptime.s3.us-east-2.amazonaws.com/assets/prod/tiles/miss_map/{z}/{x}/{y}.png",
+        "displayInLegend": false,
+        "legendDisplayName": "Mississippi Basin",
+        "minResolution": 16,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "hydro",
+        "group": "two",
+        "url": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0,
+        "maxResolution": 64000,
+        "displayInLegend": true,
+        "legendDisplayName": "Hydro",
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "oceans",
+        "group": "backgroundLayers",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0.25,
         "maxResolution": 64000,
         "opacity": 1,
         "queryable": false,
@@ -198,20 +553,9 @@
       },
       {
         "type": "XYZ",
-        "name": "bioculturales",
+        "name": "streets",
         "group": "backgroundLayers",
-        "url": "https://s3-sa-east-1.amazonaws.com/casario-mapa/assets/tiles/bioculturales/{z}/{x}/{y}.png",
-        "minResolution": 4,
-        "maxResolution": 64000,
-        "opacity": 0.99,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "headwaters",
-        "group": "backgroundLayers",
-        "url": "https://api.maptiler.com/maps/1153aadd-95e6-4b12-8fa8-7a4808abf304/256/{z}/{x}/{y}@2x.png?key=JsAgs5z1cl0FbVKCSe5V",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.25,
         "maxResolution": 64000,
         "opacity": 1,
@@ -225,88 +569,138 @@
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.25,
-        "maxResolution": 20,
+        "maxResolution": 4,
         "queryable": false,
         "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "ESRI-World-Imagery2",
+        "group": "backgroundLayers",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0.25,
+        "maxResolution": 400,
+        "queryable": false,
+        "visible": true,
+        "opacity": 0.7
+      },
+      {
+        "type": "XYZ",
+        "name": "aerials",
+        "group": "backgroundLayers",
+        "url": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0.25,
+        "maxResolution": 40,
+        "queryable": false,
+        "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "ESRI_world_physical2",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm%3AWorld_Physical_Map@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "group": "backgroundLayers",
+        "visible": true,
+        "opacity": 0.99,
+        "zIndex": 0,
+        "minResolution": 800,
+        "maxResolution": 64000
       }
     ],
     "flyToSlideshow": {
       "delayInSecondsForInitialStart": 900,
       "delayInSecondsBetweenFrames": 12,
-      "maplinks": [""]
+      "maplinks": [
+        ""
+      ]
     },
     "groups": {
       "one": {
         "default": {
-          "layers": ["Citylights", "solar"],
-          "center": [-40.746, 35.311],
-          "mobileCenter": [-40.746, 35.311],
-          "resolution": 30000,
-          "mobileResolution": 30000,
-          "minResolution": 0,
-          "maxResolution": 64000
+          "layers": [
+            "aerials",
+            "worldmap",
+            "mississippi",
+            "miss_basin"
+          ],
+          "center": [-95.707, 39.725],
+          "resolution": 3800,
+          "mobileCenter": [-92.705, 38.291],
+          "mobileResolution": 6000,
+          "minResolution": 0.25,
+          "maxResolution": 32000
         },
         "local": {
           "layers": [],
           "center": [-99, 42.9],
-          "mobileCenter": [-99, 42.9],
           "resolution": 9000,
-          "mobileResolution": 9000,
-          "minResolution": 0,
-          "maxResolution": 64000
+          "minResolution": 0.25,
+          "maxResolution": 32000
         },
         "global": {
           "layers": [],
           "center": [2.44, 30.81],
-          "mobileCenter": [2.44, 30.81],
           "resolution": 25000,
-          "mobileResolution": 25000,
-          "minResolution": 0,
+          "minResolution": 0.25,
           "maxResolution": 64000
         }
       },
       "two": {
         "default": {
           "layers": [
-            "world_map",
-            "bioculturales",
-            "ESRI-World-Imagery",
-            "regiones2",
-            "solar",
-            "group1"
+            "aerials",
+            "worldmap",
+            "mississippi",
+            "miss_basin",
+            "navigation",
+            "indigenous_territories",
+            "places",
+            "miss_gages",
+            "pipelines_refineries",
+            "coal_power",
+            "cancer_alley_tri",
+            "labels"
           ],
-          "center": [-40.746, 35.311],
-          "resolution": 30000,
-          "minResolution": 0,
-          "maxResolution": 64000
+          "center": [-95.707, 39.725],
+          "resolution": 3800,
+          "mobileCenter": [-90.794, 38.1],
+          "mobileResolution": 5340,
+          "minResolution": 0.25,
+          "maxResolution": 32000
         },
         "local": {
           "layers": [],
           "center": [-99, 42.9],
           "resolution": 9000,
-          "minResolution": 0,
-          "maxResolution": 64000
+          "minResolution": 0.25,
+          "maxResolution": 32000
         },
         "global": {
           "layers": [],
           "center": [-5, 30],
           "resolution": 32000,
-          "minResolution": 0,
+          "minResolution": 0.25,
           "maxResolution": 64000
         }
       },
       "three": {
         "default": {
-          "layers": ["headwaters"],
-          "center": [-94, 41],
-          "resolution": 2800,
+          "layers": [
+            "aerials",
+            "worldmap",
+            "mississippi",
+            "miss_basin"
+          ],
+          "center": [-95.707, 39.725],
+          "resolution": 3800,
+          "mobileCenter": [-92.705, 38.291],
+          "mobileResolution": 6000,
           "minResolution": 0.25,
-          "maxResolution": 64000
+          "maxResolution": 32000
         },
         "local": {
           "layers": [],
           "center": [-97, 37],
-          "resolution": 4500,
+          "resolution": 6000,
           "minResolution": 0.25,
           "maxResolution": 16000
         },
@@ -320,14 +714,14 @@
       }
     },
     "groupTitles": {
-      "one": "ONE",
-      "two": "TWO",
-      "three": "THREE"
+      "one": "Downstream Journal",
+      "two": "River Semester 2021",
+      "three": "Student Projects"
     },
     "regionTitles": {
       "local": "Local",
       "global": "global",
-      "default": "Default"
+      "default": ""
     },
     "popupFieldsMapping": {
       "default": {
@@ -343,11 +737,15 @@
       "sidebarMediaTop",
       "sidebarMediaBottom",
       "videoUrl",
-      "videoSrc"
+      "videoSrc",
+      "STAID2",
+      "facility_id",
+      "frs_id",
+      "primary_naics_code",
+      "facn",
+      "frsid",
+      "original_id"
     ],
-    "addPost": {
-      "minResolution": 20 
-    },
     "corporateEntitiesUrls": {
       "Enbridge": ""
     }
