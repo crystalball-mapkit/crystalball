@@ -114,11 +114,14 @@ export default {
     },
     updateRouterQuery() {
       const center = this.map.getView().getCenter();
+      const zoom = this.map.getView().getZoom().toFixed(3);
       const centerLonLat = toLonLat(center)
         .map(e => e.toFixed(3))
         .reverse();
       this.$route.meta.fromEvent = true;
-      this.$router.replace({ query: { center: centerLonLat.toString() } });
+      this.$router.replace({
+        query: { center: centerLonLat.toString(), zoom }
+      });
     },
     updateMap() {
       // Set  map center
@@ -180,6 +183,7 @@ export default {
   mounted() {
     if (this.map) {
       this.updateMap();
+      //localhost:3001/#/two?center=41.583,-73.357&zoom=12.297&layers=data_display,regiones2,colaboradores,solar&sidebar=true
       this.map.on('moveend', () => {
         this.previousMapZoom = this.map.getView().getZoom();
         this.updateRouterQuery();
