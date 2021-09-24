@@ -112,6 +112,7 @@
 
 <script>
 import { mapFields } from 'vuex-map-fields';
+import { toLonLat } from 'ol/proj';
 
 import Iframe from './TipTapIframe';
 import Audio from './TipTapAudio';
@@ -201,10 +202,25 @@ export default {
       }
     },
     addMapViewLink() {
-      let href = window.location.hash;
-      if (this.map) {
-        href += `&zoom=${this.map.getView().getZoom()}`;
-      }
+      let url = window.location.hash;
+      url = url.split('?')[0];
+      const center = this.map.getView().getCenter();
+      const zoom = this.map.getView().getZoom();
+      const visibleLayers = [];
+      this.map
+        .getLayers()
+        .getArray()
+        .forEach(layer => {
+          if (layer.getVisible() && layer.get('displayInLegend')) {
+            visibleLayers.push(layer.get('name'));
+          }
+        });
+      const centerLonLat = toLonLat(center)
+        .map(e => e.toFixed(3))
+        .reverse();
+      const href = `${url}?center=${centerLonLat.toString()}&zoom=${zoom
+        .toFixed(3)
+        .toString()}&layers=${visibleLayers.toString()}`;
       this.editor.commands['mapview']({ href });
     },
     addCommand(data) {
