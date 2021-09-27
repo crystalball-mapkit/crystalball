@@ -5,7 +5,6 @@ Vue.use(VueRouter);
 import { validateToken } from '../utils/Helpers';
 
 export function getRoutes(config) {
-  console.log(config);
   const groups = config.map.groups;
   const groupNames = Object.keys(groups);
   const routes = [];
