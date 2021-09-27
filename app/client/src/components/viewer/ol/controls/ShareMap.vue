@@ -15,7 +15,6 @@
       </template>
       <span>Share Map</span>
     </v-tooltip>
-    <!-- CREATE SCENARIO DIALOG -->
     <v-dialog v-model="show" max-width="400" @keydown.esc="visible = false">
       <v-card class="pb-1">
         <v-app-bar :color="color" flat height="50" dark>
