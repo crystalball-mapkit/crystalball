@@ -43,10 +43,13 @@
           >{{ $appConfig.app.title }}</v-toolbar-title
         >
 
+        <v-spacer></v-spacer><v-spacer></v-spacer>
         <v-menu
           offset-y
           v-model="dropdownMenu"
-          v-if="$appConfig.app.navbar.dropdownMenu === true"
+          v-if="
+            $appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu === true
+          "
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
