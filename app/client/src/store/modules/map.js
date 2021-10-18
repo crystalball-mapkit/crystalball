@@ -85,6 +85,7 @@ const state = {
   persistentLayers: {},
   currentResolution: null,
   mobilePanelState: true,
+  lightboxDialogState: false,
   // EDITOR
   formValid: true,
   formSchema: {
@@ -122,6 +123,7 @@ const getters = {
   selectedLayer: state => state.selectedLayer,
   isEditingHtml: state => state.isEditingHtml,
   isEditingPost: state => state.isEditingPost,
+  
   popupInfo: state => {
     const feature = state.popup.activeFeature;
     if (!feature) return;
@@ -179,6 +181,7 @@ const getters = {
   currentResolution: state => state.currentResolution,
   postFeature: state => state.postFeature,
   mobilePanelState: state => state.mobilePanelState,
+  lightboxDialogState: state => state.lightboxDialogState,
   imageUploadButtonText: state => {
     return state.imageUpload.selectedFile
       ? state.imageUpload.selectedFile.name

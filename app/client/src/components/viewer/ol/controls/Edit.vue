@@ -174,7 +174,9 @@
       </v-card>
     </v-dialog>
 
-    <!-- Popup overlay  -->
+    <!-- LIGHTBOX DIALOG -->
+    <lightbox-dialog></lightbox-dialog>
+    <!-- POPUP OVERLAY  -->
     <overlay-popup
       v-if="!$vuetify.breakpoint.smAndDown"
       style="cursor: default;"
@@ -202,7 +204,27 @@
                   v-model="formData"
                   :schema="formSchema"
                   :options="formOptions"
-                />
+                >
+                  <template slot="lightbox-append">
+                    <v-tooltip left>
+                      <template v-slot:activator="{ on }">
+                        <v-btn
+                          style="cursor:pointer;"
+                          v-on="on"
+                          @click="lightboxDialogState = true"
+                          class="mx-2 mb-2 lock-button elevation-1"
+                          depressed
+                          fab
+                          small
+                        >
+                          <v-icon>
+                            fas fa-image
+                          </v-icon>
+                        </v-btn> </template
+                      ><span>Lightbox Images Panel</span>
+                    </v-tooltip>
+                  </template>
+                </v-jsf>
               </v-form>
             </div>
           </vue-scroll>
@@ -385,9 +407,12 @@ import '@koumoul/vjsf/lib/deps/third-party.js';
 import authHeader from '../../../../services/auth-header';
 import { EventBus } from '../../../../EventBus';
 
+import Lighbox from '../../../core/Lightbox.vue';
+
 export default {
   components: {
     'overlay-popup': OverlayPopup,
+    'lightbox-dialog': Lighbox,
     VJsf
   },
   mixins: [Mapable],
@@ -485,6 +510,7 @@ export default {
       imageUpload: 'imageUpload',
       editType: 'editType',
       mobilePanelState: 'mobilePanelState',
+      lightboxDialogState: 'lightboxDialogState',
       editLayer: 'editLayer',
       highlightLayer: 'highlightLayer'
     }),
@@ -686,6 +712,9 @@ export default {
               }
               if (property.name === 'geom') {
                 this.formSchema[property.name]['x-display'] = 'hidden';
+              }
+              if (property.name === 'lightbox') {
+                this.formSchema.properties[property.name]['readOnly'] = true;
               }
             }
           });
