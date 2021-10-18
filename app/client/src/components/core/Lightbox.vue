@@ -38,7 +38,7 @@
         >
           <template v-for="(image, index) in lightboxImages">
             <div :key="index" class="mt-3 pa-0">
-              <v-row class="ml-2 mr-3 pa-0">
+              <v-row :id="`image_${index}`" class="ml-2 mr-3 pa-0">
                 <v-col
                   align="center"
                   justify="center"
@@ -183,18 +183,15 @@ export default {
     },
 
     addImage() {
-      this.lightboxImages.unshift({ imageUrl: '', caption: '' });
-      const scrollEl = this.$refs['vs'];
-      if (scrollEl && scrollEl.scrollTo) {
-        scrollEl.scrollTo(
-          {
-            y: 0
-          },
-          100,
-          'easeInQuad'
-        );
-      }
-      console.log(this.formData);
+      this.lightboxImages.push({ imageUrl: '', caption: '' });
+      setTimeout(() => {
+        this.$nextTick(() => {
+          const scrollEl = this.$refs['vs'];
+          if (scrollEl && scrollEl.scrollTo) {
+            scrollEl.scrollIntoView(`#image_${this.lightboxImages.length - 1}`, 200)
+          }
+        });
+      }, 100);
     },
     deleteImage(index) {
       this.lightboxImages.splice(index, 1);
