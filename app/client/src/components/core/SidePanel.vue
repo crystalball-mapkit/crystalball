@@ -1,5 +1,5 @@
 <template>
-  <v-layout justify-space-between column fill-height>
+  <v-layout class=".sidebar-content" justify-space-between column fill-height>
     <template
       v-if="
         !selectedCoorpNetworkEntity &&
@@ -847,5 +847,11 @@ export default {
   height: 100%;
   object-fit: cover;
   overflow: hidden;
+}
+
+.sidebar-content >>> h1 {
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
 }
 </style>
