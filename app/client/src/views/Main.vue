@@ -36,17 +36,20 @@
         >
 
         <v-toolbar-title
-          @click="resetMap()"
+          @click="$appConfig.app.projectWebsite ? openWebsite() : resetMap()"
           flat
           :style="`background-color:${color.primary};text-color:white;`"
           class="logo headline font-weight-bold gray--text ml-3 dark"
           >{{ $appConfig.app.title }}</v-toolbar-title
         >
 
+        <v-spacer></v-spacer><v-spacer></v-spacer>
         <v-menu
           offset-y
           v-model="dropdownMenu"
-          v-if="$appConfig.app.navbar.dropdownMenu === true"
+          v-if="
+            $appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu === true
+          "
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -83,7 +86,13 @@
         </v-menu>
 
         <v-spacer></v-spacer>
-        <template v-if="$appConfig.app.navbar.dropdownMenu !== true">
+        <template
+          v-if="
+            ($appConfig.app.navbar &&
+              $appConfig.app.navbar.dropdownMenu !== true) ||
+              !$appConfig.app.navbar
+          "
+        >
           <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
             <v-btn
               min-width="200"
@@ -347,7 +356,7 @@ export default {
       EventBus.$emit('resetMap');
     },
     openWebsite() {
-      window.open('https://wiki.timetochange.today', '_blank');
+      window.open(this.$appConfig.app.projectWebsite, '_blank');
     },
     zoomToLocation() {
       if (this.region === 'local') {
