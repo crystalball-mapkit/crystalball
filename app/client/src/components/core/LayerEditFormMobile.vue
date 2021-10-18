@@ -23,7 +23,23 @@
                 v-model="formData"
                 :schema="formSchema"
                 :options="formOptions"
-              />
+              >
+                <template slot="lightbox-append">
+                  <v-btn
+                    style="cursor:pointer;"
+                    v-on="on"
+                    @click="lightboxDialogState = true"
+                    class="mx-2 mb-2 lock-button elevation-1"
+                    depressed
+                    fab
+                    small
+                  >
+                    <v-icon>
+                      fas fa-image
+                    </v-icon>
+                  </v-btn>
+                </template>
+              </v-jsf>
             </v-form>
           </div>
         </vue-scroll>
@@ -169,7 +185,8 @@ export default {
       formSchemaCache: 'formSchemaCache',
       formOptions: 'formOptions',
       formData: 'formData',
-      imageUpload: 'imageUpload'
+      imageUpload: 'imageUpload',
+      lightboxDialogState: 'lightboxDialogState'
     }),
     ...mapGetters('map', {
       imageUploadButtonText: 'imageUploadButtonText',
