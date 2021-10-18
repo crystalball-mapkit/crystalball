@@ -221,7 +221,7 @@
                             fas fa-image
                           </v-icon>
                         </v-btn> </template
-                      ><span>Images Panel</span>
+                      ><span>Lightbox Images Panel</span>
                     </v-tooltip>
                   </template>
                 </v-jsf>
