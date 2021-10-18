@@ -91,7 +91,7 @@
                         v-model="image.imageUrl"
                         clear-icon="mdi-close-circle"
                         clearable
-                        label="Icon Url*"
+                        label="Image Url*"
                         :rules="[rules.required]"
                       >
                         <template slot="append-outer">
