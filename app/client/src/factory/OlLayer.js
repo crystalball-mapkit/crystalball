@@ -191,6 +191,7 @@ export const LayerFactory = {
       sidebarDefaultMedia: lConf.sidebarDefaultMedia,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
       visible: lConf.visible,
       opacity: lConf.opacity,
       queryable: lConf.queryable,
@@ -230,6 +231,7 @@ export const LayerFactory = {
       sidebarDefaultMedia: lConf.sidebarDefaultMedia,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
       preload: lConf.preload ? parseFloat(lConf.preload) : 0, // Parse float is used because it's not possible to add values like Infinity in json config
       zIndex: lConf.zIndex,
       group: lConf.group,
@@ -268,6 +270,7 @@ export const LayerFactory = {
       sidebarDefaultMedia: lConf.sidebarDefaultMedia,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
       source: new XyzSource({
         url: lConf.hasOwnProperty('accessToken')
           ? lConf.url + '?access_token=' + lConf.accessToken
@@ -300,6 +303,7 @@ export const LayerFactory = {
       sidebarDefaultMedia: lConf.sidebarDefaultMedia,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
       opacity: lConf.opacity,
       group: lConf.group,
       source: new OsmSource({
@@ -333,6 +337,7 @@ export const LayerFactory = {
       sidebarDefaultMedia: lConf.sidebarDefaultMedia,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
       maxZoom: lConf.maxZoom,
       visible: lConf.visible,
       group: lConf.group,
@@ -364,6 +369,7 @@ export const LayerFactory = {
       sidebarDefaultMedia: lConf.sidebarDefaultMedia,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
       loadTilesWhileAnimating: true,
       loadTilesWhileInteracting: true,
       source: new XyzSource({
@@ -422,6 +428,7 @@ export const LayerFactory = {
       searchLabel: lConf.searchLabel,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
       opacity: lConf.opacity,
       zIndex: lConf.zIndex,
       group: lConf.group,
@@ -460,6 +467,7 @@ export const LayerFactory = {
       searchLabel: lConf.searchLabel,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
       opacity: lConf.opacity,
       group: lConf.group,
       renderMode: lConf.renderMode || 'hybrid',
@@ -534,6 +542,7 @@ export const LayerFactory = {
       sidebarDefaultMedia: lConf.sidebarDefaultMedia,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
       visible: lConf.visible,
       opacity: lConf.opacity,
       source: vectorSource,
@@ -553,6 +562,14 @@ export const LayerFactory = {
           layer.setZIndex(zIndex + index);
         }
         layers.push(layer);
+        if (lConf.displaySeries) {
+          const defaultLayerSeriesIndex = lConf.defaultSeriesLayerIndex || 0;
+          if (index === defaultLayerSeriesIndex) {
+            layer.setVisible(true);
+          } else {
+            layer.setVisible(false);
+          }
+        }
       });
     }
     const layer = new LayerGroup({
@@ -571,6 +588,9 @@ export const LayerFactory = {
       ratio: lConf.ratio ? lConf.ratio : 1.5,
       zIndex: lConf.zIndex,
       group: lConf.group,
+      displaySeries: lConf.displaySeries,
+      defaultSeriesLayerIndex: lConf.defaultSeriesLayerIndex,
+      activeLayerIndex: lConf.defaultSeriesLayerIndex || 0, // Used for layer series title in legend which is updated on layer change
       layers
     });
 
