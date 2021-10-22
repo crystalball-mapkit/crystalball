@@ -27,7 +27,6 @@
                 <template slot="lightbox-append">
                   <v-btn
                     style="cursor:pointer;"
-                    v-on="on"
                     @click="lightboxDialogState = true"
                     class="mx-2 mb-2 lock-button elevation-1"
                     depressed

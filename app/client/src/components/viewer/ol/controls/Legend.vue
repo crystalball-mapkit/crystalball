@@ -119,6 +119,38 @@
                   </v-checkbox>
                 </v-flex>
               </v-row>
+              <v-row
+                align="center"
+                justify="center"
+                v-if="
+                  item.get('displaySeries') &&
+                    item.getVisible() &&
+                    item.getLayers().getArray().length >= 2
+                "
+                :key="'time-series' + index"
+                class="fill-height ma-0 pa-0"
+              >
+                <span class="text--darken-2 subtitle-2 mt-n2 mb-n2">{{
+                  getSeriesActiveLayerTitle(item)
+                }}</span>
+                <v-flex xs11>
+                  <v-slider
+                    hide-details
+                    class="ml-4 mr-3 pb-0 mb-1"
+                    step="1"
+                    :value="item.get('defaultSeriesLayerIndex') || 0"
+                    :max="item.getLayers().getArray().length - 1"
+                    ticks
+                    @change="activateTimeSeriesLayer($event, item)"
+                  >
+                    <template v-slot:prepend>
+                      <v-icon class="pt-1" :size="15">
+                        fas fa-history
+                      </v-icon>
+                    </template>
+                  </v-slider>
+                </v-flex>
+              </v-row>
             </template>
           </vue-scroll>
         </v-expansion-panel-content>
@@ -228,11 +260,22 @@ export default {
     },
     toggleLayerVisibility(item) {
       this.lastSelectedLayer = null;
+
       item.setVisible(!item.getVisible());
       // Show html in the sidebar.
       if (item.getVisible() && item.get('displaySidebarInfo')) {
         this.lastSelectedLayer = item.get('name');
         this.mobilePanelState = true;
+      }
+
+      if (
+        item.get('displaySeries') &&
+        item.getVisible()
+      ) {
+        this.activateTimeSeriesLayer(
+          item.get('defaultSeriesLayerIndex') || 0, // default to first layer
+          item
+        );
       }
     },
     toggleAllLayersVisibility(state) {
@@ -265,6 +308,25 @@ export default {
     },
     toggleLegend() {
       this.isVisible = !this.isVisible;
+    },
+    activateTimeSeriesLayer(index, layerGroup) {
+      const layers = layerGroup.getLayers().getArray();
+      layers.forEach(layer => {
+        layer.setVisible(false);
+      });
+      layers[index].setVisible(true);
+      this.$nextTick(() => {
+        this.updateRows();
+      });
+      layerGroup.set('activeLayerIndex', index);
+    },
+    getSeriesActiveLayerTitle(layerGroup) {
+      const layers = layerGroup.getLayers().getArray();
+      const activeLayerIndex = layerGroup.get('activeLayerIndex') || 0;
+      const title =
+        layers[activeLayerIndex].get('seriesDisplayName') ||
+        layers[activeLayerIndex].get('name');
+      return title;
     }
   },
   mounted() {
