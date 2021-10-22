@@ -260,22 +260,22 @@ export default {
     },
     toggleLayerVisibility(item) {
       this.lastSelectedLayer = null;
-      if (
-        item.get('GROUP') &&
-        item.get('displaySeries') &&
-        !item.getVisible()
-      ) {
-        this.activateTimeSeriesLayer(
-          item.get('defaultSeriesLayerIndex') || 0, // default to first layer
-          item
-        );
-      }
 
       item.setVisible(!item.getVisible());
       // Show html in the sidebar.
       if (item.getVisible() && item.get('displaySidebarInfo')) {
         this.lastSelectedLayer = item.get('name');
         this.mobilePanelState = true;
+      }
+
+      if (
+        item.get('displaySeries') &&
+        item.getVisible()
+      ) {
+        this.activateTimeSeriesLayer(
+          item.get('defaultSeriesLayerIndex') || 0, // default to first layer
+          item
+        );
       }
     },
     toggleAllLayersVisibility(state) {
@@ -315,6 +315,9 @@ export default {
         layer.setVisible(false);
       });
       layers[index].setVisible(true);
+      this.$nextTick(() => {
+        this.updateRows();
+      });
       layerGroup.set('activeLayerIndex', index);
     },
     getSeriesActiveLayerTitle(layerGroup) {
