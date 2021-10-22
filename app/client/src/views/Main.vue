@@ -31,9 +31,6 @@
 
       <!-- APP BAR DESKTOP -->
       <v-app-bar app clipped-right height="60" :color="color.primary" dark>
-        <v-btn small depressed fab color="gray" class="ml-0" @click="goToHome()"
-          ><v-icon small>fas fa-home</v-icon></v-btn
-        >
 
         <v-toolbar-title
           @click="$appConfig.app.projectWebsite ? openWebsite() : resetMap()"
@@ -41,6 +38,9 @@
           :style="`background-color:${color.primary};text-color:white;`"
           class="logo headline font-weight-bold gray--text ml-3 dark"
           >{{ $appConfig.app.title }}</v-toolbar-title
+        >
+        <v-btn small depressed fab color="gray" class="ml-0" @click="goToHome()"
+          ><v-icon small>fas fa-home</v-icon></v-btn
         >
 
         <v-spacer></v-spacer><v-spacer></v-spacer>
