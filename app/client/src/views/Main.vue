@@ -36,7 +36,7 @@
           @click="$appConfig.app.projectWebsite ? openWebsite() : resetMap()"
           flat
           :style="`background-color:${color.primary};text-color:white;`"
-          class="logo headline font-weight-bold gray--text ml-3 dark"
+          class="logo headline font-weight-bold gray--text ml-3 dark mx-2"
           >{{ $appConfig.app.title }}</v-toolbar-title
         >
         <v-btn small depressed fab color="gray" class="ml-0" @click="goToHome()"
