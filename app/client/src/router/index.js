@@ -12,7 +12,7 @@ export function getRoutes(config) {
   routes.push({
     path: '/',
     name: 'map',
-    redirect: `/${groupNames[1]}` // TODO: Get the default route from app-conf
+    redirect: `/${groupNames[0]}` // TODO: Get the default route from app-conf
   });
   // Map routes.
   groupNames.forEach(groupName => {

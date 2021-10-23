@@ -350,7 +350,7 @@ export default {
     },
     goToHome() {
       EventBus.$emit('resetMap');
-      this.$router.push({ path: `/${this.navbarGroups[1].name}` });
+      this.$router.push({ path: `/${this.navbarGroups[0].name}` });
     },
     resetMap() {
       EventBus.$emit('resetMap');
