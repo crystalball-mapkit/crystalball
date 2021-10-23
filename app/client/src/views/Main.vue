@@ -61,7 +61,9 @@
                 'mx-2': true
               }"
             >
-              {{ `${activeLayerGroup.navbarGroup}` }}
+              {{
+                `${$appConfig.map.groupTitles[activeLayerGroup.navbarGroup]}`
+              }}
               <v-icon class="mx-2" left>
                 expand_more
               </v-icon>
