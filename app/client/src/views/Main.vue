@@ -61,7 +61,9 @@
                 'mx-2': true
               }"
             >
-              {{ `${activeLayerGroup.navbarGroup}` }}
+              {{
+                `${$appConfig.map.groupTitles[activeLayerGroup.navbarGroup]}`
+              }}
               <v-icon class="mx-2" left>
                 expand_more
               </v-icon>
@@ -349,8 +351,16 @@ export default {
       EventBus.$emit('noMapReset');
     },
     goToHome() {
+      console.log(this.navbarGroups);
       EventBus.$emit('resetMap');
-      this.$router.push({ path: `/${this.navbarGroups[1].name}` });
+      const groups = this.$appConfig.map.groups;
+      const groupNames = Object.keys(groups);
+      const defaultActiveGroup = this.$appConfig.map.defaultActiveGroup;
+      const navbarGroupName =
+        groupNames.indexOf(defaultActiveGroup) !== -1
+          ? defaultActiveGroup
+          : groupNames[0];
+      this.$router.push({ path: `/${navbarGroupName}` });
     },
     resetMap() {
       EventBus.$emit('resetMap');
