@@ -31,7 +31,6 @@
 
       <!-- APP BAR DESKTOP -->
       <v-app-bar app clipped-right height="60" :color="color.primary" dark>
-
         <v-toolbar-title
           @click="$appConfig.app.projectWebsite ? openWebsite() : resetMap()"
           flat
