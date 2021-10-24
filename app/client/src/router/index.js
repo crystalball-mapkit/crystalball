@@ -6,13 +6,16 @@ import { validateToken } from '../utils/Helpers';
 
 export function getRoutes(config) {
   const groups = config.map.groups;
+  
   const groupNames = Object.keys(groups);
+  const defaultActiveGroupIndex = groupNames.indexOf(config.map.defaultActiveGroup)
+  const defaultActiveGroup = defaultActiveGroupIndex !== -1 ? groupNames[defaultActiveGroupIndex] : groupNames[0];
   const routes = [];
   // Base route
   routes.push({
     path: '/',
     name: 'map',
-    redirect: `/${groupNames[1]}` // TODO: Get the default route from app-conf
+    redirect: `/${defaultActiveGroup}`
   });
   // Map routes.
   groupNames.forEach(groupName => {
