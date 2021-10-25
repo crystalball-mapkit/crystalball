@@ -122,8 +122,9 @@ services:
     volumes:
       - pgdumps:/pgdumps
     environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
       - DATABASE=${COMPOSE_PROJECT_NAME}
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${COMPOSE_PROJECT_NAME}_db:5432/${COMPOSE_PROJECT_NAME}
     depends_on:
       db:
         condition: service_healthy
