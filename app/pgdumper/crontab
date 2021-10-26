@@ -5,4 +5,4 @@
 # │     │     │     │     ┌───────────── day of week (0 - 6) (Sunday to Saturday; 7 is also Sunday on some systems)
 # │     │     │     │     │
 
-  0     0     *     *     *     date && pg_dump -C "host=${DATABASE}_db port=5432 dbname=${DATABASE} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}" > /pgdumps/${DATABASE}_daily.pgdump && echo "${DATABASE} dump successful"
+  0     0     *     *     *     date && pg_dump "host=${DATABASE}_db port=5432 dbname=${DATABASE} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}" > /pgdumps/${DATABASE}_daily.pgdump && echo "${DATABASE} dump successful"
