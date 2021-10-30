@@ -556,7 +556,7 @@ export const LayerFactory = {
     const layers = []
     const layersConfig = lConf.layers;
     if (Array.isArray(layersConfig)) {
-      layersConfig.reverse().forEach((layerConfig, index) => {
+      layersConfig.forEach((layerConfig, index) => {
         const layer = this.getInstance(layerConfig);
         if (zIndex) {
           layer.setZIndex(zIndex + index);
@@ -593,7 +593,6 @@ export const LayerFactory = {
       activeLayerIndex: lConf.defaultSeriesLayerIndex || 0, // Used for layer series title in legend which is updated on layer change
       layers
     });
-
     return layer;
   },
 };
