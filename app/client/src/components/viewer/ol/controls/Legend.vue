@@ -143,11 +143,6 @@
                     ticks
                     @change="activateTimeSeriesLayer($event, item)"
                   >
-                    <template v-slot:prepend>
-                      <v-icon class="pt-1" :size="15">
-                        fas fa-history
-                      </v-icon>
-                    </template>
                   </v-slider>
                 </v-flex>
               </v-row>
@@ -268,10 +263,7 @@ export default {
         this.mobilePanelState = true;
       }
 
-      if (
-        item.get('displaySeries') &&
-        item.getVisible()
-      ) {
+      if (item.get('displaySeries') && item.getVisible()) {
         this.activateTimeSeriesLayer(
           item.get('defaultSeriesLayerIndex') || 0, // default to first layer
           item
