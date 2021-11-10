@@ -6,35 +6,48 @@ import { validateToken } from '../utils/Helpers';
 
 export function getRoutes(config) {
   const groups = config.map.groups;
-  
   const groupNames = Object.keys(groups);
   const defaultActiveGroupIndex = groupNames.indexOf(config.map.defaultActiveGroup)
   const defaultActiveGroup = defaultActiveGroupIndex !== -1 ? groupNames[defaultActiveGroupIndex] : groupNames[0];
   const routes = [];
   // Base route
+  let redirectPath;
+  if (config.map.defaultActiveButton) {
+    redirectPath = `/${defaultActiveGroup}/${config.map.defaultActiveButton}`;
+  } else {
+    redirectPath = `/${defaultActiveGroup}`;
+  }
+
+
+ routes.push({
+    path: `/${defaultActiveGroup}`,
+    redirect: redirectPath
+  });
+
   routes.push({
     path: '/',
     name: 'map',
-    redirect: `/${defaultActiveGroup}`
+    redirect: redirectPath
   });
   // Map routes.
   groupNames.forEach(groupName => {
     const regions = groups[groupName];
-    const regionNames = Object.keys(regions);
+    let regionNames;
+    if (config.app.customNavigationScheme && config.app.customNavigationScheme === "2") {
+      regionNames = Object.keys(config.map.buttons);
+    } else {
+      regionNames = Object.keys(regions);
+    }
     regionNames.forEach(regionName => {
-      const region = regions[regionName];
-      if (region.layers.length > 0) {
-        routes.push({
-          path:
-            regionName === 'default'
-              ? `/${groupName}`
-              : `/${groupName}/${regionName}`,
-          name:
-            regionName === 'default' ? groupName : `${groupName}${regionName}`,
-          component: Main,
-          props: { navbarGroup: groupName, region: regionName }
-        });
-      }
+      routes.push({
+        path:
+          `/${groupName}/${regionName}`,
+        name:
+          `${groupName}${regionName}`,
+        component: Main,
+        props: { navbarGroup: groupName, region: regionName }
+      });
+
     });
   });
   // Admin routes.

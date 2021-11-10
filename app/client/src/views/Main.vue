@@ -291,6 +291,7 @@ export default {
       popup: 'popup',
       mobilePanelState: 'mobilePanelState',
       navbarGroups: 'navbarGroups',
+      appConfGroups_: 'appConfGroups_',
       regions: 'regions',
       geoserverWorkspace: 'geoserverWorkspace'
     }),
@@ -303,13 +304,25 @@ export default {
     regionLength() {
       const activeNavbarGroup = this.activeLayerGroup.navbarGroup;
       const regions = this.$appConfig.map.groups[activeNavbarGroup];
-      const regionsArray = Object.keys(regions).filter(v => v !== 'default');
       let count = 0;
-      regionsArray.forEach(region => {
-        if (regions[region].layers.length > 0) {
-          count++;
-        }
-      });
+      if (
+        this.$appConfig.app.customNavigationScheme &&
+        this.$appConfig.app.customNavigationScheme === '2'
+      ) {
+        const regionsArray = Object.values(this.$appConfig.map.buttons);
+        regionsArray.forEach(region => {
+          if (region.length > 0) {
+            count++;
+          }
+        });
+      } else {
+        const regionsArray = Object.keys(regions).filter(v => v !== 'default');
+        regionsArray.forEach(region => {
+          if (regions[region].layers.length > 0) {
+            count++;
+          }
+        });
+      }
       return count;
     },
     title() {
@@ -346,11 +359,12 @@ export default {
   },
   methods: {
     changeNavbarGroup(navbarGroup) {
-      this.$router.push({ path: `/${navbarGroup.name}` });
+      this.$router.push({
+        path: `/${navbarGroup.name}/${this.activeLayerGroup.region}`
+      });
       EventBus.$emit('noMapReset');
     },
     goToHome() {
-      console.log(this.navbarGroups);
       EventBus.$emit('resetMap');
       const groups = this.$appConfig.map.groups;
       const groupNames = Object.keys(groups);
@@ -359,7 +373,9 @@ export default {
         groupNames.indexOf(defaultActiveGroup) !== -1
           ? defaultActiveGroup
           : groupNames[0];
-      this.$router.push({ path: `/${navbarGroupName}` });
+      this.$router.push({
+        path: `/${navbarGroupName}/${this.activeLayerGroup.region}`
+      });
     },
     resetMap() {
       EventBus.$emit('resetMap');
@@ -409,6 +425,12 @@ export default {
       if (region.name === 'default') {
         return;
       }
+      if (
+        this.$appConfig.app.customNavigationScheme &&
+        this.$appConfig.app.customNavigationScheme === '2'
+      ) {
+        return true;
+      }
       if (regions[region.name] && regions[region.name].layers.length > 0) {
         return true;
       } else {
@@ -429,6 +451,7 @@ export default {
   created() {
     // Navgroups
     const groups = this.$appConfig.map.groups;
+
     const groupTitles = this.$appConfig.map.groupTitles;
     const navbarGroups = [];
     Object.keys(groups).forEach(groupName => {
@@ -439,14 +462,21 @@ export default {
     });
     this.navbarGroups = navbarGroups;
     // Regions
-    const regionTitles = this.$appConfig.map.regionTitles;
+    let regionTitles;
+    if (
+      this.$appConfig.app.customNavigationScheme &&
+      this.$appConfig.app.customNavigationScheme === '2'
+    ) {
+      regionTitles = this.$appConfig.map.buttonTitles;
+    } else {
+      regionTitles = this.$appConfig.map.regionTitles;
+    }
     Object.keys(regionTitles).forEach(regionName => {
       this.regions.push({
         name: regionName,
         title: regionTitles[regionName]
       });
     });
-
     // Geoserver workspace
     this.geoserverWorkspace = this.$appConfig.map.geoserverWorkspace;
     // Set active layer group
