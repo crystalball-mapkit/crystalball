@@ -52,6 +52,12 @@ export default {
       if (region.name === 'default') {
         return;
       }
+      if (
+        this.$appConfig.app.customNavigationScheme &&
+        this.$appConfig.app.customNavigationScheme === '2'
+      ) {
+        return true;
+      }
       if (regions[region.name] && regions[region.name].layers.length > 0) {
         return true;
       } else {

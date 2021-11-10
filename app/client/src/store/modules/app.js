@@ -7,7 +7,8 @@ const state = {
   postIcons: [],
   config: {},
   serverConfig: {}, // TODO: Migrate all config settings here. (read from api endpoint)
-  geoserverConfig: {}
+  geoserverConfig: {},
+  appConfig: {} 
 };
 
 // mutations are operations that actually mutates the state.
@@ -48,6 +49,7 @@ const getters = {
   sidebarState: state => state.sidebarState,
   sidebarHtml: state => state.sidebarHtml,
   serverConfig: state => state.serverConfig,
+  appConfig: state => state.appConfig,
   icons: state => state.postIcons,
   postIcons: (state, getters, rootState, rootGetters) => {
     const activeGroup = rootGetters['map/activeLayerGroup'].navbarGroup;

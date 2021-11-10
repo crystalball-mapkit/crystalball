@@ -70,6 +70,7 @@ fetch('./static/app-conf.json')
       // Make app config accessible for all components
       router.addRoutes(getRoutes(data));
       Vue.prototype.$appConfig = data;
+      appStore.state.appConfig = data;
       new Vue({
         router,
         store,

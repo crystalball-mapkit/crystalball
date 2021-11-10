@@ -123,7 +123,7 @@ const getters = {
   selectedLayer: state => state.selectedLayer,
   isEditingHtml: state => state.isEditingHtml,
   isEditingPost: state => state.isEditingPost,
-  
+
   popupInfo: state => {
     const feature = state.popup.activeFeature;
     if (!feature) return;
@@ -161,6 +161,7 @@ const getters = {
   persistentLayers: state => state.persistentLayers,
   postEditLayer: state => state.postEditLayer,
   lastSelectedLayer: state => state.lastSelectedLayer,
+  appConfGroups_: state => state.appConfGroups_,
   postIconTitle: (state, getters, rootState, rootGetters) => {
     if (state.popup.activeFeature && state.popup.activeFeature.get('icon')) {
       const icon = rootGetters['app/postIcons'].filter(
@@ -176,6 +177,19 @@ const getters = {
       return ``;
     } else {
       return `${state.activeLayerGroup.navbarGroup}_${state.activeLayerGroup.region}`;
+    }
+  },
+  visibleGroup: (state, getters, rootState) => {
+    if (rootState.app.appConfig.app.customNavigationScheme == '2') {
+      const navbarGroup = rootState.app.appConfig.map.groups[
+        state.activeLayerGroup.navbarGroup
+      ]
+      navbarGroup.layers = rootState.app.appConfig.map.buttons[state.activeLayerGroup.region]
+      return navbarGroup
+    } else {
+      return rootState.app.appConfig.map.groups[
+        state.activeLayerGroup.navbarGroup
+      ][state.activeLayerGroup.region];
     }
   },
   currentResolution: state => state.currentResolution,

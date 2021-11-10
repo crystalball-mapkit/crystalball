@@ -405,11 +405,7 @@ export default {
       const me = this;
       // Get Info layer
       me.createGetInfoLayer();
-      const activeLayerGroup = this.activeLayerGroup;
-      const visibleGroup = this.$appConfig.map.groups[
-        activeLayerGroup.navbarGroup
-      ][activeLayerGroup.region];
-      const visibleLayers = visibleGroup.layers;
+      const visibleLayers = this.visibleGroup.layers;
       me.resetMap();
       // World Overlay Layer and selected features layer for corporate network
       me.createWorldExtentOverlayLayer();
@@ -1348,11 +1344,7 @@ export default {
     resetMap() {
       // Other Operotionial Layers
       if (!this.map) return;
-      const activeLayerGroup = this.activeLayerGroup;
-      const visibleGroup = this.$appConfig.map.groups[
-        activeLayerGroup.navbarGroup
-      ][activeLayerGroup.region];
-
+      const visibleGroup = this.visibleGroup;
       // Set reset map group to true if the center is defined.
       if (!this.noMapReset || visibleGroup.center) {
         const isMobile = this.$vuetify.breakpoint.smAndDown;
@@ -1399,7 +1391,8 @@ export default {
       htmlPostLayerConf: 'htmlPostLayerConf',
       geoserverWorkspace: 'geoserverWorkspace',
       persistentLayers: 'persistentLayers',
-      mobilePanelState: 'mobilePanelState'
+      mobilePanelState: 'mobilePanelState',
+      visibleGroup: 'visibleGroup'
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser'
@@ -1417,12 +1410,6 @@ export default {
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       currentResolution: 'currentResolution'
     }),
-    activeLayerGroupConf() {
-      const group = this.$appConfig.map.groups[
-        this.activeLayerGroup.navbarGroup
-      ][this.activeLayerGroup.region];
-      return group;
-    },
     hiddenProps() {
       const hiddenProps = this.$appConfig.map.featureInfoHiddenProps;
       return hiddenProps || [];
@@ -1432,8 +1419,8 @@ export default {
       if (searchLabel) {
         return searchLabel;
       }
-      if (this.activeLayerGroupConf.searchLabel) {
-        return this.activeLayerGroupConf.searchLabel.toUpperCase();
+      if (this.visibleGroup.searchLabel) {
+        return this.visibleGroup.searchLabel.toUpperCase();
       }
       return 'CORPORATE NETWORK';
     }
@@ -1451,21 +1438,34 @@ export default {
       if (oldValue.region === 'global') {
         this.noMapReset = false;
       }
-      // store layer visibility state before changing fuel group
-      const mapLayers = this.map.getLayers().getArray();
-      mapLayers.forEach(layer => {
-        const name = layer.get('name');
-        const visibility = layer.getVisible();
-        this.layerVisibilityState[name] = visibility;
-      });
-      this.removeAllLayers();
-      this.closePopup();
-      // Reset geoserver layer names array
-      this.geoserverLayerNames = null;
-      this.queryLayersGeoserverNames = null;
+
+      let clearMap = true;
+
+      if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme === '2') {
+        if (newValue.region === oldValue.region) {
+          clearMap = false;
+        }
+      }
+      if (clearMap) {
+        // store layer visibility state before changing fuel group
+        const mapLayers = this.map.getLayers().getArray();
+        mapLayers.forEach(layer => {
+          const name = layer.get('name');
+          const visibility = layer.getVisible();
+          this.layerVisibilityState[name] = visibility;
+        });
+        this.removeAllLayers();
+        this.closePopup();
+        // Reset geoserver layer names array
+        this.geoserverLayerNames = null;
+        this.queryLayersGeoserverNames = null;
+        this.createLayers();
+        this.fetchColorMapEntities();
+      } else {
+        this.resetMap();
+      }
+
       this.selectedCoorpNetworkEntity = null;
-      this.createLayers();
-      this.fetchColorMapEntities();
       // Emit group change event.
       EventBus.$emit('group-changed');
       EventBus.$emit('clearEditHtml');
