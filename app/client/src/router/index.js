@@ -14,15 +14,12 @@ export function getRoutes(config) {
   let redirectPath;
   if (config.map.defaultActiveButton) {
     redirectPath = `/${defaultActiveGroup}/${config.map.defaultActiveButton}`;
-  } else {
-    redirectPath = `/${defaultActiveGroup}`;
+  }
+  if (!config.app.customNavigationScheme || config.app.customNavigationScheme !== '2') {
+    const defaultRegion = config.map.defaultActiveRegion || Object.keys(groups[defaultActiveGroup])[0]
+    redirectPath = `/${defaultActiveGroup}/${defaultRegion}`;
   }
 
-
- routes.push({
-    path: `/${defaultActiveGroup}`,
-    redirect: redirectPath
-  });
 
   routes.push({
     path: '/',
