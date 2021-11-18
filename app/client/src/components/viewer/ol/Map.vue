@@ -406,7 +406,7 @@ export default {
       // Get Info layer
       me.createGetInfoLayer();
       const visibleLayers = this.visibleGroup.layers;
-      me.resetMap();
+
       // World Overlay Layer and selected features layer for corporate network
       me.createWorldExtentOverlayLayer();
       me.createSelectedCorpNetworkLayer();
