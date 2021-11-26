@@ -381,6 +381,7 @@ export default {
     //Add map to the vuex store.
     me.setMap(me.map);
     // Create layers from config and add them to map
+    me.resetMap();
     me.createLayers();
     me.createHtmlPostLayer();
 
@@ -406,7 +407,6 @@ export default {
       // Get Info layer
       me.createGetInfoLayer();
       const visibleLayers = this.visibleGroup.layers;
-
       // World Overlay Layer and selected features layer for corporate network
       me.createWorldExtentOverlayLayer();
       me.createSelectedCorpNetworkLayer();
@@ -1342,7 +1342,7 @@ export default {
       }
     },
     resetMap() {
-      // Other Operotionial Layers
+      // Other Operational Layers
       if (!this.map) return;
       const visibleGroup = this.visibleGroup;
       // Set reset map group to true if the center is defined.
