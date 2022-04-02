@@ -128,6 +128,6 @@ export default {
 </script>
 <style lang="css" scoped>
 .locate-button {
-  z-index: 1;
+  z-index: 10000;
 }
 </style>

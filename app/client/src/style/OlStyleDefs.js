@@ -589,10 +589,21 @@ export const layersStylePropFn = {
       return propertyValue;
     }
   },
+  all_permits: {
+    circleRadiusFn: propertyValue => {
+      return Math.sqrt(propertyValue) * 0.008;
+    },
+    fillColor: propertyValue => {
+      return propertyValue;
+    }
+  },
   epa_refineries: {
     iconScaleFn: propertyValue => {
       return getIconScaleValue(propertyValue, 0.0000001, 0.2, 1.2);
     }
+  },
+  cancelled_pipelines: {
+    strokeColor: propertyValue => propertyValue
   },
   coal_global2: {
     circleRadiusFn: propertyValue => {
@@ -602,6 +613,31 @@ export const layersStylePropFn = {
   miss_tri: {
     fillColor: propertyValue => {
       return propertyValue;
+    }
+  },
+  refineries: {
+    circleRadiusFn: propertyValue => {
+      return getRadiusValue(propertyValue, 0.026);
+    }
+  },
+  us_refineries: {
+    iconScaleFn: propertyValue => {
+      return getIconScaleValue(propertyValue, 300000, 0.4, 1.8);
+    }
+  },
+  us_refineries2: {
+    iconScaleFn: propertyValue => {
+      return getIconScaleValue(propertyValue, 300000, 0.4, 1.8);
+    }
+  },
+  GiantOilFields: {
+    circleRadiusFn: propertyValue => {
+      return getRadiusValue(propertyValue, 0.3);
+    }
+  },
+  Spills_20yrs: {
+    circleRadiusFn: propertyValue => {
+      return getRadiusValue(propertyValue, 0.7);
     }
   },
   indigenous_territories: {
