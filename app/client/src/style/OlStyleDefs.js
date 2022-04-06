@@ -606,6 +606,16 @@ export const layersStylePropFn = {
     strokeColor: propertyValue => propertyValue
   },
   coal_global2: {
+    iconScaleFn: propertyValue => {
+      return getIconScaleValue(propertyValue, 1000, 0.4, 1.4);
+    }
+  },
+  gas2: {
+    iconScaleFn: propertyValue => {
+      return getIconScaleValue(propertyValue, 1000, 0.2, 1.4);
+    }
+  },
+  oil: {
     circleRadiusFn: propertyValue => {
       return getRadiusValue(propertyValue, 0.3, 4, 50);
     }
@@ -622,7 +632,7 @@ export const layersStylePropFn = {
   },
   us_refineries: {
     iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 300000, 0.4, 1.8);
+      return getIconScaleValue(propertyValue, 300000, 0.5, 2);
     }
   },
   us_refineries2: {

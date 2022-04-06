@@ -120,9 +120,9 @@
           </div>
         </template>
 
-        <v-spacer></v-spacer><v-spacer></v-spacer><v-spacer></v-spacer>
+        <v-spacer></v-spacer><v-spacer></v-spacer>
 
-        <!--      <span class="title pr-5">before it's too late</span>  -->
+        <span class="title pr-5">before it's too late</span>
         <v-btn icon @click.stop="sidebarState = !sidebarState"
           ><v-icon medium>{{
             sidebarState ? '$close' : '$menu'
