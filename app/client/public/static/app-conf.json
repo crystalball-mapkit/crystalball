@@ -16,7 +16,7 @@
         "navbar": {
             "dropdownMenu": false
         },
-        "customNavigationScheme": "0"
+        "customNavigationScheme": "1"
     },
     "map": {
         "projectionCode": "EPSG:3857",
@@ -131,11 +131,11 @@
             {
                 "type": "GROUP",
                 "name": "global_pipes",
-                "legendIcon": "",
                 "minResolution": 1,
                 "maxResolution": 64000,
                 "displayInLegend": true,
                 "legendDisplayName": "Global Pipelines",
+                "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legendGlobalPipes.png",
                 "visible": true,
                 "hoverable": true,
                 "displaySidebarInfo": true,
@@ -181,16 +181,17 @@
                 ]
             },
             {
-                "type": "VECTOR",
+                "type": "VECTORTILE",
                 "name": "refineries",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:refineries&outputFormat=application/json&srsname=EPSG:3857",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:refineries@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
                 "group": "oil",
                 "queryable": true,
                 "displayInLegend": true,
                 "legendDisplayName": "Refineries",
-                "format": "GeoJSON",
+                "format": "MVT",
+                "renderMode": "vector",
                 "visible": true,
-                "zIndex": 0,
+                "zIndex": 1,
                 "minResolution": 1,
                 "maxResolution": 64000,
                 "label": true,
@@ -208,14 +209,15 @@
                 }
             },
             {
-                "type": "VECTOR",
+                "type": "VECTORTILE",
                 "name": "oil_gas_fields",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:oil_gas_fields&outputFormat=application/json&srsname=EPSG:3857",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:oil_gas_fields@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
                 "group": "oil",
                 "queryable": true,
                 "displayInLegend": true,
                 "legendDisplayName": "Extraction Zones",
-                "format": "GeoJSON",
+                "format": "MVT",
+                "renderMode": "vector",
                 "visible": true,
                 "zIndex": 0,
                 "minResolution": 1,
@@ -225,8 +227,8 @@
                 "style": {
                     "hoverTextColor": "white",
                     "hoverBackgroundColor": "#000000",
-                    "strokeColor": "#49230F",
-                    "fillColor": "#906648",
+                    "strokeColor": "#ffffff",
+                    "fillColor": "#833F1A",
                     "radius": 5
                 }
             },
@@ -502,7 +504,7 @@
                 "queryable": true,
                 "legendDisplayName": "Oil Majors",
                 "format": "GeoJSON",
-                "visible": true,
+                "visible": false,
                 "zIndex": 10,
                 "minResolution": 1,
                 "maxResolution": 32000,
@@ -553,6 +555,7 @@
                 "maxResolution": 2445.98,
                 "label": null,
                 "hoverable": true,
+                "isInteractive": true,
                 "style": {
                     "iconUrl": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/Refinery0.png",
                     "stylePropFnRef": {
@@ -595,10 +598,10 @@
                 "maxResolution": 4891.97,
                 "label": null,
                 "hoverable": true,
-                "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/oil_majorsLegendIcon.png",
+                "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legendIconDerailment.png",
                 "style": {
-                    "iconUrl": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/Explosion3.png",
-                    "scale": 0.8
+                    "iconUrl": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/derailment.png",
+                    "scale": 0.7
                 }
             },
             {
@@ -1465,6 +1468,69 @@
                 }
             },
             {
+                "type": "GROUP",
+                "name": "renewables",
+                "minResolution": 1,
+                "maxResolution": 64000,
+                "displayInLegend": true,
+                "legendDisplayName": "Renewables",
+                "visible": false,
+                "hoverable": true,
+                "displaySidebarInfo": false,
+                "group": "two",
+                "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legendIconRenewables.png",
+                "attributions": "Test attributions",
+                "layers": [
+                    {
+                        "type": "XYZ",
+                        "name": "ESRI-World-Imagery",
+                        "group": "backgroundLayers",
+                        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                        "minResolution": 0.25,
+                        "maxResolution": 64000,
+                        "queryable": false,
+                        "visible": true
+                    },
+                    {
+                        "type": "VECTORTILE",
+                        "name": "all_wind",
+                        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:all_wind@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                        "queryable": true,
+                        "format": "MVT",
+                        "renderMode": "image",
+                        "zIndex": 0,
+                        "minResolution": 0.5,
+                        "maxResolution": 64000,
+                        "label": true,
+                        "hoverable": true,
+                        "style": {
+                            "strokeColor": "#a51e16",
+                            "fillColor": "#ff3b30",
+                            "radius": 5
+                        }
+                    },
+                    {
+                        "type": "VECTORTILE",
+                        "name": "all_solar",
+                        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:all_solar@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                        "queryable": true,
+                        "format": "MVT",
+                        "renderMode": "image",
+                        "zIndex": 0,
+                        "minResolution": 0.5,
+                        "maxResolution": 64000,
+                        "label": true,
+                        "hoverable": true,
+                        "style": {
+                            "strokeColor": "#fb5c04",
+                            "strokeWidth": 0.5,
+                            "fillColor": "#FFD241",
+                            "radius": 5
+                        }
+                    }
+                ]
+            },
+            {
                 "type": "VECTORTILE",
                 "name": "all_wind",
                 "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:all_wind@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
@@ -1509,6 +1575,9 @@
                     "radius": 5
                 }
             },
+
+
+            
             {
                 "type": "XYZ",
                 "name": "Base_Midnight",
@@ -1742,13 +1811,6 @@
                 "attributions": "© Microsoft Coorporation © Digital Globe ©CNES Distribution Airbus DS <a href='https://www.microsoft.com/en-us/maps/product'>Terms of use</a> "
             }
         ],
-        "flyToSlideshow": {
-            "delayInSecondsForInitialStart": 900,
-            "delayInSecondsBetweenFrames": 12,
-            "maplinks": [
-                ""
-            ]
-        },
         "groups": {
             "fossil_fuels": {
                 "default": {
@@ -1804,10 +1866,10 @@
                         "video_pipelines"
                     ],
                     "center": [
-                        -99,
-                        42.9
+                        -88.179,
+                        41.837
                     ],
-                    "resolution": 9000,
+                    "resolution": 2000,
                     "mobileResolution": 16000,
                     "minResolution": 0,
                     "maxResolution": 64000
@@ -1823,8 +1885,7 @@
                         "global_pipes",
                         "refineries",
                         "oil_majors",
-                        "all_wind",
-                        "all_solar"
+                        "renewables"
                     ],
                     "center": [
                         -12.42,
@@ -1836,6 +1897,13 @@
                     "maxResolution": 64000
                 }
             }
+        },
+        "flyToSlideshow": {
+            "delayInSecondsForInitialStart": 900,
+            "delayInSecondsBetweenFrames": 12,
+            "maplinks": [
+                ""
+            ]
         },
         "defaultActiveGroup": "fossil_fuels",
         "groupTitles": {
