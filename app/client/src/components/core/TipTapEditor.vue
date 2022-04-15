@@ -20,13 +20,71 @@
     >
       <template #toolbar-after class="pb-2">
         <div style="background-color: #f5f5f5;">
+          <!-- Align -->
+          <template>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-on="on"
+                  :class="{
+                    'ml-4': true,
+                    'tiptap-vuetify-editor__action-render-btn': true,
+                    'v-btn--active':
+                      editor.getMarkAttrs('align').textAlign === 'left'
+                  }"
+                  @click="editor.commands.align({ textAlign: 'left' })"
+                  small
+                  icon
+                >
+                  <v-icon medium>format_align_left</v-icon>
+                </v-btn>
+              </template>
+              Align Left
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-on="on"
+                  :class="{
+                    'tiptap-vuetify-editor__action-render-btn': true,
+                    'v-btn--active':
+                      editor.getMarkAttrs('align').textAlign === 'center'
+                  }"
+                  @click="editor.commands.align({ textAlign: 'center' })"
+                  small
+                  icon
+                >
+                  <v-icon>format_align_center</v-icon>
+                </v-btn>
+              </template>
+              Align Center
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-on="on"
+                  :class="{
+                    'tiptap-vuetify-editor__action-render-btn': true,
+                    'v-btn--active':
+                      editor.getMarkAttrs('align').textAlign === 'right'
+                  }"
+                  @click="editor.commands.align({ textAlign: 'right' })"
+                  small
+                  icon
+                >
+                  <v-icon>format_align_right</v-icon>
+                </v-btn>
+              </template>
+              Align Right
+            </v-tooltip>
+          </template>
+          <span class="mx-3" style="border-right:1px solid grey;"></span>
           <!--You can render the buttons as you wish (you can see in the source code how this is done).-->
           <v-tooltip top>
             <template v-slot:activator="{ on }">
               <v-btn
                 v-on="on"
                 :class="{
-                  'ml-3': true,
                   'tiptap-vuetify-editor__action-render-btn': true
                 }"
                 @click="openModal('image')"
@@ -119,6 +177,7 @@ import Audio from './TipTapAudio';
 import Image from './TipTapImage';
 import Expansion from './TipTapExpansion';
 import MapView from './TipTapMapView';
+import Align from './TipTapAlign';
 
 import MediaDialog from './TipTapMediaDialog';
 import TipTapExpansionDialog from './TipTapExpansionDialog';
@@ -177,7 +236,8 @@ export default {
       new Audio(),
       new Image(),
       new Expansion(),
-      new MapView()
+      new MapView(),
+      new Align()
     ]
   }),
   computed: {
