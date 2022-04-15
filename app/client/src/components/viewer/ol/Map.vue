@@ -1414,6 +1414,12 @@ export default {
       const hiddenProps = this.$appConfig.map.featureInfoHiddenProps;
       return hiddenProps || [];
     },
+    activeLayerGroupConf() {
+      const group = this.$appConfig.map.groups[
+        this.activeLayerGroup.navbarGroup
+      ][this.activeLayerGroup.region];
+      return group;
+    },
     searchLabel() {
       const searchLabel = this.popup.activeLayer.get('searchLabel');
       if (searchLabel) {
@@ -1441,7 +1447,10 @@ export default {
 
       let clearMap = true;
 
-      if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme === '2') {
+      if (
+        this.$appConfig.app.customNavigationScheme &&
+        this.$appConfig.app.customNavigationScheme === '2'
+      ) {
         if (newValue.region === oldValue.region) {
           clearMap = false;
         }
