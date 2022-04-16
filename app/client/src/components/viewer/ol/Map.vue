@@ -4,6 +4,7 @@
     <map-legend :color="color.primary" />
     <div style="position:absolute;left:20px;top:10px;">
       <login-button :color="color.primary"></login-button>
+      <search-map :color="color.primary" :map="map"></search-map>
       <zoom-control :color="color.primary" :map="map" />
       <full-screen :color="color.primary" />
       <share-map :color="color.primary" :map="map"></share-map>
@@ -201,6 +202,7 @@ import OverlayPopup from './controls/Overlay';
 import ZoomControl from './controls/ZoomControl';
 import FullScreen from './controls/FullScreen';
 import Locate from './controls/Locate';
+import Search from './controls/Search';
 import RouteControls from './controls/RouteControls';
 import Legend from './controls/Legend';
 import Login from './controls/Login';
@@ -244,6 +246,7 @@ export default {
     'route-controls': RouteControls,
     'app-lightbox': AppLightBox,
     'share-map': ShareMap,
+    'search-map': Search,
     locate: Locate,
     'progress-loader': ProgressLoader,
     edit: Edit,
