@@ -4,13 +4,25 @@
     <map-legend :color="color.primary" />
     <div style="position:absolute;left:20px;top:10px;">
       <login-button :color="color.primary"></login-button>
-      <search-map :color="color.primary" :map="map"></search-map>
+      <search-map
+        v-if="$appConfig.app.controls && $appConfig.app.controls.geocoder"
+        :color="color.primary"
+        :map="map"
+      ></search-map>
       <zoom-control :color="color.primary" :map="map" />
       <full-screen :color="color.primary" />
-      <share-map :color="color.primary" :map="map"></share-map>
+      <share-map
+        v-if="$appConfig.app.controls && $appConfig.app.controls.share_map"
+        :color="color.primary"
+        :map="map"
+      ></share-map>
       <!-- Show only on mobile -->
       <locate
-        v-if="$vuetify.breakpoint.smAndDown"
+        v-if="
+          $vuetify.breakpoint.smAndDown &&
+            $appConfig.app.controls &&
+            $appConfig.app.controls.locate_me
+        "
         :color="color.primary"
         :map="map"
       />
