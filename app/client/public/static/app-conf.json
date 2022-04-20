@@ -10,8 +10,8 @@
     },
     "controls": {
       "locate_me": true,
-      "share_map": true,
-      "geocoder": true
+      "share_map": false,
+      "geocoder": false
     },
     "sideBar": {
       "isVisible": true,
