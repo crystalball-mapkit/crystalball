@@ -9,9 +9,9 @@
       "isVisible": true
     },
     "controls": {
-      "locate_me": false,
-      "share_map": false,
-      "geocoder": false
+      "locate_me": true,
+      "share_map": true,
+      "geocoder": true
     },
     "sideBar": {
       "isVisible": true,
