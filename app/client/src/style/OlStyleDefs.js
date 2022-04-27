@@ -62,6 +62,30 @@ export function getFeatureHighlightStyle() {
   ];
 }
 
+export function getSearchHighlightStyle() {
+  return [
+    new OlStyle({
+      fill: new OlFill({
+        color: 'rgba(255,0,0,0.2)'
+      }),
+      stroke: new OlStroke({
+        color: '#FF0000',
+        width: 3
+      }),
+      image: new OlCircle({
+        radius: 8,
+        stroke: new OlStroke({
+          color: '#FF0000',
+          width: 3
+        }),
+        fill: new OlFill({
+          color: 'rgba(255,0,0,0.2)'
+        })
+      })
+    })
+  ];
+}
+
 /**
  * Style used for popup selected feature highlight
  */
