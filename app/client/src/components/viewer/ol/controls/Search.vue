@@ -32,6 +32,7 @@
       clear-icon="close"
       @click:clear="clearSearch"
       @change="zoomToLocation"
+      autofocus
       clearable
       item-value="osm_id"
       hide-details
