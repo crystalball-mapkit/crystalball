@@ -176,8 +176,7 @@ export default {
         .catch(() => {
           this.isLoading = false;
         });
-    }, 1000)
-    // NOMINATIM USAGE POLICY IS 1 REQ / SEC FOR FREE USERS (https://operations.osmfoundation.org/policies/nominatim/)
+    }, 500)
   },
   created() {
     this.highlightLayer = new VectorLayer({
