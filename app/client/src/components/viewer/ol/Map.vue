@@ -18,11 +18,7 @@
       ></share-map>
       <!-- Show only on mobile -->
       <locate
-        v-if="
-          $vuetify.breakpoint.smAndDown &&
-            $appConfig.app.controls &&
-            $appConfig.app.controls.locate_me
-        "
+        v-if="$appConfig.app.controls && $appConfig.app.controls.locate_me"
         :color="color.primary"
         :map="map"
       />
