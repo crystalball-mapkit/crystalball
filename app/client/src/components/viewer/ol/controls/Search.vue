@@ -127,7 +127,7 @@ export default {
       this.map.getView().fit(extent, {
         nearest: true,
         duration: 1000,
-        maxZoom: 18,
+        maxZoom: 17,
         callback: () => {
           this.map.render();
         }
