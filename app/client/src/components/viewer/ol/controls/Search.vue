@@ -67,6 +67,13 @@
           </v-list-item-content>
         </template>
       </template>
+      <template slot="append-item"
+        ><div class="nominatim-attribution pa-1 mt-2">
+          <a href="http://www.openstreetmap.org/copyright" target="new"
+            >© OpenStreetMap contributors</a
+          >
+        </div>
+      </template>
     </v-autocomplete>
   </div>
 </template>
@@ -198,5 +205,17 @@ export default {
 }
 .v-autocomplete__content {
   z-index: 1001 !important;
+}
+.nominatim-attribution {
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.nominatim-attribution a {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+.v-autocomplete__content > div {
+  padding-bottom: 0px !important;
 }
 </style>
