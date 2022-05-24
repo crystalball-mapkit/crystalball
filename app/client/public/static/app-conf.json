@@ -1,6 +1,7 @@
 {
   "app": {
     "title": "TimeToChange",
+    "projectWebsite": "https://its.timetochange.today",
     "color": {
       "primary": "#00000e",
       "secondary": "#00000e"
