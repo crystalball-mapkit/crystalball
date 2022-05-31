@@ -43,7 +43,19 @@ export default {
         path: `/${this.activeLayerGroup.navbarGroup}/${region.name}`
       });
       if (region.name === 'local') {
-        EventBus.$emit('zoomToLocation');
+        let regionResolution;
+        if (this.$appConfig.app.customNavigationScheme === '3') {
+          regionResolution = this.$appConfig.map.groups[
+            this.activeLayerGroup.navbarGroup
+          ][region.name].resolution;
+        }
+        EventBus.$emit('zoomToLocation', regionResolution);
+      }
+      if (
+        region.name === 'global' &&
+        this.$appConfig.app.customNavigationScheme === '3'
+      ) {
+        EventBus.$emit('resetMap');
       }
     },
     hasRegion(region) {
