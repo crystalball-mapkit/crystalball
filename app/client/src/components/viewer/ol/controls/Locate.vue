@@ -54,7 +54,7 @@ export default {
      * scope, whose "this" scope is the event and the clicked button.
      *
      */
-    handleZoomToMe: function() {
+    handleZoomToMe: function(resolution) {
       if (!this.userLocSource) {
         this.createUserLocationLayer();
       }
@@ -73,10 +73,10 @@ export default {
           });
       }
       if (this.$cookies.get('locationRequested')) {
-        this.handleGetUserLocation(this.userLocSource, this.map);
+        this.handleGetUserLocation(this.userLocSource, this.map, resolution);
       }
     },
-    handleGetUserLocation: function(source, map) {
+    handleGetUserLocation: function(source, map, resolution) {
       const watchId = navigator.geolocation.watchPosition(
         function(pos) {
           const coords = [pos.coords.longitude, pos.coords.latitude];
@@ -91,7 +91,8 @@ export default {
           if (!source.isEmpty()) {
             map.getView().fit(source.getExtent(), {
               maxZoom: 6.1,
-              duration: 500
+              duration: 500,
+              minResolution: resolution ? resolution : 0
             });
             navigator.geolocation.clearWatch(watchId);
           }
