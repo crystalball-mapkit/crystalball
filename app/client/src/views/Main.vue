@@ -359,12 +359,14 @@ export default {
   },
   methods: {
     changeNavbarGroup(navbarGroup) {
+      let region = this.activeLayerGroup.region;
+      if (this.$appConfig.app.customNavigationScheme === '3') {
+        region = 'default';
+      }
       this.$router.push({
-        path: `/${navbarGroup.name}/${this.activeLayerGroup.region}`
+        path: `/${navbarGroup.name}/${region}`
       });
-      if (
-        this.$appConfig.app.customNavigationScheme !== '3'
-      ) {
+      if (this.$appConfig.app.customNavigationScheme !== '3') {
         EventBus.$emit('noMapReset');
       } else {
         EventBus.$emit('resetMap');
@@ -379,8 +381,12 @@ export default {
         groupNames.indexOf(defaultActiveGroup) !== -1
           ? defaultActiveGroup
           : groupNames[0];
+     let region = this.activeLayerGroup.region;
+      if (this.$appConfig.app.customNavigationScheme === '3') {
+        region = 'default';
+      }
       this.$router.push({
-        path: `/${navbarGroupName}/${this.activeLayerGroup.region}`
+        path: `/${navbarGroupName}/${region}`
       });
     },
     resetMap() {
@@ -390,7 +396,10 @@ export default {
       window.open(this.$appConfig.app.projectWebsite, '_blank');
     },
     zoomToLocation() {
-      if (this.region === 'local' && this.$appConfig.app.customNavigationScheme !== '3') {
+      if (
+        this.region === 'local' &&
+        this.$appConfig.app.customNavigationScheme !== '3'
+      ) {
         EventBus.$emit('zoomToLocation');
       }
     },
@@ -421,7 +430,10 @@ export default {
       this.$router.push({
         path: `/${this.activeLayerGroup.navbarGroup}/${region.name}`
       });
-      if (region.name === 'local' && this.$appConfig.app.customNavigationScheme !== '3') {
+      if (
+        region.name === 'local' &&
+        this.$appConfig.app.customNavigationScheme !== '3'
+      ) {
         EventBus.$emit('zoomToLocation');
       }
       if (
