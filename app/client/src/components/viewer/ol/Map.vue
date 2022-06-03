@@ -275,7 +275,7 @@ export default {
       queryLayersGeoserverNames: null,
       activeInteractions: [],
       getInfoResult: [],
-      radius: 300,
+      radius: 200,
       mousePosition: undefined,
       spotlightMessage: false,
       lightBoxImages: [],
@@ -385,7 +385,7 @@ export default {
       }).extend([attribution]),
       view: new View({
         center: me.center || [0, 0],
-        minResolution: 0,
+        minResolution: 0.25,
         maxResolution: 64000
       })
     });

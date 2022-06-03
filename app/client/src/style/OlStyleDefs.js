@@ -629,14 +629,14 @@ export const layersStylePropFn = {
   cancelled_pipelines: {
     strokeColor: propertyValue => propertyValue
   },
-  coal_global2: {
+  coal_global: {
     iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 1000, 0.4, 1.4);
+      return getIconScaleValue(propertyValue, 1000, 0.5, 1.4);
     }
   },
-  gas2: {
+  gas: {
     iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 1000, 0.2, 1.4);
+      return getIconScaleValue(propertyValue, 1400, 0.3, 1.4);
     }
   },
   oil: {
