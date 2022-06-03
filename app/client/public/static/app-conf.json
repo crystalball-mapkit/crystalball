@@ -840,7 +840,7 @@
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "darkgray",
-          "iconUrl": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/CoalPower2.png",
+          "iconUrl": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/CoalPower5.png",
           "stylePropFnRef": {
             "iconScaleFn": "variable2"
           }
@@ -1152,7 +1152,7 @@
             "video_pipelines"
           ],
           "center": [-88.179, 41.837],
-          "resolution": 2000,
+          "resolution": 200,
           "mobileResolution": 16000,
           "minResolution": 0,
           "maxResolution": 64000
@@ -1228,7 +1228,7 @@
             "video_pipelines"
           ],
           "center": [88.179, 41.837],
-          "resolution": 2000,
+          "resolution": 200,
           "mobileResolution": 16000,
           "minResolution": 0,
           "maxResolution": 64000

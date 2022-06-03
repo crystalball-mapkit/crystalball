@@ -33,7 +33,7 @@
           $vuetify.breakpoint.smAndDown ? 'right' : 'left'
         }:25px;bottom:${
           $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
-        }px;max-width:200px;opacity:85%;z-index:1000;`
+        }px;max-width:200px;opacity:90%;z-index:1000;`
       "
     >
       <v-btn
