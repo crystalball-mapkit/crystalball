@@ -1176,82 +1176,6 @@
           "minResolution": 0,
           "maxResolution": 64000
         }
-      },
-      "fossil_fuels_2": {
-        "default": {
-          "layers": [
-            "Toner-Lite",
-            "Toner-Labels",
-            "rest_of_world",
-            "north_america",
-            "na_rr",
-            "ESRI-World-Imagery",
-            "all_permits",
-            "Spills_20yrs",
-            "cancelled_pipelines",
-            "global_pipelines",
-            "contested_pipelines2",
-            "Terminals",
-            "us_refineries",
-            "crude_derailment",
-            "MacLean",
-            "tar_sands",
-            "video_pipelines"
-          ],
-          "center": [102.47, 44.44],
-          "resolution": 7500,
-          "mobileResolution": 20000,
-          "minResolution": 0,
-          "maxResolution": 64000
-        },
-        "local": {
-          "layers": [
-            "Toner-Lite",
-            "Toner-Labels",
-            "maptiler_topo",
-            "rest_of_world",
-            "north_america",
-            "ESRI-World-Imagery",
-            "oil",
-            "coal_global",
-            "gas",
-            "all_permits",
-            "Spills_20yrs",
-            "cancelled_pipelines",
-            "global_pipelines",
-            "contested_pipelines2",
-            "Terminals",
-            "us_refineries",
-            "crude_derailment",
-            "MacLean",
-            "tar_sands",
-            "video_pipelines"
-          ],
-          "center": [88.179, 41.837],
-          "resolution": 200,
-          "mobileResolution": 16000,
-          "minResolution": 0,
-          "maxResolution": 64000
-        },
-        "global": {
-          "layers": [
-            "ESRI-World-Terrain",
-            "Toner-Lite1",
-            "oil_gas_fields",
-            "ESRI-World-Imagery",
-            "rest_of_world1",
-            "north_america1",
-            "global_pipes",
-            "refineries",
-            "oil_majors",
-            "renewables"
-          ],
-          "center": [12.42, 29.84],
-          "resolution": 68000,
-          "mobileResolution": 80000,
-          "minResolution": 0,
-          "maxResolution": 64000
-        }
       }
     },
     "flyToSlideshow": {
@@ -1261,8 +1185,7 @@
     },
     "defaultActiveGroup": "fossil_fuels",
     "groupTitles": {
-      "fossil_fuels": "FOSSIL RULES",
-      "fossil_fuels_2": "FOSSIL RULES 2"
+      "fossil_fuels": "THE FOSSIL RULES"
     },
     "regionTitles": {
       "local": "local",
