@@ -1481,7 +1481,7 @@ export default {
         this.queryLayersGeoserverNames = null;
         this.createLayers();
         this.fetchColorMapEntities();
-        if (this.$appConfig.app.customNavigationScheme === '3') {
+        if (['3', '1'].includes(this.$appConfig.app.customNavigationScheme)) {
           this.resetMap();
         }
       } else {
