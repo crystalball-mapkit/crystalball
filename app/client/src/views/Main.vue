@@ -42,7 +42,7 @@
           ><v-icon small>fas fa-home</v-icon></v-btn
         >
 
-        <v-spacer></v-spacer>
+        <v-spacer></v-spacer><v-spacer></v-spacer>
         <v-menu
           offset-y
           v-model="dropdownMenu"
@@ -122,7 +122,7 @@
 
         <v-spacer></v-spacer><v-spacer></v-spacer>
 
-        <span class="title pr-5">before it's too late</span>
+        <span class="title pr-5"></span>
         <v-btn icon @click.stop="sidebarState = !sidebarState"
           ><v-icon medium>{{
             sidebarState ? '$close' : '$menu'
