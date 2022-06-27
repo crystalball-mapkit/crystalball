@@ -178,7 +178,7 @@
                 "visible": true,
                 "zIndex": 10,
                 "minResolution": 0.5,
-                "maxResolution": 80,
+                "maxResolution": 90,
                 "label": false,
                 "style": {
                     "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass_dark_purple.png",
@@ -754,7 +754,7 @@
                         "ag_system",
                         "labels2",
                         "cancer_alley_tri",
-                        "ESRI-World-Imagery",
+                        "ESRI-World-Imagery2",
                         "locations2",
                         "hourglass_locations"
                     ],
