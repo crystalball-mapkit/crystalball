@@ -11,7 +11,7 @@
         },
         "controls": {
             "locate_me": true,
-            "share_map": false,
+            "share_map": true,
             "geocoder": true
         },
         "sideBar": {
@@ -63,7 +63,7 @@
                 "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/lower_miss_floodplain/{z}/{x}/{y}.png",
                 "displayInLegend": true,
                 "legendDisplayName": "Elevation",
-                "minResolution": 1,
+                "minResolution": 0.5,
                 "maxResolution": 64000,
                 "opacity": 0.99,
                 "queryable": false,
@@ -87,24 +87,47 @@
                 "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/elevation.png"
             },
             {
-              "type": "VECTOR",
-              "name": "major_rivers",
-              "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:major_rivers&outputFormat=application/json&srsname=EPSG:3857",
-              "queryable": true,
-              "displayInLegend": false,
-              "visible": true,
-              "format": "GeoJSON",
+              "type": "VECTORTILE",
+                "name": "major_rivers",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:nhd_major@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "group": "locations",
+                "queryable": true,
+                "displayInLegend": true,
+                "legendDisplayName": "Major Rivers",
+                "format": "MVT",
+                "renderMode": "vector",
+                "visible": true,
               "zIndex": 0,
-              "minResolution": 0.5,
+              "minResolution": 80,
               "maxResolution": 64000,
-              "hoverable": true,
-              "isInteractive": true,
+              "hoverable": false,
+              "isInteractive": false,
               "style": {
-                  "hoverTextColor": "white",
-                  "hoverBackgroundColor": "#000000",
-                  "strokeColor": "#0c718f",
+                  "strokeColor": "#3aacbc",
                   "strokeWidth": 0.2,
-                  "fillColor": "#0D8FB5"
+                  "fillColor": "#40A2D5"
+              }
+            },
+            {
+              "type": "VECTORTILE",
+                "name": "nhd_clipped",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:nhd_clipped@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "group": "locations",
+                "queryable": true,
+                "displayInLegend": true,
+                "legendDisplayName": "All Rivers",
+                "format": "MVT",
+                "renderMode": "vector",
+                "visible": true,
+              "zIndex": 0,
+              "minResolution": 4,
+              "maxResolution": 80,
+              "hoverable": false,
+              "isInteractive": false,
+              "style": {
+                  "strokeColor": "#3aacbc",
+                  "strokeWidth": 0.2,
+                  "fillColor": "#3aacbc"
               }
             },
             {
@@ -116,7 +139,7 @@
                 "legendDisplayName": "Elevation",
                 "minResolution": 2,
                 "maxResolution": 6,
-                "opacity": 0.7,
+                "opacity": 0.9,
                 "queryable": false,
                 "visible": true,
                 "updatewhileanimating": true,
@@ -138,6 +161,27 @@
                 "label": false,
                 "style": {
                     "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass.png",
+                    "scale": 0.65,
+                    "hoverTextColor": "white",
+                    "hoverBackgroundColor": "#000000"
+                }
+            },
+            {
+                "type": "VECTOR",
+                "name": "locations2",
+                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:locations2&outputFormat=application/json&srsname=EPSG:3857",
+                "group": "locations",
+                "queryable": true,
+                "displayInLegend": false,
+                "legendDisplayName": "Locations 2",
+                "format": "GeoJSON",
+                "visible": true,
+                "zIndex": 10,
+                "minResolution": 0.5,
+                "maxResolution": 80,
+                "label": false,
+                "style": {
+                    "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass_dark_purple.png",
                     "scale": 0.6,
                     "hoverTextColor": "white",
                     "hoverBackgroundColor": "#000000"
@@ -213,7 +257,7 @@
                 "group": "background",
                 "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmtob2xtZXMiLCJhIjoiNjlkYjI4MDUyYTRlZWEyYzkwYTdmOTgxNmMzOGYwMTUifQ.VSUo52PYOUzS60NR6jqXTw",
                 "minResolution": 0.5,
-                "maxResolution": 299,
+                "maxResolution": 360,
                 "zIndex": 1000,
                 "displayInLegend": true,
                 "legendDisplayName": "Street Map",
@@ -244,16 +288,28 @@
                 "visible": true,
                 "format": "GeoJSON",
                 "zIndex": 0,
-                "minResolution": 0.5,
-                "maxResolution": 8000,
+                "minResolution": 6,
+                "maxResolution": 800,
                 "hoverable": true,
                 "isInteractive": true,
                 "style": {
                     "hoverTextColor": "white",
                     "hoverBackgroundColor": "#000000",
-                    "strokeColor": "#141115",
+                    "strokeColor": "#D5B98F",
                     "strokeWidth": 6.5
                 }
+            },
+            {
+                "type": "XYZ",
+                "name": "nola_streets",
+                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/nola_streets/{z}/{x}/{y}.png",
+                "minResolution": 0.5,
+                "maxResolution": 2000,
+                "displayInLegend": true,
+                "legendDisplayName": "Nola Streets",
+                "visible": true,
+                "opacity": 0.99,
+                "queryable": false
             },
             {
                 "type": "VECTOR",
@@ -408,7 +464,7 @@
                 "name": "worldmap",
                 "group": "two",
                 "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:world_phys_saturated_yellow@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-                "minResolution": 40,
+                "minResolution": 160,
                 "maxResolution": 64000,
                 "opacity": 0.99,
                 "updatewhileanimating": true
@@ -462,6 +518,20 @@
                 "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/poverty_point4/{z}/{x}/{y}.png",
                 "displayInLegend": true,
                 "legendDisplayName": "Poverty Point",
+                "minResolution": 0.25,
+                "maxResolution": 64000,
+                "opacity": 0.99,
+                "queryable": false,
+                "visible": true,
+                "updatewhileanimating": true
+            },
+            {
+                "type": "XYZ",
+                "name": "orcs",
+                "group": "two",
+                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/orcs2/{z}/{x}/{y}.png",
+                "displayInLegend": true,
+                "legendDisplayName": "Old River",
                 "minResolution": 0.25,
                 "maxResolution": 64000,
                 "opacity": 0.99,
@@ -566,14 +636,15 @@
                         "lower_miss_floodplain",
                         "major_rivers",
                         "ag_system",
-                        "ESRI-World-Imagery",
-                        "ESRI-World-Imagery2",
+                        "nhd_clipped",
                         "miss_pipes",
                         "gom_pipelines",
                         "cancer_alley_tri",
                         "refineries",
                         "labels2",
                         "miss_gages",
+                        "ESRI-World-Imagery2",
+                        "locations2",
                         "hourglass_locations"
                     ],
                     "center": [
@@ -597,24 +668,24 @@
                         "mississippi",
                         "lower_miss_floodplain",
                         "poverty_point",
-                        "navigation",
                         "ag_system",
                         "ESRI-World-Imagery",
-                        "ESRI-World-Imagery2",
+                        "nhd_clipped",
                         "labels",
+                        "locations2",
                         "hourglass_locations"
                     ],
                     "center": [
-                        -91.411,
-                        32.636
+                      -91.408,
+                      32.636
                     ],
-                    "resolution": 4.5,
+                    "resolution": 4.1,
                     "mobileCenter": [
                         -91.405,
-                        32.635
+                        32.636
                     ],
-                    "mobileResolution": 8,
-                    "minResolution": 0.25,
+                    "mobileResolution": 9,
+                    "minResolution": 1,
                     "maxResolution": 32000
                 }
             },
@@ -624,18 +695,19 @@
                         "worldmap",
                         "mississippi",
                         "lower_miss_floodplain",
+                        "orcs",
                         "navigation2",
                         "ag_system",
                         "labels",
                         "ESRI-World-Imagery",
-                        "ESRI-World-Imagery2",
+                        "locations2",
                         "hourglass_locations"
                     ],
                     "center": [
-                        -91.668,
-                        31.036
+                      -91.700,
+                      31.021
                     ],
-                    "resolution": 40,
+                    "resolution": 46,
                     "mobileCenter": [
                         -91.658,
                         31.025
@@ -655,13 +727,14 @@
                         "ESRI-World-Imagery2",
                         "angola",
                         "labels",
+                        "locations2",
                         "hourglass_locations"
                     ],
                     "center": [
-                        -91.608,
-                        30.968
+                      -91.595,
+                      30.955
                     ],
-                    "resolution": 16,
+                    "resolution": 2,
                     "mobileCenter": [
                         -91.595,
                         30.956
@@ -680,14 +753,16 @@
                         "navigation2",
                         "ag_system",
                         "labels2",
+                        "cancer_alley_tri",
                         "ESRI-World-Imagery",
+                        "locations2",
                         "hourglass_locations"
                     ],
                     "center": [
-                        -90.657,
-                        30.043
+                      -90.831,
+                      30.155
                     ],
-                    "resolution": 20,
+                    "resolution": 86,
                     "mobileCenter": [
                         -91.658,
                         31.025
@@ -708,6 +783,7 @@
                         "morgan_city",
                         "abandoned_wells",
                         "labels",
+                        "locations2",
                         "hourglass_locations"
                     ],
                     "center": [
@@ -727,26 +803,24 @@
             "hsdrrs": {
                 "default": {
                     "layers": [
-                        "oceans",
+                        "worldmap",
                         "mississippi",
                         "ESRI-World-Imagery2",
                         "lower_miss_coast",
                         "lower_miss_coast2",
                         "ag_system",
-                        "miss_levees",
-                        "hsdrrs",
-                        "abandoned_wells",
-                        "labels",
+                        "nola_streets",
+                        "locations2",
                         "hourglass_locations"
                     ],
                     "center": [
-                        -90.112,
-                        29.957
+                      -90.056,
+                      29.963
                     ],
-                    "resolution": 80,
+                    "resolution": 60,
                     "mobileCenter": [
-                        -90.135,
-                        29.924
+                        -90.158,
+                        29.946
                     ],
                     "mobileResolution": 320,
                     "minResolution": 0.25,

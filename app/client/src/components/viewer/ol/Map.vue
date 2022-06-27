@@ -58,7 +58,7 @@
     >
       <add-post :color="color.primary" :map="map"></add-post>
     </div>
-    <div
+    <!-- <div
       v-show="
         spotlightMessage === true &&
           !$vuetify.breakpoint.smAndDown &&
@@ -69,7 +69,7 @@
       ref="spotlightControls"
     >
       press ↑ or ↓ to change spotlight size
-    </div>
+    </div>  -->
 
     <!-- Popup overlay  -->
     <overlay-popup
