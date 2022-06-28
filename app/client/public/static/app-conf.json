@@ -778,10 +778,10 @@
                     ],
                     "resolution": 86,
                     "mobileCenter": [
-                        -91.658,
-                        31.025
+                      -90.831,
+                      30.155
                     ],
-                    "mobileResolution": 80,
+                    "mobileResolution": 100,
                     "minResolution": 0.25,
                     "maxResolution": 32000
                 }
