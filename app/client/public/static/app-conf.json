@@ -882,6 +882,17 @@
           },
           {
               "type": "XYZ",
+              "name": "ESRI-World-Imagery5",
+              "group": "backgroundLayers",
+              "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+              "minResolution": 0,
+              "maxResolution": 800,
+              "queryable": false,
+              "visible": true,
+              "opacity": 0.3
+          },
+          {
+              "type": "XYZ",
               "name": "aerials",
               "group": "backgroundLayers",
               "url": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}",
@@ -931,12 +942,12 @@
                   ],
                   "center": [
                     -91.742,
-                    30.907
+                    30.731
                   ],
                   "resolution": 530,
                   "mobileCenter": [
                       -91.57,
-                      30.819
+                      30.731
                   ],
                   "mobileResolution": 1900,
                   "minResolution": 0.25,
@@ -955,12 +966,12 @@
                       "nhd_clipped",
                       "labels2",
                       "ESRI-World-Imagery2"
-                  ],
+                    ],
                   "center": [
                     -91.019,
                     29.683
                   ],
-                  "resolution": 300,
+                  "resolution": 500,
                   "mobileCenter": [
                     -90.755,
                     29.850
@@ -976,6 +987,7 @@
                       "worldmap",
                       "mississippi",
                       "lower_miss_floodplain",
+                      "ESRI-World-Imagery5",
                       "poverty_point",
                       "ag_system",
                       "ESRI-Imagery",
