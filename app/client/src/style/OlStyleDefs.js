@@ -621,6 +621,11 @@ export const layersStylePropFn = {
       return propertyValue;
     }
   },
+  delta_complexes1: {
+    fillColor: propertyValue => {
+      return propertyValue;
+    }
+  },
   epa_refineries: {
     iconScaleFn: propertyValue => {
       return getIconScaleValue(propertyValue, 0.0000001, 0.2, 1.2);
