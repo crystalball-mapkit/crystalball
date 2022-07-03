@@ -361,12 +361,12 @@
           },
           {
               "type": "VECTORTILE",
-              "name": "active_wells",
-              "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:active_wells@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-              "group": "hsdrrs",
+              "name": "active_injection",
+              "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:active_injection@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+              "group": "morgan",
               "queryable": true,
               "displayInLegend": true,
-              "legendDisplayName": "Active Wells",
+              "legendDisplayName": "Injection Well",
               "format": "MVT",
               "renderMode": "vector",
               "visible": true,
@@ -376,23 +376,20 @@
               "label": true,
               "hoverable": true,
               "style": {
-                  "type": "circle",
-                  "hoverTextColor": "white",
-                  "hoverBackgroundColor": "#000000",
-                  "radius": 3,
-                  "strokeColor": "black",
-                  "strokeWidth": 1,
-                  "fillColor": "black"
-              }
-          },
+                "iconUrl": "https://d2ol233wwuwy6t.cloudfront.net/icons/injection.png",
+                "scale": 1,
+                "hoverTextColor": "white",
+                "hoverBackgroundColor": "#000000"
+            }
+          },	
           {
               "type": "VECTORTILE",
-              "name": "inactive_wells",
-              "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:inactive_wells@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-              "group": "hsdrrs",
+              "name": "active_producing",
+              "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:active_producing@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+              "group": "morgan",
               "queryable": true,
               "displayInLegend": true,
-              "legendDisplayName": "Inactive Wells",
+              "legendDisplayName": "Production Well",
               "format": "MVT",
               "renderMode": "vector",
               "visible": true,
@@ -402,14 +399,37 @@
               "label": true,
               "hoverable": true,
               "style": {
-                  "type": "circle",
-                  "hoverTextColor": "white",
-                  "hoverBackgroundColor": "#000000",
-                  "radius": 3,
-                  "strokeColor": "lightgray",
-                  "strokeWidth": 1,
-                  "fillColor": "rgba(211, 211, 211, 0.8)"
-              }
+                "iconUrl": "https://d2ol233wwuwy6t.cloudfront.net/icons/1656650905652_oil.png",
+                "scale": 0.8,
+                "hoverTextColor": "white",
+                "hoverBackgroundColor": "#000000"
+            }
+          },	
+          {
+              "type": "VECTORTILE",
+              "name": "abandoned",
+              "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:abandoned@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+              "group": "morgan",
+              "queryable": true,
+              "displayInLegend": true,
+              "legendDisplayName": "Abandoned Well",
+              "format": "MVT",
+              "renderMode": "vector",
+              "visible": true,
+              "zIndex": 10,
+              "minResolution": 1,
+              "maxResolution": 40,
+              "label": true,
+              "hoverable": true,
+              "style": {
+                "type": "circle",
+                "hoverTextColor": "white",
+                "hoverBackgroundColor": "#000000",
+                "radius": 3,
+                "strokeColor": "lightgray",
+                "strokeWidth": 1,
+                "fillColor": "silver"
+            }
           },
           {
               "type": "VECTOR",
@@ -1099,8 +1119,9 @@
                       "ESRI-World-Imagery4",
                       "morgantiles",
                       "morgan_city",
-                      "active_wells",
-                      "inactive_wells",
+                      "abandoned",
+                      "active_producing",
+                      "active_injection",
                       "labels",
                       "photos",
                       "locations2"
@@ -1109,7 +1130,7 @@
                       -91.195,
                       29.704
                   ],
-                  "resolution": 12,
+                  "resolution": 20,
                   "mobileCenter": [
                       -91.191,
                       29.704
