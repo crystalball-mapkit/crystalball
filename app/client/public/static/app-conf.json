@@ -102,7 +102,7 @@
             {
                 "type": "XYZ",
                 "name": "lower_miss_floodplain",
-                "group": "background",
+                "group": "angola",
                 "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/lower_miss_floodplain/{z}/{x}/{y}.png",
                 "displayInLegend": true,
                 "legendDisplayName": "Elevation",
@@ -341,6 +341,7 @@
                 "zIndex": 10,
                 "minResolution": 0.5,
                 "maxResolution": 90,
+                "hoverable": true,
                 "label": false,
                 "style": {
                     "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass.png",
@@ -824,7 +825,7 @@
                 "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/poverty_point4/{z}/{x}/{y}.png",
                 "displayInLegend": true,
                 "legendDisplayName": "Poverty Point",
-                "minResolution": 0.25,
+                "minResolution": 1,
                 "maxResolution": 64000,
                 "opacity": 0.99,
                 "queryable": false,
@@ -957,6 +958,7 @@
                     "layers": [
                         "hourglass_land",
                         "mississippi",
+                        "ESRI-World-Imagery2",
                         "hourglass_basemap",
                         "dodge_line",
                         "ag_system",
@@ -966,7 +968,6 @@
                         "labels",
                         "miss_gages",
                         "nola_streets2",
-                        "ESRI-World-Imagery",
                         "cancer_alley_tri",
                         "locations2",
                         "hourglass_locations"
@@ -990,12 +991,12 @@
                     "layers": [
                         "hourglass_land",
                         "mississippi",
+                        "ESRI-World-Imagery2",
                         "hourglass_basemap",
                         "dodge_line",
                         "delta_complexes_all",
                         "delta_complexes",
-                        "labels2",
-                        "ESRI-World-Imagery2"
+                        "labels2"
                     ],
                     "center": [
                         -91.019,
@@ -1058,7 +1059,7 @@
                         -91.608,
                         30.964
                     ],
-                    "resolution": 12,
+                    "resolution": 7.5,
                     "mobileCenter": [
                         -91.595,
                         30.956
@@ -1126,9 +1127,9 @@
                     "layers": [
                         "hourglass_land",
                         "mississippi",
+                        "ESRI-World-Imagery4",
                         "hourglass_basemap",
                         "dodge_line",
-                        "ESRI-World-Imagery4",
                         "lower_miss_coast",
                         "morgantiles",
                         "morgan_city",
