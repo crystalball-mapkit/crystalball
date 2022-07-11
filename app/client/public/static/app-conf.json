@@ -68,6 +68,18 @@
             },
             {
                 "type": "XYZ",
+                "name": "hourglass_land2",
+                "group": "two",
+                "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:hourglass_land@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+                "displayInLegend": true,
+                "legendDisplayName": "Continent",
+                "minResolution": 1,
+                "maxResolution": 64000,
+                "opacity": 0.99,
+                "updatewhileanimating": true
+            },
+            {
+                "type": "XYZ",
                 "name": "hourglass_basemap",
                 "group": "two",
                 "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/hourglass_basemap/{z}/{x}/{y}.png",
@@ -111,6 +123,21 @@
                 "opacity": 0.99,
                 "queryable": false,
                 "visible": true,
+                "updatewhileanimating": true,
+                "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/elevation.png"
+            },
+            {
+                "type": "XYZ",
+                "name": "lower_miss_floodplain2",
+                "group": "angola",
+                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/lower_miss_floodplain/{z}/{x}/{y}.png",
+                "displayInLegend": true,
+                "legendDisplayName": "Lower Mississippi",
+                "minResolution": 0.5,
+                "maxResolution": 64000,
+                "opacity": 0.99,
+                "queryable": false,
+                "visible": false,
                 "updatewhileanimating": true,
                 "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/elevation.png"
             },
@@ -512,7 +539,7 @@
                 "group": "background",
                 "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmtob2xtZXMiLCJhIjoiNjlkYjI4MDUyYTRlZWEyYzkwYTdmOTgxNmMzOGYwMTUifQ.VSUo52PYOUzS60NR6jqXTw",
                 "minResolution": 0.5,
-                "maxResolution": 530,
+                "maxResolution": 550,
                 "zIndex": 1000,
                 "displayInLegend": true,
                 "legendDisplayName": "Street Map",
@@ -956,8 +983,9 @@
             "locations": {
                 "default": {
                     "layers": [
-                        "hourglass_land",
+                        "hourglass_land2",
                         "mississippi",
+                        "lower_miss_floodplain2",
                         "ESRI-World-Imagery2",
                         "hourglass_basemap",
                         "dodge_line",
@@ -965,10 +993,10 @@
                         "miss_pipes",
                         "gom_pipelines",
                         "refineries",
-                        "labels",
                         "miss_gages",
                         "nola_streets2",
                         "cancer_alley_tri",
+                        "labels2",
                         "locations2",
                         "hourglass_locations"
                     ],
