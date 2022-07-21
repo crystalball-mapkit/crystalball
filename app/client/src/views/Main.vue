@@ -430,11 +430,14 @@ export default {
       this.$router.push({
         path: `/${this.activeLayerGroup.navbarGroup}/${region.name}`
       });
-      if (
-        region.name === 'local' &&
-        this.$appConfig.app.customNavigationScheme !== '3'
-      ) {
-        EventBus.$emit('zoomToLocation');
+      if (region.name === 'local') {
+        let regionResolution;
+        if (this.$appConfig.app.customNavigationScheme === '3') {
+          regionResolution = this.$appConfig.map.groups[
+            this.activeLayerGroup.navbarGroup
+          ][region.name].resolution;
+        }
+        EventBus.$emit('zoomToLocation', regionResolution);
       }
       if (
         region.name === 'global' &&

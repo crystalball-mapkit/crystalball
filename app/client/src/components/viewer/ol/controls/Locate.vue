@@ -91,7 +91,6 @@ export default {
           if (!source.isEmpty()) {
             map.getView().fit(source.getExtent(), {
               maxZoom: 6.1,
-              duration: 500,
               minResolution: resolution ? resolution : 0
             });
             navigator.geolocation.clearWatch(watchId);
