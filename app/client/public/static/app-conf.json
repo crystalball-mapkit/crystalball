@@ -323,8 +323,8 @@
                 "format": "MVT",
                 "renderMode": "vector",
                 "visible": true,
-                "zIndex": 0,
-                "minResolution": 4,
+                "zIndex": 100,
+                "minResolution": 0,
                 "maxResolution": 80,
                 "hoverable": false,
                 "isInteractive": false,
@@ -333,6 +333,26 @@
                     "strokeWidth": 0.2,
                     "fillColor": "#3aacbc"
                 }
+            },
+            {
+              "type": "WMS",
+              "name": "rivers",
+              "url": "https://geo.timetochange.today/geoserver/wms",
+              "layers": "osm:nhd_area_louisiana",
+              "group": "two",
+              "renderMode": "image",
+              "includeInSearch": false,
+              "queryable": false,
+              "displayInLegend": true,
+              "legendDisplayName": "Rivers",
+              "format": "GeoJSON",
+              "hoverable": true,
+              "visible": true,
+              "zIndex": 0,
+              "minResolution": 0.25,
+              "maxResolution": 8000,
+              "isInteractive": false,
+              "opacity": 1
             },
             {
                 "type": "VECTOR",
@@ -954,7 +974,7 @@
                 "group": "backgroundLayers",
                 "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
                 "minResolution": 0,
-                "maxResolution": 8,
+                "maxResolution": 8000,
                 "queryable": false,
                 "visible": true,
                 "opacity": 0.9,
@@ -1043,16 +1063,9 @@
             "poverty_point": {
                 "default": {
                     "layers": [
-                        "hourglass_land",
-                        "mississippi",
                         "ESRI-World-Imagery4",
-                        "hourglass_basemap",
-                        "dodge_line",
                         "poverty_point",
-                        "ag_system",
-                        "ESRI-Imagery",
-                        "major_rivers",
-                        "nhd_clipped",
+                        "rivers",
                         "labels",
                         "locations2"
                     ],
