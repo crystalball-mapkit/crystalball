@@ -352,7 +352,7 @@
               "minResolution": 0.25,
               "maxResolution": 8000,
               "isInteractive": false,
-              "opacity": 1
+              "opacity": 0.8
             },
             {
                 "type": "VECTOR",
@@ -370,7 +370,7 @@
                 "label": false,
                 "style": {
                     "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass.png",
-                    "scale": 0.7,
+                    "scale": 0.9,
                     "hoverTextColor": "white",
                     "hoverBackgroundColor": "#000000"
                 }
@@ -843,7 +843,21 @@
                 "url": "https://maptime.s3.us-east-2.amazonaws.com/assets/prod/tiles/miss_map/{z}/{x}/{y}.png",
                 "displayInLegend": false,
                 "legendDisplayName": "Mississippi Basin",
-                "minResolution": 80,
+                "minResolution": 20,
+                "maxResolution": 64000,
+                "opacity": 0.99,
+                "queryable": false,
+                "visible": true,
+                "updatewhileanimating": true
+            },
+            {
+                "type": "XYZ",
+                "name": "old_tiles",
+                "group": "two",
+                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/old_tiles/{z}/{x}/{y}.png",
+                "displayInLegend": false,
+                "legendDisplayName": "Mississippi Basin",
+                "minResolution": 0.5,
                 "maxResolution": 64000,
                 "opacity": 0.99,
                 "queryable": false,
@@ -1142,12 +1156,14 @@
                         "hourglass_land",
                         "mississippi",
                         "hourglass_basemap",
+                        "old_tiles",
                         "dodge_line",
                         "ag_system",
                         "labels2",
                         "cancer_alley_tri",
                         "ESRI-World-Imagery2",
-                        "locations2"
+                        "locations2",
+                        "photos"
                     ],
                     "center": [
                         -90.831,
