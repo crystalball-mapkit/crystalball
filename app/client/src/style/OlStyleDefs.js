@@ -613,74 +613,29 @@ export const layersStylePropFn = {
       return propertyValue;
     }
   },
-  all_permits: {
-    circleRadiusFn: propertyValue => {
-      return Math.sqrt(propertyValue) * 0.008;
+  glri_projects: {
+    fillColor: propertyValue => {
+      return propertyValue;
     },
+    circleRadiusFn: propertyValue => {
+      return getRadiusValue(propertyValue, 0.012);
+    }
+  },
+  polygons: {
     fillColor: propertyValue => {
       return propertyValue;
     }
   },
-  epa_refineries: {
-    iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 0.0000001, 0.2, 1.2);
-    }
-  },
-  cancelled_pipelines: {
-    strokeColor: propertyValue => propertyValue
-  },
-  coal_global: {
-    iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 1000, 0.5, 1.4);
-    }
-  },
-  gas: {
-    iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 1400, 0.3, 1.4);
-    }
-  },
-  oil: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3, 4, 50);
-    }
-  },
-  miss_tri: {
+  points: {
     fillColor: propertyValue => {
       return propertyValue;
     }
   },
-  refineries: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.026);
-    }
-  },
-  other_refineries: {
-    iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 300000, 0.5, 2);
-    }
-  },
-  us_refineries: {
-    iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 300000, 0.5, 2);
-    }
-  },
-  us_refineries2: {
-    iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 300000, 0.5, 2);
-    }
-  },
-  GiantOilFields: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.3);
-    }
-  },
-  Spills_20yrs: {
-    circleRadiusFn: propertyValue => {
-      return getRadiusValue(propertyValue, 0.7);
-    }
-  },
-  indigenous_territories: {
-    fillColor: propertyValue => {
+  lines: {
+    strokeColor: propertyValue => {
+      return propertyValue;
+    },
+    strokeWidth: propertyValue => {
       return propertyValue;
     }
   }
