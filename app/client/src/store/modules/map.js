@@ -66,7 +66,7 @@ const state = {
     legendDisplayName: 'Posts',
     format: 'GeoJSON',
     visible: true,
-    zIndex: 50,
+    zIndex: 1000,
     minResolution: 0.5,
     maxResolution: 64000,
     label: null,
