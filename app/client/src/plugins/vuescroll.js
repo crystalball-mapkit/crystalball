@@ -6,7 +6,7 @@ Vue.use(vuescroll, {
   ops: {
     // The global config
   },
-  name: 'vue-scroll' // customize component name, default -> vueScroll
+  name: 'vue-scroll', // customize component name, default -> vueScroll
 });
 
 /**
@@ -16,9 +16,9 @@ Vue.prototype.$vuescrollConfig = {
   bar: {
     background: '#cecece',
     onlyShowBarOnScroll: false,
-    keepShow: true
+    keepShow: true,
   },
   rail: {
-    gutterOfSide: '0px'
-  }
+    gutterOfSide: '0px',
+  },
 };

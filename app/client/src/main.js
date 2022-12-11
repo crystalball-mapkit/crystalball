@@ -1,20 +1,20 @@
 import Vue from 'vue';
-import vuetify from '@/plugins/vuetify';
 import './plugins/vuescroll';
 
+import VueCookies from 'vue-cookies';
+import VueLazyLoad from 'vue-lazyload';
+import axios from 'axios';
 import App from './App.vue';
 import appStore from './store/modules/app';
-import VueCookies from 'vue-cookies';
-import InfoPopUp, { infoPopUpName } from './components/core/InfoPopUp.vue';
-import VueLazyLoad from 'vue-lazyload';
+import InfoPopUp, {infoPopUpName} from './components/core/InfoPopUp.vue';
+import vuetify from './plugins/vuetify';
 import store from './store/index';
-import axios from 'axios';
-import router, { getRoutes } from './router';
+import router, {getRoutes} from './router';
 
-require('../node_modules/ol/ol.css');
-require('./assets/scss/app.scss');
-require('material-design-icons/iconfont/material-icons.css');
-require('vue-image-lightbox/dist/vue-image-lightbox.min.css');
+import 'ol/ol.css';
+import './assets/scss/app.scss';
+import 'material-design-icons/iconfont/material-icons.css';
+import 'vue-image-lightbox/dist/vue-image-lightbox.min.css';
 
 Vue.config.productionTip = false;
 
@@ -57,17 +57,15 @@ axios
 // App Configuration
 // eslint-disable-next-line no-undef
 fetch('./static/app-conf.json')
-// fetch('https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/settings/app-conf.json')
-  .then(function (response) {
+  // fetch('https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/settings/app-conf.json')
+  .then(response => {
     if (response.status !== 200) {
-      console.log(
-        'Looks like there was a problem. Status Code: ' + response.status
-      );
+      console.log(`Looks like there was a problem. Status Code: ${response.status}`);
       return;
     }
 
     // Examine the text in the response
-    response.json().then(function (data) {
+    response.json().then(data => {
       // Make app config accessible for all components
       router.addRoutes(getRoutes(data));
       Vue.prototype.$appConfig = data;
@@ -76,12 +74,13 @@ fetch('./static/app-conf.json')
         router,
         store,
         vuetify,
-        render: h => h(App)
+        render: h => h(App),
       }).$mount('#app');
     });
   })
-  .catch(function (err) {
+  .catch(err => {
     console.log('Fetch Error :-S', err);
   });
 
-export { appSelector };
+// eslint-disable-next-line import/prefer-default-export
+export {appSelector};

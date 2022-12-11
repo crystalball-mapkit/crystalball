@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <slot name="close"></slot>
     </v-toolbar>
-    <v-card-text style="max-height:350px;" class="pb-0 pr-0">
+    <v-card-text style="max-height: 350px" class="pb-0 pr-0">
       <slot name="body"></slot>
     </v-card-text>
 
@@ -19,7 +19,7 @@
 export default {
   name: 'overlay-popup',
   props: {
-    title: { type: String, required: false }
-  }
+    title: {type: String, required: false},
+  },
 };
 </script>

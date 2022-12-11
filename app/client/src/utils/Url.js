@@ -1,3 +1,5 @@
+/* eslint-disable no-cond-assign */
+/* eslint-disable no-param-reassign */
 /**
  * URL related util methods
  */
@@ -17,7 +19,7 @@ const UrlUtil = {
     querySearch = querySearch.split('+').join(' ');
 
     const re = /[?&]?([^=]+)=([^&]*)/g;
-    let params = {};
+    const params = {};
     let tokens;
     while ((tokens = re.exec(querySearch))) {
       params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
@@ -75,7 +77,7 @@ const UrlUtil = {
     if (!string) {
       return false;
     }
-    var res = string.match(
+    const res = string.match(
       /* eslint-disable-next-line */
       /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
     );
@@ -90,14 +92,13 @@ const UrlUtil = {
    * @returns
    */
   updateQueryStringParameter(uri, key, value) {
-    var re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
-    var separator = uri.indexOf('?') !== -1 ? '&' : '?';
+    const re = new RegExp(`([?&])${key}=.*?(&|$)`, 'i');
+    const separator = uri.indexOf('?') !== -1 ? '&' : '?';
     if (uri.match(re)) {
-      return uri.replace(re, '$1' + key + '=' + value + '$2');
-    } else {
-      return uri + separator + key + '=' + value;
+      return uri.replace(re, `$1${key}=${value}$2`);
     }
-  }
+    return `${uri + separator + key}=${value}`;
+  },
 };
 
 export default UrlUtil;

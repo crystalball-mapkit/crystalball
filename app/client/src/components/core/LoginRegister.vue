@@ -1,11 +1,6 @@
 <template>
   <v-dialog v-model="show" max-width="355px">
-    <div
-      v-if="
-        serverConfig.usersOpenRegistration &&
-          serverConfig.usersOpenRegistration === 'False'
-      "
-    >
+    <div v-if="serverConfig.usersOpenRegistration && serverConfig.usersOpenRegistration === 'False'">
       <v-app-bar flat :color="color" height="50" dark>
         <v-spacer></v-spacer>
         <v-toolbar-title>Sign In</v-toolbar-title>
@@ -13,21 +8,12 @@
       </v-app-bar>
       <v-card flat>
         <v-divider></v-divider>
-        <v-progress-linear
-          :active="loading"
-          indeterminate
-          :color="color"
-        ></v-progress-linear>
+        <v-progress-linear :active="loading" indeterminate :color="color"></v-progress-linear>
         <v-alert class="ma-2" outlined v-if="error" type="error">
           {{ error }}
         </v-alert>
         <v-card-text class="mt-5">
-          <v-form
-            @keyup.native.enter="handleLogin"
-            @submit.prevent="handleLogin"
-            v-model="validLogin"
-            lazy-validation
-          >
+          <v-form @keyup.native.enter="handleLogin" @submit.prevent="handleLogin" v-model="validLogin" lazy-validation>
             <v-text-field
               v-model="user.username"
               prepend-icon="person"
@@ -54,27 +40,14 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            :disabled="loading || !validLogin"
-            class="white--text"
-            @click="handleLogin"
-            :color="color"
-          >
+          <v-btn :disabled="loading || !validLogin" class="white--text" @click="handleLogin" :color="color">
             <v-icon small left>fas fa-sign-in-alt</v-icon> Login</v-btn
           >
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </div>
-    <v-tabs
-      v-else
-      v-model="tab"
-      show-arrows
-      :background-color="color"
-      icons-and-text
-      dark
-      grow
-    >
+    <v-tabs v-else v-model="tab" show-arrows :background-color="color" icons-and-text dark grow>
       <v-tabs-slider color="purple darken-4"></v-tabs-slider>
       <v-tab @click="changeTab" v-for="(i, index) in tabs" :key="index">
         <v-icon>{{ i.icon }}</v-icon>
@@ -83,11 +56,7 @@
       <v-tab-item>
         <v-card flat>
           <v-divider></v-divider>
-          <v-progress-linear
-            :active="loading"
-            indeterminate
-            :color="color"
-          ></v-progress-linear>
+          <v-progress-linear :active="loading" indeterminate :color="color"></v-progress-linear>
           <v-alert class="ma-2" outlined v-if="error" type="error">
             {{ error }}
           </v-alert>
@@ -124,12 +93,7 @@
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              :disabled="loading || !validLogin"
-              class="white--text"
-              @click="handleLogin"
-              :color="color"
-            >
+            <v-btn :disabled="loading || !validLogin" class="white--text" @click="handleLogin" :color="color">
               <v-icon small left>fas fa-sign-in-alt</v-icon> Login</v-btn
             >
             <v-spacer></v-spacer>
@@ -139,11 +103,7 @@
       <v-tab-item>
         <v-card flat>
           <v-divider></v-divider>
-          <v-progress-linear
-            :active="loading"
-            indeterminate
-            :color="color"
-          ></v-progress-linear>
+          <v-progress-linear :active="loading" indeterminate :color="color"></v-progress-linear>
           <v-alert class="ma-2" outlined v-if="error" type="error">
             {{ error }}
           </v-alert>
@@ -169,12 +129,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field
-                    v-model="guestUser.email"
-                    :rules="emailRules"
-                    label="E-mail"
-                    required
-                  ></v-text-field>
+                  <v-text-field v-model="guestUser.email" :rules="emailRules" label="E-mail" required></v-text-field>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
@@ -225,15 +180,15 @@
   </v-dialog>
 </template>
 <script>
+import {mapMutations, mapGetters} from 'vuex';
 import User from '../../models/user';
-import { mapMutations, mapGetters } from 'vuex';
 
 export default {
   data: () => ({
     tab: 0,
     tabs: [
-      { name: 'Login', icon: 'fas fa-sign-in-alt' },
-      { name: 'Register', icon: 'fa-user-plus' }
+      {name: 'Login', icon: 'fas fa-sign-in-alt'},
+      {name: 'Register', icon: 'fa-user-plus'},
     ],
     user: new User(),
     guestUser: new User(),
@@ -246,12 +201,9 @@ export default {
     show1: false,
     rules: {
       required: value => !!value || 'Required.',
-      min: v => (v && v.length >= 8) || 'Min 8 characters'
+      min: v => (v && v.length >= 8) || 'Min 8 characters',
     },
-    emailRules: [
-      v => !!v || 'Required',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
-    ]
+    emailRules: [v => !!v || 'Required', v => /.+@.+\..+/.test(v) || 'E-mail must be valid'],
   }),
   props: ['visible', 'color'],
 
@@ -268,19 +220,18 @@ export default {
           this.guestUser = new User();
           this.tab = 0;
         }
-      }
+      },
     },
     passwordMatch() {
-      return () =>
-        this.guestUser.password === this.verify || 'Password must match';
+      return () => this.guestUser.password === this.verify || 'Password must match';
     },
     ...mapGetters('app', {
-      serverConfig: 'serverConfig'
-    })
+      serverConfig: 'serverConfig',
+    }),
   },
   methods: {
     ...mapMutations('map', {
-      toggleSnackbar: 'TOGGLE_SNACKBAR'
+      toggleSnackbar: 'TOGGLE_SNACKBAR',
     }),
     validateRegisterForm() {
       if (this.$refs.registerForm.validate()) {
@@ -328,7 +279,7 @@ export default {
             type: 'success',
             message: 'Guest user created successfully',
             state: true,
-            timeout: 2000
+            timeout: 2000,
           });
           if (response.token) {
             localStorage.setItem('token', JSON.stringify(response.token));
@@ -338,10 +289,7 @@ export default {
         error => {
           this.loading = false;
           this.error =
-            error.response &&
-            error.response.data &&
-            error.response.data[0] &&
-            error.response.data[0].msg
+            error.response && error.response.data && error.response.data[0] && error.response.data[0].msg
               ? error.response.data[0].msg
               : 'Cannot register as guest!';
         }
@@ -355,8 +303,8 @@ export default {
       this.loading = false;
       this.error = '';
       this.$emit('close');
-    }
-  }
+    },
+  },
 };
 </script>
 
