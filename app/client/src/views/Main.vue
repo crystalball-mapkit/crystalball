@@ -89,7 +89,7 @@
 
         <v-spacer></v-spacer><v-spacer></v-spacer>
 
-        <span class="title pr-5">before it's too late</span>
+        <span class="title pr-5">open-source mapkit</span>
         <v-btn icon @click.stop="sidebarState = !sidebarState"
           ><v-icon medium>{{ sidebarState ? '$close' : '$menu' }}</v-icon></v-btn
         >

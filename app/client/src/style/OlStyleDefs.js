@@ -559,47 +559,18 @@ export const layersStylePropFn = {
     circleRadiusFn: propertyValue => getRadiusValue(propertyValue),
     iconUrl: propertyValue => propertyValue,
   },
-  all_permits: {
-    circleRadiusFn: propertyValue => Math.sqrt(propertyValue) * 0.008,
+  glri_projects: {
+    fillColor: propertyValue => propertyValue,
+    circleRadiusFn: propertyValue => getRadiusValue(propertyValue, 0.012),
+  },
+  polygons: {
     fillColor: propertyValue => propertyValue,
   },
-  epa_refineries: {
-    iconScaleFn: propertyValue => getIconScaleValue(propertyValue, 0.0000001, 0.2, 1.2),
+  points: {
+    fillColor: propertyValue => propertyValue,
   },
-  cancelled_pipelines: {
+  lines: {
     strokeColor: propertyValue => propertyValue,
-  },
-  coal_global: {
-    iconScaleFn: propertyValue => getIconScaleValue(propertyValue, 1000, 0.5, 1.4),
-  },
-  gas: {
-    iconScaleFn: propertyValue => getIconScaleValue(propertyValue, 1400, 0.3, 1.4),
-  },
-  oil: {
-    circleRadiusFn: propertyValue => getRadiusValue(propertyValue, 0.3, 4, 50),
-  },
-  miss_tri: {
-    fillColor: propertyValue => propertyValue,
-  },
-  refineries: {
-    circleRadiusFn: propertyValue => getRadiusValue(propertyValue, 0.026),
-  },
-  other_refineries: {
-    iconScaleFn: propertyValue => getIconScaleValue(propertyValue, 300000, 0.5, 2),
-  },
-  us_refineries: {
-    iconScaleFn: propertyValue => getIconScaleValue(propertyValue, 300000, 0.5, 2),
-  },
-  us_refineries2: {
-    iconScaleFn: propertyValue => getIconScaleValue(propertyValue, 300000, 0.5, 2),
-  },
-  GiantOilFields: {
-    circleRadiusFn: propertyValue => getRadiusValue(propertyValue, 0.3),
-  },
-  Spills_20yrs: {
-    circleRadiusFn: propertyValue => getRadiusValue(propertyValue, 0.7),
-  },
-  indigenous_territories: {
-    fillColor: propertyValue => propertyValue,
+    strokeWidth: propertyValue => propertyValue,
   },
 };

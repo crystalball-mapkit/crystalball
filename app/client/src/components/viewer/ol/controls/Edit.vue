@@ -334,18 +334,18 @@ export default {
       {
         icon: 'edit',
         action: 'modifyFeature',
-        tooltip: 'Modify Geometry',
-      },
-      {
-        icon: 'delete',
-        action: 'deleteFeature',
-        tooltip: 'Delete Feature',
+        tooltip: 'Modify Shape or Position'
       },
       {
         icon: 'subject',
         action: 'modifyAttributes',
-        tooltip: 'Modify Attributes',
+        tooltip: 'Modify Attributes'
       },
+      {
+        icon: 'delete',
+        action: 'deleteFeature',
+        tooltip: 'Delete Feature'
+      }
     ],
     layersDialog: false,
     // INTERACTION
