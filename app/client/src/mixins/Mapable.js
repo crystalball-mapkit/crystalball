@@ -1,4 +1,4 @@
-import { EventBus } from '../EventBus';
+import {EventBus} from '../EventBus';
 
 /**
  * Mixin, which binds the OL map to the target component.
@@ -25,5 +25,5 @@ export const Mapable = {
         this.onMapBound();
       }
     }
-  }
+  },
 };

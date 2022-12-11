@@ -6,7 +6,7 @@ class AuthService {
     return axios
       .post('/api/login', {
         username: user.username,
-        password: user.password
+        password: user.password,
       })
       .then(response => {
         if (response.data.token) {
@@ -23,34 +23,40 @@ class AuthService {
 
   // USER CRUD
   registerUser(user) {
-    return axios.post('/api/register', user, { headers: authHeader() });
+    return axios.post('/api/register', user, {headers: authHeader()});
   }
+
   registerGuestUser(user) {
+    // eslint-disable-next-line no-param-reassign
     user.username = user.email;
-    return axios.post('/api/register_guest', user)
+    return axios.post('/api/register_guest', user);
   }
+
   updateUser(user) {
     return axios.patch(`/api/users/${user.userID}`, user, {
-      headers: authHeader()
+      headers: authHeader(),
     });
   }
+
   updatePassword(user) {
     return axios.post(
-      `/api/updateUserPassword`,
+      '/api/updateUserPassword',
       {
         userID: user.userID,
-        password: user.password
+        password: user.password,
       },
       {
-        headers: authHeader()
+        headers: authHeader(),
       }
     );
   }
+
   getUsers() {
-    return axios.get('/api/users', { headers: authHeader() });
+    return axios.get('/api/users', {headers: authHeader()});
   }
+
   deleteUser(user) {
-    return axios.post(`/api/delete-user`, user, { headers: authHeader() });
+    return axios.post('/api/delete-user', user, {headers: authHeader()});
   }
 }
 

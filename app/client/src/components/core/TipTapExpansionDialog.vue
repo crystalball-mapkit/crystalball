@@ -14,12 +14,8 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="error" @click="show = false">
-          Close
-        </v-btn>
-        <v-btn :disabled="!this.title" color="primary" text @click="insert">
-          Apply
-        </v-btn>
+        <v-btn text color="error" @click="show = false"> Close </v-btn>
+        <v-btn :disabled="!this.title" color="primary" text @click="insert"> Apply </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -31,7 +27,7 @@ export default {
       title: '',
       command: null,
       show: false,
-      color: this.$appConfig.app.color.primary
+      color: this.$appConfig.app.color.primary,
     };
   },
   methods: {
@@ -46,8 +42,8 @@ export default {
         command: this.command,
         data: {
           title: this.title,
-          uid: (Date.now() + Math.random()).toString()
-        }
+          uid: (Date.now() + Math.random()).toString(),
+        },
       };
 
       this.$emit('onConfirm', data);
@@ -55,7 +51,7 @@ export default {
     },
     clear() {
       this.title = '';
-    }
-  }
+    },
+  },
 };
 </script>

@@ -1,4 +1,4 @@
-import { Node } from 'tiptap';
+import {Node} from 'tiptap';
 
 export default class Image extends Node {
   get name() {
@@ -9,8 +9,8 @@ export default class Image extends Node {
     return {
       attrs: {
         src: {
-          default: null
-        }
+          default: null,
+        },
       },
       group: 'block',
       selectable: true,
@@ -20,25 +20,23 @@ export default class Image extends Node {
         {
           tag: 'img',
           getAttrs: dom => ({
-            src: dom.getAttribute('src')
-          })
-        }
+            src: dom.getAttribute('src'),
+          }),
+        },
       ],
       toDOM: node => [
         'img',
         {
-          src: node.attrs.src
-        }
-      ]
+          src: node.attrs.src,
+        },
+      ],
     };
   }
 
-  commands({ type }) {
+  commands({type}) {
     return attrs => (state, dispatch) => {
-      const { selection } = state;
-      const position = selection.$cursor
-        ? selection.$cursor.pos
-        : selection.$to.pos;
+      const {selection} = state;
+      const position = selection.$cursor ? selection.$cursor.pos : selection.$to.pos;
       const node = type.create(attrs);
       const transaction = state.tr.insert(position, node);
       dispatch(transaction);

@@ -1,15 +1,8 @@
 <template>
   <div class="mt-4">
     <v-tooltip right>
-      <template v-slot:activator="{ on }">
-        <v-btn
-          class="share-button"
-          v-on="on"
-          @click="visible = true"
-          :color="color"
-          fab
-          dark
-          x-small
+      <template v-slot:activator="{on}">
+        <v-btn class="share-button" v-on="on" @click="visible = true" :color="color" fab dark x-small
           ><v-icon medium>fas fa-share</v-icon></v-btn
         >
       </template>
@@ -21,24 +14,15 @@
           <v-icon class="mr-3">fas fa-share</v-icon>
           <v-toolbar-title>Link to map </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-app-bar-nav-icon @click.stop="visible = false"
-            ><v-icon>close</v-icon></v-app-bar-nav-icon
-          >
+          <v-app-bar-nav-icon @click.stop="visible = false"><v-icon>close</v-icon></v-app-bar-nav-icon>
         </v-app-bar>
         <v-card-text class="mt-5">
           <v-form>
-            <v-text-field
-              ref="mapLink"
-              readonly
-              :value="mapShareLink"
-              label="Map shareable link"
-            >
+            <v-text-field ref="mapLink" readonly :value="mapShareLink" label="Map shareable link">
               <template slot="append-outer">
                 <v-tooltip left>
-                  <template v-slot:activator="{ on }"
-                    ><v-icon @click="copyMapLink" v-on="on"
-                      >content_copy</v-icon
-                    ></template
+                  <template v-slot:activator="{on}"
+                    ><v-icon @click="copyMapLink" v-on="on">content_copy</v-icon></template
                   ><span>Copy</span>
                 </v-tooltip>
               </template>
@@ -53,18 +37,18 @@
   </div>
 </template>
 <script>
-import { toLonLat, fromLonLat } from 'ol/proj';
-import { mapFields } from 'vuex-map-fields';
+import {toLonLat, fromLonLat} from 'ol/proj';
+import {mapFields} from 'vuex-map-fields';
 
 export default {
   props: {
-    map: { type: Object, required: true },
-    color: { type: String }
+    map: {type: Object, required: true},
+    color: {type: String},
   },
   data: () => ({
     mapShareLink: '',
     visible: false,
-    previousMapZoom: null
+    previousMapZoom: null,
   }),
   computed: {
     show: {
@@ -76,11 +60,11 @@ export default {
           this.$emit('close');
           this.mapShareLink = '';
         }
-      }
+      },
     },
     ...mapFields('app', {
-      sidebarState: 'sidebarState'
-    })
+      sidebarState: 'sidebarState',
+    }),
   },
   methods: {
     createShareLink() {
@@ -102,12 +86,10 @@ export default {
         .reverse();
       this.mapShareLink = `${url}?center=${centerLonLat.toString()}&zoom=${zoom
         .toFixed(3)
-        .toString()}&layers=${visibleLayers.toString()}&sidebar=${
-        this.sidebarState
-      }`;
+        .toString()}&layers=${visibleLayers.toString()}&sidebar=${this.sidebarState}`;
     },
     copyMapLink() {
-      let mapLink = this.$refs.mapLink.$el.querySelector('input');
+      const mapLink = this.$refs.mapLink.$el.querySelector('input');
       mapLink.select();
       document.execCommand('copy');
     },
@@ -119,7 +101,7 @@ export default {
         .reverse();
       this.$route.meta.fromEvent = true;
       this.$router.replace({
-        query: { center: centerLonLat.toString(), zoom }
+        query: {center: centerLonLat.toString(), zoom},
       });
     },
     updateMap() {
@@ -144,10 +126,7 @@ export default {
         .getArray()
         .forEach(layer => {
           // Turn on/off layers based on the query data if user pastes a shareable map link.
-          if (
-            Array.isArray(queryVisibleLayers) &&
-            layer.get('displayInLegend')
-          ) {
+          if (Array.isArray(queryVisibleLayers) && layer.get('displayInLegend')) {
             if (queryVisibleLayers.includes(layer.get('name'))) {
               layer.setVisible(true);
             } else {
@@ -157,9 +136,9 @@ export default {
         });
       // Set sidebar state
       if (this.$route.query && this.$route.query.sidebar) {
-        this.sidebarState = this.$route.query.sidebar == 'false' ? false : true;
+        this.sidebarState = this.$route.query.sidebar != 'false';
       }
-    }
+    },
   },
   watch: {
     show() {
@@ -173,16 +152,17 @@ export default {
         this.previousMapZoom = null;
       }
       if (newValue.meta.fromEvent === true) {
+        // eslint-disable-next-line no-param-reassign
         newValue.meta.fromEvent = false;
         return;
       }
       this.updateMap();
-    }
+    },
   },
   mounted() {
     if (this.map) {
       this.updateMap();
-      //localhost:3001/#/two?center=41.583,-73.357&zoom=12.297&layers=data_display,regiones2,colaboradores,solar&sidebar=true
+      // localhost:3001/#/two?center=41.583,-73.357&zoom=12.297&layers=data_display,regiones2,colaboradores,solar&sidebar=true
       this.map.on('moveend', () => {
         this.previousMapZoom = this.map.getView().getZoom();
         this.updateRouterQuery();
@@ -191,7 +171,7 @@ export default {
         }, 1000);
       });
     }
-  }
+  },
 };
 </script>
 

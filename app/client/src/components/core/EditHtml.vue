@@ -1,11 +1,7 @@
 <template>
   <v-card width="100%" class="elevation-0 pb-0">
     <v-list class="pa-0 ma-0" v-show="postFeature && !postFeature.get('icon')">
-      <v-list-item
-        v-for="icon in postIcons"
-        :key="icon.title"
-        @click="openHtmlEditor(icon)"
-      >
+      <v-list-item v-for="icon in postIcons" :key="icon.title" @click="openHtmlEditor(icon)">
         <v-list-item-avatar>
           <v-img :src="icon.iconUrl" max-height="50" contain></v-img>
         </v-list-item-avatar>
@@ -19,12 +15,7 @@
         </v-list-item-icon>
       </v-list-item>
     </v-list>
-    <div
-      v-if="
-        (isEditingPost && postFeature && postFeature.get('icon')) ||
-          isEditingHtml
-      "
-    >
+    <div v-if="(isEditingPost && postFeature && postFeature.get('icon')) || isEditingHtml">
       <!-- <v-toolbar v-if="postFeature && postFeature.get('icon')">
         <v-avatar v-if="postFeature && postFeature.get('icon')" class="mr-3">
           <v-img contain :src="postFeature.get('icon')"></v-img>
@@ -33,22 +24,13 @@
       </v-toolbar> -->
 
       <v-layout justify-space-between column fill-height>
-        <tip-tap-editor
-          :map="map"
-          v-if="postFeature || isEditingHtml"
-          class="mx-1 mt-1"
-        ></tip-tap-editor>
+        <tip-tap-editor :map="map" v-if="postFeature || isEditingHtml" class="mx-1 mt-1"></tip-tap-editor>
       </v-layout>
       <v-row>
         <v-spacer></v-spacer>
-        <v-btn class="mt-2 mr-2 mb-2" @click="cancel" text>
-          Cancel
-        </v-btn>
+        <v-btn class="mt-2 mr-2 mb-2" @click="cancel" text> Cancel </v-btn>
         <v-btn
-          :disabled="
-            (!postFeature && isEditingPost) ||
-              [`<p></p>`, ''].includes(htmlContent)
-          "
+          :disabled="(!postFeature && isEditingPost) || [`<p></p>`, ''].includes(htmlContent)"
           class="mt-2 mr-5"
           @click="save"
           text
@@ -61,26 +43,26 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
-import { mapFields } from 'vuex-map-fields';
+import {mapGetters, mapMutations} from 'vuex';
+import {mapFields} from 'vuex-map-fields';
 
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
-import TipTapEditor from './TipTapEditor';
-import { Mapable } from '../../mixins/Mapable';
-import Overlay from 'ol/Overlay.js';
-import { postEditLayerStyle } from '../../style/OlStyleDefs';
-
+import Overlay from 'ol/Overlay';
 import axios from 'axios';
-import authHeader from '../../services/auth-header';
 import GeoJSON from 'ol/format/GeoJSON';
-import { EventBus } from '../../EventBus';
-import { addProps } from '../../utils/Helpers';
+import TipTapEditor from './TipTapEditor.vue';
+import {Mapable} from '../../mixins/Mapable';
+import {postEditLayerStyle} from '../../style/OlStyleDefs';
+
+import authHeader from '../../services/auth-header';
+import {EventBus} from '../../EventBus';
+import {addProps} from '../../utils/Helpers';
 
 export default {
   mixins: [Mapable],
   components: {
-    'tip-tap-editor': TipTapEditor
+    'tip-tap-editor': TipTapEditor,
   },
   data() {
     return {
@@ -91,30 +73,30 @@ export default {
       postSnackbarMessages: {
         update: 'Post updated successfully!',
         delete: 'Post delete successfully!',
-        insert: 'Post added successfully!'
+        insert: 'Post added successfully!',
       },
-      overlayersGarbageCollector: []
+      overlayersGarbageCollector: [],
     };
   },
   created() {
     EventBus.$on('deletePost', feature => {
-      let clonedFeature;
       let fId = feature.getId();
       if (fId.includes('clone.')) {
+        // eslint-disable-next-line prefer-destructuring
         fId = fId.split('clone.')[1];
       }
-      clonedFeature = feature.clone();
+      const clonedFeature = feature.clone();
       clonedFeature.setId(fId);
       this.postEditLayer.getSource().addFeature(clonedFeature);
       this.transactPost('delete');
     });
     EventBus.$on('editPost', feature => {
-      let clonedFeature;
       let fId = feature.getId();
       if (fId.includes('clone.')) {
+        // eslint-disable-next-line prefer-destructuring
         fId = fId.split('clone.')[1];
       }
-      clonedFeature = feature.clone();
+      const clonedFeature = feature.clone();
       clonedFeature.setId(fId);
       this.postEditLayer.getSource().addFeature(clonedFeature);
       this.htmlContent = feature.get('html');
@@ -141,12 +123,10 @@ export default {
     save() {
       if (this.isEditingPost) {
         this.transactPost(this.editType);
+      } else if (this.lastSelectedLayer) {
+        this.transactHtml('layer');
       } else {
-        if (this.lastSelectedLayer) {
-          this.transactHtml('layer');
-        } else {
-          this.transactHtml('group');
-        }
+        this.transactHtml('group');
       }
     },
     cancel() {
@@ -164,28 +144,25 @@ export default {
       this.clearOverlays();
     },
     createEditPostLayer() {
-      //-  create an edit vector layer
+      // -  create an edit vector layer
       const postEditLayerSource = new VectorSource({
-        wrapX: false
+        wrapX: false,
       });
-      const options = Object.assign(
-        {},
-        {
-          name: 'post_edit_layer',
-          isInteractive: false,
-          queryable: false,
-          zIndex: 10000,
-          source: postEditLayerSource,
-          style: postEditLayerStyle
-        }
-      );
+      const options = {
+        name: 'post_edit_layer',
+        isInteractive: false,
+        queryable: false,
+        zIndex: 10000,
+        source: postEditLayerSource,
+        style: postEditLayerStyle,
+      };
       const postEditLayer = new VectorLayer(options);
       this.map.addLayer(postEditLayer);
       this.postEditLayer = postEditLayer;
     },
 
     onPointerMove(evt) {
-      const coordinate = evt.coordinate;
+      const {coordinate} = evt;
       this.helpTooltipElement.innerHTML = this.helpMessage;
       this.helpTooltip.setPosition(coordinate);
       this.map.getTarget().style.cursor = 'pointer';
@@ -202,7 +179,7 @@ export default {
         offset: [15, 15],
         positioning: 'top-left',
         stopEvent: true,
-        insertFirst: false
+        insertFirst: false,
       });
       this.map.addOverlay(this.helpTooltip);
       this.overlayersGarbageCollector.push(this.helpTooltip);
@@ -217,22 +194,17 @@ export default {
     },
 
     ...mapMutations('map', {
-      toggleSnackbar: 'TOGGLE_SNACKBAR'
+      toggleSnackbar: 'TOGGLE_SNACKBAR',
     }),
     transactPost(type) {
       const feature = this.postEditLayer.getSource().getFeatures()[0];
       const payload = {
-        type: type,
+        type,
         srid: '4326',
         table: 'html_posts',
-        geometry: new GeoJSON().writeGeometryObject(
-          feature
-            .getGeometry()
-            .clone()
-            .transform('EPSG:3857', 'EPSG:4326')
-        ),
+        geometry: new GeoJSON().writeGeometryObject(feature.getGeometry().clone().transform('EPSG:3857', 'EPSG:4326')),
         featureId: feature.getId(),
-        properties: {}
+        properties: {},
       };
       if (type !== 'delete') {
         payload.properties = {
@@ -243,14 +215,14 @@ export default {
           createdBy: null, // The value is added from the api
           updatedBy: null, // The value is added from the api,
           createdAt: null, // The value is added from the api,
-          updatedAt: null // The value is added from the api,
+          updatedAt: null, // The value is added from the api,
         };
       }
       const formData = new FormData();
       formData.append('payload', JSON.stringify(payload));
       axios
         .post('api/layer', formData, {
-          headers: authHeader()
+          headers: authHeader(),
         })
         .then(() => {
           this.cancel();
@@ -260,10 +232,10 @@ export default {
               type: 'success',
               message: this.postSnackbarMessages[type],
               timeout: 2000,
-              state: true
+              state: true,
             });
           }, 50);
-          this.persistentLayers['html_posts'].getSource().refresh();
+          this.persistentLayers.html_posts.getSource().refresh();
         });
     },
     transactHtml(type) {
@@ -272,30 +244,30 @@ export default {
         const payload = {
           type: 'layer',
           name: this.lastSelectedLayer,
-          html: this.htmlContent
+          html: this.htmlContent,
         };
         if (this.sidebarHtml.layers[this.lastSelectedLayer]) {
           req = axios.patch('api/html', payload, {
-            headers: authHeader()
+            headers: authHeader(),
           });
         } else {
           req = axios.post('api/html', payload, {
-            headers: authHeader()
+            headers: authHeader(),
           });
         }
       } else {
         const payload = {
           type: 'group',
           name: this.groupName,
-          html: this.htmlContent
+          html: this.htmlContent,
         };
         if (this.sidebarHtml.groups[this.groupName]) {
           req = axios.patch('api/html', payload, {
-            headers: authHeader()
+            headers: authHeader(),
           });
         } else {
           req = axios.post('api/html', payload, {
-            headers: authHeader()
+            headers: authHeader(),
           });
         }
       }
@@ -305,18 +277,14 @@ export default {
             type: 'success',
             message: 'Updated successfully!',
             timeout: 2000,
-            state: true
+            state: true,
           });
           if (type === 'layer') {
-            const layers = this.sidebarHtml.layers;
+            const {layers} = this.sidebarHtml;
             addProps(layers, `${this.lastSelectedLayer}.type`, 'layer');
-            addProps(
-              layers,
-              `${this.lastSelectedLayer}.html`,
-              this.htmlContent
-            );
+            addProps(layers, `${this.lastSelectedLayer}.html`, this.htmlContent);
           } else {
-            const groups = this.sidebarHtml.groups;
+            const {groups} = this.sidebarHtml;
             addProps(groups, `${this.groupName}.type`, 'group');
             addProps(groups, `${this.groupName}.html`, this.htmlContent);
           }
@@ -325,12 +293,12 @@ export default {
           this.cancel();
         }, 50);
       });
-    }
+    },
   },
   computed: {
     ...mapGetters('app', {
       sidebarHtml: 'sidebarHtml',
-      postIcons: 'postIcons'
+      postIcons: 'postIcons',
     }),
     ...mapFields('map', {
       popup: 'popup',
@@ -340,22 +308,20 @@ export default {
       postEditLayer: 'postEditLayer',
       postFeature: 'postFeature',
       editType: 'postEditType',
-      lastSelectedLayer: 'lastSelectedLayer'
+      lastSelectedLayer: 'lastSelectedLayer',
     }),
     ...mapGetters('map', {
       persistentLayers: 'persistentLayers',
       activeLayerGroup: 'activeLayerGroup',
-      groupName: 'groupName'
+      groupName: 'groupName',
     }),
     postIconTitle() {
       if (this.postFeature && this.postFeature.get('icon')) {
-        const icon = this.postIcons.filter(
-          i => i.iconUrl == this.postFeature.get('icon')
-        );
+        const icon = this.postIcons.filter(i => i.iconUrl === this.postFeature.get('icon'));
         return icon.length > 0 ? icon[0].title : '';
       }
       return '';
-    }
+    },
   },
   watch: {
     isEditingPost(value) {
@@ -363,8 +329,8 @@ export default {
         this.editType = null;
         this.closeInteraction();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

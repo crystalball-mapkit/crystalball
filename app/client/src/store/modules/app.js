@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getField, updateField } from 'vuex-map-fields';
+import {getField, updateField} from 'vuex-map-fields';
 
 const state = {
   sidebarState: true,
@@ -8,7 +8,7 @@ const state = {
   config: {},
   serverConfig: {}, // TODO: Migrate all config settings here. (read from api endpoint)
   geoserverConfig: {},
-  appConfig: {} 
+  appConfig: {},
 };
 
 // mutations are operations that actually mutates the state.
@@ -30,17 +30,22 @@ const mutations = {
   getIconsFailure(state) {
     state.postIcons = [];
   },
-  updateField
+  updateField,
 };
 
 const actions = {
   toggle(context) {
     context.commit('toggle');
   },
-  getIcons({ commit }) {
-    axios.get('/api/icons').then(response => {
-      commit('getIconsSuccess', response.data);
-    }).catch(() => { commit('getIconsFailure'); });
+  getIcons({commit}) {
+    axios
+      .get('/api/icons')
+      .then(response => {
+        commit('getIconsSuccess', response.data);
+      })
+      .catch(() => {
+        commit('getIconsFailure');
+      });
   },
 };
 
@@ -53,12 +58,10 @@ const getters = {
   icons: state => state.postIcons,
   postIcons: (state, getters, rootState, rootGetters) => {
     const activeGroup = rootGetters['map/activeLayerGroup'].navbarGroup;
-    const filteredIcons = state.postIcons.filter(i =>
-      i.group.includes(activeGroup)
-    );
+    const filteredIcons = state.postIcons.filter(i => i.group.includes(activeGroup));
     return filteredIcons;
   },
-  getField
+  getField,
 };
 
 export default {
@@ -66,5 +69,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

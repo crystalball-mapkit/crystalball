@@ -10,11 +10,7 @@
         </v-app-bar>
         <v-card-text>
           <v-container>
-            <v-form
-              v-if="['new', 'update'].includes(mode)"
-              ref="userForm"
-              v-model="valid"
-            >
+            <v-form v-if="['new', 'update'].includes(mode)" ref="userForm" v-model="valid">
               <v-row>
                 <v-col cols="12" sm="6">
                   <v-text-field
@@ -47,11 +43,7 @@
                     label="Password*"
                     prepend-icon="lock"
                     type="password"
-                    :rules="[
-                      rules.required,
-                      rules.password,
-                      rules.passwordNumber
-                    ]"
+                    :rules="[rules.required, rules.password, rules.passwordNumber]"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
@@ -77,11 +69,7 @@
                 </v-col>
               </v-row>
             </v-form>
-            <v-form
-              v-model="valid"
-              v-if="mode === 'updatePassword'"
-              ref="updatePassword"
-            >
+            <v-form v-model="valid" v-if="mode === 'updatePassword'" ref="updatePassword">
               <v-row>
                 <v-col cols="12">
                   <v-text-field
@@ -89,11 +77,7 @@
                     label="New Password"
                     prepend-icon="lock"
                     type="password"
-                    :rules="[
-                      rules.required,
-                      rules.password,
-                      rules.passwordNumber
-                    ]"
+                    :rules="[rules.required, rules.password, rules.passwordNumber]"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
@@ -111,13 +95,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            :disabled="valid === false"
-            color="blue darken-1"
-            text
-            @click="save"
-            >Save</v-btn
-          >
+          <v-btn :disabled="valid === false" color="blue darken-1" text @click="save">Save</v-btn>
           <v-btn color="red darken-1" text @click="cancel">Close</v-btn>
         </v-card-actions>
       </v-card>
@@ -125,10 +103,9 @@
   </v-row>
 </template>
 <script>
+import {mapMutations} from 'vuex';
 import User from '../../models/user';
 import UserUpdateDTO from '../../models/userUpdateDTO';
-
-import { mapMutations } from 'vuex';
 
 export default {
   data: () => ({
@@ -141,27 +118,27 @@ export default {
     confirmText: null,
     cancelText: null,
     title: null,
-    mode: ``,
+    mode: '',
     options: {
       color: 'primary',
       width: 320,
       icon: 'person',
-      zIndex: 200
+      zIndex: 200,
     },
     roleItems: [
-      { value: 1, display: 'Admin User' },
-      { value: 2, display: 'Regular User' },
-      { value: 3, display: 'Guest User' }
+      {value: 1, display: 'Admin User'},
+      {value: 2, display: 'Regular User'},
+      {value: 3, display: 'Guest User'},
     ],
     rules: {
       required: value => !!value || 'Required.',
       password: value => (value && value.length >= 8) || 'minimum 8 characters',
       passwordNumber: v => /(?=.*\d)/.test(v) || 'Must have one number',
-      email: value => /.+@.+/.test(value) || 'E-mail must be valid'
-    }
+      email: value => /.+@.+/.test(value) || 'E-mail must be valid',
+    },
   }),
   props: {
-    color: { type: String }
+    color: {type: String},
   },
   methods: {
     open(mode, title, confirmText, cancelText, options, user) {
@@ -207,7 +184,7 @@ export default {
             type: 'success',
             message: messageSuccess,
             state: true,
-            timeout: 2000
+            timeout: 2000,
           });
           this.$store.dispatch('auth/getUsers');
         },
@@ -216,7 +193,7 @@ export default {
             type: 'error',
             message: messageError,
             state: true,
-            timeout: 2000
+            timeout: 2000,
           });
         }
       );
@@ -236,14 +213,13 @@ export default {
       this.dialog = false;
     },
     ...mapMutations('map', {
-      toggleSnackbar: 'TOGGLE_SNACKBAR'
-    })
+      toggleSnackbar: 'TOGGLE_SNACKBAR',
+    }),
   },
   computed: {
     passwordConfirmationRule() {
-      return () =>
-        this.user.password === this.confirmPassword || 'Password must match';
-    }
-  }
+      return () => this.user.password === this.confirmPassword || 'Password must match';
+    },
+  },
 };
 </script>
