@@ -21,7 +21,6 @@ specifiers:
   navigator: ^1.0.1
   ol: ^6.3.1
   prettier: ^2.8.1
-  prettier-airbnb-config: ^1.0.0
   sass: 1.32.13
   screenfull: ^6.0.2
   tiptap: ^1.32.2
@@ -87,7 +86,6 @@ devDependencies:
   eslint-plugin-import: 2.26.0_eslint@8.29.0
   eslint-plugin-vue: 9.8.0_eslint@8.29.0
   prettier: 2.8.1
-  prettier-airbnb-config: 1.0.0_prettier@2.8.1
   sass: 1.32.13
   vite: 3.2.5_sass@1.32.13
   vue-template-compiler: 2.7.14
@@ -2853,14 +2851,6 @@ packages:
   /prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
-    dev: true
-
-  /prettier-airbnb-config/1.0.0_prettier@2.8.1:
-    resolution: {integrity: sha512-FsEe38fJftYi19AskzuOWbw8zBnXDcZwv2Uw8BI65ROyK4hE6+iojXVFu+FiYNfrRBL+UZJbl2XGk56Ur2QGsA==}
-    peerDependencies:
-      prettier: ^1.18.2
-    dependencies:
-      prettier: 2.8.1
     dev: true
 
   /prettier/2.8.1:

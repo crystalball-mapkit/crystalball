@@ -17,7 +17,7 @@
         <vue-scroll ref="vs">
           <div>
             <v-form ref="edit-form" v-model="formValid">
-              <v-jsf v-model="formData" :schema="formSchema" :options="formOptions">
+              <editor-form v-model="formData" :schema="formSchema" :options="formOptions">
                 <template slot="lightbox-append">
                   <v-btn
                     style="cursor: pointer"
@@ -30,7 +30,7 @@
                     <v-icon> fas fa-image </v-icon>
                   </v-btn>
                 </template>
-              </v-jsf>
+              </editor-form>
             </v-form>
           </div>
         </vue-scroll>
@@ -109,7 +109,7 @@ import {EventBus} from '../../EventBus';
 
 export default {
   components: {
-    VJsf,
+    'editor-form': VJsf,
   },
   computed: {
     ...mapFields('map', {

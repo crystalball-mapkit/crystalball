@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-jsoneditor v-model="json" :plus="false" :height="'100%'" @error="onError"></v-jsoneditor>
+    <c-jsoneditor v-model="json" :plus="false" :height="'100%'" @error="onError"></c-jsoneditor>
   </v-card>
 </template>
 
@@ -9,7 +9,7 @@ import VJsoneditor from 'v-jsoneditor';
 
 export default {
   components: {
-    VJsoneditor,
+    "c-jsoneditor": VJsoneditor,
   },
   data() {
     return {
