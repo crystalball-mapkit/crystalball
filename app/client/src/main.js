@@ -58,7 +58,7 @@ axios
 // eslint-disable-next-line no-undef
 // fetch('./static/app-conf.json')
 fetch('https://crystal-demo.s3.us-east-2.amazonaws.com/assets/settings/app-conf.json')
-  .then((response) => {
+  .then(response => {
     if (response.status !== 200) {
       console.log(`Looks like there was a problem. Status Code: ${response.status}`);
       return;
