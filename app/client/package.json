@@ -9,7 +9,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "prettier . --write --ignore-unknown && eslint --ignore-path .gitignore .",
-    "prepare": "cd ../../ && husky install app/client/.husky"
+    "prepare": "cd ../../ && husky install ./app/client/.husky"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
