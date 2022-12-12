@@ -1206,7 +1206,8 @@ export default {
                 }
               });
             }
-          }).catch(() => {
+          })
+          .catch(() => {
             // handle error
           });
       });
