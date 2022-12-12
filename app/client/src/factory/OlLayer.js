@@ -585,4 +585,3 @@ export const LayerFactory = {
     return layer;
   },
 };
-

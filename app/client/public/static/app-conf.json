@@ -1,295 +1,252 @@
 {
-    "app": {
-        "title": "Crystalball",
-        "projectWebsite": "https://wiki.timetochange.today",
-        "color": {
-            "primary": "#3A125F",
-            "secondary": "#3A125F"
-        },
-        "legend": {
-            "isVisible": true
-        },
-        "controls": {
-            "locate_me": true,
-            "share_map": true,
-            "geocoder": true
-        },
-        "sideBar": {
-            "isVisible": true,
-            "backgroundColor": "#fefefe",
-            "textColor": "black"
-        },
-        "navbar": {
-            "dropdownMenu": false
-        },
-        "customNavigationScheme": "1"
+  "app": {
+    "title": "Crystalball",
+    "projectWebsite": "https://wiki.timetochange.today",
+    "color": {
+      "primary": "#3A125F",
+      "secondary": "#3A125F"
     },
-    "map": {
-        "projectionCode": "EPSG:3857",
-        "minZoom": 1,
-        "maxZoom": 21,
-        "zoom": 1,
-        "geoserverWorkspace": "workspace1",
-        "resolutions": [
-            156543.03,
-            78271.52,
-            39135.76,
-            19567.88,
-            9783.94,
-            4891.97,
-            2445.98,
-            1222.99,
-            611.5,
-            305.75,
-            152.87,
-            76.437,
-            38.219,
-            19.109,
-            9.5546,
-            4.7773,
-            2.3887,
-            1.1943,
-            0.5972
-        ],
-        "center": [
-            0,
-            0
-        ],
-        "layers": [
-            {
-               "type": "VECTOR",
-               "name": "points",
-               "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:points&outputFormat=application/json&srsname=EPSG:3857",
-               "group": "media",
-               "queryable": true,
-               "displayInLegend": false,
-               "format": "GeoJSON",
-               "legendDisplayName": "Points",
-               "visible": true,
-               "zIndex": 1000,
-               "minResolution": 0,
-               "maxResolution": 64000,
-               "label": true,
-               "hoverable": true,
-               "style": {
-                 "hoverTextColor": "white",
-                 "hoverBackgroundColor": "#000000",
-                 "type": "circle",
-                 "radius": 10,
-                    "stylePropFnRef": {
-                        "fillColor": "variable1",
-                        "strokeColor": "variable2"
-                    },
-                 "strokeWidth": 2
+    "legend": {
+      "isVisible": true
+    },
+    "controls": {
+      "locate_me": true,
+      "share_map": true,
+      "geocoder": true
+    },
+    "sideBar": {
+      "isVisible": true,
+      "backgroundColor": "#fefefe",
+      "textColor": "black"
+    },
+    "navbar": {
+      "dropdownMenu": false
+    },
+    "customNavigationScheme": "1"
+  },
+  "map": {
+    "projectionCode": "EPSG:3857",
+    "minZoom": 1,
+    "maxZoom": 21,
+    "zoom": 1,
+    "geoserverWorkspace": "workspace1",
+    "resolutions": [
+      156543.03, 78271.52, 39135.76, 19567.88, 9783.94, 4891.97, 2445.98, 1222.99, 611.5, 305.75, 152.87, 76.437,
+      38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
+    ],
+    "center": [0, 0],
+    "layers": [
+      {
+        "type": "VECTOR",
+        "name": "points",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:points&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "displayInLegend": false,
+        "format": "GeoJSON",
+        "legendDisplayName": "Points",
+        "visible": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "type": "circle",
+          "radius": 10,
+          "stylePropFnRef": {
+            "fillColor": "variable1",
+            "strokeColor": "variable2"
+          },
+          "strokeWidth": 2
         }
       },
-            {
-                "type": "VECTOR",
-                "name": "lines",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:lines&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "media",
-                "queryable": true,
-                "displayInLegend": false,
-                "legendDisplayName": "Lines",
-                "format": "GeoJSON",
-                "visible": true,
-                "zIndex": 1000,
-                "minResolution": 0,
-                "maxResolution": 64000,
-                "label": false,
-                "hoverable": true,
-                "style": {
-                    "type": "line",
-                    "stylePropFnRef": {
-                        "strokeColor": "variable1",
-                        "strokeWidth": "variable2"
-                    },
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000"
-                }
-            },
-            {
-                "type": "VECTOR",
-                "name": "polygons",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:polygons&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "media",
-                "queryable": true,
-                "format": "GeoJSON",
-                "visible": true,
-                "legendDisplayName": "Polygons",
-                "zIndex": 1000,
-                "minResolution": 1,
-                "maxResolution": 64000,
-                "opacity": 1,
-                "label": null,
-                "hoverable": true,
-                "style": {
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000",
-                    "stylePropFnRef": {
-                        "fillColor": "variable1",
-                        "strokeColor": "variable2"
-                    },
-                    "strokeWidth": 3
-                }
-            },
-            {
-                "type": "VECTOR",
-                "name": "photos",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:photos&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "media",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "Photos",
-                "format": "GeoJSON",
-                "visible": true,
-                "zIndex": 1000,
-                "minResolution": 0.5,
-                "maxResolution": 64000,
-                "label": true,
-                "hoverable": true,
-                "style": {
-                  "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/photocam.png",
-                  "scale": 1,
-                  "hoverTextColor": "white",
-                  "hoverBackgroundColor": "#000000"
-                  }
-            },
-            {
-                "type": "VECTOR",
-                "name": "videos",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:videos&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "media",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "Videos",
-                "format": "GeoJSON",
-                "visible": true,
-                "zIndex": 1000,
-                "minResolution": 0.5,
-                "maxResolution": 64000,
-                "label": false,
-                "hoverable": true,
-                "style": {
-                  "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/videocam.png",
-                  "scale": 1,
-                  "hoverTextColor": "white",
-                  "hoverBackgroundColor": "#000000"
-                  }
-            },
-            {
-                "type": "XYZ",
-                "name": "osm",
-                "group": "backgroundLayers",
-                "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                "minResolution": 0.25,
-                "maxResolution": 60000,
-                "displayInLegend": false,
-                "legendDisplayName": "OpenStreetMap",
-                "opacity": 0.99,
-                "visible": true,
-                "updatewhileanimating": true
-            },
-           {
-              "type": "XYZ",
-              "name": "ESRI-World-Imagery",
-              "group": "backgroundLayers",
-              "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-              "minResolution": 0.25,
-              "maxResolution": 8,
-              "queryable": false,
-              "visible": true
-            }
-        ],
-        "groups": {
-            "media": {
-                "default": {
-                    "layers": [
-                        "osm",
-                        "polygons",
-                        "ESRI-World-Imagery",
-                        "points",
-                        "lines",
-                        "videos",
-                        "photos"
-                    ],
-                    "center": [
-                        -91.289,
-                        42.690
-                    ],
-                    "resolution": 2200,
-                    "mobileResolution": 7000,
-                    "mobileCenter": [
-                        -89.41,
-                        42.097
-                    ],
-                    "minResolution": 0,
-                    "maxResolution": 64000
-                },
-                "local": {
-                    "layers": [],
-                    "center": [
-                        -88.179,
-                        41.837
-                    ],
-                    "resolution": 2000,
-                    "mobileResolution": 16000,
-                    "minResolution": 0,
-                    "maxResolution": 64000
-                },
-                "global": {
-                    "layers": [],
-                    "center": [
-                        -12.42,
-                        29.84
-                    ],
-                    "resolution": 68000,
-                    "mobileResolution": 80000,
-                    "minResolution": 0,
-                    "maxResolution": 64000
-                }
-            }
-        },
-        "flyToSlideshow": {
-            "delayInSecondsForInitialStart": 9000000,
-            "delayInSecondsBetweenFrames": 120000,
-            "maplinks": [
-                ""
-            ]
-        },
-        "defaultActiveGroup": "media",
-        "groupTitles": {
-            "media": "media"
-        },
-        "regionTitles": {
-            "local": "local",
-            "global": "global",
-            "default": "Default"
-        },
-        "popupFieldsMapping": {
-            "default": {
-                "title": "NAME",
-                "entity": "OWNER",
-                "text": "WHAT'S HAPPENING",
-                "link1": "WEBSITE"
-                
-            }
-        },
-        "featureInfoHiddenProps": [
-            "caption",
-            "variable1",
-            "variable2",
-            "imageUrl",
-            "sidebarMediaTop",
-            "sidebarMediaBottom",
-            "videoUrl",
-            "videoSrc",
-            "colorkey",
-            "latitude",
-            "longitude"
-        ],
-        "corporateEntitiesUrls": {
-            "Enbridge": ""
+      {
+        "type": "VECTOR",
+        "name": "lines",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:lines&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Lines",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": false,
+        "hoverable": true,
+        "style": {
+          "type": "line",
+          "stylePropFnRef": {
+            "strokeColor": "variable1",
+            "strokeWidth": "variable2"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
+      },
+      {
+        "type": "VECTOR",
+        "name": "polygons",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:polygons&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "visible": true,
+        "legendDisplayName": "Polygons",
+        "zIndex": 1000,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "opacity": 1,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "stylePropFnRef": {
+            "fillColor": "variable1",
+            "strokeColor": "variable2"
+          },
+          "strokeWidth": 3
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "photos",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:photos&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Photos",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 1000,
+        "minResolution": 0.5,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/photocam.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "videos",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:videos&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Videos",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 1000,
+        "minResolution": 0.5,
+        "maxResolution": 64000,
+        "label": false,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/videocam.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "XYZ",
+        "name": "osm",
+        "group": "backgroundLayers",
+        "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "minResolution": 0.25,
+        "maxResolution": 60000,
+        "displayInLegend": false,
+        "legendDisplayName": "OpenStreetMap",
+        "opacity": 0.99,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "ESRI-World-Imagery",
+        "group": "backgroundLayers",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0.25,
+        "maxResolution": 8,
+        "queryable": false,
+        "visible": true
+      }
+    ],
+    "groups": {
+      "media": {
+        "default": {
+          "layers": ["osm", "polygons", "ESRI-World-Imagery", "points", "lines", "videos", "photos"],
+          "center": [-91.289, 42.69],
+          "resolution": 2200,
+          "mobileResolution": 7000,
+          "mobileCenter": [-89.41, 42.097],
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "local": {
+          "layers": [],
+          "center": [-88.179, 41.837],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [-12.42, 29.84],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      }
+    },
+    "flyToSlideshow": {
+      "delayInSecondsForInitialStart": 9000000,
+      "delayInSecondsBetweenFrames": 120000,
+      "maplinks": [""]
+    },
+    "defaultActiveGroup": "media",
+    "groupTitles": {
+      "media": "media"
+    },
+    "regionTitles": {
+      "local": "local",
+      "global": "global",
+      "default": "Default"
+    },
+    "popupFieldsMapping": {
+      "default": {
+        "title": "NAME",
+        "entity": "OWNER",
+        "text": "WHAT'S HAPPENING",
+        "link1": "WEBSITE"
+      }
+    },
+    "featureInfoHiddenProps": [
+      "caption",
+      "variable1",
+      "variable2",
+      "imageUrl",
+      "sidebarMediaTop",
+      "sidebarMediaBottom",
+      "videoUrl",
+      "videoSrc",
+      "colorkey",
+      "latitude",
+      "longitude"
+    ],
+    "corporateEntitiesUrls": {
+      "Enbridge": ""
     }
+  }
 }

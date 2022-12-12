@@ -2,7 +2,6 @@ import jwtDecode from 'jwt-decode';
 import AuthService from '../../services/auth.service';
 import {validateToken} from '../../utils/Helpers';
 
-
 const token = JSON.parse(localStorage.getItem('token'));
 
 const state = {

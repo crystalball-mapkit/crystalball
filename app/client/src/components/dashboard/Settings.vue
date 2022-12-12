@@ -9,7 +9,7 @@ import VJsoneditor from 'v-jsoneditor';
 
 export default {
   components: {
-    "c-jsoneditor": VJsoneditor,
+    'c-jsoneditor': VJsoneditor,
   },
   data() {
     return {
