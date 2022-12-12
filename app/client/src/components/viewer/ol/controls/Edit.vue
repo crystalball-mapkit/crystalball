@@ -168,7 +168,7 @@
           <vue-scroll ref="vs">
             <div style="max-height: 280px" class="pr-2">
               <v-form ref="edit-form" v-model="formValid">
-                <v-jsf v-model="formData" :schema="formSchema" :options="formOptions">
+                <editor-form v-model="formData" :schema="formSchema" :options="formOptions">
                   <template slot="lightbox-append">
                     <v-tooltip left>
                       <template v-slot:activator="{on}">
@@ -186,7 +186,7 @@
                       ><span>Lightbox Images Panel</span>
                     </v-tooltip>
                   </template>
-                </v-jsf>
+                </editor-form>
               </v-form>
             </div>
           </vue-scroll>
@@ -316,7 +316,7 @@ export default {
   components: {
     'overlay-popup': OverlayPopup,
     'lightbox-dialog': Lighbox,
-    VJsf,
+    'editor-form': VJsf,
   },
   mixins: [Mapable],
   props: {

@@ -8,7 +8,7 @@
           isLoading ? '1em' : '0px'
         }; vertical-align: middle;`"
       >
-        <img class="info-pop-up__load" align="middle" src="/icons/ball-loader.gif" />
+        <!-- <img class="info-pop-up__load" align="middle" src="/icons/ball-loader.gif" /> -->
       </span>
     </span>
   </a>

@@ -16,12 +16,12 @@ export default defineConfig(({mode}) => {
       Vue(),
       Components({
         resolvers: [
-          componentName => {
-            if (componentName.startsWith('VJsf'))
-              // do not know the UI lib naming rule
-              return {name: componentName, as: componentName, from: '@koumoul/vjsf'};
-          },
           VuetifyResolver(),
+          componentName => {
+            if (componentName.startsWith('VJsf')) {
+              return {name: componentName, as: componentName, from: '@koumoul/vjsf'};
+            }
+          }
         ],
       }),
     ],
@@ -38,8 +38,10 @@ export default defineConfig(({mode}) => {
       ],
       extensions: ['.vue', '.js'],
     },
+    commonjsOptions: {
+      esmExternals: true,
+    },
     build: {
-      sourcemap: false,
       target: 'es2021',
       cssTarget: 'chrome80',
       chunkSizeWarningLimit: 500,
