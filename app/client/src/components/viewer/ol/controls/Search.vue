@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4">
     <v-tooltip v-if="!isVisible" right>
-      <template v-slot:activator="{ on }">
+      <template v-slot:activator="{on}">
         <v-btn
           v-if="!isVisible"
           class="search-button"
@@ -21,7 +21,7 @@
       v-if="isVisible"
       solo
       rounded
-      style="z-index: 3;width:300px;"
+      style="z-index: 3; width: 300px"
       v-model="model"
       :items="items"
       :loading="isLoading"
@@ -41,12 +41,10 @@
       prepend-inner-icon="search"
       return-object
       class="elevation-4"
-      :menu-props="{ maxHeight: 400 }"
+      :menu-props="{maxHeight: 400}"
     >
       <template slot="append">
-        <v-icon v-show="!search" v-on:click.stop.prevent="closeSearch" left
-          >chevron_left</v-icon
-        >
+        <v-icon v-show="!search" v-on:click.stop.prevent="closeSearch" left>chevron_left</v-icon>
       </template>
       <template v-slot:item="data">
         <template v-if="typeof data.item !== 'object'">
@@ -56,22 +54,15 @@
           <template v-if="data.item.icon">
             <img :src="data.item.icon" class="mr-3" />
           </template>
-          <v-list-item-content style="z-index: 1;width:220px;">
-            <v-list-item-title
-              v-html="data.item.display_name"
-            ></v-list-item-title>
-            <v-list-item-subtitle
-              v-if="data.item.subtitle"
-              v-html="data.item.subtitle"
-            ></v-list-item-subtitle>
+          <v-list-item-content style="z-index: 1; width: 220px">
+            <v-list-item-title v-html="data.item.display_name"></v-list-item-title>
+            <v-list-item-subtitle v-if="data.item.subtitle" v-html="data.item.subtitle"></v-list-item-subtitle>
           </v-list-item-content>
         </template>
       </template>
       <template slot="append-item"
         ><div class="nominatim-attribution pa-1 mt-2">
-          <a href="http://www.openstreetmap.org/copyright" target="new"
-            >© OpenStreetMap contributors</a
-          >
+          <a href="http://www.openstreetmap.org/copyright" target="new">© OpenStreetMap contributors</a>
         </div>
       </template>
     </v-autocomplete>
@@ -79,20 +70,20 @@
 </template>
 <script>
 import axios from 'axios';
-import { debounce } from '../../../../utils/Helpers';
-import { geojsonToFeature } from '../../../../utils/MapUtils';
-import { fromLonLat } from 'ol/proj';
-import { boundingExtent } from 'ol/extent';
-import { getSearchHighlightStyle } from '../../../../style/OlStyleDefs';
+import {fromLonLat} from 'ol/proj';
+import {boundingExtent} from 'ol/extent';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
+import {getSearchHighlightStyle} from '../../../../style/OlStyleDefs';
+import {geojsonToFeature} from '../../../../utils/MapUtils';
+import {debounce} from '../../../../utils/Helpers';
 
 export default {
   props: {
-    map: { type: Object, required: true },
-    color: { type: String }
+    map: {type: Object, required: true},
+    color: {type: String},
   },
   data() {
     return {
@@ -102,7 +93,7 @@ export default {
       model: null,
       search: null,
       isLoading: false,
-      highlightLayer: null
+      highlightLayer: null,
     };
   },
   name: 'search',
@@ -113,21 +104,14 @@ export default {
       const y1 = parseFloat(this.model.boundingbox[0]);
       const x2 = parseFloat(this.model.boundingbox[3]);
       const y2 = parseFloat(this.model.boundingbox[1]);
-      const extent = boundingExtent([
-        fromLonLat([x1, y1]),
-        fromLonLat([x2, y2])
-      ]);
-      const feature = new Feature(
-        new Point(
-          fromLonLat([parseFloat(this.model.lon), parseFloat(this.model.lat)])
-        )
-      );
+      const extent = boundingExtent([fromLonLat([x1, y1]), fromLonLat([x2, y2])]);
+      const feature = new Feature(new Point(fromLonLat([parseFloat(this.model.lon), parseFloat(this.model.lat)])));
       this.highlightLayer.getSource().clear();
       this.highlightLayer.getSource().addFeature(feature);
       if (this.model.geojson) {
         const olFeatures = geojsonToFeature(this.model.geojson, {
           dataProjection: 'EPSG:4326',
-          featureProjection: 'EPSG:3857'
+          featureProjection: 'EPSG:3857',
         });
         this.highlightLayer.getSource().addFeatures(olFeatures);
       }
@@ -137,7 +121,7 @@ export default {
         maxZoom: 17,
         callback: () => {
           this.map.render();
-        }
+        },
       });
     },
     clearSearch() {
@@ -148,7 +132,7 @@ export default {
     closeSearch() {
       this.clearSearch();
       this.isVisible = false;
-    }
+    },
   },
   computed: {
     items() {
@@ -156,14 +140,12 @@ export default {
         const subtitle = [];
         if (entry.class) subtitle.push(entry.class);
         if (entry.type) subtitle.push(entry.type);
-        return Object.assign({}, entry, {
-          subtitle: subtitle.join(' - ')
-        });
+        return {...entry, subtitle: subtitle.join(' - ')};
       });
-    }
+    },
   },
   watch: {
-    search: debounce(function() {
+    search: debounce(function () {
       if (!this.search) {
         this.clearSearch();
         return;
@@ -183,16 +165,16 @@ export default {
         .catch(() => {
           this.isLoading = false;
         });
-    }, 500)
+    }, 500),
   },
   created() {
     this.highlightLayer = new VectorLayer({
       zIndex: 100,
       source: new VectorSource(),
-      style: getSearchHighlightStyle
+      style: getSearchHighlightStyle,
     });
     this.map.addLayer(this.highlightLayer);
-  }
+  },
 };
 </script>
 <style lang="scss">

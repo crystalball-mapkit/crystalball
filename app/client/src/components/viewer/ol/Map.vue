@@ -2,7 +2,7 @@
   <div id="ol-map-container">
     <!-- Map Controls -->
     <map-legend :color="color.primary" />
-    <div style="position:absolute;left:20px;top:10px;">
+    <div style="position: absolute; left: 20px; top: 10px">
       <login-button :color="color.primary"></login-button>
       <search-map
         v-if="$appConfig.app.controls && $appConfig.app.controls.geocoder"
@@ -17,53 +17,38 @@
         :map="map"
       ></share-map>
       <!-- Show only on mobile -->
-      <locate
-        v-if="$appConfig.app.controls && $appConfig.app.controls.locate_me"
-        :color="color.primary"
-        :map="map"
-      />
+      <locate v-if="$appConfig.app.controls && $appConfig.app.controls.locate_me" :color="color.primary" :map="map" />
       <route-controls
         v-show="!isEditingPost"
         v-if="!$vuetify.breakpoint.smAndDown"
         :color="{
           activeButton: color.secondary,
-          inactiveButton: color.primary
+          inactiveButton: color.primary,
         }"
       />
     </div>
 
     <!-- Edit Controls (Only available for logged users which aren't guests ) -->
-    <div v-if="loggedUser" style="position:absolute;right:20px;top:10px;">
-      <edit
-        :map="map"
-        :color="{ primary: color.primary, activeButton: color.secondary }"
-      />
+    <div v-if="loggedUser" style="position: absolute; right: 20px; top: 10px">
+      <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
     </div>
     <div
       v-if="$vuetify.breakpoint.smAndDown"
-      :style="
-        `position:absolute;bottom:${
-          $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
-        }px;left:50%;z-index:100;transform:translateX(-50%);`
-      "
+      :style="`position:absolute;bottom:${
+        $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
+      }px;left:50%;z-index:100;transform:translateX(-50%);`"
     >
       <edit-guide :color="color.primary" :map="map"></edit-guide>
     </div>
     <div
-      :style="
-        `position:absolute;bottom:${
-          $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
-        }px;left:50%;z-index:101;transform:translateX(-50%);`
-      "
+      :style="`position:absolute;bottom:${
+        $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
+      }px;left:50%;z-index:101;transform:translateX(-50%);`"
     >
       <add-post :color="color.primary" :map="map"></add-post>
     </div>
     <div
-      v-show="
-        spotlightMessage === true &&
-          !$vuetify.breakpoint.smAndDown &&
-          !isEditingPost
-      "
+      v-show="spotlightMessage === true && !$vuetify.breakpoint.smAndDown && !isEditingPost"
       :style="`background-color: ${color.primary}`"
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
@@ -75,10 +60,8 @@
     <overlay-popup
       :title="
         popup.activeFeature
-          ? popup.activeFeature.get('category') ||
-            popup.activeFeature.get('title')
-            ? popup.activeFeature.get('category') ||
-              popup.activeFeature.get('title')
+          ? popup.activeFeature.get('category') || popup.activeFeature.get('title')
+            ? popup.activeFeature.get('category') || popup.activeFeature.get('title')
             : popup.activeLayer
             ? popup.activeLayer.get('name')
             : ''
@@ -97,16 +80,11 @@
       </template>
       <template v-slot:body>
         <vue-scroll ref="vs">
-          <div style="max-height:280px;" class="pr-2">
+          <div style="max-height: 280px" class="pr-2">
             <div class="body-2" v-for="item in popupInfo" :key="item.property">
               <span
                 v-if="isPopupRowVisible(item)"
-                v-html="
-                  `<strong>${mapPopupPropName(
-                    item,
-                    popup.activeLayer
-                  )}: </strong>` + item.value
-                "
+                v-html="`<strong>${mapPopupPropName(item, popup.activeLayer)}: </strong>` + item.value"
               ></span>
             </div>
           </div>
@@ -115,30 +93,25 @@
           <a
             v-if="
               popup.activeLayer &&
-                popup.activeLayer.get('showZoomToFeature') !== false &&
-                popup.activeFeature &&
-                selectedCoorpNetworkEntity === null
+              popup.activeLayer.get('showZoomToFeature') !== false &&
+              popup.activeFeature &&
+              selectedCoorpNetworkEntity === null
             "
             href="javascript:void(0)"
             @click="zoomToFeature()"
           >
             <strong>{{
-              popup.activeFeature.getGeometry().getType() === 'Point'
-                ? 'DIVE'
-                : 'VIEW WHOLE FEATURE'
+              popup.activeFeature.getGeometry().getType() === 'Point' ? 'DIVE' : 'VIEW WHOLE FEATURE'
             }}</strong>
           </a>
           <a
             v-show="popup.activeLayer.get('includeInSearch') !== false"
             v-if="
-              (popup.activeFeature.get('entity') &&
-                !selectedCoorpNetworkEntity) ||
-                (selectedCoorpNetworkEntity &&
-                  popup.activeFeature.get('entity') &&
-                  splittedEntities &&
-                  !splittedEntities.some(substring =>
-                    popup.activeFeature.get('entity').includes(substring)
-                  ))
+              (popup.activeFeature.get('entity') && !selectedCoorpNetworkEntity) ||
+              (selectedCoorpNetworkEntity &&
+                popup.activeFeature.get('entity') &&
+                splittedEntities &&
+                !splittedEntities.some(substring => popup.activeFeature.get('entity').includes(substring)))
             "
             @click="queryCorporateNetwork"
             href="javascript:void(0)"
@@ -159,7 +132,7 @@
       :message="progressLoading.message"
     ></progress-loader>
     <!-- Show snackbar -->
-    <snackbar style="margin-top:60px;"></snackbar>
+    <snackbar style="margin-top: 60px"></snackbar>
   </div>
 </template>
 
@@ -175,73 +148,64 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
-import { fromExtent } from 'ol/geom/Polygon';
-import { fromLonLat } from 'ol/proj';
-import { extend } from 'ol/extent';
-import { like as likeFilter, or as orFilter } from 'ol/format/filter';
+import {fromExtent} from 'ol/geom/Polygon';
+import {fromLonLat} from 'ol/proj';
+import {extend} from 'ol/extent';
+import {like as likeFilter, or as orFilter} from 'ol/format/filter';
 
 // style imports
-import {
-  popupInfoStyle,
-  networkCorpHighlightStyle,
-  worldOverlayFill
-} from '../../../style/OlStyleDefs';
+import {mapMutations, mapGetters, mapActions} from 'vuex';
+import {mapFields} from 'vuex-map-fields';
+import DoubleClickZoom from 'ol/interaction/DoubleClickZoom';
+import {defaults as defaultInteractions} from 'ol/interaction';
+import {defaults as defaultControls, Attribution} from 'ol/control';
+import axios from 'axios';
+import {popupInfoStyle, networkCorpHighlightStyle, worldOverlayFill} from '../../../style/OlStyleDefs';
 
 // import the app-wide EventBus
-import { EventBus } from '../../../EventBus';
+import {EventBus} from '../../../EventBus';
 
 // utils imports
-import { LayerFactory } from '../../../factory/OlLayer';
-import { isCssColor } from '../../../utils/Helpers';
-import {
-  extractGeoserverLayerNames,
-  wfsRequestParser,
-  getLayerSourceUrl
-} from '../../../utils/Layer';
+import {LayerFactory} from '../../../factory/OlLayer';
+import {isCssColor, debounce, Timer} from '../../../utils/Helpers';
+import {extractGeoserverLayerNames, wfsRequestParser, getLayerSourceUrl} from '../../../utils/Layer';
 import UrlUtil from '../../../utils/Url';
-import { geojsonToFeature } from '../../../utils/MapUtils';
+import {geojsonToFeature} from '../../../utils/MapUtils';
 
-//Store imports
-import { mapMutations, mapGetters, mapActions } from 'vuex';
-import { mapFields } from 'vuex-map-fields';
+// Store imports
 
 // Map Controls
-import OverlayPopup from './controls/Overlay';
-import ZoomControl from './controls/ZoomControl';
-import FullScreen from './controls/FullScreen';
-import Locate from './controls/Locate';
-import Search from './controls/Search';
-import RouteControls from './controls/RouteControls';
-import Legend from './controls/Legend';
-import Login from './controls/Login';
-import Edit from './controls/Edit';
-import ShareMap from './controls/ShareMap';
-import AddPost from './controls/AddPost';
+import OverlayPopup from './controls/Overlay.vue';
+import ZoomControl from './controls/ZoomControl.vue';
+import FullScreen from './controls/FullScreen.vue';
+import Locate from './controls/Locate.vue';
+import Search from './controls/Search.vue';
+import RouteControls from './controls/RouteControls.vue';
+import Legend from './controls/Legend.vue';
+import Login from './controls/Login.vue';
+import Edit from './controls/Edit.vue';
+import ShareMap from './controls/ShareMap.vue';
+import AddPost from './controls/AddPost.vue';
 import EditGuide from './controls/EditGuide.vue';
 // Interactions
-import DoubleClickZoom from 'ol/interaction/DoubleClickZoom';
-import { defaults as defaultInteractions } from 'ol/interaction';
 
 // Ol controls
-import { defaults as defaultControls, Attribution } from 'ol/control';
 
 // Lightbox
-import AppLightBox from '../../core/AppLightBox';
+import AppLightBox from '../../core/AppLightBox.vue';
 
 // Media lightbox
 import MediaLightBox from '../../core/MediaLightBox';
 
 // Shared methods
-import { SharedMethods } from '../../../mixins/SharedMethods';
+import {SharedMethods} from '../../../mixins/SharedMethods';
 
 // Services
 import http from '../../../services/http';
-import axios from 'axios';
 
 // Progress loader
-import ProgressLoader from '../../core/ProgressLoader';
-import Snackbar from '../../core/Snackbar';
-import { debounce, Timer } from '../../../utils/Helpers';
+import ProgressLoader from '../../core/ProgressLoader.vue';
+import Snackbar from '../../core/Snackbar.vue';
 
 export default {
   components: {
@@ -258,8 +222,8 @@ export default {
     locate: Locate,
     'progress-loader': ProgressLoader,
     edit: Edit,
-    'edit-guide': EditGuide, //mobile bottom info alerts
-    Snackbar
+    'edit-guide': EditGuide, // mobile bottom info alerts
+    Snackbar,
   },
   name: 'app-ol-map',
   data() {
@@ -282,12 +246,12 @@ export default {
       progressLoading: {
         message: 'Fetching Corporate Network',
         progressColor: this.$appConfig.app.color.primary,
-        value: false
+        value: false,
       },
       ops: {
         vuescroll: {
-          sizeStrategy: 'number'
-        }
+          sizeStrategy: 'number',
+        },
       },
       noMapReset: false,
       layerVisibilityState: {},
@@ -295,13 +259,13 @@ export default {
         currentIndex: 0, // Index of current coordinate.
         isFlying: false, // Use to check if pointdrap or movend is triggered from the flyToFn
         timer: null, // timer between frames
-        timeout: null // timer for initial start.
-      }
+        timeout: null, // timer for initial start.
+      },
     };
   },
   mixins: [SharedMethods],
   mounted() {
-    var me = this;
+    const me = this;
     // Add keydown event listener to change spotlight radius
     window.addEventListener('keydown', e => {
       if (e.keyCode === 38) {
@@ -363,10 +327,10 @@ export default {
     }, 200);
   },
   created() {
-    var me = this;
+    const me = this;
     // Make map rotateable according to property
     const attribution = new Attribution({
-      collapsible: true
+      collapsible: true,
     });
 
     // Need to reference as we should deactive double click zoom when there
@@ -377,19 +341,19 @@ export default {
       interactions: defaultInteractions({
         altShiftDragRotate: me.rotateableMap,
         doubleClickZoom: false,
-        pinchRotate: false
+        pinchRotate: false,
       }).extend([this.dblClickZoomInteraction]),
       controls: defaultControls({
         attribution: false,
-        zoom: false
+        zoom: false,
       }).extend([attribution]),
       view: new View({
         center: me.center || [0, 0],
         minResolution: 0.25,
-        maxResolution: 64000
-      })
+        maxResolution: 64000,
+      }),
     });
-    //Add map to the vuex store.
+    // Add map to the vuex store.
     me.setMap(me.map);
     // Create layers from config and add them to map
     me.resetMap();
@@ -402,9 +366,7 @@ export default {
     });
     EventBus.$on('ol-interaction-stoped', stopedInteraction => {
       me.activeInteractions = Array.from(new Set(me.activeInteractions));
-      me.activeInteractions = me.activeInteractions.filter(interaction => {
-        return interaction !== stopedInteraction;
-      });
+      me.activeInteractions = me.activeInteractions.filter(interaction => interaction !== stopedInteraction);
     });
   },
 
@@ -432,14 +394,11 @@ export default {
           layer.setVisible(this.layerVisibilityState[layer.get('name')]);
         }
         // Enable spotlight for ESRI Imagery
-        if (
-          layer.get('name') === 'ESRI-World-Imagery' ||
-          layer.get('name') === 'ESRI-World-Imagery3'
-        ) {
+        if (layer.get('name') === 'ESRI-World-Imagery' || layer.get('name') === 'ESRI-World-Imagery3') {
           layer.on('prerender', e => {
             this.spotlight(e);
           });
-          layer.on('postrender', function(e) {
+          layer.on('postrender', e => {
             e.context.restore();
           });
         }
@@ -458,13 +417,13 @@ export default {
     createGetInfoLayer() {
       // For Vector selection
       const source = new VectorSource({
-        wrapX: false
+        wrapX: false,
       });
       const vector = new VectorLayer({
         name: 'Get Info Layer',
         zIndex: 3000,
-        source: source,
-        style: popupInfoStyle()
+        source,
+        style: popupInfoStyle(),
       });
       this.popup.highlightLayer = vector;
       this.map.addLayer(vector);
@@ -476,15 +435,15 @@ export default {
     createWorldExtentOverlayLayer() {
       // For Vector selection
       const source = new VectorSource({
-        wrapX: true
+        wrapX: true,
       });
       const vector = new VectorLayer({
         name: 'World Extent Layer',
         isInteractive: false,
         queryable: false,
         zIndex: 2000,
-        source: source,
-        style: worldOverlayFill()
+        source,
+        style: worldOverlayFill(),
       });
       this.popup.worldExtentLayer = vector;
       this.map.addLayer(vector);
@@ -496,14 +455,14 @@ export default {
     createSelectedCorpNetworkLayer() {
       // For Vector selection
       const source = new VectorSource({
-        wrapX: true
+        wrapX: true,
       });
       const vector = new VectorLayer({
         name: 'Corporate Selected Network Layer',
         zIndex: 2500,
         hoverable: true,
-        source: source,
-        style: networkCorpHighlightStyle()
+        source,
+        style: networkCorpHighlightStyle(),
       });
       this.popup.selectedCorpNetworkLayer = vector;
       this.map.addLayer(vector);
@@ -515,19 +474,16 @@ export default {
 
     createVTHighlightLayer(source) {
       // For Vector tiles selection.
-      var vectorTileLayer = new VectorTileLayer({
+      const vectorTileLayer = new VectorTileLayer({
         renderMode: 'vector',
-        source: source,
+        source,
         zIndex: 100,
         hoverable: true,
         style: feature => {
-          if (
-            this.popup.activeFeature &&
-            this.popup.activeFeature.getId() === feature.getId()
-          ) {
+          if (this.popup.activeFeature && this.popup.activeFeature.getId() === feature.getId()) {
             return popupInfoStyle()(feature);
           }
-        }
+        },
       });
       this.popup.highlightVectorTileLayer = vectorTileLayer;
       this.map.addLayer(this.popup.highlightVectorTileLayer);
@@ -544,36 +500,25 @@ export default {
         if (rotateEl) {
           rotateEl.className += ' elevation-5';
           rotateEl.borderRadius = '40px';
-          const rotateElStyle = document.querySelector(
-            '.ol-rotate .ol-rotate-reset'
-          ).style;
+          const rotateElStyle = document.querySelector('.ol-rotate .ol-rotate-reset').style;
           rotateElStyle.backgroundColor = color;
           rotateElStyle.borderRadius = '40px';
         }
         const attrEl = document.querySelector('.ol-attribution');
         if (attrEl) {
           attrEl.className += ' elevation-5';
-          const elStyle = document.querySelector(
-            ".ol-attribution button[type='button']"
-          ).style;
+          const elStyle = document.querySelector(".ol-attribution button[type='button']").style;
           elStyle.backgroundColor = color;
           elStyle.borderRadius = '40px';
         }
       } else {
         // apply vuetify color by transforming the color to the corresponding
         // CSS class (see https://vuetifyjs.com/en/framework/colors)
-        const [colorName, colorModifier] = color
-          .toString()
-          .trim()
-          .split(' ', 2);
+        const [colorName, colorModifier] = color.toString().trim().split(' ', 2);
 
         if (document.querySelector('.ol-rotate')) {
-          document
-            .querySelector('.ol-rotate .ol-rotate-reset')
-            .classList.add(colorName);
-          document
-            .querySelector('.ol-rotate .ol-rotate-reset')
-            .classList.add(colorModifier);
+          document.querySelector('.ol-rotate .ol-rotate-reset').classList.add(colorName);
+          document.querySelector('.ol-rotate .ol-rotate-reset').classList.add(colorModifier);
         }
       }
     },
@@ -588,8 +533,8 @@ export default {
         autoPan: false,
         autoPanMargin: 40,
         autoPanAnimation: {
-          duration: 250
-        }
+          duration: 250,
+        },
       });
       me.map.addOverlay(me.popup.popupOverlay);
     },
@@ -628,20 +573,18 @@ export default {
         this.popup.highlightLayer.getSource().clear();
       }
 
-      let position = this.popup.activeFeature.getGeometry().getCoordinates();
+      const position = this.popup.activeFeature.getGeometry().getCoordinates();
       // Correct popup position (used feature coordinates insteaad of mouse)
       let closestPoint;
       // Closest point doesn't work with vector tile layers.
       if (position) {
-        closestPoint = this.popup.activeFeature
-          .getGeometry()
-          .getClosestPoint(clickCoord);
+        closestPoint = this.popup.activeFeature.getGeometry().getClosestPoint(clickCoord);
       } else {
         closestPoint = clickCoord;
       }
       this.map.getView().animate({
         center: closestPoint,
-        duration: 400
+        duration: 400,
       });
       this.popup.popupOverlay.setPosition(closestPoint);
       this.popup.isVisible = true;
@@ -695,12 +638,12 @@ export default {
         // Zoom to extent adding a padding to the extent
         this.previousMapPosition = {
           center: this.map.getView().getCenter(),
-          zoom: this.map.getView().getZoom()
+          zoom: this.map.getView().getZoom(),
         };
 
         this.map.getView().fit(geometry.getExtent(), {
           padding: [100, 100, 100, 100],
-          duration: 800
+          duration: 800,
         });
       }
       setTimeout(() => {
@@ -715,9 +658,8 @@ export default {
      * Map pointer move event .
      */
     setupMapPointerMove() {
-      let overlayEl;
       // create a span to show map tooltip
-      overlayEl = document.createElement('div');
+      const overlayEl = document.createElement('div');
       overlayEl.className = 'tooltip';
       this.overlayEl = overlayEl;
       // wrap the tooltip span in a OL overlay and add it to map
@@ -726,7 +668,7 @@ export default {
         offset: [22, 12],
         positioning: 'center-left',
         stopEvent: true,
-        insertFirst: false
+        insertFirst: false,
       });
       this.map.addOverlay(this.overlay);
 
@@ -734,7 +676,8 @@ export default {
         if (evt.dragging || this.activeInteractions.length > 0) {
           return;
         }
-        let feature, layer;
+        let feature;
+        let layer;
         if (this.isEditingLayer === false && this.isEditingPost === false) {
           this.map.forEachFeatureAtPixel(
             evt.pixel,
@@ -747,7 +690,7 @@ export default {
               }
             },
             {
-              hitTolerance: 3
+              hitTolerance: 3,
             }
           );
           this.map.getTarget().style.cursor = feature ? 'pointer' : '';
@@ -757,38 +700,27 @@ export default {
             this.overlay.setPosition(undefined);
           } else {
             if (!feature) return;
-            if (
-              this.popup.activeFeature &&
-              this.popup.activeFeature.getId() === `clone.${feature.getId()}`
-            )
-              return;
+            if (this.popup.activeFeature && this.popup.activeFeature.getId() === `clone.${feature.getId()}`) return;
             const attr =
-              feature.get('hoverAttribute') ||
-              feature.get('title') ||
-              feature.get('entity') ||
-              feature.get('NAME');
+              feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
             if (!attr) return;
             if (layer.get('styleObj')) {
-              const { hoverTextColor, hoverBackgroundColor } = JSON.parse(
-                layer.get('styleObj')
-              );
+              const {hoverTextColor, hoverBackgroundColor} = JSON.parse(layer.get('styleObj'));
 
+              // eslint-disable-next-line no-unused-expressions
               hoverBackgroundColor && overlayEl
                 ? (overlayEl.style.backgroundColor = hoverBackgroundColor)
                 : (overlayEl.style.backgroundColor = '');
 
-              hoverTextColor && overlayEl
-                ? (overlayEl.style.color = hoverTextColor)
-                : (overlayEl.style.color = '');
+              // eslint-disable-next-line no-unused-expressions
+              hoverTextColor && overlayEl ? (overlayEl.style.color = hoverTextColor) : (overlayEl.style.color = '');
             }
             if (
               (!feature.get('entity') && this.selectedCoorpNetworkEntity) ||
               (feature.get('entity') &&
                 this.selectedCoorpNetworkEntity &&
                 this.splittedEntities &&
-                !this.splittedEntities.some(substring =>
-                  feature.get('entity').includes(substring)
-                ))
+                !this.splittedEntities.some(substring => feature.get('entity').includes(substring)))
             ) {
               return;
             }
@@ -810,7 +742,7 @@ export default {
 
       if (element) {
         const me = this;
-        element.onmouseleave = debounce(function() {
+        element.onmouseleave = debounce(() => {
           me.updateMousePosition();
         }, 50);
       }
@@ -820,7 +752,7 @@ export default {
       me.currentResolution = this.map.getView().getResolution();
       this.map.getView().on(
         'change:resolution',
-        debounce(function() {
+        debounce(() => {
           const res = me.map.getView().getResolution();
           me.currentResolution = res;
         }, 100)
@@ -828,15 +760,8 @@ export default {
     },
     updateMousePosition() {
       const me = this;
-      if (
-        me.popup.activeFeature &&
-        ['Point', 'MultiPoint'].includes(
-          me.popup.activeFeature.getGeometry().getType()
-        )
-      ) {
-        const coordinate = me.popup.activeFeature
-          .getGeometry()
-          .getCoordinates();
+      if (me.popup.activeFeature && ['Point', 'MultiPoint'].includes(me.popup.activeFeature.getGeometry().getType())) {
+        const coordinate = me.popup.activeFeature.getGeometry().getCoordinates();
         const pixel = me.map.getPixelFromCoordinate(coordinate);
         if (pixel) {
           me.mousePosition = pixel;
@@ -877,7 +802,8 @@ export default {
         if (me.isEditingLayer || me.isEditingPost) {
           return;
         }
-        let feature, layer;
+        let feature;
+        let layer;
         this.map.forEachFeatureAtPixel(
           evt.pixel,
           (f, l) => {
@@ -886,41 +812,26 @@ export default {
             if (f && f.get('isClone')) {
               return false;
             }
-            if (
-              !feature &&
-              l.get('isInteractive') !== false &&
-              l.get('queryable') !== false
-            ) {
+            if (!feature && l.get('isInteractive') !== false && l.get('queryable') !== false) {
               feature = f;
               layer = l;
             }
           },
           {
-            hitTolerance: 3
+            hitTolerance: 3,
           }
         );
         // Check if layer is interactive
-        if (
-          (layer && layer.get('isInteractive') === false) ||
-          (layer && layer.get('queryable') === false)
-        )
-          return;
+        if ((layer && layer.get('isInteractive') === false) || (layer && layer.get('queryable') === false)) return;
 
-        if (
-          feature &&
-          !feature.get('entity') &&
-          this.selectedCoorpNetworkEntity
-        )
-          return;
+        if (feature && !feature.get('entity') && this.selectedCoorpNetworkEntity) return;
 
         if (
           feature &&
           feature.get('entity') &&
           this.selectedCoorpNetworkEntity &&
           this.splittedEntities &&
-          !this.splittedEntities.some(substring =>
-            feature.get('entity').includes(substring)
-          )
+          !this.splittedEntities.some(substring => feature.get('entity').includes(substring))
         ) {
           return;
         }
@@ -956,9 +867,7 @@ export default {
           }
           // Check if feature has lightbox array of images
           if (props.lightbox) {
-            const images = Array.isArray(props.lightbox)
-              ? props.lightbox
-              : JSON.parse(props.lightbox);
+            const images = Array.isArray(props.lightbox) ? props.lightbox : JSON.parse(props.lightbox);
             if (!Array.isArray(images)) return;
             images.forEach(image => {
               let imageUrl;
@@ -975,7 +884,7 @@ export default {
               this.lightBoxImages.push({
                 src: url,
                 thumb: url,
-                caption: caption
+                caption,
               });
             });
             // Open lightbox
@@ -1001,8 +910,8 @@ export default {
                 outputFormat: 'application/json',
                 srsName: 'EPSG:3857',
                 typeNames: geoserverLayerName,
-                featureId: feature.getId()
-              }
+                featureId: feature.getId(),
+              },
             });
             if (response.data.features) {
               const olFeatures = geojsonToFeature(response.data, {});
@@ -1019,9 +928,7 @@ export default {
           if (this.selectedCoorpNetworkEntity && this.popup.activeFeature) {
             this.popup.highlightLayer.getSource().clear();
             this.popup.activeFeature.setStyle(null);
-            this.popup.highlightLayer
-              .getSource()
-              .addFeature(this.popup.activeFeature);
+            this.popup.highlightLayer.getSource().addFeature(this.popup.activeFeature);
           }
 
           if (this.selectedCoorpNetworkEntity) {
@@ -1086,14 +993,14 @@ export default {
         const position = flyToSlideshow.maplinks[this.slideshow.currentIndex];
         window.location.href = position;
         // Increase or init the index
-        this.slideshow.currentIndex = this.slideshow.currentIndex + 1;
+        this.slideshow.currentIndex += 1;
         setTimeout(() => {
           this.slideshow.isFlying = false;
         }, 50);
       }
     },
-    spotlight: function(e) {
-      let ctx = e.context;
+    spotlight(e) {
+      const ctx = e.context;
       const pixelRatio = e.frameState.pixelRatio;
       ctx.save();
       ctx.beginPath();
@@ -1128,7 +1035,7 @@ export default {
       if (!entity) return;
       this.selectedCoorpNetworkEntity = entity;
       if (!this.layersWithEntityField || !this.splittedEntities) return;
-      ///////////////////////
+      /// ////////////////////
       if (!this.queryLayersGeoserverNames) {
         const queryableLayers = [];
         const flatLayers = [];
@@ -1149,42 +1056,34 @@ export default {
           }
         });
 
-        this.queryLayersGeoserverNames = extractGeoserverLayerNames(
-          queryableLayers,
-          this.layersWithEntityField
-        )[workspace]['names'].filter(name =>
-          this.layersWithEntityField.includes(name)
-        );
+        this.queryLayersGeoserverNames = extractGeoserverLayerNames(queryableLayers, this.layersWithEntityField)[
+          workspace
+        ].names.filter(name => this.layersWithEntityField.includes(name));
       }
 
       const filterArray = [];
+      // eslint-disable-next-line no-shadow
       this.splittedEntities.forEach(entity => {
         filterArray.push(likeFilter('entity', `%${entity}%`));
       });
       if (filterArray.length === 0) return;
       let filter;
-      filterArray.length === 1
-        ? (filter = filterArray[0])
-        : (filter = orFilter(...filterArray));
+      // eslint-disable-next-line no-unused-expressions
+      filterArray.length === 1 ? (filter = filterArray[0]) : (filter = orFilter(...filterArray));
 
-      let promiseArray = [];
+      const promiseArray = [];
       this.queryLayersGeoserverNames.forEach(geoserverLayerName => {
-        const wfsRequest = wfsRequestParser(
-          'EPSG:3857',
-          workspace,
-          [geoserverLayerName],
-          filter
-        );
+        const wfsRequest = wfsRequestParser('EPSG:3857', workspace, [geoserverLayerName], filter);
         promiseArray.push(
           http.post(`./geoserver/${workspace}/wfs`, wfsRequest, {
-            headers: { 'Content-Type': 'text/xml' },
-            layerName: geoserverLayerName
+            headers: {'Content-Type': 'text/xml'},
+            layerName: geoserverLayerName,
           })
         );
       });
 
       this.progressLoading.value = true;
-      this.progressLoading.message = `Fetching data...`;
+      this.progressLoading.message = 'Fetching data...';
       this.popup.highlightLayer.getSource().clear();
       this.popup.worldExtentLayer.getSource().clear();
       this.popup.selectedCorpNetworkLayer.getSource().clear();
@@ -1208,16 +1107,9 @@ export default {
               const olFeaturesArray = geojsonToFeature(response.data, {});
               const geoserverLayerName = response.config.layerName;
               olFeaturesArray.forEach(feature => {
-                const firstTwoWords = feature
-                  .get('entity')
-                  .split(' ')
-                  .slice(0, 2)
-                  .join(' ');
+                const firstTwoWords = feature.get('entity').split(' ').slice(0, 2).join(' ');
 
-                if (
-                  firstTwoWords &&
-                  this.splittedEntities.includes(firstTwoWords)
-                ) {
+                if (firstTwoWords && this.splittedEntities.includes(firstTwoWords)) {
                   if (feature.getGeometry().getType() === 'Point') {
                     // Find all the layers that have this feature using geoserverLayerName
                     mapLayers.forEach(layer => {
@@ -1236,37 +1128,27 @@ export default {
             }
           });
           if (olFeatures) {
-            this.popup.selectedCorpNetworkLayer
-              .getSource()
-              .addFeatures(olFeatures);
+            this.popup.selectedCorpNetworkLayer.getSource().addFeatures(olFeatures);
             // Zoom to extent adding a padding to the extent
-            var extent = olFeatures[0]
-              .getGeometry()
-              .getExtent()
-              .slice(0);
-            olFeatures.forEach(function(feature) {
+            const extent = olFeatures[0].getGeometry().getExtent().slice(0);
+            olFeatures.forEach(feature => {
               extend(extent, feature.getGeometry().getExtent());
             });
             setTimeout(() => {
               this.map.getView().fit(extent, {
                 padding: [30, 80, 80, 80],
-                duration: 800
+                duration: 800,
               });
             }, 500);
             this.popup.popupOverlay.setPosition(undefined);
 
             const worldOverlayGeometry = fromExtent([
-              -20037508.342789244,
-              -20037508.342789244,
-              20037508.342789244,
-              20037508.342789244
+              -20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244,
             ]);
             const worldExtentFeature = new Feature({
-              geometry: worldOverlayGeometry
+              geometry: worldOverlayGeometry,
             });
-            this.popup.worldExtentLayer
-              .getSource()
-              .addFeature(worldExtentFeature);
+            this.popup.worldExtentLayer.getSource().addFeature(worldExtentFeature);
             this.progressLoading.value = false;
           }
         })
@@ -1274,7 +1156,7 @@ export default {
           // handle error
           console.log(error);
           this.progressLoading.value = false;
-          //TODO: Show snackbar for errors.
+          // TODO: Show snackbar for errors.
         });
     },
     fetchDescribeFeatureTypes() {
@@ -1300,57 +1182,44 @@ export default {
               version: ' 2.0.0',
               request: 'DescribeFeatureType',
               outputFormat: 'application/json',
-              typeNames: `${workspace}:${geoserverLayerName}`
-            }
+              typeNames: `${workspace}:${geoserverLayerName}`,
+            },
           })
           .then(response => {
             if (response.data && response.data.featureTypes) {
               const featureTypes = response.data.featureTypes;
               featureTypes.forEach(featureType => {
                 featureType.properties.forEach(property => {
-                  if (
-                    property.name === 'entity' &&
-                    filterLayersWithEntity.indexOf(featureType.typeName) === -1
-                  ) {
+                  if (property.name === 'entity' && filterLayersWithEntity.indexOf(featureType.typeName) === -1) {
                     filterLayersWithEntity.push(featureType.typeName);
                   }
                 });
               });
               this.layersWithEntityField = filterLayersWithEntity;
 
-              Object.keys(geoserverLayerNames[workspace].mapped).forEach(
-                layerName => {
-                  if (
-                    geoserverLayerNames[workspace].mapped[layerName] ===
-                    geoserverLayerName
-                  ) {
-                    this.layersMetadata[layerName] = {
-                      properties: featureTypes[0].properties,
-                      typeName: featureTypes[0].typeName
-                    };
-                  }
+              Object.keys(geoserverLayerNames[workspace].mapped).forEach(layerName => {
+                if (geoserverLayerNames[workspace].mapped[layerName] === geoserverLayerName) {
+                  this.layersMetadata[layerName] = {
+                    properties: featureTypes[0].properties,
+                    typeName: featureTypes[0].typeName,
+                  };
                 }
-              );
+              });
             }
+          }).catch(() => {
+            // handle error
           });
       });
     },
     isPopupRowVisible(item) {
       if (this.selectedCoorpNetworkEntity && this.popup.activeFeature) {
-        return (
-          !this.hiddenProps.includes(item.property) &&
-          !['null', '---'].includes(item.value)
-        );
+        return !this.hiddenProps.includes(item.property) && !['null', '---'].includes(item.value);
       }
 
       if (!['null', '---'].includes(item.value)) {
-        return (
-          this.popup.diveVisibleProps.includes(item.property) &&
-          !this.hiddenProps.includes(item.property)
-        );
-      } else {
-        return false;
+        return this.popup.diveVisibleProps.includes(item.property) && !this.hiddenProps.includes(item.property);
       }
+      return false;
     },
     resetMap() {
       // Other Operational Layers
@@ -1359,9 +1228,7 @@ export default {
       // Set reset map group to true if the center is defined.
       if (!this.noMapReset || visibleGroup.center) {
         const isMobile = this.$vuetify.breakpoint.smAndDown;
-        const center = isMobile
-          ? visibleGroup.mobileCenter || visibleGroup.center
-          : visibleGroup.center;
+        const center = isMobile ? visibleGroup.mobileCenter || visibleGroup.center : visibleGroup.center;
         const resolution = isMobile
           ? visibleGroup.mobileResolution || visibleGroup.resolution
           : visibleGroup.resolution;
@@ -1385,14 +1252,14 @@ export default {
       this.closePopup();
     },
     ...mapActions('map', {
-      fetchColorMapEntities: 'fetchColorMapEntities'
+      fetchColorMapEntities: 'fetchColorMapEntities',
     }),
     ...mapMutations('map', {
       setMap: 'SET_MAP',
       setLayer: 'SET_LAYER',
       setPersistentLayer: 'SET_PERSISTENT_LAYER',
-      removeAllLayers: 'REMOVE_ALL_LAYERS'
-    })
+      removeAllLayers: 'REMOVE_ALL_LAYERS',
+    }),
   },
   computed: {
     ...mapGetters('map', {
@@ -1403,10 +1270,10 @@ export default {
       geoserverWorkspace: 'geoserverWorkspace',
       persistentLayers: 'persistentLayers',
       mobilePanelState: 'mobilePanelState',
-      visibleGroup: 'visibleGroup'
+      visibleGroup: 'visibleGroup',
     }),
     ...mapGetters('auth', {
-      loggedUser: 'loggedUser'
+      loggedUser: 'loggedUser',
     }),
     ...mapFields('map', {
       previousMapPosition: 'previousMapPosition',
@@ -1419,16 +1286,14 @@ export default {
       layersMetadata: 'layersMetadata',
       layersWithEntityField: 'layersWithEntityField',
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
-      currentResolution: 'currentResolution'
+      currentResolution: 'currentResolution',
     }),
     hiddenProps() {
       const hiddenProps = this.$appConfig.map.featureInfoHiddenProps;
       return hiddenProps || [];
     },
     activeLayerGroupConf() {
-      const group = this.$appConfig.map.groups[
-        this.activeLayerGroup.navbarGroup
-      ][this.activeLayerGroup.region];
+      const group = this.$appConfig.map.groups[this.activeLayerGroup.navbarGroup][this.activeLayerGroup.region];
       return group;
     },
     searchLabel() {
@@ -1440,7 +1305,7 @@ export default {
         return this.visibleGroup.searchLabel.toUpperCase();
       }
       return 'CORPORATE NETWORK';
-    }
+    },
   },
   watch: {
     activeInteractions() {
@@ -1458,10 +1323,7 @@ export default {
 
       let clearMap = true;
 
-      if (
-        this.$appConfig.app.customNavigationScheme &&
-        this.$appConfig.app.customNavigationScheme === '2'
-      ) {
+      if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme === '2') {
         if (newValue.region === oldValue.region) {
           clearMap = false;
         }
@@ -1493,8 +1355,8 @@ export default {
       EventBus.$emit('group-changed');
       EventBus.$emit('clearEditHtml');
 
-      if (this.persistentLayers['html_posts']) {
-        this.persistentLayers['html_posts'].getSource().refresh();
+      if (this.persistentLayers.html_posts) {
+        this.persistentLayers.html_posts.getSource().refresh();
       }
       // Reset fromEvent to false
       setTimeout(() => {
@@ -1515,8 +1377,8 @@ export default {
           this.map.updateSize();
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

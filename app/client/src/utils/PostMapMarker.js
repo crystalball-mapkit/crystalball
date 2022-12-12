@@ -1,7 +1,8 @@
-import Layer from 'ol/layer/Layer.js';
-import { createCanvasContext2D } from 'ol/dom.js';
-import { asString as ol_color_asString } from 'ol/color';
-import { asArray as ol_color_asArray } from 'ol/color';
+/* eslint-disable no-multi-assign */
+/* eslint-disable camelcase */
+import Layer from 'ol/layer/Layer';
+import {createCanvasContext2D} from 'ol/dom';
+import {asString as ol_color_asString, asArray as ol_color_asArray} from 'ol/color';
 
 const image = new Image();
 image.src = './icons/marker-plus.png';
@@ -13,7 +14,7 @@ const flashlightRadius = 100;
 export default class PostMapMarker extends Layer {
   constructor(
     options = {
-      zIndex: 100
+      zIndex: 100,
     }
   ) {
     super(options);
@@ -29,11 +30,12 @@ export default class PostMapMarker extends Layer {
     //
     this.isFlashlightVisible = true;
   }
+
   // Snippet from Viglino "https://github.com/Viglino/ol-ext/blob/master/src/interaction/Flashlight.js"
   /** Set flashlight color
-   *	@param {ol.flashlight.options} flashlight options param
-   *		- color {ol.Color} light color, default transparent
-   *		- fill {ol.Color} fill color, default rgba(0,0,0,0.8)
+   *@param {ol.flashlight.options} flashlight options param
+   *- color {ol.Color} light color, default transparent
+   *- fill {ol.Color} fill color, default rgba(0,0,0,0.8)
    */
   setColor(options) {
     // Backcolor
@@ -42,9 +44,7 @@ export default class PostMapMarker extends Layer {
     this.startColor = ol_color_asString(c);
     // Halo color
     if (options.color) {
-      c = this.endColor = ol_color_asString(
-        ol_color_asArray(options.color) || options.color
-      );
+      c = this.endColor = ol_color_asString(ol_color_asArray(options.color) || options.color);
     } else {
       c[3] = 0;
       this.endColor = ol_color_asString(c);
@@ -83,11 +83,7 @@ export default class PostMapMarker extends Layer {
     this.context_.lineWidth = 2;
     this.context_.stroke();
     // draw the image
-    this.context_.drawImage(
-      image,
-      centerX - image.width / 2,
-      centerY - image.height
-    );
+    this.context_.drawImage(image, centerX - image.width / 2, centerY - image.height);
 
     if (this.isFlashlightVisible) {
       // draw a flashlight around marker (Snippet from https://github.com/Viglino/ol-ext/blob/master/src/interaction/Flashlight.js)

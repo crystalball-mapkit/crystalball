@@ -2,26 +2,23 @@
   <div>
     <!-- OL MAP -->
     <div class="fullscreen">
-      <app-ol-map
-        class="fullscreen"
-        ref="olmap"
-      ></app-ol-map>
+      <app-ol-map class="fullscreen" ref="olmap"></app-ol-map>
     </div>
   </div>
 </template>
 
 <script>
-import appMap from './ol/Map';
+import appMap from './ol/Map.vue';
 
 export default {
   name: 'app-viewer',
   components: {
-    'app-ol-map': appMap
+    'app-ol-map': appMap,
   },
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="css" scoped>

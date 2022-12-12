@@ -1,21 +1,27 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-cond-assign */
+/* eslint-disable default-case */
+/* eslint-disable camelcase */
 /* eslint-disable new-cap */
 
-import { DEVICE_PIXEL_RATIO } from 'ol/has';
-import { toContext } from 'ol/render';
+import {DEVICE_PIXEL_RATIO} from 'ol/has';
+import {toContext} from 'ol/render';
 import olFeature from 'ol/Feature';
 import olGeomPoint from 'ol/geom/Point';
 import olGeomLineString from 'ol/geom/LineString';
 import olGeomPolygon from 'ol/geom/Polygon';
-import olLayerImage from 'ol/layer/Image.js';
-import olLayerVector from 'ol/layer/Vector.js';
-import olLayerVectorTile from 'ol/layer/VectorTile.js';
-import olLayerLayer from 'ol/layer/Layer.js';
-import { Group as LayerGroup } from 'ol/layer.js';
-import { extend as olExtend } from 'ol/extent';
-import { WFS } from 'ol/format';
-import { humanize } from './Helpers';
+import olLayerImage from 'ol/layer/Image';
+import olLayerVector from 'ol/layer/Vector';
+import olLayerVectorTile from 'ol/layer/VectorTile';
+import olLayerLayer from 'ol/layer/Layer';
+import {Group as LayerGroup} from 'ol/layer';
+import {extend as olExtend} from 'ol/extent';
+import {WFS} from 'ol/format';
+import {appendParams as olUriAppendParams} from 'ol/uri';
+import {humanize} from './Helpers';
 import UrlUtil from './Url';
-import { appendParams as olUriAppendParams } from 'ol/uri.js';
 
 /**
  * Util for OL layers
@@ -34,8 +40,8 @@ export function getLayersBy(key, value, olMap) {
     return [];
   }
 
-  let layerMatches = [];
-  olMap.getLayers().forEach(function(layer) {
+  const layerMatches = [];
+  olMap.getLayers().forEach(layer => {
     if (layer.get(key) === value) {
       layerMatches.push(layer);
     }
@@ -121,20 +127,14 @@ export function zoomToLayerExtent(vecLayer, olMap) {
  * @param  {ol.format.filter} filter The Openlayers filter
  *
  */
-export function wfsRequestParser(
-  srsName,
-  workspace,
-  layerNames,
-  filter,
-  viewparams = undefined
-) {
+export function wfsRequestParser(srsName, workspace, layerNames, filter, viewparams = undefined) {
   const xs = new XMLSerializer();
   const opt = {
-    srsName: srsName,
+    srsName,
     featurePrefix: workspace,
     featureTypes: layerNames,
     outputFormat: 'application/json',
-    filter: filter
+    filter,
   };
   if (viewparams) {
     opt.viewParams = viewparams.toString();
@@ -145,19 +145,9 @@ export function wfsRequestParser(
   return xmlparser;
 }
 
-export function wfsTransactionParser(
-  featuresToAdd,
-  featuresToUpdate,
-  featuresToDelete,
-  formatGML
-) {
+export function wfsTransactionParser(featuresToAdd, featuresToUpdate, featuresToDelete, formatGML) {
   const wfs = new WFS();
-  const xml = wfs.writeTransaction(
-    featuresToAdd,
-    featuresToUpdate,
-    featuresToDelete,
-    formatGML
-  );
+  const xml = wfs.writeTransaction(featuresToAdd, featuresToUpdate, featuresToDelete, formatGML);
   return xml;
 }
 
@@ -174,12 +164,10 @@ export function readTransactionResponse(data) {
  */
 export function getFlatLayers(layer) {
   if (layer instanceof LayerGroup) {
-    const sublayers = /** @type {import("ol/layer/Layer.js").default<import('ol/source/Source.js').default>[]} */ (layer
-      .getLayers()
-      .getArray());
-    const hasGroupLayer = sublayers.some(
-      sublayer => sublayer instanceof LayerGroup
+    const sublayers = /** @type {import("ol/layer/Layer.js").default<import('ol/source/Source.js').default>[]} */ (
+      layer.getLayers().getArray()
     );
+    const hasGroupLayer = sublayers.some(sublayer => sublayer instanceof LayerGroup);
     if (!hasGroupLayer) {
       return sublayers.slice();
     }
@@ -232,14 +220,10 @@ export function getActiveBaseLayer(map) {
   const activeBaselayer = map
     .getLayers()
     .getArray()
-    .filter(groupLayer => {
-      return groupLayer.get('name') === 'backgroundLayers';
-    })[0]
+    .filter(groupLayer => groupLayer.get('name') === 'backgroundLayers')[0]
     .getLayers()
     .getArray()
-    .filter(layer => {
-      return layer.getVisible() === true;
-    });
+    .filter(layer => layer.getVisible() === true);
   return activeBaselayer;
 }
 
@@ -279,30 +263,28 @@ export function getWMTSLegendURL(layer) {
  */
 export function getStyleImage(options, theCanvas, row) {
   options = options || {};
-  var size = [40, 25];
-  var margin = 10;
-  var width = size[0] + 2 * margin;
-  var height = size[1] + 2 * margin;
-  var canvas = theCanvas;
-  var ratio = DEVICE_PIXEL_RATIO;
+  const size = [40, 25];
+  const margin = 10;
+  const width = size[0] + 2 * margin;
+  const height = size[1] + 2 * margin;
+  let canvas = theCanvas;
+  const ratio = DEVICE_PIXEL_RATIO;
   if (!canvas) {
     canvas = document.createElement('canvas');
     canvas.width = width * ratio;
     canvas.height = height * ratio;
   }
 
-  var ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
   ctx.save();
-  var vectorContext = toContext(ctx);
+  const vectorContext = toContext(ctx);
 
-  var typeGeom = options.typeGeom;
-  var style;
-  var feature = options.feature;
+  let typeGeom = options.typeGeom;
+  let style;
+  let feature = options.feature;
   if (!feature && options.properties && typeGeom) {
-    if (/Point/.test(typeGeom))
-      feature = new olFeature(new olGeomPoint([0, 0]));
-    else if (/LineString/.test(typeGeom))
-      feature = new olFeature(new olGeomLineString([0, 0]));
+    if (/Point/.test(typeGeom)) feature = new olFeature(new olGeomPoint([0, 0]));
+    else if (/LineString/.test(typeGeom)) feature = new olFeature(new olGeomLineString([0, 0]));
     else feature = new olFeature(new olGeomPolygon([[0, 0]]));
     feature.setProperties(options.properties);
   }
@@ -318,21 +300,22 @@ export function getStyleImage(options, theCanvas, row) {
   }
   if (!(style instanceof Array)) style = [style];
 
-  var cx = width / 2;
-  var cy = height / 2;
-  var sx = size[0] / 2;
-  var sy = size[1] / 2;
-  var i, s;
+  let cx = width / 2;
+  let cy = height / 2;
+  const sx = size[0] / 2;
+  const sy = size[1] / 2;
+  let i;
+  let s;
   // Get point offset
   if (typeGeom === 'Point') {
-    var extent = null;
+    let extent = null;
     for (i = 0; (s = style[i]); i++) {
-      var img = s.getImage();
+      const img = s.getImage();
       if (img && img.getAnchor) {
-        var anchor = img.getAnchor();
-        var si = img.getSize();
-        var dx = anchor[0] - si[0];
-        var dy = anchor[1] - si[1];
+        const anchor = img.getAnchor();
+        const si = img.getSize();
+        const dx = anchor[0] - si[0];
+        const dy = anchor[1] - si[1];
         if (!extent) {
           extent = [dx, dy, dx + si[0], dy + si[1]];
         } else {
@@ -341,8 +324,8 @@ export function getStyleImage(options, theCanvas, row) {
       }
     }
     if (extent) {
-      cx = cx + (extent[2] + extent[0]) / 2;
-      cy = cy + (extent[3] + extent[1]) / 2;
+      cx += (extent[2] + extent[0]) / 2;
+      cy += (extent[3] + extent[1]) / 2;
     }
   }
 
@@ -363,7 +346,7 @@ export function getStyleImage(options, theCanvas, row) {
         vectorContext.drawGeometry(
           new olGeomLineString([
             [cx - sx, cy],
-            [cx + sx, cy]
+            [cx + sx, cy],
           ])
         );
         ctx.restore();
@@ -377,8 +360,8 @@ export function getStyleImage(options, theCanvas, row) {
               [cx + sx, cy - sy],
               [cx + sx, cy + sy],
               [cx - sx, cy + sy],
-              [cx - sx, cy - sy]
-            ]
+              [cx - sx, cy - sy],
+            ],
           ])
         );
         break;
@@ -427,7 +410,7 @@ export function getWMSLegendURL(
     SERVICE: 'WMS',
     VERSION: '1.1.1',
     REQUEST: 'GetLegendGraphic',
-    LAYER: layerName
+    LAYER: layerName,
   };
   if (opt_scale !== undefined) {
     queryString.SCALE = opt_scale;
@@ -457,12 +440,8 @@ export function getWMSLegendURL(
     ) {
       queryString.BBOX = opt_bbox.join(',');
       queryString.SRS = opt_srs;
-      queryString.WIDTH = Math.round(
-        ((opt_bbox[2] - opt_bbox[0]) / opt_scale) * 39.37 * opt_dpi
-      );
-      queryString.HEIGHT = Math.round(
-        ((opt_bbox[3] - opt_bbox[1]) / opt_scale) * 39.37 * opt_dpi
-      );
+      queryString.WIDTH = Math.round(((opt_bbox[2] - opt_bbox[0]) / opt_scale) * 39.37 * opt_dpi);
+      queryString.HEIGHT = Math.round(((opt_bbox[3] - opt_bbox[1]) / opt_scale) * 39.37 * opt_dpi);
     }
   }
   if (opt_additionalQueryString) {
@@ -497,9 +476,7 @@ export function extractGeoserverLayerNames(map) {
     }
 
     if (url && url.includes('geoserver')) {
-      let typeName =
-        new URLSearchParams(url).get('typename') ||
-        url.match('tms/1.0.0/(.*)@EPSG');
+      let typeName = new URLSearchParams(url).get('typename') || url.match('tms/1.0.0/(.*)@EPSG');
       // Only for vector tiles.
       if (Array.isArray(typeName) && typeName.length > 1) {
         typeName = typeName[1];
@@ -512,15 +489,12 @@ export function extractGeoserverLayerNames(map) {
         if (!geoserverLayerNames[workspace]) {
           geoserverLayerNames[workspace] = {
             names: [],
-            mapped: {}
+            mapped: {},
           };
         }
 
         // Check if layer exists in array and it has 'entity' field
-        if (
-          geoserverLayerNames[workspace].names.indexOf(geoserverLayerName) ===
-          -1
-        ) {
+        if (geoserverLayerNames[workspace].names.indexOf(geoserverLayerName) === -1) {
           geoserverLayerNames[workspace].names.push(geoserverLayerName);
         }
         // Check if layer exists in array and it has 'entity' field
@@ -534,19 +508,10 @@ export function extractGeoserverLayerNames(map) {
 
 export function getLayerSourceUrl(source) {
   let url;
-  if (
-    source.getUrl &&
-    source.getUrl() &&
-    typeof source.getUrl() === 'function' &&
-    source.getUrl() !== undefined
-  ) {
+  if (source.getUrl && source.getUrl() && typeof source.getUrl() === 'function' && source.getUrl() !== undefined) {
     url = source.getUrl()([0, 0, 0, 0]);
   } else if (source.getUrls) {
-    if (
-      source.getUrls() &&
-      source.getUrls()[0] !== undefined &&
-      source.getUrls()[0].includes('geoserver')
-    ) {
+    if (source.getUrls() && source.getUrls()[0] !== undefined && source.getUrls()[0].includes('geoserver')) {
       url = source.getUrls()[0];
     }
   }
@@ -558,7 +523,7 @@ export function getLayerSourceUrl(source) {
  */
 export function formatPopupRows(feature, excludedProperties) {
   const props = feature.getProperties();
-  const { link1, link2, link3, source, ...rest } = props;
+  const {link1, link2, link3, source, ...rest} = props;
   if (UrlUtil.validURL(link1)) {
     rest['WEBSITE'] = `<a href='${link1}' target='_blank'>here</a>`;
   }
@@ -570,16 +535,16 @@ export function formatPopupRows(feature, excludedProperties) {
     rest['More information'] = moreInformation;
   }
   if (UrlUtil.validURL(source)) {
-    rest['SOURCE'] = `<a href='${source}' target='_blank'>here</a>`;
+    rest.SOURCE = `<a href='${source}' target='_blank'>here</a>`;
   }
 
-  let transformed = [];
+  const transformed = [];
   Object.keys(rest).forEach(k => {
     if (!excludedProperties.includes(k) && !typeof k !== 'object') {
       transformed.push({
         humanizedProperty: humanize(k),
         property: k,
-        value: !rest[k] ? '---' : rest[k]
+        value: !rest[k] ? '---' : rest[k],
       });
     }
   });
@@ -590,11 +555,7 @@ export function formatPopupRows(feature, excludedProperties) {
 /**
  * The function returns IframeUrl
  */
-export function getIframeUrl(
-  splittedEntities,
-  corporateEntitiesUrls,
-  selectedCoorpNetworkEntity
-) {
+export function getIframeUrl(splittedEntities, corporateEntitiesUrls, selectedCoorpNetworkEntity) {
   let url;
   const urls = corporateEntitiesUrls;
   if (urls[selectedCoorpNetworkEntity]) {

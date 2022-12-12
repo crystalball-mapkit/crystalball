@@ -1,11 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      :max-width="options.width"
-      @keydown.esc="cancel"
-      v-bind:style="{ zIndex: options.zIndex }"
-    >
+    <v-dialog v-model="dialog" :max-width="options.width" @keydown.esc="cancel" v-bind:style="{zIndex: options.zIndex}">
       <v-card>
         <v-app-bar dark :color="options.color" dense flat>
           <v-app-bar-nav-icon
@@ -14,21 +9,13 @@
           <v-toolbar-title class="white--text">{{ title }}</v-toolbar-title>
         </v-app-bar>
 
-        <v-card-text
-          class="body-1 font-weight-medium mt-3 mb-3 pb-0"
-          v-if="message"
-          >{{ message }}</v-card-text
-        >
+        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0" v-if="message">{{ message }}</v-card-text>
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn :color="options.color" text @click.native="agree">{{
-            confirmText
-          }}</v-btn>
-          <v-btn color="primary darken-1" text @click.native="cancel">{{
-            cancelText
-          }}</v-btn>
+          <v-btn :color="options.color" text @click.native="agree">{{ confirmText }}</v-btn>
+          <v-btn color="primary darken-1" text @click.native="cancel">{{ cancelText }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -49,8 +36,8 @@ export default {
       color: 'primary',
       width: 320,
       icon: 'delete',
-      zIndex: 200
-    }
+      zIndex: 200,
+    },
   }),
   methods: {
     open(title, message, confirmText, cancelText, options) {
@@ -72,8 +59,8 @@ export default {
     cancel() {
       this.resolve(false);
       this.dialog = false;
-    }
-  }
+    },
+  },
 };
 /**
  * Vuetify Confirm Dialog component

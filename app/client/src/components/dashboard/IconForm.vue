@@ -10,32 +10,13 @@
         </v-app-bar>
         <v-card-text>
           <v-container>
-            <v-alert
-              outlined
-              v-if="iconUrlExists"
-              dense
-              border="left"
-              type="error"
-            >
+            <v-alert outlined v-if="iconUrlExists" dense border="left" type="error">
               <strong>Icon URL already exists in the table!</strong>
             </v-alert>
-            <v-alert
-              outlined
-              v-if="mode == 'update'"
-              dense
-              border="left"
-              type="warning"
-            >
-              <strong
-                >All posts containing the previous icon will be
-                updated!.</strong
-              >
+            <v-alert outlined v-if="mode == 'update'" dense border="left" type="warning">
+              <strong>All posts containing the previous icon will be updated!.</strong>
             </v-alert>
-            <v-form
-              v-if="['new', 'update'].includes(mode)"
-              ref="iconForm"
-              v-model="valid"
-            >
+            <v-form v-if="['new', 'update'].includes(mode)" ref="iconForm" v-model="valid">
               <v-row>
                 <v-col v-if="icon.iconUrl" cols="3">
                   <v-img :src="icon.iconUrl" max-height="40" contain></v-img>
@@ -45,25 +26,13 @@
                     dense
                     class="mx-2 my-1"
                     v-if="imageUpload.message"
-                    :type="
-                      imageUpload.isUploadedSuccessful === true
-                        ? 'success'
-                        : 'error'
-                    "
+                    :type="imageUpload.isUploadedSuccessful === true ? 'success' : 'error'"
                   >
                     {{ imageUpload.message }}
                   </v-alert>
-                  <v-progress-linear
-                    :active="imageUpload.isUploading"
-                    indeterminate
-                    :color="color"
-                  ></v-progress-linear>
+                  <v-progress-linear :active="imageUpload.isUploading" indeterminate :color="color"></v-progress-linear>
                   <v-text-field
-                    :disabled="
-                      imageUpload.isSelecting ||
-                        imageUpload.isUploading ||
-                        imageUpload.selectedFile !== null
-                    "
+                    :disabled="imageUpload.isSelecting || imageUpload.isUploading || imageUpload.selectedFile !== null"
                     v-model="icon.iconUrl"
                     clear-icon="mdi-close-circle"
                     clearable
@@ -73,24 +42,18 @@
                   >
                     <template slot="append-outer">
                       <v-tooltip left>
-                        <template v-slot:activator="{ on }">
+                        <template v-slot:activator="{on}">
                           <v-icon
                             :disabled="false"
                             @click="toggleImageUpload"
                             class="ml-2 pl-2 lock-button"
-                            style="cursor:pointer;"
+                            style="cursor: pointer"
                             v-on="on"
                           >
-                            {{
-                              imageUpload.selectedFile !== null
-                                ? 'fa fa-close'
-                                : 'fas fa-upload'
-                            }}
+                            {{ imageUpload.selectedFile !== null ? 'fa fa-close' : 'fas fa-upload' }}
                           </v-icon> </template
                         ><span>{{
-                          imageUpload.selectedFile !== null
-                            ? 'Click to clear'
-                            : 'Click to upload icon'
+                          imageUpload.selectedFile !== null ? 'Click to clear' : 'Click to upload icon'
                         }}</span>
                       </v-tooltip>
                       <input
@@ -129,13 +92,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            :disabled="valid === false"
-            color="blue darken-1"
-            text
-            @click="save"
-            >Save</v-btn
-          >
+          <v-btn :disabled="valid === false" color="blue darken-1" text @click="save">Save</v-btn>
           <v-btn color="red darken-1" text @click="cancel">Close</v-btn>
         </v-card-actions>
       </v-card>
@@ -143,11 +100,11 @@
   </v-row>
 </template>
 <script>
+import {mapGetters, mapMutations} from 'vuex';
+import axios from 'axios';
 import Icon from '../../models/icon';
 
-import { mapGetters, mapMutations } from 'vuex';
 import authHeader from '../../services/auth-header';
-import axios from 'axios';
 
 export default {
   data: () => ({
@@ -159,15 +116,15 @@ export default {
     confirmText: null,
     cancelText: null,
     title: null,
-    mode: ``,
+    mode: '',
     options: {
       color: 'primary',
       width: 320,
       icon: 'fas fa-icons',
-      zIndex: 200
+      zIndex: 200,
     },
     rules: {
-      required: value => !!value || 'Required.'
+      required: value => !!value || 'Required.',
     },
     loading: false,
     iconUrlExists: false,
@@ -177,24 +134,18 @@ export default {
       isSelecting: false,
       isUploading: false,
       isUploadedSuccessful: false,
-      message: ''
-    }
+      message: '',
+    },
   }),
   props: {
-    color: { type: String }
+    color: {type: String},
   },
   methods: {
     open(mode, title, confirmText, cancelText, options, icon) {
       this.cancel();
       this.mode = mode;
       if (icon) {
-        this.icon = new Icon(
-          icon.id,
-          icon.group,
-          icon.title,
-          icon.iconUrl,
-          icon.iconUrl
-        );
+        this.icon = new Icon(icon.id, icon.group, icon.title, icon.iconUrl, icon.iconUrl);
       }
       this.dialog = true;
       this.title = title;
@@ -205,19 +156,17 @@ export default {
     save() {
       let req;
       if (this.mode == 'new') {
-        req = axios.post(`/api/icons`, this.icon, { headers: authHeader() });
+        req = axios.post('/api/icons', this.icon, {headers: authHeader()});
       } else if (this.mode == 'update') {
-        req = axios.patch(`/api/icons`, this.icon, { headers: authHeader() });
+        req = axios.patch('/api/icons', this.icon, {headers: authHeader()});
       }
       req
         .then(() => {
           this.toggleSnackbar({
             type: 'success',
-            message: `Icon ${
-              this.mode == 'new' ? 'added' : 'updated'
-            } succesfully`,
+            message: `Icon ${this.mode == 'new' ? 'added' : 'updated'} succesfully`,
             state: true,
-            timeout: 2000
+            timeout: 2000,
           });
           this.$store.dispatch('app/getIcons');
         })
@@ -226,7 +175,7 @@ export default {
             type: 'error',
             message: `Can't ${this.mode == 'new' ? 'add' : 'update'} icon`,
             state: true,
-            timeout: 2000
+            timeout: 2000,
           });
         });
 
@@ -247,7 +196,7 @@ export default {
         () => {
           this.imageUpload.isSelecting = false;
         },
-        { once: false }
+        {once: false}
       );
       this.$refs.imageUploader.click();
     },
@@ -259,41 +208,39 @@ export default {
         setTimeout(() => {
           this.clearUploadImage();
         }, 2000);
-      } else {
+      } else if (this.imageUpload.selectedFile) {
+        // UPLOAD IN S3 Bucket.
+        const formData = new FormData();
         if (this.imageUpload.selectedFile) {
-          // UPLOAD IN S3 Bucket.
-          const formData = new FormData();
-          if (this.imageUpload.selectedFile) {
-            formData.append('folder', 'icons');
-            formData.append('file', this.imageUpload.selectedFile);
-          }
-          this.imageUpload.isUploading = true;
-          axios
-            .post('api/upload', formData, {
-              headers: authHeader()
-            })
-            .then(res => {
-              if (res.data.fileUrl) {
-                const s3Src = res.data.fileUrl;
-                this.icon.iconUrl = s3Src;
-              }
-              this.imageUpload.isUploading = false;
-              this.imageUpload.isUploadedSuccessful = true;
-              this.imageUpload.message = 'Icon uploaded successfuly!';
-              setTimeout(() => {
-                this.imageUpload.message = '';
-              }, 1000);
-            })
-            .catch(() => {
-              this.imageUpload.isUploading = false;
-              this.imageUpload.message = 'Cannot upload icon!';
-              setTimeout(() => {
-                this.imageUpload.message = '';
-              }, 1000);
-              this.icon.iconUrl = '';
-              this.imageUpload.isUploadedSuccessful = false;
-            });
+          formData.append('folder', 'icons');
+          formData.append('file', this.imageUpload.selectedFile);
         }
+        this.imageUpload.isUploading = true;
+        axios
+          .post('api/upload', formData, {
+            headers: authHeader(),
+          })
+          .then(res => {
+            if (res.data.fileUrl) {
+              const s3Src = res.data.fileUrl;
+              this.icon.iconUrl = s3Src;
+            }
+            this.imageUpload.isUploading = false;
+            this.imageUpload.isUploadedSuccessful = true;
+            this.imageUpload.message = 'Icon uploaded successfuly!';
+            setTimeout(() => {
+              this.imageUpload.message = '';
+            }, 1000);
+          })
+          .catch(() => {
+            this.imageUpload.isUploading = false;
+            this.imageUpload.message = 'Cannot upload icon!';
+            setTimeout(() => {
+              this.imageUpload.message = '';
+            }, 1000);
+            this.icon.iconUrl = '';
+            this.imageUpload.isUploadedSuccessful = false;
+          });
       }
     },
     clearUploadImage() {
@@ -313,8 +260,8 @@ export default {
       }
     },
     ...mapMutations('map', {
-      toggleSnackbar: 'TOGGLE_SNACKBAR'
-    })
+      toggleSnackbar: 'TOGGLE_SNACKBAR',
+    }),
   },
   computed: {
     groups() {
@@ -323,9 +270,7 @@ export default {
         Object.keys(this.$appConfig.map.groups).forEach(value => {
           groups.push({
             value,
-            display: this.$appConfig.map.groupTitles[value]
-              ? this.$appConfig.map.groupTitles[value]
-              : value
+            display: this.$appConfig.map.groupTitles[value] ? this.$appConfig.map.groupTitles[value] : value,
           });
         });
       }
@@ -333,11 +278,11 @@ export default {
       return groups;
     },
     ...mapGetters('app', {
-      icons: 'icons'
-    })
+      icons: 'icons',
+    }),
   },
   watch: {
-    'icon.iconUrl': function(newVal) {
+    'icon.iconUrl': function (newVal) {
       // Remove  space from newVal string
       if (newVal) {
         const newIcon = newVal;
@@ -355,8 +300,8 @@ export default {
           }, 2000);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
