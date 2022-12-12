@@ -21,7 +21,7 @@ export default defineConfig(({mode}) => {
             if (componentName.startsWith('VJsf')) {
               return {name: componentName, as: componentName, from: '@koumoul/vjsf'};
             }
-          }
+          },
         ],
       }),
     ],
