@@ -1,12 +1,9 @@
-import { getField, updateField } from 'vuex-map-fields';
-import {
-  formatPopupRows,
-  getLayerSourceUrl,
-  extractGeoserverLayerNames
-} from '../../utils/Layer';
-import http from '../../services/http';
+/* eslint-disable no-param-reassign */
+import {getField, updateField} from 'vuex-map-fields';
 import axios from 'axios';
-let colormap = require('colormap');
+import colormap from 'colormap';
+import {formatPopupRows, getLayerSourceUrl, extractGeoserverLayerNames} from '../../utils/Layer';
+import http from '../../services/http';
 
 const state = {
   map: null,
@@ -15,8 +12,8 @@ const state = {
       type: 'info',
       message: '',
       state: false,
-      timeout: 2000
-    }
+      timeout: 2000,
+    },
   },
   popup: {
     highlightLayer: null,
@@ -28,17 +25,9 @@ const state = {
     isVisible: false,
     activeFeature: null,
     activeLayer: null,
-    exludedProps: [
-      'id',
-      'geometry',
-      'geom',
-      'orgin_geometry',
-      'osm_id',
-      'gid',
-      'layerName'
-    ],
+    exludedProps: ['id', 'geometry', 'geom', 'orgin_geometry', 'osm_id', 'gid', 'layerName'],
     diveVisibleProps: ['title', 'entity'],
-    showInSidePanel: false
+    showInSidePanel: false,
   },
   layers: {}, // Only for operational layers
   activeLayerGroup: null,
@@ -49,7 +38,7 @@ const state = {
   layersWithEntityField: null, // Fetched from Geoserver on load
   selectedCoorpNetworkEntity: null, // Selected entity,
   navbarGroups: [],
-  //Uncomment to activate Local/Global buttons
+  // Uncomment to activate Local/Global buttons
   regions: [],
   previousMapPosition: null,
   previousMapPositionSearch: null,
@@ -75,8 +64,8 @@ const state = {
     style: {
       styleRef: 'htmlLayerStyle',
       hoverTextColor: 'white',
-      hoverBackgroundColor: '#000000'
-    }
+      hoverBackgroundColor: '#000000',
+    },
   },
   postEditLayer: null, // user for
   postFeature: null,
@@ -91,13 +80,13 @@ const state = {
   formSchema: {
     type: 'object',
     required: [],
-    properties: {}
+    properties: {},
   },
   formSchemaCache: {},
   formOptions: {
     debug: false,
     disableAll: false,
-    autoFoldObjects: true
+    autoFoldObjects: true,
   },
   formData: {},
   imageUpload: {
@@ -105,7 +94,7 @@ const state = {
     selectedFile: null,
     isSelecting: false,
     errorMessage: '',
-    position: 'sidebarMediaTop'
+    position: 'sidebarMediaTop',
   },
   editType: null,
   editLayer: null,
@@ -131,22 +120,16 @@ const getters = {
   },
   splittedEntities: state => {
     if (state.selectedCoorpNetworkEntity) {
-      let splittedString = state.selectedCoorpNetworkEntity
-        .split(',')
-        .map(str => {
-          if (str.charAt(0) === ' ') {
-            str = str.slice(1);
-          }
-          str = str
-            .split(' ')
-            .slice(0, 2)
-            .join(' ');
-          return str;
-        });
+      const splittedString = state.selectedCoorpNetworkEntity.split(',').map(str => {
+        if (str.charAt(0) === ' ') {
+          str = str.slice(1);
+        }
+        str = str.split(' ').slice(0, 2).join(' ');
+        return str;
+      });
       return splittedString;
-    } else {
-      return null;
     }
+    return null;
   },
   geoserverWorkspace: state => state.geoserverWorkspace,
   navbarGroups: state => state.navbarGroups,
@@ -164,9 +147,7 @@ const getters = {
   appConfGroups_: state => state.appConfGroups_,
   postIconTitle: (state, getters, rootState, rootGetters) => {
     if (state.popup.activeFeature && state.popup.activeFeature.get('icon')) {
-      const icon = rootGetters['app/postIcons'].filter(
-        i => i.iconUrl == state.popup.activeFeature.get('icon')
-      );
+      const icon = rootGetters['app/postIcons'].filter(i => i.iconUrl == state.popup.activeFeature.get('icon'));
 
       return icon.length > 0 ? icon[0].title : '';
     }
@@ -174,66 +155,53 @@ const getters = {
   },
   groupName: state => {
     if (!state.activeLayerGroup) {
-      return ``;
-    } else {
-      return `${state.activeLayerGroup.navbarGroup}_${state.activeLayerGroup.region}`;
+      return '';
     }
+    return `${state.activeLayerGroup.navbarGroup}_${state.activeLayerGroup.region}`;
   },
   visibleGroup: (state, getters, rootState) => {
     if (rootState.app.appConfig.app.customNavigationScheme == '2') {
-      const navbarGroup = rootState.app.appConfig.map.groups[
-        state.activeLayerGroup.navbarGroup
-      ]
-      navbarGroup.layers = rootState.app.appConfig.map.buttons[state.activeLayerGroup.region]
-      return navbarGroup
-    } else {
-      return rootState.app.appConfig.map.groups[
-        state.activeLayerGroup.navbarGroup
-      ][state.activeLayerGroup.region];
+      const navbarGroup = rootState.app.appConfig.map.groups[state.activeLayerGroup.navbarGroup];
+      navbarGroup.layers = rootState.app.appConfig.map.buttons[state.activeLayerGroup.region];
+      return navbarGroup;
     }
+    return rootState.app.appConfig.map.groups[state.activeLayerGroup.navbarGroup][state.activeLayerGroup.region];
   },
   currentResolution: state => state.currentResolution,
   postFeature: state => state.postFeature,
   mobilePanelState: state => state.mobilePanelState,
   lightboxDialogState: state => state.lightboxDialogState,
-  imageUploadButtonText: state => {
-    return state.imageUpload.selectedFile
-      ? state.imageUpload.selectedFile.name
-      : state.imageUpload.defaultButtonText;
-  },
+  imageUploadButtonText: state =>
+    state.imageUpload.selectedFile ? state.imageUpload.selectedFile.name : state.imageUpload.defaultButtonText,
   editLayer: state => state.editLayer,
   editType: state => state.editType,
   imageUpload: state => state.imageUpload,
   highlightLayer: state => state.highlightLayer,
-  getField
+  getField,
 };
 
 const actions = {
-  fetchColorMapEntities({ commit, rootState }) {
+  fetchColorMapEntities({commit, rootState}) {
     // eslint-disable-next-line no-undef
     if (!rootState.map.colorMapEntities) {
       return;
     }
     const layers = rootState.map.layers;
     const promiseArray = [];
-    Object.keys(layers).forEach(function (key) {
+    Object.keys(layers).forEach(key => {
       const layer = layers[key];
       if (layer.get('styleObj')) {
         const styleObj = JSON.parse(layer.get('styleObj'));
-        if (
-          styleObj.styleRef !== 'colorMapStyle' ||
-          rootState.map.colorMapEntities[layer.get('name')]
-        )
-          return;
+        if (styleObj.styleRef !== 'colorMapStyle' || rootState.map.colorMapEntities[layer.get('name')]) return;
 
         const tableName =
           styleObj.tableName ||
           extractGeoserverLayerNames([
             {
               url: getLayerSourceUrl(layer.getSource()),
-              name: layer.get('name')
-            }
-          ])[rootState.map.geoserverWorkspace]['names'][0];
+              name: layer.get('name'),
+            },
+          ])[rootState.map.geoserverWorkspace].names[0];
         let viewParams = `viewparams=table:${tableName}`;
         if (styleObj.colorField) {
           viewParams += `;field:${styleObj.colorField}`;
@@ -243,8 +211,8 @@ const actions = {
           http.get(url, {
             data: {
               layerName: layer.get('name'),
-              colormap: styleObj.colormap || 'portland'
-            }
+              colormap: styleObj.colormap || 'portland',
+            },
           })
         );
       }
@@ -252,7 +220,7 @@ const actions = {
     if (promiseArray.length > 0) {
       axios
         .all(promiseArray)
-        .then(function (results) {
+        .then(results => {
           results.forEach(response => {
             const features = response.data.features;
             const configData = JSON.parse(response.config.data);
@@ -265,22 +233,22 @@ const actions = {
             console.log(configData.colormap);
             const colors = colormap({
               colormap: configData.colormap,
-              nshades: nshades,
+              nshades,
               format: 'hex',
-              alpha: 1
+              alpha: 1,
             });
             features.forEach((feature, index) => {
               const entity = feature.properties.entity;
               entities[entity] = colors[index];
             });
-            commit('SET_COLORMAP_VALUES', { layerName, entities });
+            commit('SET_COLORMAP_VALUES', {layerName, entities});
           });
         })
-        .catch(function (err) {
+        .catch(err => {
           console.log('Fetch Error :-S', err);
         });
     }
-  }
+  },
 };
 
 const mutations = {
@@ -311,19 +279,10 @@ const mutations = {
     const layers = [...state.map.getLayers().getArray()];
     layers.forEach(layer => {
       // Doesn't remove edit layer but clears it instead. .
-      if (
-        ![
-          'edit_layer',
-          'highlight_layer',
-          'post_edit_layer',
-          'html_posts'
-        ].includes(layer.get('name'))
-      ) {
+      if (!['edit_layer', 'highlight_layer', 'post_edit_layer', 'html_posts'].includes(layer.get('name'))) {
         state.map.removeLayer(layer);
-      } else {
-        if (layer.getSource().clear) {
-          layer.getSource().clear();
-        }
+      } else if (layer.getSource().clear) {
+        layer.getSource().clear();
       }
     });
     state.layers = {};
@@ -331,7 +290,7 @@ const mutations = {
   SET_COLORMAP_VALUES(state, payload) {
     state.colorMapEntities[payload.layerName] = payload.entities;
   },
-  updateField
+  updateField,
 };
 
 export default {
@@ -339,5 +298,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

@@ -1,12 +1,14 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-plusplus */
 import Projection from 'ol/proj/Projection';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import Vector from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
-import { getTopLeft, getBottomLeft } from 'ol/extent';
+import {getTopLeft, getBottomLeft} from 'ol/extent';
 import WKT from 'ol/format/WKT';
-import { getArea } from 'ol/sphere';
+import {getArea} from 'ol/sphere';
 
 export function isWithinVisibleScales(scale, maxScale, minScale) {
   if (maxScale || minScale) {
@@ -36,7 +38,7 @@ export function isWithinVisibleScales(scale, maxScale, minScale) {
 export function customProjection(projectionCode, extent) {
   return new Projection({
     code: projectionCode,
-    extent
+    extent,
   });
 }
 
@@ -50,20 +52,14 @@ export function getLayerName(layer) {
   if (!layer.getUrl) return '';
 
   const layerUrl = layer.getSource().getUrl();
-  const layerName = layerUrl.substring(
-    layerUrl.lastIndexOf('/') + 1,
-    layerUrl.lastIndexOf('.')
-  );
+  const layerName = layerUrl.substring(layerUrl.lastIndexOf('/') + 1, layerUrl.lastIndexOf('.'));
   return layerName;
 }
 
 export function tileGrid(settings, defaultSettings = {}) {
-  const tileGridSettings = Object.assign({}, defaultSettings, settings);
+  const tileGridSettings = {...defaultSettings, ...settings};
   const extent = tileGridSettings.extent;
-  tileGridSettings.origin =
-    tileGridSettings.alignBottomLeft === false
-      ? getTopLeft(extent)
-      : getBottomLeft(extent);
+  tileGridSettings.origin = tileGridSettings.alignBottomLeft === false ? getTopLeft(extent) : getBottomLeft(extent);
   return new TileGrid(tileGridSettings);
 }
 
@@ -77,7 +73,7 @@ export function checkZoomChange(resolution, currentResolution) {
 
 export function createPointFeature(coordinate, style) {
   const feature = new Feature({
-    geometry: new Point(coordinate)
+    geometry: new Point(coordinate),
   });
   feature.setStyle(style);
   return feature;
@@ -85,7 +81,7 @@ export function createPointFeature(coordinate, style) {
 
 export function geojsonToFeature(obj, options) {
   const vectorSource = new Vector({
-    features: new GeoJSON().readFeatures(obj, options)
+    features: new GeoJSON().readFeatures(obj, options),
   });
   return vectorSource.getFeatures();
 }
@@ -93,13 +89,9 @@ export function geojsonToFeature(obj, options) {
 export function findClosestFeatureToCoordinate(features, coordinate) {
   let vectorSource;
   let nearestFeature;
-  if (
-    Array.isArray(features) &&
-    features.length > 0 &&
-    features[0] instanceof Feature
-  ) {
+  if (Array.isArray(features) && features.length > 0 && features[0] instanceof Feature) {
     vectorSource = new Vector({
-      features: features
+      features,
     });
   } else if (features instanceof Vector) {
     // In case vector is passed
@@ -112,7 +104,7 @@ export function findClosestFeatureToCoordinate(features, coordinate) {
 }
 
 export function featuresToGeojson(features, sourceProjection) {
-  const format = new GeoJSON({ featureProjection: sourceProjection });
+  const format = new GeoJSON({featureProjection: sourceProjection});
   const json = format.writeFeatures(features);
   return json;
 }
@@ -121,7 +113,7 @@ export function wktToFeature(wkt, srsName) {
   const format = new WKT();
   const feature = format.readFeature(wkt, {
     dataProjection: srsName,
-    featureProjection: srsName
+    featureProjection: srsName,
   });
   return feature;
 }
@@ -187,7 +179,7 @@ export function flyTo(destination, map, done) {
   const view = map.getView();
   const zoom = view.getZoom();
   let parts = 2;
-  var called = false;
+  let called = false;
   function callback(complete) {
     --parts;
     if (called) {
@@ -201,18 +193,18 @@ export function flyTo(destination, map, done) {
   view.animate(
     {
       center: destination,
-      duration: duration
+      duration,
     },
     callback
   );
   view.animate(
     {
       zoom: zoom - 1,
-      duration: duration / 2
+      duration: duration / 2,
     },
     {
-      zoom: zoom,
-      duration: duration / 2
+      zoom,
+      duration: duration / 2,
     },
     callback
   );
@@ -236,8 +228,7 @@ export function calculateBearing(startLat, startLng, destLat, destLng) {
 
   const y = Math.sin(destLng - startLng) * Math.cos(destLat);
   const x =
-    Math.cos(startLat) * Math.sin(destLat) -
-    Math.sin(startLat) * Math.cos(destLat) * Math.cos(destLng - startLng);
+    Math.cos(startLat) * Math.sin(destLat) - Math.sin(startLat) * Math.cos(destLat) * Math.cos(destLng - startLng);
   let brng = Math.atan2(y, x);
   brng = toDegrees(brng);
   return (brng + 360) % 360;

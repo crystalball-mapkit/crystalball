@@ -1,32 +1,22 @@
 <template>
-  <a
-    href="#"
-    class="info-pop-up__link"
-    v-bind:isLoading="isLoading"
-    v-on:click="this.handleInfoPopUpLinkClick"
-  >
+  <a href="#" class="info-pop-up__link" v-bind:isLoading="isLoading" v-on:click="this.handleInfoPopUpLinkClick">
     <span class="info-pop-up__wrapper-inner">
       <slot></slot>
       <span
         class="info-pop-up__load-wrapper"
-        v-bind:style="
-          `visibility: ${isLoading ? 'visible' : 'hidden'}; height: ${
-            isLoading ? '1em' : '0px'
-          }; vertical-align: middle;`
-        "
+        v-bind:style="`visibility: ${isLoading ? 'visible' : 'hidden'}; height: ${
+          isLoading ? '1em' : '0px'
+        }; vertical-align: middle;`"
       >
-        <img
-          class="info-pop-up__load"
-          align="middle"
-          src="/icons/ball-loader.gif"
-        />
+        <!-- <img class="info-pop-up__load" align="middle" src="/icons/ball-loader.gif" /> -->
       </span>
     </span>
   </a>
 </template>
 
 <script>
-import { appSelector } from '../../main.js';
+// eslint-disable-next-line import/no-cycle
+import {appSelector} from '../../main';
 
 /**
  * Launch a modal based on a filename pointing to an HTML file located in public/html/filename.html.
@@ -49,7 +39,8 @@ import { appSelector } from '../../main.js';
  * @param fileName {String}: the string which will become the filename that will be fetched from public/html/fileName.html
  * @param isLink {Boolean}: If true add isLoading to the data and add the query string to the URL.
  */
-const doInfoPopUp = function(app, fileName, isLink) {
+// eslint-disable-next-line func-names
+const doInfoPopUp = function (app, fileName, isLink) {
   try {
     if (!fileName) {
       throw new Error(
@@ -58,10 +49,7 @@ const doInfoPopUp = function(app, fileName, isLink) {
     }
     let cleanedFilename = fileName.trim();
     if (fileName.endsWith('.html')) {
-      cleanedFilename = cleanedFilename.substring(
-        0,
-        cleanedFilename.length - 5
-      );
+      cleanedFilename = cleanedFilename.substring(0, cleanedFilename.length - 5);
     }
     // Strip out any special characters from the URL to make this secure. Only alphanumeric and - and _.
     cleanedFilename = cleanedFilename.replace(/[^a-zA-Z0-9/-]+/g, '');
@@ -73,13 +61,15 @@ const doInfoPopUp = function(app, fileName, isLink) {
           .map(word => word.charAt(0).toUpperCase() + word.slice(1))
           .join(' ');
         if (isLink) {
+          // eslint-disable-next-line no-param-reassign
           app.$data.isLoading = false;
           // Push the infoPopUp name into the query string to make a shareable URL.
+          // eslint-disable-next-line no-param-reassign
           app.oldUrl = window.location.href;
           window.history.replaceState(
-            { oldUrl: window.location.href, oldTitle: document.title },
+            {oldUrl: window.location.href, oldTitle: document.title},
             title,
-            window.location.href + `?infoPopUp=${cleanedFilename}`
+            `${window.location.href}?infoPopUp=${cleanedFilename}`
           );
         }
         app.$modal.show(
@@ -94,23 +84,19 @@ const doInfoPopUp = function(app, fileName, isLink) {
                     <h1>${title}</h1>
                     ${html}
                   </div>
-                `
+                `,
           },
           {},
           {
             height: 'auto',
             scrollable: true,
-            name: 'info-pop-up'
+            name: 'info-pop-up',
           },
           {
             'before-close': () => {
               // Get rid of all the query params from the URL
-              window.history.replaceState(
-                {},
-                document.title,
-                window.location.href.split('?')[0]
-              );
-            }
+              window.history.replaceState({}, document.title, window.location.href.split('?')[0]);
+            },
           }
         );
       });
@@ -125,32 +111,31 @@ const infoPopUpName = 'info-pop-up';
 const InfoPopUp = {
   props: {
     fileName: String,
-    title: String
+    title: String,
   },
-  data: function() {
+  data() {
     return {
-      isLoading: false
+      isLoading: false,
     };
   },
   methods: {
-    handleInfoPopUpLinkClick: function() {
+    handleInfoPopUpLinkClick() {
       this.$data.isLoading = true;
       this.doInfoPopUp(this, this.fileName, true);
     },
-    doInfoPopUp
-  }
+    doInfoPopUp,
+  },
 };
 
-window.infoPopupHtml = fileName => {
-  return e => {
-    const app = document.querySelector(appSelector)['__vue__'];
-    const isLink = true;
-    e.preventDefault();
-    doInfoPopUp(app, fileName, isLink);
-  };
+window.infoPopupHtml = fileName => e => {
+  const app = document.querySelector(appSelector).__vue__;
+  const isLink = true;
+  e.preventDefault();
+  doInfoPopUp(app, fileName, isLink);
 };
 
-export { InfoPopUp as default, infoPopUpName, doInfoPopUp };
+// eslint-disable-next-line no-restricted-exports
+export {InfoPopUp as default, infoPopUpName, doInfoPopUp};
 </script>
 
 <style>

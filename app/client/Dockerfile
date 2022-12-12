@@ -1,13 +1,15 @@
 # develop stage
-FROM node:11.1-alpine as develop-stage
+FROM node:16-alpine as develop-stage
+RUN apk update && apk add --no-cache libc6-compat
+RUN corepack enable && corepack prepare pnpm@7.4.1 --activate 
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN pnpm install
 COPY . .
 
 # build stage
 FROM develop-stage as build-stage
-RUN npm run build
+RUN pnpm run build
 
 # production stage
 FROM nginx:stable-alpine as production-stage

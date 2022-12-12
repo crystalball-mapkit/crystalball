@@ -1,16 +1,12 @@
 <template>
   <div>
     <v-tooltip v-show="!isVisible" right>
-      <template v-slot:activator="{ on }">
+      <template v-slot:activator="{on}">
         <v-btn
           v-on="on"
-          :style="
-            `position:absolute;${
-              $vuetify.breakpoint.smAndDown ? 'right' : 'left'
-            }:16px;bottom:${
-              $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 40
-            }px;z-index:1;`
-          "
+          :style="`position:absolute;${$vuetify.breakpoint.smAndDown ? 'right' : 'left'}:16px;bottom:${
+            $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 40
+          }px;z-index:1;`"
           v-show="!isVisible"
           :color="color"
           @click="toggleLegend"
@@ -28,13 +24,9 @@
       v-show="isVisible"
       class="elevation-3"
       :width="isVisible ? '250px' : '0px'"
-      :style="
-        `position:absolute;${
-          $vuetify.breakpoint.smAndDown ? 'right' : 'left'
-        }:25px;bottom:${
-          $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
-        }px;max-width:200px;opacity:90%;z-index:1000;`
-      "
+      :style="`position:absolute;${$vuetify.breakpoint.smAndDown ? 'right' : 'left'}:25px;bottom:${
+        $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
+      }px;max-width:200px;opacity:90%;z-index:1000;`"
     >
       <v-btn
         v-show="isVisible"
@@ -43,9 +35,7 @@
         text
         min-width="30px"
         x-small
-        :style="
-          `z-index:100;background-color:${color};position:absolute;bottom:30px;right:-19px;`
-        "
+        :style="`z-index:100;background-color:${color};position:absolute;bottom:30px;right:-19px;`"
       >
         <v-icon class="ml-0" x-small>fas fa-chevron-up</v-icon></v-btn
       >
@@ -57,31 +47,19 @@
           </span>
         </v-row>
         <v-divider class="mb-1"></v-divider>
-        <v-expansion-panel-content
-          style="max-height:400px;"
-          v-show="isVisible"
-          v-if="isReady"
-        >
-          <vue-scroll style="height:calc(100% + 5px);">
+        <v-expansion-panel-content style="max-height: 400px" v-show="isVisible" v-if="isReady">
+          <vue-scroll style="height: calc(100% + 5px)">
             <template v-for="(item, index) in layers">
               <v-row
                 :key="'layer-' + index"
                 class="fill-height ma-0"
                 v-if="item.get('displayInLegend')"
-                v-show="
-                  item.get('group') !== 'backgroundLayers' &&
-                    item.get('isVisibleInResolution') === true
-                "
+                v-show="item.get('group') !== 'backgroundLayers' && item.get('isVisibleInResolution') === true"
               >
                 <template v-if="item.get('displaySidebarInfo')">
                   <v-tooltip right>
-                    <template v-slot:activator="{ on }">
-                      <v-flex
-                        v-on="on"
-                        @click="lastSelectedLayer = item.get('name')"
-                        style="cursor:pointer;"
-                        xs1
-                      >
+                    <template v-slot:activator="{on}">
+                      <v-flex v-on="on" @click="lastSelectedLayer = item.get('name')" style="cursor: pointer" xs1>
                         <span v-html="getGraphic(item)"></span>
                       </v-flex> </template
                     >More Information</v-tooltip
@@ -105,15 +83,10 @@
                       <span
                         :class="{
                           'text--darken-2 subtitle-2': true,
-                          'blue--text': item.get('displaySidebarInfo')
-                            ? true
-                            : false
+                          'blue--text': item.get('displaySidebarInfo') ? true : false,
                         }"
                       >
-                        {{
-                          item.get('legendDisplayName') ||
-                            humanize(item.get('name'))
-                        }}
+                        {{ item.get('legendDisplayName') || humanize(item.get('name')) }}
                       </span>
                     </template>
                   </v-checkbox>
@@ -122,17 +95,11 @@
               <v-row
                 align="center"
                 justify="center"
-                v-if="
-                  item.get('displaySeries') &&
-                    item.getVisible() &&
-                    item.getLayers().getArray().length >= 2
-                "
+                v-if="item.get('displaySeries') && item.getVisible() && item.getLayers().getArray().length >= 2"
                 :key="'time-series' + index"
                 class="fill-height ma-0 pa-0"
               >
-                <span class="text--darken-2 subtitle-2 mt-n2 mb-n2">{{
-                  getSeriesActiveLayerTitle(item)
-                }}</span>
+                <span class="text--darken-2 subtitle-2 mt-n2 mb-n2">{{ getSeriesActiveLayerTitle(item) }}</span>
                 <v-flex xs11>
                   <v-slider
                     hide-details
@@ -160,26 +127,24 @@
   </div>
 </template>
 <script>
-import { Mapable } from '../../../../mixins/Mapable';
-import { mapGetters } from 'vuex';
-import { humanize, debounce } from '../../../../utils/Helpers';
-import { getLayerType } from '../../../../utils/Layer';
-import { mapFields } from 'vuex-map-fields';
+import {mapGetters} from 'vuex';
+import {mapFields} from 'vuex-map-fields';
+import {Mapable} from '../../../../mixins/Mapable';
+import {humanize, debounce} from '../../../../utils/Helpers';
+import {getLayerType} from '../../../../utils/Layer';
 
 export default {
   mixins: [Mapable],
   name: 'map-legend',
   props: {
-    color: { type: String, default: '#4CAF50' }
+    color: {type: String, default: '#4CAF50'},
   },
   data() {
     return {
       panel: 0,
       isReady: false,
       title: '',
-      isVisible: this.$vuetify.breakpoint.smAndDown
-        ? false
-        : this.$appConfig.app.legend.isVisible
+      isVisible: this.$vuetify.breakpoint.smAndDown ? false : this.$appConfig.app.legend.isVisible,
     };
   },
   methods: {
@@ -190,7 +155,7 @@ export default {
         this.updateLegendRows();
       });
     },
-    updateLegendRows: debounce(function() {
+    updateLegendRows: debounce(function () {
       this.updateRows();
     }, 500),
     updateRows() {
@@ -213,25 +178,25 @@ export default {
     },
     getGraphic(layer) {
       const layerType = getLayerType(layer);
-      if (
-        layer.get('legendIcon') ||
-        layerType === 'VectorLayer' ||
-        layerType === 'VectorTileLayer'
-      ) {
+      if (layer.get('legendIcon') || layerType === 'VectorLayer' || layerType === 'VectorTileLayer') {
         let styleConf = layer.get('styleObj');
         if (!styleConf && !layer.get('legendIcon')) return;
+        // eslint-disable-next-line no-unused-expressions
         styleConf ? (styleConf = JSON.parse(styleConf)) : (styleConf = {});
         if (styleConf.iconUrl || layer.get('legendIcon')) {
           const iconUrl = styleConf.iconUrl || layer.get('legendIcon');
           return `<img src="${iconUrl}" style="margin-top: 5px !important;object-fit:contain;" width="18" height="22">`;
-        } else if (styleConf.radius || styleConf.type === 'circle') {
+        }
+        if (styleConf.radius || styleConf.type === 'circle') {
           return `<span class="circle" style="margin-top: 5px;background-color:${styleConf.fillColor};border: 1px solid ${styleConf.strokeColor};"></span>`;
-        } else if (styleConf.fillColor) {
+        }
+        if (styleConf.fillColor) {
           // Polygon
           return `<span class="square" style="margin-top: 5px;background-color:${styleConf.fillColor};border: 1px solid ${styleConf.strokeColor};"></span>`;
-        } else if (styleConf.strokeColor || styleConf.strokeWidth) {
+        }
+        if (styleConf.strokeColor || styleConf.strokeWidth) {
           let lineType = 'solid';
-          let lineWidth = '2px';
+          const lineWidth = '2px';
 
           if (styleConf.lineDash) {
             lineType = 'dashed';
@@ -273,26 +238,20 @@ export default {
     toggleAllLayersVisibility(state) {
       Object.keys(this.layers).forEach(key => {
         const layer = this.layers[key];
-        if (
-          layer.get('isVisibleInResolution') &&
-          layer.get('displayInLegend')
-        ) {
+        if (layer.get('isVisibleInResolution') && layer.get('displayInLegend')) {
           layer.setVisible(state);
         }
       });
     },
     updateTitle() {
-      let title = ``;
+      let title = '';
       this.navbarGroups.forEach(navbarGroup => {
         if (navbarGroup.name === this.activeLayerGroup.navbarGroup) {
           title += navbarGroup.title;
         }
       });
       this.regions.forEach(region => {
-        if (
-          region.name === this.activeLayerGroup.region &&
-          region.name !== 'default'
-        ) {
+        if (region.name === this.activeLayerGroup.region && region.name !== 'default') {
           title += ` (${region.title})`;
         }
       });
@@ -315,11 +274,9 @@ export default {
     getSeriesActiveLayerTitle(layerGroup) {
       const layers = layerGroup.getLayers().getArray();
       const activeLayerIndex = layerGroup.get('activeLayerIndex') || 0;
-      const title =
-        layers[activeLayerIndex].get('seriesDisplayName') ||
-        layers[activeLayerIndex].get('name');
+      const title = layers[activeLayerIndex].get('seriesDisplayName') || layers[activeLayerIndex].get('name');
       return title;
-    }
+    },
   },
   mounted() {
     this.updateTitle();
@@ -330,22 +287,22 @@ export default {
       activeLayerGroup: 'activeLayerGroup',
       navbarGroups: 'navbarGroups',
       regions: 'regions',
-      mobilePanelState: 'mobilePanelState'
+      mobilePanelState: 'mobilePanelState',
     }),
     ...mapGetters('app', {
-      sidebarHtml: 'sidebarHtml'
+      sidebarHtml: 'sidebarHtml',
     }),
     ...mapFields('map', {
       lastSelectedLayer: 'lastSelectedLayer',
-      mobilePanelState: 'mobilePanelState'
-    })
+      mobilePanelState: 'mobilePanelState',
+    }),
   },
   watch: {
     activeLayerGroup() {
       this.updateTitle();
       this.updateLegendRows();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="css" scoped>

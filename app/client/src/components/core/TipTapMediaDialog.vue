@@ -7,24 +7,13 @@
         <v-spacer></v-spacer>
       </v-app-bar>
       <v-divider></v-divider>
-      <v-progress-linear
-        :active="isUploadInProgress"
-        indeterminate
-        :color="color"
-      ></v-progress-linear>
+      <v-progress-linear :active="isUploadInProgress" indeterminate :color="color"></v-progress-linear>
 
       <v-card-text v-if="type === 'audio' || type === 'image'">
-        <v-alert
-          dense
-          class="mx-2 my-1"
-          v-if="isUploadedSuccessful === true"
-          type="success"
-        >
+        <v-alert dense class="mx-2 my-1" v-if="isUploadedSuccessful === true" type="success">
           File uploaded. Click apply to insert it!
         </v-alert>
-        <v-alert dense type="error" v-if="isUploadedSuccessful === false">
-          File can't upload.
-        </v-alert>
+        <v-alert dense type="error" v-if="isUploadedSuccessful === false"> File can't upload. </v-alert>
 
         <v-text-field
           class="mt-4"
@@ -36,11 +25,11 @@
         >
           <template slot="append-outer">
             <v-tooltip left>
-              <template v-slot:activator="{ on }">
+              <template v-slot:activator="{on}">
                 <v-icon
                   :disabled="false"
                   class="ml-2 pl-2 lock-button"
-                  style="cursor:pointer;"
+                  style="cursor: pointer"
                   @click="toggleFileUpload"
                   v-on="on"
                 >
@@ -66,21 +55,17 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="error" @click="show = false">
-          Close
-        </v-btn>
-        <v-btn :disabled="!urlSrc" color="primary" text @click="insert">
-          Apply
-        </v-btn>
+        <v-btn text color="error" @click="show = false"> Close </v-btn>
+        <v-btn :disabled="!urlSrc" color="primary" text @click="insert"> Apply </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 <script>
-import { parseVideoUrl } from '../../utils/Helpers';
+import axios from 'axios';
+import {parseVideoUrl} from '../../utils/Helpers';
 
 import authHeader from '../../services/auth-header';
-import axios from 'axios';
 
 export default {
   data() {
@@ -95,18 +80,18 @@ export default {
       data: {
         image: {
           toolbar_icon: 'image',
-          toolbar_title: 'Image Insert'
+          toolbar_title: 'Image Insert',
         },
         audio: {
           toolbar_icon: 'music_video',
-          toolbar_title: 'Audio Insert'
+          toolbar_title: 'Audio Insert',
         },
         iframe: {
           toolbar_icon: 'video_library',
-          toolbar_title: 'Video Insert'
-        }
+          toolbar_title: 'Video Insert',
+        },
       },
-      color: this.$appConfig.app.color.primary
+      color: this.$appConfig.app.color.primary,
     };
   },
   methods: {
@@ -127,18 +112,19 @@ export default {
       const data = {
         command: this.command,
         data: {
-          src
-        }
+          src,
+        },
       };
 
       this.$emit('onConfirm', data);
       this.show = false;
     },
     openFileUpload() {
-      window.addEventListener('focus', () => {}, { once: false });
+      window.addEventListener('focus', () => {}, {once: false});
       this.$refs.fileUploader.click();
     },
     onFileUploadChanged(e) {
+      // eslint-disable-next-line prefer-destructuring
       this.file = e.target.files[0];
       if (this.file) {
         // UPLOAD IN S3 Bucket.
@@ -149,7 +135,7 @@ export default {
         this.isUploadInProgress = true;
         axios
           .post('api/upload', formData, {
-            headers: authHeader()
+            headers: authHeader(),
           })
           .then(res => {
             if (res.data.fileUrl) {
@@ -183,8 +169,8 @@ export default {
       this.type = null;
       this.clearFile();
       this.urlSrc = '';
-    }
+    },
   },
-  computed: {}
+  computed: {},
 };
 </script>

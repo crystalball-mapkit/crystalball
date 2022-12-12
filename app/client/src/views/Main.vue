@@ -1,21 +1,12 @@
 <template>
   <div id="site-wrap">
     <!-- ===DESKTOP=== -->
-    <v-app
-      v-if="!$vuetify.breakpoint.smAndDown"
-      id="wg-app"
-      data-app
-      :class="{ 'wg-app': true }"
-    >
+    <v-app v-if="!$vuetify.breakpoint.smAndDown" id="wg-app" data-app :class="{'wg-app': true}">
       <template>
         <v-expand-transition>
           <v-navigation-drawer
             v-model="sidebarState"
-            :width="
-              !selectedCoorpNetworkEntity
-                ? sidebarWidth.default
-                : sidebarWidth.corporateNetworkSelected
-            "
+            :width="!selectedCoorpNetworkEntity ? sidebarWidth.default : sidebarWidth.corporateNetworkSelected"
             class="elevation-6"
             :color="$appConfig.app.sideBar.backgroundColor"
             stateless
@@ -46,37 +37,25 @@
         <v-menu
           offset-y
           v-model="dropdownMenu"
-          v-if="
-            $appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu === true
-          "
+          v-if="$appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu === true"
         >
-          <template v-slot:activator="{ on, attrs }">
+          <template v-slot:activator="{on, attrs}">
             <v-btn
               text
               v-bind="attrs"
               v-on="on"
               :class="{
                 active: dropdownMenu,
-                'mx-2': true
+                'mx-2': true,
               }"
             >
-              {{
-                `${$appConfig.map.groupTitles[activeLayerGroup.navbarGroup]}`
-              }}
-              <v-icon class="mx-2" left>
-                expand_more
-              </v-icon>
+              {{ `${$appConfig.map.groupTitles[activeLayerGroup.navbarGroup]}` }}
+              <v-icon class="mx-2" left> expand_more </v-icon>
             </v-btn>
           </template>
           <v-list>
             <v-list-item
-              :style="
-                `background-color:${
-                  activeLayerGroup.navbarGroup === navbarGroup.name
-                    ? '#EEEEEE'
-                    : ''
-                };`
-              "
+              :style="`background-color:${activeLayerGroup.navbarGroup === navbarGroup.name ? '#EEEEEE' : ''};`"
               v-for="(navbarGroup, index) in navbarGroups"
               @click="changeNavbarGroup(navbarGroup)"
               :key="index"
@@ -88,31 +67,19 @@
 
         <v-spacer></v-spacer>
         <template
-          v-if="
-            ($appConfig.app.navbar &&
-              $appConfig.app.navbar.dropdownMenu !== true) ||
-              !$appConfig.app.navbar
-          "
+          v-if="($appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu !== true) || !$appConfig.app.navbar"
         >
           <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
             <v-btn
               min-width="200"
               class="mx-10"
-              :dark="
-                activeLayerGroup.navbarGroup === navbarGroup.name ? false : true
-              "
+              :dark="activeLayerGroup.navbarGroup === navbarGroup.name ? false : true"
               @click="changeNavbarGroup(navbarGroup)"
-              :color="
-                activeLayerGroup.navbarGroup === navbarGroup.name
-                  ? 'white'
-                  : color.primary
-              "
+              :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
               :class="{
-                'elevation-0':
-                  activeLayerGroup.navbarGroup !== navbarGroup.name,
-                'font-weight-bold black--text':
-                  activeLayerGroup.navbarGroup === navbarGroup.name,
-                'elevation-6': activeLayerGroup.navbarGroup === navbarGroup.name
+                'elevation-0': activeLayerGroup.navbarGroup !== navbarGroup.name,
+                'font-weight-bold black--text': activeLayerGroup.navbarGroup === navbarGroup.name,
+                'elevation-6': activeLayerGroup.navbarGroup === navbarGroup.name,
               }"
             >
               {{ navbarGroup.title }}
@@ -124,25 +91,19 @@
 
         <span class="title pr-5">open-source mapkit</span>
         <v-btn icon @click.stop="sidebarState = !sidebarState"
-          ><v-icon medium>{{
-            sidebarState ? '$close' : '$menu'
-          }}</v-icon></v-btn
+          ><v-icon medium>{{ sidebarState ? '$close' : '$menu' }}</v-icon></v-btn
         >
       </v-app-bar>
 
       <v-content>
-        <v-container style="max-height: 100%;" fluid fill-height class="pa-0">
+        <v-container style="max-height: 100%" fluid fill-height class="pa-0">
           <app-viewer />
         </v-container>
       </v-content>
     </v-app>
 
     <!-- ===MOBILE=== -->
-    <v-app
-      data-app
-      v-if="$vuetify.breakpoint.smAndDown"
-      class="mobile-parent-wrap"
-    >
+    <v-app data-app v-if="$vuetify.breakpoint.smAndDown" class="mobile-parent-wrap">
       <!-- APP BAR MOBILE -->
       <v-app-bar :color="color.primary" height="60" absolute dark>
         <v-btn icon @click="navDrawer = !navDrawer"
@@ -157,13 +118,7 @@
       </v-app-bar>
 
       <!-- NAVIGATION DRAWER MOBILE -->
-      <v-navigation-drawer
-        style="z-index:1001;"
-        v-model="navDrawer"
-        absolute
-        left
-        temporary
-      >
+      <v-navigation-drawer style="z-index: 1001" v-model="navDrawer" absolute left temporary>
         <v-layout justify-space-between column fill-height>
           <v-list nav dense class="mb-4">
             <!-- Main groups -->
@@ -173,35 +128,21 @@
               </v-list-item-icon>
 
               <v-list-item-content>
-                <v-list-item-title class="font-weight-bold"
-                  >MAP</v-list-item-title
-                >
+                <v-list-item-title class="font-weight-bold">MAP</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
             <v-list-item
-              :dark="
-                activeLayerGroup.navbarGroup === navbarGroup.name ? true : false
-              "
-              :style="
-                `background-color:${
-                  activeLayerGroup.navbarGroup === navbarGroup.name
-                    ? color.primary
-                    : 'white'
-                };`
-              "
+              :dark="activeLayerGroup.navbarGroup === navbarGroup.name ? true : false"
+              :style="`background-color:${
+                activeLayerGroup.navbarGroup === navbarGroup.name ? color.primary : 'white'
+              };`"
               @click="changeNavbarGroup(navbarGroup)"
               v-for="(navbarGroup, index) in navbarGroups"
-              :color="
-                activeLayerGroup.navbarGroup === navbarGroup.name
-                  ? 'white'
-                  : color.primary
-              "
+              :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
               :key="index"
             >
-              <v-list-item-title>{{
-                navbarGroup.title.toUpperCase()
-              }}</v-list-item-title>
+              <v-list-item-title>{{ navbarGroup.title.toUpperCase() }}</v-list-item-title>
             </v-list-item>
           </v-list>
 
@@ -213,9 +154,7 @@
               </v-list-item-icon>
 
               <v-list-item-content>
-                <v-list-item-title class="font-weight-bold"
-                  >SUBCATEGORY</v-list-item-title
-                >
+                <v-list-item-title class="font-weight-bold">SUBCATEGORY</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-divider class="mb-4"></v-divider>
@@ -224,18 +163,10 @@
                 @click="changeRegion(region)"
                 v-if="hasRegion(region)"
                 :dark="activeLayerGroup.region === region.name ? true : false"
-                :style="
-                  `background-color:${
-                    activeLayerGroup.region === region.name
-                      ? color.primary
-                      : 'white'
-                  };`
-                "
+                :style="`background-color:${activeLayerGroup.region === region.name ? color.primary : 'white'};`"
                 :key="index"
               >
-                <v-list-item-title>{{
-                  region.title.toUpperCase()
-                }}</v-list-item-title>
+                <v-list-item-title>{{ region.title.toUpperCase() }}</v-list-item-title>
               </v-list-item>
             </template>
           </v-list>
@@ -244,7 +175,7 @@
           <v-spacer></v-spacer>
           <a
             v-if="$appConfig.app.projectWebsite"
-            style="text-decoration: none;"
+            style="text-decoration: none"
             class="mb-3 ml-4"
             :href="$appConfig.app.projectWebsite"
             target="_blank"
@@ -254,11 +185,7 @@
       </v-navigation-drawer>
 
       <app-viewer
-        :style="
-          `height: calc(${
-            mobilePanelState ? 60 : 100
-          }% - 60px);touch-action: none;`
-        "
+        :style="`height: calc(${mobilePanelState ? 60 : 100}% - 60px);touch-action: none;`"
         class="mobile-map-viewer"
       ></app-viewer>
 
@@ -271,12 +198,12 @@
 </template>
 
 <script>
-import { EventBus } from '../EventBus.js';
-import Viewer from '../components/viewer/viewer';
-import SidePanel from '../components/core/SidePanel';
-//Store imports
-import { mapMutations, mapGetters } from 'vuex';
-import { mapFields } from 'vuex-map-fields';
+import {mapMutations, mapGetters} from 'vuex';
+import {mapFields} from 'vuex-map-fields';
+import {EventBus} from '../EventBus';
+import Viewer from '../components/viewer/viewer.vue';
+import SidePanel from '../components/core/SidePanel.vue';
+// Store imports
 
 export default {
   name: 'wg-app',
@@ -293,25 +220,23 @@ export default {
       navbarGroups: 'navbarGroups',
       appConfGroups_: 'appConfGroups_',
       regions: 'regions',
-      geoserverWorkspace: 'geoserverWorkspace'
+      geoserverWorkspace: 'geoserverWorkspace',
     }),
     ...mapGetters('map', {
-      activeLayerGroup: 'activeLayerGroup'
+      activeLayerGroup: 'activeLayerGroup',
     }),
     ...mapFields('app', {
-      sidebarState: 'sidebarState'
+      sidebarState: 'sidebarState',
     }),
     regionLength() {
       const activeNavbarGroup = this.activeLayerGroup.navbarGroup;
       const regions = this.$appConfig.map.groups[activeNavbarGroup];
       let count = 0;
-      if (
-        this.$appConfig.app.customNavigationScheme &&
-        this.$appConfig.app.customNavigationScheme === '2'
-      ) {
+      if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme === '2') {
         const regionsArray = Object.values(this.$appConfig.map.buttons);
         regionsArray.forEach(region => {
           if (region.length > 0) {
+            // eslint-disable-next-line no-plusplus
             count++;
           }
         });
@@ -319,6 +244,7 @@ export default {
         const regionsArray = Object.keys(regions).filter(v => v !== 'default');
         regionsArray.forEach(region => {
           if (regions[region].layers.length > 0) {
+            // eslint-disable-next-line no-plusplus
             count++;
           }
         });
@@ -328,7 +254,7 @@ export default {
     title() {
       const activeNavbarGroup = this.activeLayerGroup.navbarGroup;
       const activeRegion = this.activeLayerGroup.region;
-      let title = ``;
+      let title = '';
       this.navbarGroups.forEach(group => {
         if (group.name === activeNavbarGroup) {
           title = group.title.toUpperCase();
@@ -340,11 +266,11 @@ export default {
         }
       });
       return title;
-    }
+    },
   },
   components: {
     'app-viewer': Viewer,
-    'side-panel': SidePanel
+    'side-panel': SidePanel,
   },
   data() {
     return {
@@ -352,9 +278,9 @@ export default {
       navDrawer: false,
       sidebarWidth: {
         default: 460,
-        corporateNetworkSelected: 600
+        corporateNetworkSelected: 600,
       },
-      dropdownMenu: false
+      dropdownMenu: false,
     };
   },
   methods: {
@@ -364,7 +290,7 @@ export default {
         region = 'default';
       }
       this.$router.push({
-        path: `/${navbarGroup.name}/${region}`
+        path: `/${navbarGroup.name}/${region}`,
       });
       if (this.$appConfig.app.customNavigationScheme === 2) {
         EventBus.$emit('noMapReset');
@@ -377,16 +303,13 @@ export default {
       const groups = this.$appConfig.map.groups;
       const groupNames = Object.keys(groups);
       const defaultActiveGroup = this.$appConfig.map.defaultActiveGroup;
-      const navbarGroupName =
-        groupNames.indexOf(defaultActiveGroup) !== -1
-          ? defaultActiveGroup
-          : groupNames[0];
+      const navbarGroupName = groupNames.indexOf(defaultActiveGroup) !== -1 ? defaultActiveGroup : groupNames[0];
       let region = this.activeLayerGroup.region;
       if (['3', '1'].includes(this.$appConfig.app.customNavigationScheme)) {
         region = 'default';
       }
       this.$router.push({
-        path: `/${navbarGroupName}/${region}`
+        path: `/${navbarGroupName}/${region}`,
       });
     },
     resetMap() {
@@ -396,10 +319,7 @@ export default {
       window.open(this.$appConfig.app.projectWebsite, '_blank');
     },
     zoomToLocation() {
-      if (
-        this.region === 'local' &&
-        this.$appConfig.app.customNavigationScheme !== '3'
-      ) {
+      if (this.region === 'local' && this.$appConfig.app.customNavigationScheme !== '3') {
         EventBus.$emit('zoomToLocation');
       }
     },
@@ -423,26 +343,21 @@ export default {
       }
       this.sidebarWidth = {
         default: _default,
-        corporateNetworkSelected: _corporateNetworkSelected
+        corporateNetworkSelected: _corporateNetworkSelected,
       };
     },
     changeRegion(region) {
       this.$router.push({
-        path: `/${this.activeLayerGroup.navbarGroup}/${region.name}`
+        path: `/${this.activeLayerGroup.navbarGroup}/${region.name}`,
       });
       if (region.name === 'local') {
         let regionResolution;
         if (this.$appConfig.app.customNavigationScheme === '3') {
-          regionResolution = this.$appConfig.map.groups[
-            this.activeLayerGroup.navbarGroup
-          ][region.name].resolution;
+          regionResolution = this.$appConfig.map.groups[this.activeLayerGroup.navbarGroup][region.name].resolution;
         }
         EventBus.$emit('zoomToLocation', regionResolution);
       }
-      if (
-        region.name === 'global' &&
-        this.$appConfig.app.customNavigationScheme === '3'
-      ) {
+      if (region.name === 'global' && this.$appConfig.app.customNavigationScheme === '3') {
         EventBus.$emit('resetMap');
       }
     },
@@ -452,28 +367,24 @@ export default {
       if (region.name === 'default') {
         return;
       }
-      if (
-        this.$appConfig.app.customNavigationScheme &&
-        this.$appConfig.app.customNavigationScheme === '2'
-      ) {
+      if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme === '2') {
         return true;
       }
       if (regions[region.name] && regions[region.name].layers.length > 0) {
         return true;
-      } else {
-        return false;
       }
+      return false;
     },
     closeAll() {
       EventBus.$emit('closeAll');
       this.mobilePanelState = false;
     },
     ...mapMutations('map', {
-      setActiveLayerGroup: 'SET_ACTIVE_LAYERGROUP'
+      setActiveLayerGroup: 'SET_ACTIVE_LAYERGROUP',
     }),
     ...mapMutations('app', {
-      setSidebarInitialState: 'setSidebarInitialState'
-    })
+      setSidebarInitialState: 'setSidebarInitialState',
+    }),
   },
   created() {
     // Navgroups
@@ -484,16 +395,13 @@ export default {
     Object.keys(groups).forEach(groupName => {
       navbarGroups.push({
         name: groupName,
-        title: groupTitles[groupName] || groupName
+        title: groupTitles[groupName] || groupName,
       });
     });
     this.navbarGroups = navbarGroups;
     // Regions
     let regionTitles;
-    if (
-      this.$appConfig.app.customNavigationScheme &&
-      this.$appConfig.app.customNavigationScheme === '2'
-    ) {
+    if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme === '2') {
       regionTitles = this.$appConfig.map.buttonTitles;
     } else {
       regionTitles = this.$appConfig.map.regionTitles;
@@ -501,7 +409,7 @@ export default {
     Object.keys(regionTitles).forEach(regionName => {
       this.regions.push({
         name: regionName,
-        title: regionTitles[regionName]
+        title: regionTitles[regionName],
       });
     });
     // Geoserver workspace
@@ -509,7 +417,7 @@ export default {
     // Set active layer group
     this.setActiveLayerGroup({
       navbarGroup: this.navbarGroup,
-      region: this.region
+      region: this.region,
     });
     // Set initial state for sidebar.
     this.setSidebarInitialState(this.$appConfig.app.sideBar.isVisible);
@@ -521,7 +429,7 @@ export default {
       }
       this.setActiveLayerGroup({
         navbarGroup: this.navbarGroup,
-        region: this.region
+        region: this.region,
       });
       this.zoomToLocation();
       // Activate mobile panel state
@@ -547,25 +455,25 @@ export default {
         this.mobilePanelState = true;
       }
     },
-    'popup.activeFeature': function(feature) {
+    'popup.activeFeature': function (feature) {
       if (feature) {
         this.mobilePanelState = true;
       } else {
         this.mobilePanelState = false;
       }
-    }
+    },
   },
   mounted() {
     // inform registered cmps that the app is mounted and the dynamic
     // components are available
     EventBus.$emit('app-mounted');
     this.onResize();
-    window.addEventListener('resize', this.onResize, { passive: true });
+    window.addEventListener('resize', this.onResize, {passive: true});
   },
   beforeDestroy() {
     if (typeof window === 'undefined') return;
-    window.removeEventListener('resize', this.onResize, { passive: true });
-  }
+    window.removeEventListener('resize', this.onResize, {passive: true});
+  },
 };
 </script>
 <style lang="scss" scoped>

@@ -1,23 +1,14 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      :max-width="options.width"
-      @keydown.esc="cancel"
-      v-bind:style="{ zIndex: options.zIndex }"
-    >
+    <v-dialog v-model="dialog" :max-width="options.width" @keydown.esc="cancel" v-bind:style="{zIndex: options.zIndex}">
       <v-card>
         <v-card-title class="headline">{{ title }}</v-card-title>
         <v-card-text v-if="message">{{ message }}</v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" text @click.native="agree">{{
-            confirmText
-          }}</v-btn>
-          <v-btn :color="color" text @click.native="cancel">{{
-            cancelText
-          }}</v-btn>
+          <v-btn color="primary darken-1" text @click.native="agree">{{ confirmText }}</v-btn>
+          <v-btn :color="color" text @click.native="cancel">{{ cancelText }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -37,11 +28,11 @@ export default {
     options: {
       color: 'primary',
       width: 320,
-      zIndex: 200
-    }
+      zIndex: 200,
+    },
   }),
   props: {
-    color: { type: String }
+    color: {type: String},
   },
   methods: {
     open(title, message, confirmText, cancelText, options) {
@@ -63,8 +54,8 @@ export default {
     cancel() {
       this.resolve(false);
       this.dialog = false;
-    }
-  }
+    },
+  },
 };
 /**
  * Vuetify Confirm Dialog component

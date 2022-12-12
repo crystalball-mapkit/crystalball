@@ -1,25 +1,12 @@
 <template>
   <div class="mt-4 mb-2">
-    <div
-      v-if="
-        Array.isArray(loggedUser.roles) &&
-          !loggedUser.roles.includes('guest_user')
-      "
-    >
+    <div v-if="Array.isArray(loggedUser.roles) && !loggedUser.roles.includes('guest_user')">
       <v-layout>
         <v-spacer></v-spacer>
         <div v-if="!selectedLayer">
           <v-tooltip left>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                class="edit-buttons"
-                v-on="on"
-                @click="activateEdit"
-                :color="color.primary"
-                fab
-                dark
-                small
-              >
+            <template v-slot:activator="{on}">
+              <v-btn class="edit-buttons" v-on="on" @click="activateEdit" :color="color.primary" fab dark small>
                 <v-icon small>far fa-edit</v-icon>
               </v-btn>
             </template>
@@ -35,18 +22,10 @@
           :nudge-bottom="5"
           transition="slide-y-transition"
         >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              v-bind="attrs"
-              v-on="on"
-              class="edit-buttons"
-              dark
-              rounded
-              :color="color.primary"
+          <template v-slot:activator="{on, attrs}">
+            <v-btn v-bind="attrs" v-on="on" class="edit-buttons" dark rounded :color="color.primary"
               ><v-icon small left>far fa-edit</v-icon>
-              {{
-                selectedLayer ? selectedLayer.get('legendDisplayName') : ''
-              }}</v-btn
+              {{ selectedLayer ? selectedLayer.get('legendDisplayName') : '' }}</v-btn
             >
           </template>
 
@@ -73,7 +52,7 @@
     </div>
     <div v-if="!selectedLayer">
       <v-tooltip left>
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{on}">
           <v-btn
             class="edit-buttons mt-2"
             v-on="on"
@@ -83,9 +62,7 @@
             dark
             small
           >
-            <v-icon small>{{
-              isEditingPost ? 'close' : 'fas fa-map-pin'
-            }}</v-icon>
+            <v-icon small>{{ isEditingPost ? 'close' : 'fas fa-map-pin' }}</v-icon>
           </v-btn>
         </template>
         <span>{{ isEditingPost ? 'Close' : 'Add Post' }}</span>
@@ -96,7 +73,7 @@
         <v-layout>
           <v-spacer></v-spacer>
           <v-tooltip left>
-            <template v-slot:activator="{ on }">
+            <template v-slot:activator="{on}">
               <v-btn
                 class="edit-buttons mt-2"
                 v-on="on"
@@ -117,11 +94,7 @@
     </div>
 
     <!-- SELECT LAYER DIALOG -->
-    <v-dialog
-      v-model="layersDialog"
-      max-width="350"
-      @keydown.esc="layersDialog = false"
-    >
+    <v-dialog v-model="layersDialog" max-width="350" @keydown.esc="layersDialog = false">
       <v-card>
         <v-app-bar flat :color="color.primary" height="50" dark>
           <v-icon class="mr-3">layers</v-icon>
@@ -144,10 +117,10 @@
           item-value="values_.name"
           label="Layers"
         >
-          <template slot="selection" slot-scope="{ item }">
+          <template slot="selection" slot-scope="{item}">
             {{ item.get('legendDisplayName') }}
           </template>
-          <template slot="item" slot-scope="{ item }">
+          <template slot="item" slot-scope="{item}">
             {{ item.get('legendDisplayName') }}
           </template>
         </v-select>
@@ -164,12 +137,7 @@
             "
             >Ok</v-btn
           >
-          <v-btn
-            :color="color.primary"
-            text
-            @click.native="layersDialog = false"
-            >Cancel</v-btn
-          >
+          <v-btn :color="color.primary" text @click.native="layersDialog = false">Cancel</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -179,7 +147,7 @@
     <!-- POPUP OVERLAY  -->
     <overlay-popup
       v-if="!$vuetify.breakpoint.smAndDown"
-      style="cursor: default;"
+      style="cursor: default"
       :title="popup.title"
       v-show="popup.isVisible"
       ref="popup"
@@ -198,18 +166,14 @@
         </div>
         <div v-else-if="['addFeature', 'modifyAttributes'].includes(editType)">
           <vue-scroll ref="vs">
-            <div style="max-height:280px;" class="pr-2">
+            <div style="max-height: 280px" class="pr-2">
               <v-form ref="edit-form" v-model="formValid">
-                <v-jsf
-                  v-model="formData"
-                  :schema="formSchema"
-                  :options="formOptions"
-                >
+                <editor-form v-model="formData" :schema="formSchema" :options="formOptions">
                   <template slot="lightbox-append">
                     <v-tooltip left>
-                      <template v-slot:activator="{ on }">
+                      <template v-slot:activator="{on}">
                         <v-btn
-                          style="cursor:pointer;"
+                          style="cursor: pointer"
                           v-on="on"
                           @click="lightboxDialogState = true"
                           class="mx-2 mb-2 lock-button elevation-1"
@@ -217,14 +181,12 @@
                           fab
                           small
                         >
-                          <v-icon>
-                            fas fa-image
-                          </v-icon>
+                          <v-icon> fas fa-image </v-icon>
                         </v-btn> </template
                       ><span>Lightbox Images Panel</span>
                     </v-tooltip>
                   </template>
-                </v-jsf>
+                </editor-form>
               </v-form>
             </div>
           </vue-scroll>
@@ -234,18 +196,9 @@
         <div v-show="editType !== 'deleteFeature'">
           <div v-show="!imageUpload.errorMessage">
             <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  v-on="on"
-                  rounded
-                  small
-                  depressed
-                  :loading="imageUpload.isSelecting"
-                  @click="openImageUpload"
-                >
-                  <v-icon left>
-                    insert_photo
-                  </v-icon>
+              <template v-slot:activator="{on}">
+                <v-btn v-on="on" rounded small depressed :loading="imageUpload.isSelecting" @click="openImageUpload">
+                  <v-icon left> insert_photo </v-icon>
                   <span class="image-upload-btn">
                     {{ imageUploadButtonText }}
                   </span>
@@ -253,60 +206,23 @@
               </template>
               <span>Upload jpg or png image</span>
             </v-tooltip>
-            <input
-              ref="imageUploader"
-              class="d-none"
-              type="file"
-              accept="image/*"
-              @change="onFileUploadChanged"
-            />
-            <v-btn
-              v-if="imageUpload.selectedFile"
-              class="ml-1"
-              @click="clearUploadImage()"
-              small
-              icon
-            >
+            <input ref="imageUploader" class="d-none" type="file" accept="image/*" @change="onFileUploadChanged" />
+            <v-btn v-if="imageUpload.selectedFile" class="ml-1" @click="clearUploadImage()" small icon>
               <v-icon small>close</v-icon>
             </v-btn>
           </div>
-          <div
-            v-if="imageUpload.errorMessage"
-            class="red--text text--lighten-1 subtitle-2"
-          >
+          <div v-if="imageUpload.errorMessage" class="red--text text--lighten-1 subtitle-2">
             {{ imageUpload.errorMessage }}
           </div>
 
           <div v-if="imageUpload.selectedFile">
-            <v-menu
-              class="mt-2"
-              origin="center center"
-              transition="scale-transition"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  class="mt-2"
-                  rounded
-                  small
-                  depressed
-                  v-on="on"
-                  v-bind="attrs"
-                >
+            <v-menu class="mt-2" origin="center center" transition="scale-transition">
+              <template v-slot:activator="{on, attrs}">
+                <v-btn class="mt-2" rounded small depressed v-on="on" v-bind="attrs">
                   <v-icon left
-                    >{{
-                      imageUpload.position === 'sidebarMediaTop'
-                        ? 'picture_in_picture'
-                        : 'picture_in_picture_alt'
-                    }}
+                    >{{ imageUpload.position === 'sidebarMediaTop' ? 'picture_in_picture' : 'picture_in_picture_alt' }}
                   </v-icon>
-                  <span
-                    >Sidebar:
-                    {{
-                      imageUpload.position === 'sidebarMediaTop'
-                        ? 'Top'
-                        : 'Bottom'
-                    }}</span
-                  >
+                  <span>Sidebar: {{ imageUpload.position === 'sidebarMediaTop' ? 'Top' : 'Bottom' }}</span>
                 </v-btn>
               </template>
               <v-list dense>
@@ -319,9 +235,7 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title>{{
-                      imageUpload.position === 'sidebarMediaTop'
-                        ? 'Bottom'
-                        : 'Top'
+                      imageUpload.position === 'sidebarMediaTop' ? 'Bottom' : 'Top'
                     }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
@@ -335,16 +249,8 @@
           <v-btn color="primary darken-1" @click="popupOk" text>Yes</v-btn>
           <v-btn color="grey" text @click="popupCancel">Cancel</v-btn>
         </template>
-        <template
-          v-else-if="['addFeature', 'modifyAttributes'].includes(editType)"
-        >
-          <v-btn
-            color="primary darken-1"
-            :disabled="formValid === false"
-            @click="popupOk"
-            text
-            >Save</v-btn
-          >
+        <template v-else-if="['addFeature', 'modifyAttributes'].includes(editType)">
+          <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text>Save</v-btn>
 
           <v-btn color="grey" text @click="popupCancel">Cancel</v-btn>
         </template>
@@ -370,9 +276,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" text @click.native="popupOk"
-            >Yes</v-btn
-          >
+          <v-btn color="primary darken-1" text @click.native="popupOk">Yes</v-btn>
           <v-btn color="grey" @click.native="popupCancel">No</v-btn>
         </v-card-actions>
       </v-card>
@@ -380,32 +284,31 @@
   </div>
 </template>
 <script>
-import { Mapable } from '../../../../mixins/Mapable';
-
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
-import PostMapMarkerLayer from '../../../../utils/PostMapMarker';
 import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
-import { LineString, MultiLineString, Polygon, MultiPolygon } from 'ol/geom';
-import { Modify, Draw } from 'ol/interaction';
-import { unByKey } from 'ol/Observable';
-import Overlay from 'ol/Overlay.js';
-import { mapFields } from 'vuex-map-fields';
-import { mapGetters, mapMutations } from 'vuex';
-import { getFeatureHighlightStyle } from '../../../../style/OlStyleDefs';
-import OverlayPopup from './Overlay';
+import {LineString, MultiLineString, Polygon, MultiPolygon} from 'ol/geom';
+import {Modify, Draw} from 'ol/interaction';
+import {unByKey} from 'ol/Observable';
+import Overlay from 'ol/Overlay';
+import {mapFields} from 'vuex-map-fields';
+import {mapGetters, mapMutations} from 'vuex';
 import axios from 'axios';
-import { geojsonToFeature } from '../../../../utils/MapUtils';
-import { getNestedProperty, parseVideoUrl } from '../../../../utils/Helpers';
 import GeoJSON from 'ol/format/GeoJSON';
-import VJsf from '@koumoul/vjsf/lib/VJsf.js';
+import VJsf from '@koumoul/vjsf';
+import {getFeatureHighlightStyle} from '../../../../style/OlStyleDefs';
+import OverlayPopup from './Overlay.vue';
+import {geojsonToFeature} from '../../../../utils/MapUtils';
+import {getNestedProperty, parseVideoUrl} from '../../../../utils/Helpers';
+import PostMapMarkerLayer from '../../../../utils/PostMapMarker';
+import {Mapable} from '../../../../mixins/Mapable';
 import '@koumoul/vjsf/lib/VJsf.css';
 // load third-party dependencies (markdown-it, vuedraggable)
 // you can also load them separately based on your needs
-import '@koumoul/vjsf/lib/deps/third-party.js';
+import '@koumoul/vjsf/lib/deps/third-party';
 import authHeader from '../../../../services/auth-header';
-import { EventBus } from '../../../../EventBus';
+import {EventBus} from '../../../../EventBus';
 
 import Lighbox from '../../../core/Lightbox.vue';
 
@@ -413,12 +316,12 @@ export default {
   components: {
     'overlay-popup': OverlayPopup,
     'lightbox-dialog': Lighbox,
-    VJsf
+    'editor-form': VJsf,
   },
   mixins: [Mapable],
   props: {
-    map: { type: Object, required: true },
-    color: { type: Object }
+    map: {type: Object, required: true},
+    color: {type: Object},
   },
   data: () => ({
     dialogSelectedLayer: null, // Temporary selection (not active if user doesn't press ok)
@@ -426,7 +329,7 @@ export default {
       {
         icon: 'add',
         action: 'addFeature',
-        tooltip: 'Add Feature'
+        tooltip: 'Add Feature',
       },
       {
         icon: 'edit',
@@ -459,40 +362,38 @@ export default {
       delete: 'Click on the feature to delete. \nPress ESC to exit.',
       select: 'Click to select feature. \nPress ESC to exit.',
       edit: 'Click on the feature and drag to move it. \nPress ESC to exit.',
-      modifyAttributes:
-        'Click on the feature to modify attributes. \nPress ESC to exit.',
+      modifyAttributes: 'Click on the feature to modify attributes. \nPress ESC to exit.',
       polygonAndLine: {
         start: 'Click to start drawing. \nPress ESC to exit.',
         continue: 'Click to continue drawing. \nPress ESC to exit.',
-        close:
-          'Click to add another point (double-click to finish) \nPress ESC to exit.'
+        close: 'Click to add another point (double-click to finish) \nPress ESC to exit.',
       },
       point: {
-        start: 'Click to place the point. \nPres ESC to exit.'
-      }
+        start: 'Click to place the point. \nPres ESC to exit.',
+      },
     },
     editSnackbarMessages: {
       modifyAttributes: 'Feature updated successfully!',
       deleteFeature: 'Feature deleted successfully!',
       addFeature: 'Feature added successfully!',
-      modifyFeature: 'Feature modified successfully!'
+      modifyFeature: 'Feature modified successfully!',
     },
     // Popup
     popupOverlay: null,
     popup: {
       title: '',
       isVisible: false,
-      el: null
+      el: null,
     },
     // Dynamic form
     formTypesMapping: {
       string: 'string',
       int: 'integer',
-      number: 'number'
+      number: 'number',
     },
 
     postMapMarkerLayer_: null,
-    showDeleteDialog: false
+    showDeleteDialog: false,
   }),
   name: 'edit-control',
   computed: {
@@ -512,14 +413,14 @@ export default {
       mobilePanelState: 'mobilePanelState',
       lightboxDialogState: 'lightboxDialogState',
       editLayer: 'editLayer',
-      highlightLayer: 'highlightLayer'
+      highlightLayer: 'highlightLayer',
     }),
     ...mapGetters('map', {
       layersMetadata: 'layersMetadata',
-      imageUploadButtonText: 'imageUploadButtonText'
+      imageUploadButtonText: 'imageUploadButtonText',
     }),
     ...mapGetters('auth', {
-      loggedUser: 'loggedUser'
+      loggedUser: 'loggedUser',
     }),
     flatLayers() {
       const layers = [];
@@ -534,7 +435,7 @@ export default {
           }
         });
       return layers;
-    }
+    },
   },
   methods: {
     onMapBound() {
@@ -542,34 +443,31 @@ export default {
       this.postMapMarkerLayer_ = new PostMapMarkerLayer();
     },
     createLayers() {
-      //-  create an edit vector layer
+      // -  create an edit vector layer
       const editLayerSource = new VectorSource({
-        wrapX: false
+        wrapX: false,
       });
-      const options = Object.assign(
-        {},
-        {
-          name: 'edit_layer',
-          isInteractive: false,
-          queryable: false,
-          zIndex: 2000,
-          source: editLayerSource
-        }
-      );
+      const options = {
+        name: 'edit_layer',
+        isInteractive: false,
+        queryable: false,
+        zIndex: 2000,
+        source: editLayerSource,
+      };
       const editLayer = new VectorLayer(options);
       this.map.addLayer(editLayer);
       this.editLayer = editLayer;
 
-      //- create highligh layer
-      //Create highlight layer
-      const highlightSource = new VectorSource({ wrapX: false });
+      // - create highligh layer
+      // Create highlight layer
+      const highlightSource = new VectorSource({wrapX: false});
       const highlightLayer = new VectorLayer({
         name: 'highlight_layer',
         isInteractive: false,
         queryable: false,
         zIndex: 2001,
         style: getFeatureHighlightStyle(),
-        source: highlightSource
+        source: highlightSource,
       });
       this.map.addLayer(highlightLayer);
       this.highlightLayer = highlightLayer;
@@ -581,8 +479,8 @@ export default {
           autoPan: true,
           autoPanMargin: 40,
           autoPanAnimation: {
-            duration: 250
-          }
+            duration: 250,
+          },
         });
         this.map.addOverlay(this.popupOverlay);
         this.overlayersGarbageCollector.push(this.popupOverlay);
@@ -599,7 +497,7 @@ export default {
         offset: [15, 15],
         positioning: 'top-left',
         stopEvent: true,
-        insertFirst: false
+        insertFirst: false,
       });
       this.map.addOverlay(this.helpTooltip);
       this.overlayersGarbageCollector.push(this.helpTooltip);
@@ -624,9 +522,8 @@ export default {
       this.createSchemaFromLayerMetadata(); // Used for dynamic form rendering
       let geometryType;
       if (layerMetadata) {
-        const geometryFields = layerMetadata.properties.filter(p =>
-          ['geom', 'geometry'].includes(p.name)
-        );
+        const geometryFields = layerMetadata.properties.filter(p => ['geom', 'geometry'].includes(p.name));
+        // eslint-disable-next-line no-unused-expressions
         Array.isArray(geometryFields) && geometryFields.length > 0
           ? (geometryType = geometryFields[0].localType)
           : null;
@@ -643,7 +540,7 @@ export default {
           this.currentInteraction = new Draw({
             source: this.editLayer.getSource(),
             type: geometryType,
-            geometryName: 'geom'
+            geometryName: 'geom',
           });
           this.currentInteraction.on('drawstart', this.onDrawStart);
           this.currentInteraction.on('drawend', this.onDrawEnd);
@@ -651,7 +548,7 @@ export default {
         }
         case 'modifyFeature': {
           this.currentInteraction = new Modify({
-            source: this.editLayer.getSource()
+            source: this.editLayer.getSource(),
           });
           this.mapClickListener = this.map.on('click', this.selectFeature);
           this.currentInteraction.on('modifystart', this.onModifyStart);
@@ -682,7 +579,7 @@ export default {
       this.formSchema = {
         type: 'object',
         required: [],
-        properties: {}
+        properties: {},
       };
       const layerName = this.selectedLayer.get('name');
       if (!this.formSchemaCache[layerName]) {
@@ -695,17 +592,14 @@ export default {
               const fieldMapping = this.$appConfig.map.popupFieldsMapping;
               if (fieldMapping) {
                 title =
-                  getNestedProperty(
-                    fieldMapping,
-                    `${layerName}.${property.name}`
-                  ) ||
+                  getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
                   fieldMapping.default[property.name] ||
                   property.name;
               }
               title = title.toUpperCase();
               this.formSchema.properties[property.name] = {
                 type,
-                title
+                title,
               };
               if (property.nillable === false) {
                 this.formSchema.required.push(property.name);
@@ -714,7 +608,7 @@ export default {
                 this.formSchema[property.name]['x-display'] = 'hidden';
               }
               if (property.name === 'lightbox') {
-                this.formSchema.properties[property.name]['readOnly'] = true;
+                this.formSchema.properties[property.name].readOnly = true;
               }
             }
           });
@@ -745,7 +639,7 @@ export default {
       }
       this.map.getView().animate({
         center: popupCoordinate,
-        duration: 400
+        duration: 400,
       });
       if (this.popupOverlay) {
         this.popupOverlay.setPosition(popupCoordinate);
@@ -781,10 +675,8 @@ export default {
       const selectedLayer = this.selectedLayer;
       if (['VECTOR', 'VECTORTILE'].includes(this.selectedLayer.get('type'))) {
         const features = this.map.getFeaturesAtPixel(evt.pixel, {
-          layerFilter: layerCandidate => {
-            return layerCandidate.get('name') === selectedLayer.get('name');
-          },
-          hitTolerance: 3
+          layerFilter: layerCandidate => layerCandidate.get('name') === selectedLayer.get('name'),
+          hitTolerance: 3,
         });
         if (features.length > 0) {
           let feature = features[0];
@@ -803,8 +695,8 @@ export default {
                 outputFormat: 'application/json',
                 srsName: 'EPSG:3857',
                 typeNames: geoserverLayerName,
-                featureId: feature.getId()
-              }
+                featureId: feature.getId(),
+              },
             });
             if (response.data.features) {
               const olFeatures = geojsonToFeature(response.data, {});
@@ -816,18 +708,16 @@ export default {
 
             if (['deleteFeature', 'modifyAttributes'].includes(this.editType)) {
               this.highlightLayer.getSource().addFeature(feature.clone());
-              let popupCoordinate = feature.getGeometry().getCoordinates();
+              const popupCoordinate = feature.getGeometry().getCoordinates();
               let closestPoint;
               if (popupCoordinate) {
-                closestPoint = feature
-                  .getGeometry()
-                  .getClosestPoint(evt.coordinate);
+                closestPoint = feature.getGeometry().getClosestPoint(evt.coordinate);
               } else {
                 closestPoint = evt.coordinate;
               }
               this.map.getView().animate({
                 center: closestPoint,
-                duration: 400
+                duration: 400,
               });
               if (this.popupOverlay) {
                 this.popupOverlay.setPosition(closestPoint);
@@ -896,23 +786,17 @@ export default {
      */
     popupOk() {
       if (this.editType === 'deleteFeature') {
-        //TODO: Commit delete in the server
-        //Remove feature from the source
+        // TODO: Commit delete in the server
+        // Remove feature from the source
         if (this.selectedFeature) {
           this.selectedLayer.getSource().removeFeature(this.selectedFeature);
         }
-      } else if (
-        ['addFeature', 'modifyAttributes'].includes(this.editType) &&
-        this.selectedFeature
-      ) {
+      } else if (['addFeature', 'modifyAttributes'].includes(this.editType) && this.selectedFeature) {
         // Get properties and assign it to feature
         const properties = Object.keys(this.formSchema.properties);
         properties.forEach(property => {
           if (!this.formData[property]) {
-            this.formData[property] =
-              this.formSchema.properties[property].type === 'string'
-                ? ''
-                : null;
+            this.formData[property] = this.formSchema.properties[property].type === 'string' ? '' : null;
           }
         });
         this.selectedFeature.setProperties(this.formData);
@@ -946,7 +830,7 @@ export default {
      * Pointermove for tooltip
      */
     onPointerMove(evt) {
-      //Hide helptooltip if mouse is over popoverlay
+      // Hide helptooltip if mouse is over popoverlay
       if (this.popupOverlay && this.popupOverlay.getPosition() !== undefined) {
         this.helpTooltip.setPosition(undefined);
         return;
@@ -1061,51 +945,35 @@ export default {
         ...propsWithNoGeometry
       } = this.selectedFeature.getProperties();
 
-      //Transform Video Url if exists
-      const videoPossibilities = [
-        'youtube-nocookie.com',
-        'youtube.com',
-        'vimeo.com'
-      ];
+      // Transform Video Url if exists
+      const videoPossibilities = ['youtube-nocookie.com', 'youtube.com', 'vimeo.com'];
 
       // For overlay video player
       if (propsWithNoGeometry.vimeoSrc) {
-        propsWithNoGeometry.vimeoSrc = parseVideoUrl(
-          propsWithNoGeometry.vimeoSrc
-        );
+        propsWithNoGeometry.vimeoSrc = parseVideoUrl(propsWithNoGeometry.vimeoSrc);
       }
       if (propsWithNoGeometry.videoSrc) {
-        propsWithNoGeometry.videoSrc = parseVideoUrl(
-          propsWithNoGeometry.videoSrc
-        );
+        propsWithNoGeometry.videoSrc = parseVideoUrl(propsWithNoGeometry.videoSrc);
       }
 
       // For sidebar video player
       if (
         propsWithNoGeometry.sidebarMediaTop &&
-        videoPossibilities.some(v =>
-          propsWithNoGeometry.sidebarMediaTop.includes(v)
-        )
+        videoPossibilities.some(v => propsWithNoGeometry.sidebarMediaTop.includes(v))
       ) {
-        propsWithNoGeometry.sidebarMediaTop = parseVideoUrl(
-          propsWithNoGeometry.sidebarMediaTop
-        );
+        propsWithNoGeometry.sidebarMediaTop = parseVideoUrl(propsWithNoGeometry.sidebarMediaTop);
       }
 
       if (
         propsWithNoGeometry.sidebarMediaBottom &&
-        videoPossibilities.some(v =>
-          propsWithNoGeometry.sidebarMediaBottom.includes(v)
-        )
+        videoPossibilities.some(v => propsWithNoGeometry.sidebarMediaBottom.includes(v))
       ) {
-        propsWithNoGeometry.sidebarMediaBottom = parseVideoUrl(
-          propsWithNoGeometry.sidebarMediaBottom
-        );
+        propsWithNoGeometry.sidebarMediaBottom = parseVideoUrl(propsWithNoGeometry.sidebarMediaBottom);
       }
 
       const feature = new Feature({
         geom: this.selectedFeature.getGeometry().clone(),
-        ...propsWithNoGeometry
+        ...propsWithNoGeometry,
       });
       feature.setGeometryName('geom');
       feature.getGeometry().transform('EPSG:3857', 'EPSG:4326');
@@ -1114,7 +982,7 @@ export default {
         addFeature: 'insert',
         modifyAttributes: 'update',
         modifyFeature: 'update',
-        deleteFeature: 'delete'
+        deleteFeature: 'delete',
       };
       const payload = {
         type: type[this.editType],
@@ -1122,7 +990,7 @@ export default {
         table: this.layersMetadata[this.selectedLayer.get('name')].typeName,
         geometry: new GeoJSON().writeGeometryObject(feature.getGeometry()),
         properties: propsWithNoGeometry,
-        featureId: feature.getId()
+        featureId: feature.getId(),
       };
 
       const formData = new FormData();
@@ -1136,7 +1004,7 @@ export default {
       formData.append('payload', JSON.stringify(payload));
       axios
         .post('api/layer', formData, {
-          headers: authHeader()
+          headers: authHeader(),
         })
         .then(() => {
           if (this.editType !== 'modifyFeature') {
@@ -1151,21 +1019,21 @@ export default {
               // this.selectedLayer.getSource().clear();
               // this.selectedLayer.getSource().tileCache.clear();
               this.selectedLayer.getSource().clear();
-              this.selectedLayer.getSource().refresh({ force: true });
+              this.selectedLayer.getSource().refresh({force: true});
               this.selectedLayer.redraw();
             }
             this.toggleSnackbar({
               type: 'success',
               message: this.editSnackbarMessages[this.editType],
               timeout: 2000,
-              state: true
+              state: true,
             });
           }
         });
     },
     ...mapMutations('map', {
-      toggleSnackbar: 'TOGGLE_SNACKBAR'
-    })
+      toggleSnackbar: 'TOGGLE_SNACKBAR',
+    }),
   },
   mounted() {
     /**
@@ -1237,8 +1105,8 @@ export default {
         this.map.removeLayer(this.postMapMarkerLayer_);
         this.postMapMarkerLayer_.setFlashlightVisible(false);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="css" scoped>
