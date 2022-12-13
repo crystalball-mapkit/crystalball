@@ -1,5 +1,5 @@
 # develop stage
-FROM node:16-alpine as develop-stage
+FROM node:18-alpine as develop-stage
 RUN apk update && apk add --no-cache libc6-compat
 RUN corepack enable && corepack prepare pnpm@7.18.1 --activate 
 WORKDIR /app
