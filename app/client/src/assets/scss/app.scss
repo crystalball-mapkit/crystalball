@@ -7,6 +7,15 @@ body,
   height: 100%;
 }
 
+.row {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.row + .row {
+  margin-top: 0 !important;
+}
+
 @media only screen and (min-width: 960px) {
   html {
     overflow: hidden;
