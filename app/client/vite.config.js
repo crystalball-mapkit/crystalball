@@ -45,7 +45,7 @@ export default defineConfig(({mode}) => {
     build: {
       target: 'es2021',
       cssTarget: 'chrome80',
-      chunkSizeWarningLimit: 500,
+      chunkSizeWarningLimit: 3000,
     },
     server: {
       host: '0.0.0.0',
