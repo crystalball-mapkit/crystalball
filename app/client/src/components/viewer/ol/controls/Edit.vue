@@ -310,12 +310,12 @@ import '@koumoul/vjsf/lib/deps/third-party';
 import authHeader from '../../../../services/auth-header';
 import {EventBus} from '../../../../EventBus';
 
-import Lighbox from '../../../core/Lightbox.vue';
+import Lightbox from '../../../core/Lightbox.vue';
 
 export default {
   components: {
     'overlay-popup': OverlayPopup,
-    'lightbox-dialog': Lighbox,
+    'lightbox-dialog': Lightbox,
     'editor-form': VJsf,
   },
   mixins: [Mapable],
