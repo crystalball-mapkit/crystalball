@@ -15,6 +15,7 @@ export default defineConfig(({mode}) => {
     plugins: [
       Vue(),
       Components({
+        dts: false,
         resolvers: [
           VuetifyResolver(),
           componentName => {
