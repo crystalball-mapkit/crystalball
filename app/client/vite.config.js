@@ -46,6 +46,9 @@ export default defineConfig(({mode}) => {
       target: 'es2021',
       cssTarget: 'chrome80',
       chunkSizeWarningLimit: 3000,
+      commonjsOptions: {
+        transformMixedEsModules: true
+      }
     },
     server: {
       host: '0.0.0.0',
