@@ -3,11 +3,11 @@
     "title": "Crystalball",
     "projectWebsite": "https://wiki.timetochange.today",
     "color": {
-      "primary": "#3A125F",
-      "secondary": "#3A125F"
+      "primary": "#00000e",
+      "secondary": "red"
     },
     "legend": {
-      "isVisible": true
+      "isVisible": false
     },
     "controls": {
       "locate_me": true,
@@ -16,7 +16,7 @@
     },
     "sideBar": {
       "isVisible": true,
-      "backgroundColor": "#fefefe",
+      "backgroundColor": "#ffffff",
       "textColor": "black"
     },
     "navbar": {
@@ -31,10 +31,30 @@
     "zoom": 1,
     "geoserverWorkspace": "workspace1",
     "resolutions": [
-      156543.03, 78271.52, 39135.76, 19567.88, 9783.94, 4891.97, 2445.98, 1222.99, 611.5, 305.75, 152.87, 76.437,
-      38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
+      156543.03,
+      78271.52,
+      39135.76,
+      19567.88,
+      9783.94,
+      4891.97,
+      2445.98,
+      1222.99,
+      611.5,
+      305.75,
+      152.87,
+      76.437,
+      38.219,
+      19.109,
+      9.5546,
+      4.7773,
+      2.3887,
+      1.1943,
+      0.5972
     ],
-    "center": [0, 0],
+    "center": [
+      0,
+      0
+    ],
     "layers": [
       {
         "type": "VECTOR",
@@ -46,21 +66,20 @@
         "format": "GeoJSON",
         "legendDisplayName": "Points",
         "visible": true,
+        "displayInLegend": true,
         "zIndex": 1000,
         "minResolution": 0,
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
         "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
           "type": "circle",
           "radius": 10,
-          "stylePropFnRef": {
-            "fillColor": "variable1",
-            "strokeColor": "variable2"
-          },
-          "strokeWidth": 2
+          "strokeWidth": 2,
+          "fillColor": "orange",
+          "strokeColor": "black",
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -73,6 +92,7 @@
         "legendDisplayName": "Lines",
         "format": "GeoJSON",
         "visible": true,
+        "displayInLegend": true,
         "zIndex": 1000,
         "minResolution": 0,
         "maxResolution": 64000,
@@ -96,6 +116,7 @@
         "queryable": true,
         "format": "GeoJSON",
         "visible": true,
+        "displayInLegend": true,
         "legendDisplayName": "Polygons",
         "zIndex": 1000,
         "minResolution": 1,
@@ -107,9 +128,9 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "stylePropFnRef": {
-            "fillColor": "variable1",
-            "strokeColor": "variable2"
+            "fillColor": "variable1"
           },
+          "strokeColor": "black",
           "strokeWidth": 3
         }
       },
@@ -129,7 +150,7 @@
         "label": true,
         "hoverable": true,
         "style": {
-          "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/photocam.png",
+          "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/photo_marker.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -151,8 +172,32 @@
         "label": false,
         "hoverable": true,
         "style": {
-          "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/videocam.png",
+          "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/video_marker.png",
           "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "mississippi",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:mississippi&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": false,
+        "displayInLegend": false,
+        "legendDisplayName": "Lines",
+        "format": "GeoJSON",
+        "visible": true,
+        "displayInLegend": true,
+        "zIndex": 1000,
+        "minResolution": 2446,
+        "maxResolution": 64000,
+        "label": false,
+        "hoverable": true,
+        "style": {
+          "type": "line",
+          "strokeColor": "#40a3c9",
+          "strokeWidth": 1.5,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -161,14 +206,41 @@
         "type": "XYZ",
         "name": "osm",
         "group": "backgroundLayers",
-        "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png",
         "minResolution": 0.25,
         "maxResolution": 60000,
         "displayInLegend": false,
         "legendDisplayName": "OpenStreetMap",
         "opacity": 0.99,
+        "visible": true
+      },
+      {
+        "type": "VECTOR",
+        "name": "glri_projects",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:glri_projects&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "data",
+        "queryable": true,
+        "displayInLegend": false,
+        "format": "GeoJSON",
+        "legendDisplayName": "Restoration projects",
         "visible": true,
-        "updatewhileanimating": true
+        "displayInLegend": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "type": "circle",
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "stylePropFnRef": {
+            "fillColor": "variable1",
+            "circleRadiusFn": "variable2"
+          },
+          "strokeColor": "rgba(255,255,255,0.7)",
+          "strokeWidth": 1
+        }
       },
       {
         "type": "XYZ",
@@ -179,22 +251,74 @@
         "maxResolution": 8,
         "queryable": false,
         "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "ESRI-World-Imagery2",
+        "group": "backgroundLayers",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0.25,
+        "maxResolution": 4,
+        "opacity": 0.2,
+        "queryable": false,
+        "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "World_Hillshade",
+        "group": "backgroundLayers",
+        "url": "https://services.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 4,
+        "maxResolution": 64000,
+        "queryable": false,
+        "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "World_Physical",
+        "group": "backgroundLayers",
+        "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 800,
+        "maxResolution": 64000,
+        "opacity": 0.6,
+        "queryable": false,
+        "visible": true
       }
     ],
     "groups": {
       "media": {
         "default": {
-          "layers": ["osm", "polygons", "ESRI-World-Imagery", "points", "lines", "videos", "photos"],
-          "center": [-91.289, 42.69],
-          "resolution": 2200,
-          "mobileResolution": 7000,
-          "mobileCenter": [-89.41, 42.097],
+          "layers": [
+            "World_Hillshade",
+            "ESRI-World-Imagery2",
+            "osm",
+            "mississippi",
+            "polygons",
+            "ESRI-World-Imagery",
+            "points",
+            "lines",
+            "videos",
+            "photos"
+          ],
+          "center": [
+            -87.468,
+            41.680
+          ],
+          "resolution": 38,
+          "mobileResolution": 120,
+          "mobileCenter": [
+            -87.573,
+            41.736
+          ],
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
           "layers": [],
-          "center": [-88.179, 41.837],
+          "center": [
+            -88.179,
+            41.837
+          ],
           "resolution": 2000,
           "mobileResolution": 16000,
           "minResolution": 0,
@@ -202,7 +326,53 @@
         },
         "global": {
           "layers": [],
-          "center": [-12.42, 29.84],
+          "center": [
+            -12.42,
+            29.84
+          ],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      },
+      "data": {
+        "default": {
+          "layers": [
+            "osm",
+            "ESRI-World-Imagery",
+            "glri_projects"
+          ],
+          "center": [
+            -84.474,
+            43.822
+          ],
+          "resolution": 1000,
+          "mobileResolution": 1400,
+          "mobileCenter": [
+            -84.509,
+            43.901
+          ],
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "local": {
+          "layers": [],
+          "center": [
+            -88.179,
+            41.837
+          ],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [
+            -12.42,
+            29.84
+          ],
           "resolution": 68000,
           "mobileResolution": 80000,
           "minResolution": 0,
@@ -213,11 +383,14 @@
     "flyToSlideshow": {
       "delayInSecondsForInitialStart": 9000000,
       "delayInSecondsBetweenFrames": 120000,
-      "maplinks": [""]
+      "maplinks": [
+        ""
+      ]
     },
     "defaultActiveGroup": "media",
     "groupTitles": {
-      "media": "media"
+      "media": "media",
+      "data": "data"
     },
     "regionTitles": {
       "local": "local",
@@ -229,7 +402,8 @@
         "title": "NAME",
         "entity": "OWNER",
         "text": "WHAT'S HAPPENING",
-        "link1": "WEBSITE"
+        "link1": "WEBSITE",
+        "videoSrc": "youtube_or_vimeo_URL"
       }
     },
     "featureInfoHiddenProps": [
