@@ -31,30 +31,10 @@
     "zoom": 1,
     "geoserverWorkspace": "workspace1",
     "resolutions": [
-      156543.03,
-      78271.52,
-      39135.76,
-      19567.88,
-      9783.94,
-      4891.97,
-      2445.98,
-      1222.99,
-      611.5,
-      305.75,
-      152.87,
-      76.437,
-      38.219,
-      19.109,
-      9.5546,
-      4.7773,
-      2.3887,
-      1.1943,
-      0.5972
+      156543.03, 78271.52, 39135.76, 19567.88, 9783.94, 4891.97, 2445.98, 1222.99, 611.5, 305.75, 152.87, 76.437,
+      38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
     ],
-    "center": [
-      0,
-      0
-    ],
+    "center": [0, 0],
     "layers": [
       {
         "type": "VECTOR",
@@ -300,25 +280,16 @@
             "videos",
             "photos"
           ],
-          "center": [
-            -87.468,
-            41.680
-          ],
+          "center": [-87.468, 41.68],
           "resolution": 38,
           "mobileResolution": 120,
-          "mobileCenter": [
-            -87.573,
-            41.736
-          ],
+          "mobileCenter": [-87.573, 41.736],
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
           "layers": [],
-          "center": [
-            -88.179,
-            41.837
-          ],
+          "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
           "minResolution": 0,
@@ -326,10 +297,7 @@
         },
         "global": {
           "layers": [],
-          "center": [
-            -12.42,
-            29.84
-          ],
+          "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
           "minResolution": 0,
@@ -338,30 +306,17 @@
       },
       "data": {
         "default": {
-          "layers": [
-            "osm",
-            "ESRI-World-Imagery",
-            "glri_projects"
-          ],
-          "center": [
-            -84.474,
-            43.822
-          ],
+          "layers": ["osm", "ESRI-World-Imagery", "glri_projects"],
+          "center": [-84.474, 43.822],
           "resolution": 1000,
           "mobileResolution": 1400,
-          "mobileCenter": [
-            -84.509,
-            43.901
-          ],
+          "mobileCenter": [-84.509, 43.901],
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
           "layers": [],
-          "center": [
-            -88.179,
-            41.837
-          ],
+          "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
           "minResolution": 0,
@@ -369,10 +324,7 @@
         },
         "global": {
           "layers": [],
-          "center": [
-            -12.42,
-            29.84
-          ],
+          "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
           "minResolution": 0,
@@ -383,9 +335,7 @@
     "flyToSlideshow": {
       "delayInSecondsForInitialStart": 9000000,
       "delayInSecondsBetweenFrames": 120000,
-      "maplinks": [
-        ""
-      ]
+      "maplinks": [""]
     },
     "defaultActiveGroup": "media",
     "groupTitles": {
