@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="open" class="link"><slot></slot></div>
-    <LightBox v-if="isOpen" :images="images" :showCaption="true" @onOpened="onOpenChange"></LightBox>
+    <LightBox v-if="isOpen" :media="images" :showCaption="true" @onClosed="close"></LightBox>
   </div>
 </template>
 <style scoped>
@@ -30,8 +30,8 @@ export default {
     open() {
       this.isOpen = true;
     },
-    onOpenChange(opened) {
-      this.isOpen = opened;
+    close() {
+      this.isOpen = false;
     },
   },
 };
