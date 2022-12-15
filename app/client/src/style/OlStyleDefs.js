@@ -564,9 +564,11 @@ export const layersStylePropFn = {
     circleRadiusFn: propertyValue => getRadiusValue(propertyValue, 0.012),
   },
   polygons: {
+    strokeColor: propertyValue => propertyValue,
     fillColor: propertyValue => propertyValue,
   },
   points: {
+    strokeColor: propertyValue => propertyValue,
     fillColor: propertyValue => propertyValue,
   },
   lines: {
