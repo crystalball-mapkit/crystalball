@@ -350,7 +350,7 @@ export function baseStyle(config) {
                 stylePropFnRef && stylePropFnRef.strokeWidth && strokeWidth instanceof Function
                   ? strokeWidth(feature.get(stylePropFnRef.strokeWidth))
                   : strokeWidth || 4,
-              lineDash: lineDash || [6],
+              lineDash,
             }),
           };
           if (labelText) {
