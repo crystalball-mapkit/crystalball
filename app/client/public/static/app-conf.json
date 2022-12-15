@@ -56,8 +56,10 @@
           "type": "circle",
           "radius": 10,
           "strokeWidth": 2,
-          "fillColor": "orange",
-          "strokeColor": "black",
+          "stylePropFnRef": {
+            "fillColor": "variable1",
+            "strokeColor": "variable2"
+          },
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -68,7 +70,6 @@
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:lines&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
         "queryable": true,
-        "displayInLegend": false,
         "legendDisplayName": "Lines",
         "format": "GeoJSON",
         "visible": true,
@@ -108,9 +109,9 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "stylePropFnRef": {
+            "strokeColor": "variable2",
             "fillColor": "variable1"
           },
-          "strokeColor": "black",
           "strokeWidth": 3
         }
       },
