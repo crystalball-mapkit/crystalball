@@ -476,7 +476,7 @@ export default {
       if (!this.$vuetify.breakpoint.smAndDown) {
         this.popupOverlay = new Overlay({
           element: this.popup.el.$el,
-          autoPan: true,
+          autoPan: false,
           autoPanMargin: 40,
           autoPanAnimation: {
             duration: 250,
@@ -637,8 +637,12 @@ export default {
       while (popupCoordinate && Array.isArray(popupCoordinate[0])) {
         popupCoordinate = popupCoordinate[0];
       }
+      const mapSize = this.map.getSize();
+      const extent = this.map.getView().calculateExtent([mapSize[0], mapSize[1] - 300]);
+      const height = Math.abs(extent[3] - extent[1]);
+      const centerPoint = [popupCoordinate[0], popupCoordinate[1] + height / 2];
       this.map.getView().animate({
-        center: popupCoordinate,
+        center: centerPoint,
         duration: 400,
       });
       if (this.popupOverlay) {
@@ -715,8 +719,12 @@ export default {
               } else {
                 closestPoint = evt.coordinate;
               }
+              const mapSize = this.map.getSize();
+              const extent = this.map.getView().calculateExtent([mapSize[0], mapSize[1] - 300]);
+              const height = Math.abs(extent[3] - extent[1]);
+              const centerPoint = [closestPoint[0], closestPoint[1] + height / 2];
               this.map.getView().animate({
-                center: closestPoint,
+                center: centerPoint,
                 duration: 400,
               });
               if (this.popupOverlay) {
@@ -736,7 +744,7 @@ export default {
                 this.formData = feature.getProperties();
                 if (this.$vuetify.breakpoint.smAndDown) {
                   this.mobilePanelState = true;
-                  this.map.getView().setCenter(closestPoint);
+                  // this.map.getView().setCenter(closestPoint);
                 }
               }
             } else if (this.editType === 'modifyFeature') {
