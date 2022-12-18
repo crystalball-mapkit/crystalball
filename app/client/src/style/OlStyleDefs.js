@@ -5,6 +5,7 @@ import OlStyle from 'ol/style/Style';
 import OlStroke from 'ol/style/Stroke';
 import OlFill from 'ol/style/Fill';
 import OlCircle from 'ol/style/Circle';
+import OlRegularShape from 'ol/style/RegularShape';
 import OlIconStyle from 'ol/style/Icon';
 import OlText from 'ol/style/Text';
 import store from '../store/modules/map';
@@ -232,7 +233,10 @@ export function baseStyle(config) {
         strokeWidth,
         lineDash,
         label,
+        circleRadius2,
         circleRadiusFn,
+        points,
+        angle,
         iconUrl,
         iconScaleFn,
         scale,
@@ -298,30 +302,59 @@ export function baseStyle(config) {
             }
             style = new OlStyle(options);
           } else {
-            const options = {
-              image: new OlCircle({
-                stroke: new OlStroke({
-                  color:
-                    stylePropFnRef && stylePropFnRef.strokeColor && strokeColor instanceof Function
-                      ? strokeColor(feature.get(stylePropFnRef.strokeColor))
-                      : strokeColor || 'rgba(255, 255, 255, 1)',
-                  width:
-                    stylePropFnRef && stylePropFnRef.strokeWidth && strokeWidth instanceof Function
-                      ? strokeWidth(feature.get(stylePropFnRef.strokeWidth))
-                      : strokeWidth || 1,
-                }),
-                fill: new OlFill({
-                  color:
-                    stylePropFnRef && stylePropFnRef.fillColor && fillColor instanceof Function
-                      ? fillColor(feature.get(stylePropFnRef.fillColor))
-                      : fillColor || 'rgba(129, 56, 17, 0.7)',
-                }),
-                radius:
-                  stylePropFnRef && stylePropFnRef.circleRadiusFn && circleRadiusFn instanceof Function
-                    ? circleRadiusFn(feature.get(stylePropFnRef.circleRadiusFn))
-                    : 5,
+            const baseImageOptions = {
+              stroke: new OlStroke({
+                color:
+                  stylePropFnRef && stylePropFnRef.strokeColor && strokeColor instanceof Function
+                    ? strokeColor(feature.get(stylePropFnRef.strokeColor))
+                    : strokeColor || 'rgba(255, 255, 255, 1)',
+                width:
+                  stylePropFnRef && stylePropFnRef.strokeWidth && strokeWidth instanceof Function
+                    ? strokeWidth(feature.get(stylePropFnRef.strokeWidth))
+                    : strokeWidth || 1,
               }),
+              fill: new OlFill({
+                color:
+                  stylePropFnRef && stylePropFnRef.fillColor && fillColor instanceof Function
+                    ? fillColor(feature.get(stylePropFnRef.fillColor))
+                    : fillColor || 'rgba(129, 56, 17, 0.7)',
+              }),
+              radius:
+                stylePropFnRef && stylePropFnRef.circleRadiusFn && circleRadiusFn instanceof Function
+                  ? circleRadiusFn(feature.get(stylePropFnRef.circleRadiusFn))
+                  : 5,
             };
+            let image;
+            if (config.type === 'circle') {
+              image = new OlCircle({
+                ...baseImageOptions,
+              });
+            } else {
+              image = new OlRegularShape({
+                ...baseImageOptions,
+                radius2:
+                  stylePropFnRef && stylePropFnRef.circleRadius2 && circleRadius2 instanceof Function
+                    ? circleRadius2(feature.get(stylePropFnRef.circleRadius2))
+                    : circleRadius2,
+                points:
+                  stylePropFnRef && stylePropFnRef.points && points instanceof Function
+                    ? points(feature.get(stylePropFnRef.points))
+                    : points || 4,
+                angle:
+                  stylePropFnRef && stylePropFnRef.angle && angle instanceof Function
+                    ? angle(feature.get(stylePropFnRef.angle))
+                    : angle || 0,
+                scale:
+                  stylePropFnRef && stylePropFnRef.scale && scale instanceof Function
+                    ? scale(feature.get(stylePropFnRef.scale))
+                    : scale,
+              });
+            }
+
+            const options = {
+              image,
+            };
+
             if (labelText) {
               options.text = labelText;
             }
