@@ -1,7 +1,15 @@
 <template>
   <div id="site-wrap">
     <!-- ===DESKTOP=== -->
-    <v-app v-if="!$vuetify.breakpoint.smAndDown" id="wg-app" data-app :class="{'wg-app': true}">
+    <v-app
+      v-if="!$vuetify.breakpoint.smAndDown"
+      id="wg-app"
+      data-app
+      :class="{'wg-app': true}"
+      :style="`font-family:${
+        $appConfig.app.font && $appConfig.app.font.family ? $appConfig.app.font.family : 'Roboto'
+      }, 'Roboto', serif;`"
+    >
       <template>
         <v-expand-transition>
           <v-navigation-drawer
@@ -89,7 +97,7 @@
 
         <v-spacer></v-spacer><v-spacer></v-spacer>
 
-        <span class="title pr-5">open-source mapkit</span>
+        <span class="title pr-5">{{ $appConfig.app.tagline || '' }}</span>
         <v-btn icon @click.stop="sidebarState = !sidebarState"
           ><v-icon medium>{{ sidebarState ? '$close' : '$menu' }}</v-icon></v-btn
         >
