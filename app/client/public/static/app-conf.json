@@ -220,7 +220,7 @@
           "hoverBackgroundColor": "#000000",
           "stylePropFnRef": {
             "fillColor": "variable1",
-            "circleRadius": "variable2"
+            "radius": "variable2"
           },
           "strokeColor": "rgba(255,255,255,0.7)",
           "strokeWidth": 1
