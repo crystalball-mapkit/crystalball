@@ -230,6 +230,8 @@ export default {
     return {
       zoom: this.$appConfig.map.zoom,
       center: this.$appConfig.map.center,
+      minResolution: this.$appConfig.map.minResolution,
+      maxResolution: this.$appConfig.map.maxResolution,
       minZoom: this.$appConfig.map.minZoom,
       maxZoom: this.$appConfig.map.maxZoom,
       extent: this.$appConfig.map.extent,
@@ -349,8 +351,8 @@ export default {
       }).extend([attribution]),
       view: new View({
         center: me.center || [0, 0],
-        minResolution: 0.25,
-        maxResolution: 64000,
+        minResolution: me.minResolution || 0.25,
+        maxResolution: me.maxResolution || 64000,
       }),
     });
     // Add map to the vuex store.
