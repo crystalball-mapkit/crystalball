@@ -233,12 +233,12 @@ export function baseStyle(config) {
         strokeWidth,
         lineDash,
         label,
-        circleRadius2,
-        circleRadiusFn,
+        radius,
+        radius2,
         points,
         angle,
         iconUrl,
-        iconScaleFn,
+        iconScale,
         scale,
         opacity,
         iconAnchor,
@@ -280,7 +280,7 @@ export function baseStyle(config) {
         case 'Point':
         case 'MultiPoint': {
           let style;
-          if (iconUrl || iconScaleFn) {
+          if (iconUrl || iconScale) {
             const options = {
               image: new OlIconStyle({
                 src:
@@ -288,8 +288,8 @@ export function baseStyle(config) {
                     ? iconUrl(feature.get(stylePropFnRef.iconUrl))
                     : iconUrl,
                 scale:
-                  stylePropFnRef && stylePropFnRef.iconScaleFn && iconScaleFn
-                    ? iconScaleFn(feature.get(stylePropFnRef.iconScaleFn))
+                  stylePropFnRef && stylePropFnRef.iconScale && iconScale
+                    ? iconScale(feature.get(stylePropFnRef.iconScale))
                     : scale || 1,
                 opacity: opacity || 1,
                 anchor: iconAnchor,
@@ -320,9 +320,9 @@ export function baseStyle(config) {
                     : fillColor || 'rgba(129, 56, 17, 0.7)',
               }),
               radius:
-                stylePropFnRef && stylePropFnRef.circleRadiusFn && circleRadiusFn instanceof Function
-                  ? circleRadiusFn(feature.get(stylePropFnRef.circleRadiusFn))
-                  : 5,
+                stylePropFnRef && stylePropFnRef.radius && radius instanceof Function
+                  ? radius(feature.get(stylePropFnRef.radius))
+                  : radius || 5,
             };
             let image;
             if (config.type === 'circle') {
@@ -333,9 +333,9 @@ export function baseStyle(config) {
               image = new OlRegularShape({
                 ...baseImageOptions,
                 radius2:
-                  stylePropFnRef && stylePropFnRef.circleRadius2 && circleRadius2 instanceof Function
-                    ? circleRadius2(feature.get(stylePropFnRef.circleRadius2))
-                    : circleRadius2,
+                  stylePropFnRef && stylePropFnRef.radius2 && radius2 instanceof Function
+                    ? radius2(feature.get(stylePropFnRef.radius2))
+                    : radius2,
                 points:
                   stylePropFnRef && stylePropFnRef.points && points instanceof Function
                     ? points(feature.get(stylePropFnRef.points))
@@ -511,12 +511,17 @@ export const styleRefs = {
 };
 
 export const defaultLimits = {
-  iconScaleFn: {
+  iconScale: {
     smallestDefaultScale: 0.2,
     largestDefaultScale: 1,
     defaultMultiplier: 603000,
   },
-  circleRadiusFn: {
+  radius: {
+    smallestDefaultRadius: 5,
+    largestDefaultRadius: 30,
+    defaultMultiplier: 0.3,
+  },
+  radius2: {
     smallestDefaultRadius: 5,
     largestDefaultRadius: 30,
     defaultMultiplier: 0.3,
@@ -559,7 +564,7 @@ function stringDivider(str, width, spaceReplacer) {
 }
 
 const getIconScaleValue = (propertyValue, multiplier, smallestScale, largestScale) => {
-  const {smallestDefaultScale, largestDefaultScale, defaultMultiplier} = defaultLimits.iconScaleFn;
+  const {smallestDefaultScale, largestDefaultScale, defaultMultiplier} = defaultLimits.iconScale;
   const smallestValue = smallestScale || smallestDefaultScale;
   const largestValue = largestScale || largestDefaultScale;
   let scale = propertyValue / (multiplier || defaultMultiplier);
@@ -573,7 +578,7 @@ const getIconScaleValue = (propertyValue, multiplier, smallestScale, largestScal
 };
 
 const getRadiusValue = (propertyValue, multiplier, smallestRadius, largestRadius, defaultMultiplier) => {
-  const {smallestDefaultRadius, largestDefaultRadius} = defaultLimits.circleRadiusFn;
+  const {smallestDefaultRadius, largestDefaultRadius} = defaultLimits.radius;
   const smallestValue = smallestRadius || smallestDefaultRadius;
   const largestValue = largestRadius || largestDefaultRadius;
   let radius = Math.sqrt(propertyValue) * multiplier || defaultMultiplier;
@@ -588,13 +593,13 @@ const getRadiusValue = (propertyValue, multiplier, smallestRadius, largestRadius
 
 export const layersStylePropFn = {
   default: {
-    iconScaleFn: propertyValue => getIconScaleValue(propertyValue),
-    circleRadiusFn: propertyValue => getRadiusValue(propertyValue),
+    iconScale: propertyValue => getIconScaleValue(propertyValue),
+    radius: propertyValue => getRadiusValue(propertyValue),
     iconUrl: propertyValue => propertyValue,
   },
   glri_projects: {
     fillColor: propertyValue => propertyValue,
-    circleRadiusFn: propertyValue => getRadiusValue(propertyValue, 0.012),
+    radius: propertyValue => getRadiusValue(propertyValue, 0.012),
   },
   polygons: {
     strokeColor: propertyValue => propertyValue,
