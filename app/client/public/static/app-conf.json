@@ -42,7 +42,6 @@
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:points&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
         "queryable": true,
-        "displayInLegend": false,
         "format": "GeoJSON",
         "legendDisplayName": "Points",
         "visible": true,
@@ -57,7 +56,7 @@
           "radius": 10,
           "strokeWidth": 2,
           "stylePropFnRef": {
-            "fillColor": "variable1",
+            "fillColor": "variable1",                       
             "strokeColor": "variable2"
           },
           "hoverTextColor": "white",
@@ -217,7 +216,7 @@
           "hoverBackgroundColor": "#000000",
           "stylePropFnRef": {
             "fillColor": "variable1",
-            "circleRadiusFn": "variable2"
+            "circleRadius": "variable2"
           },
           "strokeColor": "rgba(255,255,255,0.7)",
           "strokeWidth": 1
