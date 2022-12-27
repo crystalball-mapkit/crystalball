@@ -1,5 +1,10 @@
 <template>
-  <v-app id="inspire">
+  <v-app
+    id="inspire"
+    :style="`font-family:${
+      $appConfig.app.font && $appConfig.app.font.family ? $appConfig.app.font.family : 'Roboto'
+    }, 'Roboto', serif;`"
+  >
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
         <div :key="item.text" v-for="item in items">

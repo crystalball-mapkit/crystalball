@@ -1,11 +1,13 @@
 {
   "app": {
     "title": "Crystalball",
+    "tagline": "open-source mapkit",
     "projectWebsite": "https://wiki.timetochange.today",
     "color": {
       "primary": "#00000e",
       "secondary": "red"
     },
+
     "legend": {
       "isVisible": false
     },
@@ -35,6 +37,8 @@
       38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
     ],
     "center": [0, 0],
+    "minResolution": 0.25,
+    "maxResolution": 64000,
     "layers": [
       {
         "type": "VECTOR",
@@ -56,7 +60,7 @@
           "radius": 10,
           "strokeWidth": 2,
           "stylePropFnRef": {
-            "fillColor": "variable1",                       
+            "fillColor": "variable1",
             "strokeColor": "variable2"
           },
           "hoverTextColor": "white",
