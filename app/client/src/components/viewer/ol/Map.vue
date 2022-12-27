@@ -230,6 +230,8 @@ export default {
     return {
       zoom: this.$appConfig.map.zoom,
       center: this.$appConfig.map.center,
+      minResolution: this.$appConfig.map.minResolution,
+      maxResolution: this.$appConfig.map.maxResolution,
       minZoom: this.$appConfig.map.minZoom,
       maxZoom: this.$appConfig.map.maxZoom,
       extent: this.$appConfig.map.extent,
@@ -349,8 +351,8 @@ export default {
       }).extend([attribution]),
       view: new View({
         center: me.center || [0, 0],
-        minResolution: 0.25,
-        maxResolution: 64000,
+        minResolution: me.minResolution || 0.25,
+        maxResolution: me.maxResolution || 64000,
       }),
     });
     // Add map to the vuex store.
@@ -799,7 +801,7 @@ export default {
         if (me.activeInteractions.length > 0) {
           return;
         }
-        if (me.isEditingLayer || me.isEditingPost) {
+        if (me.isEditingLayer) {
           return;
         }
         let feature;
@@ -837,9 +839,9 @@ export default {
         }
 
         me.closePopup();
-        EventBus.$emit('clearEditHtml');
+        // EventBus.$emit('clearEditHtml');
 
-        if (this.selectedCoorpNetworkEntity && !layer) {
+        if ((this.selectedCoorpNetworkEntity || me.isEditingPost || me.isEditingHtml) && !layer) {
           return;
         }
 
@@ -925,13 +927,16 @@ export default {
             this.popup.activeFeature.setId(`clone.${feature.getId()}`);
           }
 
-          if (this.selectedCoorpNetworkEntity && this.popup.activeFeature) {
+          if (
+            (this.selectedCoorpNetworkEntity || this.isEditingPost || this.isEditingHtml) &&
+            this.popup.activeFeature
+          ) {
             this.popup.highlightLayer.getSource().clear();
             this.popup.activeFeature.setStyle(null);
             this.popup.highlightLayer.getSource().addFeature(this.popup.activeFeature);
           }
 
-          if (this.selectedCoorpNetworkEntity) {
+          if (this.selectedCoorpNetworkEntity || this.isEditingPost || this.isEditingHtml) {
             this.showPopup(evt.coordinate);
           } else {
             this.zoomToFeature();

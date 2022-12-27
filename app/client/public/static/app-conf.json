@@ -1,11 +1,13 @@
 {
   "app": {
     "title": "Crystalball",
+    "tagline": "open-source mapkit",
     "projectWebsite": "https://wiki.timetochange.today",
     "color": {
       "primary": "#00000e",
       "secondary": "red"
     },
+
     "legend": {
       "isVisible": false
     },
@@ -35,6 +37,8 @@
       38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
     ],
     "center": [0, 0],
+    "minResolution": 0.25,
+    "maxResolution": 64000,
     "layers": [
       {
         "type": "VECTOR",
@@ -42,7 +46,6 @@
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:points&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
         "queryable": true,
-        "displayInLegend": false,
         "format": "GeoJSON",
         "legendDisplayName": "Points",
         "visible": true,
@@ -217,7 +220,7 @@
           "hoverBackgroundColor": "#000000",
           "stylePropFnRef": {
             "fillColor": "variable1",
-            "circleRadiusFn": "variable2"
+            "radius": "variable2"
           },
           "strokeColor": "rgba(255,255,255,0.7)",
           "strokeWidth": 1
