@@ -8,7 +8,7 @@
       dark
       @click="addPost"
     >
-      ADD POST
+      {{ $t('tooltip.addPost').toUpperCase() }}
     </v-btn>
     <v-alert v-if="currentResolution && currentResolution > minResolution" dense border="left" type="warning"
       >Zoom in close to add your post.</v-alert

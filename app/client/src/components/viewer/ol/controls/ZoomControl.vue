@@ -6,7 +6,7 @@
           <span style="font-size: 22px">+</span>
         </v-btn>
       </template>
-      <span>Zoom In</span>
+      <span>{{ $t('tooltip.zoomIn') }}</span>
     </v-tooltip>
     <br />
     <v-tooltip right>
@@ -15,7 +15,7 @@
           <span style="font-size: 22px">−</span>
         </v-btn>
       </template>
-      <span>Zoom Out</span>
+      <span>{{ $t('tooltip.zoomOut') }}</span>
     </v-tooltip>
   </div>
 </template>
