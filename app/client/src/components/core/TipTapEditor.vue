@@ -35,7 +35,7 @@
                   <v-icon medium>format_align_left</v-icon>
                 </v-btn>
               </template>
-              {{ $t(`form.htmlPostEditor.alignLeft`)}}
+              {{ $t(`form.htmlPostEditor.alignLeft`) }}
             </v-tooltip>
             <v-tooltip top>
               <template v-slot:activator="{on}">
@@ -52,7 +52,7 @@
                   <v-icon>format_align_center</v-icon>
                 </v-btn>
               </template>
-              {{ $t(`form.htmlPostEditor.alignCenter`)}}
+              {{ $t(`form.htmlPostEditor.alignCenter`) }}
             </v-tooltip>
             <v-tooltip top>
               <template v-slot:activator="{on}">
@@ -69,7 +69,7 @@
                   <v-icon>format_align_right</v-icon>
                 </v-btn>
               </template>
-              {{ $t(`form.htmlPostEditor.alignRight`)}}
+              {{ $t(`form.htmlPostEditor.alignRight`) }}
             </v-tooltip>
           </template>
           <span class="mx-3" style="border-right: 1px solid grey"></span>
@@ -88,7 +88,7 @@
                 <v-icon>image</v-icon>
               </v-btn>
             </template>
-            <span>{{ $t(`form.htmlPostEditor.addImage`)}}</span>
+            <span>{{ $t(`form.htmlPostEditor.addImage`) }}</span>
           </v-tooltip>
 
           <v-tooltip top>
@@ -105,7 +105,7 @@
                 <v-icon>video_library</v-icon>
               </v-btn>
             </template>
-            <span>{{ $t(`form.htmlPostEditor.addVideo`)}}</span>
+            <span>{{ $t(`form.htmlPostEditor.addVideo`) }}</span>
           </v-tooltip>
           <v-tooltip top>
             <template v-slot:activator="{on}">
@@ -121,7 +121,7 @@
                 <v-icon>music_video</v-icon>
               </v-btn>
             </template>
-            {{ $t(`form.htmlPostEditor.addAudio`)}}
+            {{ $t(`form.htmlPostEditor.addAudio`) }}
           </v-tooltip>
           <v-tooltip top>
             <template v-slot:activator="{on}">
@@ -137,7 +137,7 @@
                 <v-icon>playlist_add</v-icon>
               </v-btn>
             </template>
-            {{ $t(`form.htmlPostEditor.addExpansionPanel`)}}
+            {{ $t(`form.htmlPostEditor.addExpansionPanel`) }}
           </v-tooltip>
           <v-tooltip top>
             <template v-slot:activator="{on}">
@@ -153,7 +153,7 @@
                 <v-icon>pin_drop</v-icon>
               </v-btn>
             </template>
-            {{ $t(`form.htmlPostEditor.addMapViewLink`)}}
+            {{ $t(`form.htmlPostEditor.addMapViewLink`) }}
           </v-tooltip>
         </div>
       </template>

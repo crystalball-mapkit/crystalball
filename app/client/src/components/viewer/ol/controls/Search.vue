@@ -15,7 +15,7 @@
           <v-icon medium>fas fa-search</v-icon>
         </v-btn>
       </template>
-      <span>{{$t("general.search")}}</span>
+      <span>{{ $t('general.search') }}</span>
     </v-tooltip>
     <v-autocomplete
       v-if="isVisible"

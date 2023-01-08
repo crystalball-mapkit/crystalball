@@ -6,7 +6,7 @@
           <v-icon medium>{{ isFullscreen ? 'fas fa-compress' : 'fas fa-expand' }}</v-icon>
         </v-btn>
       </template>
-      <span>{{$t("tooltip.toggleFullScreen")}}</span>
+      <span>{{ $t('tooltip.toggleFullScreen') }}</span>
     </v-tooltip>
   </div>
 </template>

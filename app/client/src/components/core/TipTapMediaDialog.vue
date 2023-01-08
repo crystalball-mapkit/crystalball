@@ -35,7 +35,7 @@
                 >
                   fas fa-upload
                 </v-icon> </template
-              ><span>{{$t("form.htmlPostEditor.clickToUpload")}}</span>
+              ><span>{{ $t('form.htmlPostEditor.clickToUpload') }}</span>
             </v-tooltip>
             <input
               ref="fileUploader"
@@ -55,8 +55,8 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="error" @click="show = false"> {{$t("general.close")}} </v-btn>
-        <v-btn :disabled="!urlSrc" color="primary" text @click="insert"> {{$t("general.apply")}} </v-btn>
+        <v-btn text color="error" @click="show = false"> {{ $t('general.close') }} </v-btn>
+        <v-btn :disabled="!urlSrc" color="primary" text @click="insert"> {{ $t('general.apply') }} </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

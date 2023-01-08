@@ -6,13 +6,13 @@
           ><v-icon medium>fas fa-share</v-icon></v-btn
         >
       </template>
-      <span>{{$t("tooltip.shareMap")}}</span>
+      <span>{{ $t('tooltip.shareMap') }}</span>
     </v-tooltip>
     <v-dialog v-model="show" max-width="400" @keydown.esc="visible = false">
       <v-card class="pb-1">
         <v-app-bar :color="color" flat height="50" dark>
           <v-icon class="mr-3">fas fa-share</v-icon>
-          <v-toolbar-title>{{$t("form.shareMap.title")}}</v-toolbar-title>
+          <v-toolbar-title>{{ $t('form.shareMap.title') }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-app-bar-nav-icon @click.stop="visible = false"><v-icon>close</v-icon></v-app-bar-nav-icon>
         </v-app-bar>
@@ -23,14 +23,14 @@
                 <v-tooltip left>
                   <template v-slot:activator="{on}"
                     ><v-icon @click="copyMapLink" v-on="on">content_copy</v-icon></template
-                  ><span>{{$t("general.copy")}}</span>
+                  ><span>{{ $t('general.copy') }}</span>
                 </v-tooltip>
               </template>
             </v-text-field>
           </v-form>
         </v-card-text>
         <v-alert class="mx-2 mb-1" dense outlined type="info" elevation="0">
-          {{$t("form.shareMap.alertInfo")}}
+          {{ $t('form.shareMap.alertInfo') }}
         </v-alert>
       </v-card>
     </v-dialog>
