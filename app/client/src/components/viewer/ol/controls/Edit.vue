@@ -274,9 +274,9 @@
           <v-toolbar-title class="white--text">{{ $t(`general.confirm`) }}</v-toolbar-title>
         </v-app-bar>
 
-        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0"
-          >{{ $t(`form.edit.confirmDeleteFeature`) }}</v-card-text
-        >
+        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0">{{
+          $t(`form.edit.confirmDeleteFeature`)
+        }}</v-card-text>
         <v-divider></v-divider>
 
         <v-card-actions>
@@ -364,24 +364,24 @@ export default {
     helpTooltipElement: null,
     helpTooltip: null,
     helpTooltipMessages: {
-      delete: "form.edit.deleteTooltip",
-      select: "form.edit.selectTooltip",
-      edit: "form.edit.editTooltip",
-      modifyAttributes: "form.edit.modifyAttributesTooltip",
+      delete: 'form.edit.deleteTooltip',
+      select: 'form.edit.selectTooltip',
+      edit: 'form.edit.editTooltip',
+      modifyAttributes: 'form.edit.modifyAttributesTooltip',
       polygonAndLine: {
-        start: "form.edit.polygonAndLineStartTooltip",
-        continue: "form.edit.polygonAndLineContinueTooltip",
-        close: "form.edit.polygonAndLineCloseTooltip",
+        start: 'form.edit.polygonAndLineStartTooltip',
+        continue: 'form.edit.polygonAndLineContinueTooltip',
+        close: 'form.edit.polygonAndLineCloseTooltip',
       },
       point: {
-        start: "form.edit.pointStartTooltip",
+        start: 'form.edit.pointStartTooltip',
       },
     },
     editSnackbarMessages: {
-      modifyAttributes: "form.edit.modifyAttributesSuccess",
-      deleteFeature: "form.edit.deleteFeatureSuccess",
-      addFeature: "form.edit.addFeatureSuccess",
-      modifyFeature: "form.edit.modifyFeatureSuccess",
+      modifyAttributes: 'form.edit.modifyAttributesSuccess',
+      deleteFeature: 'form.edit.deleteFeatureSuccess',
+      addFeature: 'form.edit.addFeatureSuccess',
+      modifyFeature: 'form.edit.modifyFeatureSuccess',
     },
     // Popup
     popupOverlay: null,
@@ -858,7 +858,7 @@ export default {
           geom instanceof LineString ||
           geom instanceof MultiLineString
         ) {
-          this.helpMessage = this.$t(this.helpTooltipMessages.polygonAndLine.continue) ;
+          this.helpMessage = this.$t(this.helpTooltipMessages.polygonAndLine.continue);
           if (geom.getCoordinates && geom.getCoordinates().length > 2) {
             this.helpMessage = this.$t(this.helpTooltipMessages.polygonAndLine.close);
           }

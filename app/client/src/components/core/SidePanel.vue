@@ -440,7 +440,7 @@ export default {
       if (this.visibleGroup.searchLabel) {
         return this.visibleGroup.searchLabel.toUpperCase();
       }
-      return this.$t("form.htmlPostEditor.corporateNetwork").toUpperCase();
+      return this.$t('form.htmlPostEditor.corporateNetwork').toUpperCase();
     },
     canEditPost() {
       if (!this.loggedUser) {

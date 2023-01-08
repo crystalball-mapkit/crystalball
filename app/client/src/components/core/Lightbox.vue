@@ -194,7 +194,7 @@ export default {
           })
           .catch(() => {
             this.imageUpload.isUploading = false;
-            this.imageUpload.message = this.$t('form.lightbox.imageUploadFailed')
+            this.imageUpload.message = this.$t('form.lightbox.imageUploadFailed');
             setTimeout(() => {
               this.imageUpload.message = '';
               this.clearUploadImage();

@@ -11,7 +11,9 @@
     </v-toolbar> -->
 
     <v-card-text>
-      <v-toolbar-title>{{ editType == 'modifyAttributes' ? $t('form.edit.editAttributes') : $t('form.edit.addAttributes') }}</v-toolbar-title>
+      <v-toolbar-title>{{
+        editType == 'modifyAttributes' ? $t('form.edit.editAttributes') : $t('form.edit.addAttributes')
+      }}</v-toolbar-title>
       <v-divider class="mb-4"></v-divider>
       <div>
         <vue-scroll ref="vs">
