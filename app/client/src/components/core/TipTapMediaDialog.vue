@@ -3,7 +3,7 @@
     <v-card v-if="command">
       <v-app-bar flat :color="color" height="50" dark>
         <v-icon class="mr-3">{{ data[type].toolbar_icon }}</v-icon>
-        <v-toolbar-title>{{ data[type].toolbar_title }}</v-toolbar-title>
+        <v-toolbar-title>{{ $t(data[type].toolbar_title) }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-app-bar>
       <v-divider></v-divider>
@@ -11,7 +11,7 @@
 
       <v-card-text v-if="type === 'audio' || type === 'image'">
         <v-alert dense class="mx-2 my-1" v-if="isUploadedSuccessful === true" type="success">
-          File uploaded. Click apply to insert it!
+          {{ $t('form.htmlPostEditor.fileUpload') }}
         </v-alert>
         <v-alert dense type="error" v-if="isUploadedSuccessful === false"> File can't upload. </v-alert>
 
@@ -20,7 +20,7 @@
           v-model="urlSrc"
           clear-icon="mdi-close-circle"
           clearable
-          label="Paste URL*"
+          :label="$t(`form.htmlPostEditor.pasteUrl`) + `*`"
           :disabled="isUploadInProgress"
         >
           <template slot="append-outer">
@@ -35,7 +35,7 @@
                 >
                   fas fa-upload
                 </v-icon> </template
-              ><span>Click to upload</span>
+              ><span>{{$t("form.htmlPostEditor.clickToUpload")}}</span>
             </v-tooltip>
             <input
               ref="fileUploader"
@@ -55,8 +55,8 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="error" @click="show = false"> Close </v-btn>
-        <v-btn :disabled="!urlSrc" color="primary" text @click="insert"> Apply </v-btn>
+        <v-btn text color="error" @click="show = false"> {{$t("general.close")}} </v-btn>
+        <v-btn :disabled="!urlSrc" color="primary" text @click="insert"> {{$t("general.apply")}} </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -80,15 +80,15 @@ export default {
       data: {
         image: {
           toolbar_icon: 'image',
-          toolbar_title: 'Image Insert',
+          toolbar_title: 'form.htmlPostEditor.imageInsert',
         },
         audio: {
           toolbar_icon: 'music_video',
-          toolbar_title: 'Audio Insert',
+          toolbar_title: 'form.htmlPostEditor.audioInsert',
         },
         iframe: {
           toolbar_icon: 'video_library',
-          toolbar_title: 'Video Insert',
+          toolbar_title: 'form.htmlPostEditor.videoInsert',
         },
       },
       color: this.$appConfig.app.color.primary,

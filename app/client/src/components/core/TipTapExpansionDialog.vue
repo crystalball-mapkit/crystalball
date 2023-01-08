@@ -3,7 +3,7 @@
     <v-card v-if="command">
       <v-app-bar flat :color="color" height="50" dark>
         <v-icon class="mr-3">playlist_add</v-icon>
-        <v-toolbar-title>Expansion title</v-toolbar-title>
+        <v-toolbar-title>{{ $t(`form.htmlPostEditor.expansionTitle`)}}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-app-bar>
       <v-divider></v-divider>
@@ -14,8 +14,8 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="error" @click="show = false"> Close </v-btn>
-        <v-btn :disabled="!this.title" color="primary" text @click="insert"> Apply </v-btn>
+        <v-btn text color="error" @click="show = false"> {{ $t(`general.close`)}} </v-btn>
+        <v-btn :disabled="!this.title" color="primary" text @click="insert"> {{ $t(`general.apply`)}} </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

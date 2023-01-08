@@ -28,14 +28,14 @@
       </v-layout>
       <v-row>
         <v-spacer></v-spacer>
-        <v-btn class="mt-2 mr-2 mb-2" @click="cancel" text> Cancel </v-btn>
+        <v-btn class="mt-2 mr-2 mb-2" @click="cancel" text> {{ $t('general.cancel') }} </v-btn>
         <v-btn
           :disabled="(!postFeature && isEditingPost) || [`<p></p>`, ''].includes(htmlContent)"
           class="mt-2 mr-5"
           @click="save"
           text
           color="primary"
-          >Save</v-btn
+          >{{ $t('general.save') }}</v-btn
         >
       </v-row>
     </div>
@@ -71,9 +71,9 @@ export default {
       helpTooltipElement: null,
       helpTooltip: null,
       postSnackbarMessages: {
-        update: 'Post updated successfully!',
-        delete: 'Post delete successfully!',
-        insert: 'Post added successfully!',
+        update: 'form.htmlPostEditor.update',
+        delete: 'form.htmlPostEditor.delete',
+        insert: 'form.htmlPostEditor.insert',
       },
       overlayersGarbageCollector: [],
     };
@@ -230,7 +230,7 @@ export default {
             EventBus.$emit('closePopupInfo');
             this.toggleSnackbar({
               type: 'success',
-              message: this.postSnackbarMessages[type],
+              message: this.$t(this.postSnackbarMessages[type]),
               timeout: 2000,
               state: true,
             });
@@ -275,7 +275,7 @@ export default {
         setTimeout(() => {
           this.toggleSnackbar({
             type: 'success',
-            message: 'Updated successfully!',
+            message: this.$t('general.updateSuccess'),
             timeout: 2000,
             state: true,
           });

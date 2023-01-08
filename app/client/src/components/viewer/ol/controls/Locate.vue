@@ -6,7 +6,7 @@
           <v-icon medium>fas fa-location-arrow</v-icon>
         </v-btn>
       </template>
-      <span>Locate Me</span>
+      <span>{{ $t('tooltip.locateMe') }}</span>
     </v-tooltip>
     <confirm-location ref="confirm" :color="color"></confirm-location>
   </div>
@@ -53,9 +53,15 @@ export default {
       // Trigger the modal requesting zoom-to-location.
       if (!this.$cookies.get('locationRequested')) {
         this.$refs.confirm
-          .open('Zoom to my location?', '', 'Share my location', 'Cancel', {
-            color: this.color,
-          })
+          .open(
+            this.$t('form.locateMe.zoomToLocation'),
+            '',
+            this.$t('form.locateMe.shareMyLocation'),
+            this.$t('general.cancel'),
+            {
+              color: this.color,
+            }
+          )
           .then(confirm => {
             if (confirm) {
               this.handleGetUserLocation(this.userLocSource, this.map);

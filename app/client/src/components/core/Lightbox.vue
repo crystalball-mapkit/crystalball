@@ -3,7 +3,7 @@
     <v-card>
       <v-app-bar dark dense flat>
         <v-app-bar-nav-icon><v-icon>image</v-icon></v-app-bar-nav-icon>
-        <v-toolbar-title class="white--text">Lighbox Images</v-toolbar-title>
+        <v-toolbar-title class="white--text">{{ $t(`form.lightbox.title`) }}</v-toolbar-title>
       </v-app-bar>
       <v-progress-linear class="mb-1" :active="imageUpload.isUploading" indeterminate></v-progress-linear>
       <v-row class="my-2 mx-0 pa-0" justify="center" align="center">
@@ -42,7 +42,7 @@
                       <v-btn @click="deleteImage(index)" v-on="on" icon>
                         <v-icon>delete</v-icon>
                       </v-btn> </template
-                    ><span>Delete image</span></v-tooltip
+                    ><span>{{ $t('form.lightbox.deleteImage') }}</span></v-tooltip
                   >
                 </v-col>
                 <v-col align="center" justify="center" class="ma-0 pa-0 pl-2" :cols="image.imageUrl ? 8 : 0">
@@ -55,7 +55,7 @@
                         v-model="image.imageUrl"
                         clear-icon="mdi-close-circle"
                         clearable
-                        label="Image Url*"
+                        :label="$t(`form.lightbox.imageUrl`) + '*'"
                         :rules="[rules.required]"
                       >
                         <template slot="append-outer">
@@ -70,7 +70,7 @@
                               >
                                 fas fa-upload
                               </v-icon> </template
-                            ><span>Click to upload image</span>
+                            ><span>{{ $t('form.lightbox.clickToUploadImage') }}</span>
                           </v-tooltip>
                         </template>
                       </v-text-field>
@@ -82,7 +82,7 @@
                       item-value="value"
                       clear-icon="mdi-close-circle"
                       clearable
-                      label="Image Caption"
+                      :label="$t(`form.lightbox.imageCaption`)"
                     ></v-text-field>
                   </v-row>
                 </v-col>
@@ -95,8 +95,8 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" :disabled="!valid" text @click="save">Save</v-btn>
-        <v-btn color="red darken-1" text @click="cancel">Close</v-btn>
+        <v-btn color="blue darken-1" :disabled="!valid" text @click="save">{{ $t('general.save') }}</v-btn>
+        <v-btn color="red darken-1" text @click="cancel">{{ $t('general.close') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -163,7 +163,7 @@ export default {
       this.imageUpload.selectedFile = selectedFile;
       const fileSize = this.imageUpload.selectedFile.size / 1024 / 1024;
       if (fileSize > 5) {
-        this.imageUpload.message = 'File size exceeds 5 MB';
+        this.imageUpload.message = `${this.$t('form.lightbox.fileSizeExceeds')} 5MB`;
         setTimeout(() => {
           this.clearUploadImage();
         }, 2000);
@@ -186,7 +186,7 @@ export default {
             }
             this.imageUpload.isUploading = false;
             this.imageUpload.isUploadedSuccessful = true;
-            this.imageUpload.message = 'Image uploaded successfuly!';
+            this.imageUpload.message = this.$t('form.lightbox.imageUploadSuccess');
             setTimeout(() => {
               this.imageUpload.message = '';
               this.clearUploadImage();
@@ -194,7 +194,7 @@ export default {
           })
           .catch(() => {
             this.imageUpload.isUploading = false;
-            this.imageUpload.message = 'Cannot upload image!';
+            this.imageUpload.message = this.$t('form.lightbox.imageUploadFailed')
             setTimeout(() => {
               this.imageUpload.message = '';
               this.clearUploadImage();

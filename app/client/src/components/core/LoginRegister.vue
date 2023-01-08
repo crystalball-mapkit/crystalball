@@ -3,7 +3,7 @@
     <div v-if="serverConfig.usersOpenRegistration && serverConfig.usersOpenRegistration === 'False'">
       <v-app-bar flat :color="color" height="50" dark>
         <v-spacer></v-spacer>
-        <v-toolbar-title>Sign In</v-toolbar-title>
+        <v-toolbar-title>{{ $t('general.signIn') }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-app-bar>
       <v-card flat>
@@ -18,7 +18,7 @@
               v-model="user.username"
               prepend-icon="person"
               name="username"
-              label="Username"
+              :label="$t(`form.user.username`)"
               type="text"
               :rules="[rules.required]"
               :disabled="loading"
@@ -31,7 +31,7 @@
               @click:append="() => (value = !value)"
               :type="value ? 'password' : 'text'"
               :rules="[rules.required]"
-              label="Password"
+              :label="$t(`form.user.password`)"
               required
               :disabled="loading"
             ></v-text-field>
@@ -51,7 +51,7 @@
       <v-tabs-slider color="purple darken-4"></v-tabs-slider>
       <v-tab @click="changeTab" v-for="(i, index) in tabs" :key="index">
         <v-icon>{{ i.icon }}</v-icon>
-        <div class="caption py-1">{{ i.name }}</div>
+        <div class="caption py-1">{{ $t(`general.${i.name}`) }}</div>
       </v-tab>
       <v-tab-item>
         <v-card flat>
@@ -71,7 +71,7 @@
                 v-model="user.username"
                 prepend-icon="person"
                 name="username"
-                label="Username"
+                :label="$t(`form.user.username`)"
                 type="text"
                 :rules="[rules.required]"
                 :disabled="loading"
@@ -84,7 +84,7 @@
                 @click:append="() => (value = !value)"
                 :type="value ? 'password' : 'text'"
                 :rules="[rules.required]"
-                label="Password"
+                :label="$t(`form.user.password`)"
                 required
                 :disabled="loading"
               ></v-text-field>
@@ -94,7 +94,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn :disabled="loading || !validLogin" class="white--text" @click="handleLogin" :color="color">
-              <v-icon small left>fas fa-sign-in-alt</v-icon> Login</v-btn
+              <v-icon small left>fas fa-sign-in-alt</v-icon> {{ $t('general.logIn') }}</v-btn
             >
             <v-spacer></v-spacer>
           </v-card-actions>
@@ -114,7 +114,7 @@
                   <v-text-field
                     v-model="guestUser.firstName"
                     :rules="[rules.required]"
-                    label="First Name"
+                    :label="$t(`form.user.firstName`)"
                     maxlength="20"
                     required
                   ></v-text-field>
@@ -123,7 +123,7 @@
                   <v-text-field
                     v-model="guestUser.lastName"
                     :rules="[rules.required]"
-                    label="Last Name"
+                    :label="$t(`form.user.lastName`)"
                     maxlength="20"
                     required
                   ></v-text-field>
@@ -138,7 +138,7 @@
                     :rules="[rules.required, rules.min]"
                     :type="show1 ? 'text' : 'password'"
                     name="input-10-1"
-                    label="Password"
+                    :label="$t(`form.user.password`)"
                     hint="At least 8 characters"
                     counter
                     @click:append="show1 = !show1"
@@ -152,7 +152,7 @@
                     :rules="[rules.required, passwordMatch]"
                     :type="show1 ? 'text' : 'password'"
                     name="input-10-1"
-                    label="Confirm Password"
+                    :label="$t(`form.user.confirmPassword`)"
                     counter
                     @click:append="show1 = !show1"
                   ></v-text-field>
@@ -170,7 +170,7 @@
               @click="validateRegisterForm"
               :color="color"
             >
-              <v-icon small left>fa-user-plus</v-icon> Register</v-btn
+              <v-icon small left>fa-user-plus</v-icon> {{ $t('general.register') }}</v-btn
             >
             <v-spacer></v-spacer>
           </v-card-actions>
@@ -187,8 +187,8 @@ export default {
   data: () => ({
     tab: 0,
     tabs: [
-      {name: 'Login', icon: 'fas fa-sign-in-alt'},
-      {name: 'Register', icon: 'fa-user-plus'},
+      {name: 'logIn', icon: 'fas fa-sign-in-alt'},
+      {name: 'register', icon: 'fa-user-plus'},
     ],
     user: new User(),
     guestUser: new User(),

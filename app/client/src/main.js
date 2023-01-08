@@ -10,7 +10,7 @@ import InfoPopUp, {infoPopUpName} from './components/core/InfoPopUp.vue';
 import vuetify from './plugins/vuetify';
 import store from './store/index';
 import router, {getRoutes} from './router';
-
+import i18n from './plugins/i18n';
 import 'ol/ol.css';
 import './assets/scss/app.scss';
 import 'material-design-icons/iconfont/material-icons.css';
@@ -56,7 +56,7 @@ axios
 
 // App Configuration
 // eslint-disable-next-line no-undef
-fetch('./static/app-conf.json')
+fetch('https://crystal-demo.s3.us-east-2.amazonaws.com/assets/settings/app-conf.json')
   // fetch('https://crystal-demo.s3.us-east-2.amazonaws.com/assets/settings/app-conf.json')
   .then(response => {
     if (response.status !== 200) {
@@ -70,8 +70,10 @@ fetch('./static/app-conf.json')
       router.addRoutes(getRoutes(data));
       Vue.prototype.$appConfig = data;
       appStore.state.appConfig = data;
+      console.log(i18n);
       new Vue({
         router,
+        i18n,
         store,
         vuetify,
         render: h => h(App),
