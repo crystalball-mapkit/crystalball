@@ -17,7 +17,7 @@
           <v-icon>fas fa-layer-group</v-icon>
         </v-btn>
       </template>
-      <span>Layers</span>
+      <span>{{ $t('general.layers') }}</span>
     </v-tooltip>
     <v-expansion-panels
       v-model="panel"
@@ -42,8 +42,8 @@
       <v-expansion-panel class="my-0" :style="`background-color: white;`">
         <v-row class="my-1" justify="center">
           <span class="grey--text text--darken-2 subtitle-2">
-            <a @click="toggleAllLayersVisibility(true)">select all </a> |
-            <a @click="toggleAllLayersVisibility(false)"> clear all</a>
+            <a @click="toggleAllLayersVisibility(true)">{{ $t(`form.legend.selectAll`) }}</a> |
+            <a @click="toggleAllLayersVisibility(false)"> {{ $t(`form.legend.clearAll`) }}</a>
           </span>
         </v-row>
         <v-divider class="mb-1"></v-divider>

@@ -11,7 +11,9 @@
     </v-toolbar> -->
 
     <v-card-text>
-      <v-toolbar-title>{{ editType == 'modifyAttributes' ? 'EDIT ATTRIBUTES' : 'ADD ATTRIBUTES' }}</v-toolbar-title>
+      <v-toolbar-title>{{
+        editType == 'modifyAttributes' ? $t('form.edit.editAttributes') : $t('form.edit.addAttributes')
+      }}</v-toolbar-title>
       <v-divider class="mb-4"></v-divider>
       <div>
         <vue-scroll ref="vs">
@@ -50,7 +52,7 @@
                 </span>
               </v-btn>
             </template>
-            <span>Upload jpg or png image</span>
+            <span>{{ $t('form.edit.uploadImage') }}</span>
           </v-tooltip>
           <input ref="imageUploader" class="d-none" type="file" accept="image/*" @change="onFileUploadChanged" />
           <v-btn v-if="imageUpload.selectedFile" class="ml-1" @click="clearUploadImage()" small icon>
@@ -68,7 +70,10 @@
                 <v-icon left
                   >{{ imageUpload.position === 'sidebarMediaTop' ? 'picture_in_picture' : 'picture_in_picture_alt' }}
                 </v-icon>
-                <span>Sidebar: {{ imageUpload.position === 'sidebarMediaTop' ? 'Top' : 'Bottom' }}</span>
+                <span
+                  >{{ $t('general.sidebar') }}:
+                  {{ imageUpload.position === 'sidebarMediaTop' ? $t('general.top') : $t('general.bottom') }}</span
+                >
               </v-btn>
             </template>
             <v-list dense>
@@ -81,7 +86,7 @@
               >
                 <v-list-item-content>
                   <v-list-item-title>{{
-                    imageUpload.position === 'sidebarMediaTop' ? 'Bottom' : 'Top'
+                    imageUpload.position === 'sidebarMediaTop' ? $t('general.bottom') : $t('general.top')
                   }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -91,9 +96,11 @@
       </div>
       <v-spacer></v-spacer>
       <template>
-        <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text>Save</v-btn>
+        <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text>{{
+          $t('general.save')
+        }}</v-btn>
 
-        <v-btn color="grey" text @click="popupCancel">Cancel</v-btn>
+        <v-btn color="grey" text @click="popupCancel">{{ $t('general.cancel') }}</v-btn>
       </template>
     </v-card-actions>
   </v-card>

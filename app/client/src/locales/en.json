@@ -1,0 +1,117 @@
+{
+  "general": {
+    "save": "Save",
+    "close": "Close",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "yes": "Yes",
+    "delete": "Delete",
+    "logIn": "Log In",
+    "logOut": "Log Out",
+    "register": "Register",
+    "search": "Search",
+    "copy": "Copy",
+    "layers": "Layers",
+    "sidebar": "Sidebar",
+    "top": "Top",
+    "bottom": "Bottom",
+    "back": "Back",
+    "confirm": "Confirm",
+    "edit": "Edit",
+    "zoom": "Zoom",
+    "updateSuccess": "Updated successfully!",
+    "apply": "Apply"
+  },
+  "tooltip": {
+    "zoomIn": "Zoom In",
+    "zoomOut": "Zoom Out",
+    "toggleFullScreen": "Toggle FullScreen",
+    "shareMap": "Share Map",
+    "locateMe": "Locate Me",
+    "edit": "Edit",
+    "addFeature": "Add Feature",
+    "modifyGeometry": "Modify Shape and Position",
+    "modifyAttributes": "Modify Attributes",
+    "deleteFeature": "Delete Feature",
+    "addPost": "Add Post"
+  },
+  "form": {
+    "user": {
+      "username": "Username",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email"
+    },
+    "shareMap": {
+      "title": "Link to map",
+      "shareableLink": "Map shareable link",
+      "alertInfo": "Copy and paste the link to share an exact location on the map."
+    },
+    "locateMe": {
+      "zoomToLocation": "Zoom to my location",
+      "shareMyLocation": "Share my location"
+    },
+    "legend": {
+      "selectAll": "Select All",
+      "clearAll": "Clear All"
+    },
+    "edit": {
+      "selectLayerToEdit": "Select layer to edit",
+      "closeEdit": "Close Edit",
+      "selectLayer": "Select Layer",
+      "editAttributes": "Edit Attributes",
+      "addAttributes": "Add Attributes",
+      "confirmDeleteFeature": "Are you sure you want to delete the selected feature ?",
+      "lightBoxImagesPanel": "LightBox Images Panel",
+      "uploadImage": "Upload jpg or png image",
+      "deleteTooltip": "Click on the feature to delete. \nPress ESC to exit.",
+      "selectTooltip": "Click to select feature. \nPress ESC to exit.",
+      "editTooltip": "Click on the feature and drag to move it. \nPress ESC to exit.",
+      "modifyAttributesTooltip": "Click on the feature to modify attributes. \nPress ESC to exit.",
+      "polygonAndLineStartTooltip": "Click to start drawing. \nPress ESC to exit.",
+      "polygonAndLineContinueTooltip": "Click to continue drawing. \nPress ESC to exit.",
+      "polygonAndLineCloseTooltip": "Click to add another point (double-click to finish) \nPress ESC to exit.",
+      "pointStartTooltip": "Click to place the point. \nPres ESC to exit.",
+      "modifyAttributesSuccess": "Feature updated successfully!",
+      "deleteFeatureSuccess": "Feature deleted successfully!",
+      "addFeatureSuccess": "Feature added successfully!",
+      "modifyFeatureSuccess": "Feature modified successfully!"
+    },
+    "lightbox": {
+      "title": "LightBox Images",
+      "deleteImage": "Delete Image",
+      "imageUrl": "Image URL",
+      "clickToUploadImage": "Click to upload image",
+      "imageCaption": "Image Caption",
+      "fileSizeExceeds": "File size exceeds",
+      "imageUploadSuccess": "Image uploaded successfully!",
+      "imageUploadFailed": "Cannot upload image"
+    },
+    "htmlPostEditor": {
+      "update": "Post updated successfully!",
+      "insert": "Post added successfully!",
+      "delete": "Post deleted successfully!",
+      "deletePost": "Delete Post",
+      "editPost": "Edit Post",
+      "corporateNetwork": "Corporate Network",
+      "placeholder": "Write Something",
+      "alignLeft": "Align Left",
+      "alignCenter": "Align Center",
+      "alignRight": "Align Right",
+      "addImage": "Add Image",
+      "addVideo": "Add Video",
+      "addAudio": "Add Audio",
+      "addExpansionPanel": "Add Expansion Panel",
+      "addMapViewLink": "Add Current Map Link",
+      "expansionTitle": "Expansion Title",
+      "imageInsert": "Insert Image",
+      "videoInsert": "Insert Video",
+      "audioInsert": "Insert Audio",
+      "fileUpload": "File uploaded. Click apply to insert it!",
+      "clickToUpload": "Click to upload"
+    }
+  },
+  "dashboard": {}
+}

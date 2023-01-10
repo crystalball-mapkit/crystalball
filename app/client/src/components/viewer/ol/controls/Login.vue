@@ -8,7 +8,7 @@
             <v-icon medium>fas fa-user</v-icon>
           </v-btn>
         </template>
-        <span>Log In</span>
+        <span>{{ $t('general.logIn') }}</span>
       </v-tooltip>
     </template>
     <!-- USER INFO AND LOGOUT (AUTHENTICATED)-->
@@ -37,7 +37,7 @@
               <v-icon>exit_to_app</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>Logout</v-list-item-title>
+              <v-list-item-title>{{ $t('general.logOut') }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>

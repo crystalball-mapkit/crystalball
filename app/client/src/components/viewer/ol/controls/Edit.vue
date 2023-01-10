@@ -10,7 +10,7 @@
                 <v-icon small>far fa-edit</v-icon>
               </v-btn>
             </template>
-            <span>Edit</span>
+            <span>{{ $t('tooltip.edit') }}</span>
           </v-tooltip>
         </div>
 
@@ -35,7 +35,7 @@
                 <v-icon>layers</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>Select layer to edit</v-list-item-title>
+                <v-list-item-title>{{ $t(`form.edit.selectLayerToEdit`) }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click="closeEdit">
@@ -43,7 +43,7 @@
                 <v-icon>close</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>Close Edit</v-list-item-title>
+                <v-list-item-title>{{ $t(`form.edit.closeEdit`) }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -65,7 +65,7 @@
             <v-icon small>{{ isEditingPost ? 'close' : 'fas fa-map-pin' }}</v-icon>
           </v-btn>
         </template>
-        <span>{{ isEditingPost ? 'Close' : 'Add Post' }}</span>
+        <span>{{ isEditingPost ? $t('general.close') : $t('tooltip.addPost') }}</span>
       </v-tooltip>
     </div>
     <div v-if="selectedLayer">
@@ -87,7 +87,7 @@
                 <v-icon medium>{{ item.icon }}</v-icon>
               </v-btn>
             </template>
-            <span>{{ item.tooltip }}</span>
+            <span>{{ $t(`tooltip.${item.tooltip}`) }}</span>
           </v-tooltip>
         </v-layout>
       </div>
@@ -98,7 +98,7 @@
       <v-card>
         <v-app-bar flat :color="color.primary" height="50" dark>
           <v-icon class="mr-3">layers</v-icon>
-          <v-toolbar-title>Select Layer</v-toolbar-title>
+          <v-toolbar-title>{{ $t(`form.edit.selectLayer`) }}</v-toolbar-title>
         </v-app-bar>
 
         <v-select
@@ -115,7 +115,7 @@
           v-model="dialogSelectedLayer"
           return-object
           item-value="values_.name"
-          label="Layers"
+          :label="$t(`general.layers`)"
         >
           <template slot="selection" slot-scope="{item}">
             {{ item.get('legendDisplayName') }}
@@ -135,9 +135,9 @@
               selectedLayer = dialogSelectedLayer;
               layersDialog = false;
             "
-            >Ok</v-btn
+            >{{ $t('general.ok') }}</v-btn
           >
-          <v-btn :color="color.primary" text @click.native="layersDialog = false">Cancel</v-btn>
+          <v-btn :color="color.primary" text @click.native="layersDialog = false">{{ $t('general.cancel') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -162,7 +162,7 @@
       </template>
       <template v-slot:body>
         <div v-if="editType === 'deleteFeature'">
-          <b>Are you sure you want to delete the selected feature ?</b>
+          <b>{{ $t(`form.edit.confirmDeleteFeature`) }}</b>
         </div>
         <div v-else-if="['addFeature', 'modifyAttributes'].includes(editType)">
           <vue-scroll ref="vs">
@@ -183,7 +183,7 @@
                         >
                           <v-icon> fas fa-image </v-icon>
                         </v-btn> </template
-                      ><span>Lightbox Images Panel</span>
+                      ><span>{{ $t('form.edit.lightBoxImagesPanel') }}</span>
                     </v-tooltip>
                   </template>
                 </editor-form>
@@ -204,7 +204,7 @@
                   </span>
                 </v-btn>
               </template>
-              <span>Upload jpg or png image</span>
+              <span>{{ $t('form.edit.uploadImage') }}</span>
             </v-tooltip>
             <input ref="imageUploader" class="d-none" type="file" accept="image/*" @change="onFileUploadChanged" />
             <v-btn v-if="imageUpload.selectedFile" class="ml-1" @click="clearUploadImage()" small icon>
@@ -222,7 +222,10 @@
                   <v-icon left
                     >{{ imageUpload.position === 'sidebarMediaTop' ? 'picture_in_picture' : 'picture_in_picture_alt' }}
                   </v-icon>
-                  <span>Sidebar: {{ imageUpload.position === 'sidebarMediaTop' ? 'Top' : 'Bottom' }}</span>
+                  <span
+                    >{{ $t(`general.sidebar`) }}:
+                    {{ imageUpload.position === 'sidebarMediaTop' ? $t(`general.top`) : $t(`general.bottom`) }}</span
+                  >
                 </v-btn>
               </template>
               <v-list dense>
@@ -235,7 +238,7 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title>{{
-                      imageUpload.position === 'sidebarMediaTop' ? 'Bottom' : 'Top'
+                      imageUpload.position === 'sidebarMediaTop' ? $t(`general.bottom`) : $t(`general.top`)
                     }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
@@ -246,13 +249,15 @@
 
         <v-spacer></v-spacer>
         <template v-if="editType === 'deleteFeature'">
-          <v-btn color="primary darken-1" @click="popupOk" text>Yes</v-btn>
-          <v-btn color="grey" text @click="popupCancel">Cancel</v-btn>
+          <v-btn color="primary darken-1" @click="popupOk" text>{{ $t(`general.yes`) }}</v-btn>
+          <v-btn color="grey" text @click="popupCancel">{{ $t(`general.cancel`) }}</v-btn>
         </template>
         <template v-else-if="['addFeature', 'modifyAttributes'].includes(editType)">
-          <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text>Save</v-btn>
+          <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text>{{
+            $t(`general.save`)
+          }}</v-btn>
 
-          <v-btn color="grey" text @click="popupCancel">Cancel</v-btn>
+          <v-btn color="grey" text @click="popupCancel">{{ $t(`general.cancel`) }}</v-btn>
         </template>
       </template>
     </overlay-popup>
@@ -266,18 +271,18 @@
       <v-card>
         <v-app-bar :color="color.primary" dark dense flat>
           <v-app-bar-nav-icon><v-icon>delete</v-icon></v-app-bar-nav-icon>
-          <v-toolbar-title class="white--text">Confirm?</v-toolbar-title>
+          <v-toolbar-title class="white--text">{{ $t(`general.confirm`) }}</v-toolbar-title>
         </v-app-bar>
 
-        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0"
-          >Are you sure you want to delete the selected feature?</v-card-text
-        >
+        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0">{{
+          $t(`form.edit.confirmDeleteFeature`)
+        }}</v-card-text>
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" text @click.native="popupOk">Yes</v-btn>
-          <v-btn color="grey" @click.native="popupCancel">No</v-btn>
+          <v-btn color="primary darken-1" text @click.native="popupOk">{{ $t(`general.yes`) }}</v-btn>
+          <v-btn color="grey" @click.native="popupCancel">{{ $t(`general.cancel`) }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-bottom-sheet>
@@ -329,22 +334,22 @@ export default {
       {
         icon: 'add',
         action: 'addFeature',
-        tooltip: 'Add Feature',
+        tooltip: 'addFeature',
       },
       {
         icon: 'edit',
         action: 'modifyFeature',
-        tooltip: 'Modify Shape or Position',
+        tooltip: 'modifyGeometry',
       },
       {
         icon: 'subject',
         action: 'modifyAttributes',
-        tooltip: 'Modify Attributes',
+        tooltip: 'modifyAttributes',
       },
       {
         icon: 'delete',
         action: 'deleteFeature',
-        tooltip: 'Delete Feature',
+        tooltip: 'deleteFeature',
       },
     ],
     layersDialog: false,
@@ -359,24 +364,24 @@ export default {
     helpTooltipElement: null,
     helpTooltip: null,
     helpTooltipMessages: {
-      delete: 'Click on the feature to delete. \nPress ESC to exit.',
-      select: 'Click to select feature. \nPress ESC to exit.',
-      edit: 'Click on the feature and drag to move it. \nPress ESC to exit.',
-      modifyAttributes: 'Click on the feature to modify attributes. \nPress ESC to exit.',
+      delete: 'form.edit.deleteTooltip',
+      select: 'form.edit.selectTooltip',
+      edit: 'form.edit.editTooltip',
+      modifyAttributes: 'form.edit.modifyAttributesTooltip',
       polygonAndLine: {
-        start: 'Click to start drawing. \nPress ESC to exit.',
-        continue: 'Click to continue drawing. \nPress ESC to exit.',
-        close: 'Click to add another point (double-click to finish) \nPress ESC to exit.',
+        start: 'form.edit.polygonAndLineStartTooltip',
+        continue: 'form.edit.polygonAndLineContinueTooltip',
+        close: 'form.edit.polygonAndLineCloseTooltip',
       },
       point: {
-        start: 'Click to place the point. \nPres ESC to exit.',
+        start: 'form.edit.pointStartTooltip',
       },
     },
     editSnackbarMessages: {
-      modifyAttributes: 'Feature updated successfully!',
-      deleteFeature: 'Feature deleted successfully!',
-      addFeature: 'Feature added successfully!',
-      modifyFeature: 'Feature modified successfully!',
+      modifyAttributes: 'form.edit.modifyAttributesSuccess',
+      deleteFeature: 'form.edit.deleteFeatureSuccess',
+      addFeature: 'form.edit.addFeatureSuccess',
+      modifyFeature: 'form.edit.modifyFeatureSuccess',
     },
     // Popup
     popupOverlay: null,
@@ -750,7 +755,7 @@ export default {
             } else if (this.editType === 'modifyFeature') {
               this.editLayer.getSource().clear();
               this.editLayer.getSource().addFeature(this.selectedFeature);
-              this.helpMessage = this.helpTooltipMessages.edit;
+              this.helpMessage = this.$t(this.helpTooltipMessages.edit);
             }
           }
         }
@@ -853,9 +858,9 @@ export default {
           geom instanceof LineString ||
           geom instanceof MultiLineString
         ) {
-          this.helpMessage = this.helpTooltipMessages.polygonAndLine.continue;
+          this.helpMessage = this.$t(this.helpTooltipMessages.polygonAndLine.continue);
           if (geom.getCoordinates && geom.getCoordinates().length > 2) {
-            this.helpMessage = this.helpTooltipMessages.polygonAndLine.close;
+            this.helpMessage = this.$t(this.helpTooltipMessages.polygonAndLine.close);
           }
         }
       }
@@ -902,17 +907,17 @@ export default {
       }
       if (this.editType === 'addFeature') {
         this.helpMessage = ['Point'].some(r => geometryType.includes(r))
-          ? this.helpTooltipMessages.point.start
-          : this.helpTooltipMessages.polygonAndLine.start;
+          ? this.$t(this.helpTooltipMessages.point.start)
+          : this.$t(this.helpTooltipMessages.polygonAndLine.start);
       }
       if (this.editType === 'modifyFeature') {
-        this.helpMessage = this.helpTooltipMessages.select;
+        this.helpMessage = this.$t(this.helpTooltipMessages.select);
       }
       if (this.editType === 'modifyAttributes') {
-        this.helpMessage = this.helpTooltipMessages.modifyAttributes;
+        this.helpMessage = this.$t(this.helpTooltipMessages.modifyAttributes);
       }
       if (this.editType === 'deleteFeature') {
-        this.helpMessage = this.helpTooltipMessages.delete;
+        this.helpMessage = this.$t(this.helpTooltipMessages.delete);
       }
     },
 
