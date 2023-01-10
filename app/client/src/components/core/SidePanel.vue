@@ -69,7 +69,7 @@
                             <v-btn v-on="on" @click="editHtml()" icon class="mr-3">
                               <v-icon>edit</v-icon>
                             </v-btn> </template
-                          ><span>Edit</span></v-tooltip
+                          ><span>{{ $t('general.edit') }}</span></v-tooltip
                         >
                       </div>
                     </v-row>
@@ -122,7 +122,7 @@
                         "
                       >
                         <v-icon small class="mr-1">fas fa-search-plus</v-icon>
-                        ZOOM
+                        {{ $t('general.zoom') }}
                       </v-btn>
                       <v-btn
                         @click="back"
@@ -132,7 +132,7 @@
                         v-if="previousMapPosition && previousMapPosition.zoom && previousMapPosition.center"
                       >
                         <v-icon small class="mr-1">fas fa-arrow-left</v-icon>
-                        BACK
+                        {{ $t('general.back') }}
                       </v-btn>
                       <v-spacer></v-spacer>
                       <v-btn
@@ -147,7 +147,7 @@
                       </v-btn>
                       <v-btn v-if="!$vuetify.breakpoint.smAndDown" @click="closePopupInfo" text small class="mb-2 mt-1">
                         <v-icon small class="mr-1">close</v-icon>
-                        Close
+                        {{ $t('general.close') }}
                       </v-btn>
                     </v-layout>
 
@@ -201,14 +201,14 @@
                       <v-btn v-on="on" @click="deletePost(popup.activeFeature)" icon class="mr-3">
                         <v-icon>delete</v-icon>
                       </v-btn> </template
-                    ><span>Delete Post</span>
+                    ><span>{{ $t('form.htmlPostEditor.deletePost') }}</span>
                   </v-tooltip>
                   <v-tooltip left>
                     <template v-slot:activator="{on}">
                       <v-btn v-on="on" @click="editPost(popup.activeFeature)" icon class="mr-3">
                         <v-icon>edit</v-icon>
                       </v-btn> </template
-                    ><span>Edit Post</span></v-tooltip
+                    ><span>{{ $t('form.htmlPostEditor.editPost') }}</span></v-tooltip
                   >
                 </div>
                 <div v-if="!$vuetify.breakpoint.smAndDown">
@@ -217,7 +217,7 @@
                       <v-btn v-on="on" @click="closePopupInfo" icon class="mr-3">
                         <v-icon>close</v-icon>
                       </v-btn> </template
-                    ><span>Close</span></v-tooltip
+                    ><span>{{ $t('general.close') }}</span></v-tooltip
                   >
                 </div>
               </v-row>
@@ -262,7 +262,7 @@
           <v-flex xs2 class="d-flex justify-center">
             <v-btn @click="backCorpNetwork()" text small class="ml-1">
               <v-icon small class="mr-1">fas fa-arrow-left</v-icon>
-              BACK
+              {{ $t('general.back').toUpperCase() }}
             </v-btn>
           </v-flex>
 
@@ -281,7 +281,7 @@
 
           <v-flex v-if="!$vuetify.breakpoint.smAndDown" xs2 class="d-flex justify-center">
             <v-btn @click="closeCorpNetworkSelection()" dark :color="color" small class="ml-1 elevation-0">
-              CLOSE
+              {{ $t('general.close').toUpperCase() }}
             </v-btn>
           </v-flex>
         </v-layout>
@@ -440,7 +440,7 @@ export default {
       if (this.visibleGroup.searchLabel) {
         return this.visibleGroup.searchLabel.toUpperCase();
       }
-      return 'CORPORATE NETWORK';
+      return this.$t('form.htmlPostEditor.corporateNetwork').toUpperCase();
     },
     canEditPost() {
       if (!this.loggedUser) {

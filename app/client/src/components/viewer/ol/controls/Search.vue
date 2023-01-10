@@ -15,7 +15,7 @@
           <v-icon medium>fas fa-search</v-icon>
         </v-btn>
       </template>
-      <span>Search</span>
+      <span>{{ $t('general.search') }}</span>
     </v-tooltip>
     <v-autocomplete
       v-if="isVisible"
@@ -25,7 +25,7 @@
       v-model="model"
       :items="items"
       :loading="isLoading"
-      label="Search..."
+      :label="`${$t(`general.search`)}...`"
       :search-input.sync="search"
       item-text="display_name"
       append-icon=""

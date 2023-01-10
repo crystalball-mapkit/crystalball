@@ -39,6 +39,7 @@ specifiers:
   vue: ^2.7.14
   vue-cookies: ^1.7.0
   vue-gallery: ^1.5.0
+  vue-i18n: '8'
   vue-image-lightbox: ^7.2.0
   vue-lazyload: ^1.2.6
   vue-router: 3.0.1
@@ -70,6 +71,7 @@ dependencies:
   vue: 2.7.14
   vue-cookies: 1.8.2
   vue-gallery: 1.5.0
+  vue-i18n: 8.28.2_vue@2.7.14
   vue-image-lightbox: 7.2.0
   vue-lazyload: 1.3.4
   vue-router: 3.0.1_vue@2.7.14
@@ -4221,6 +4223,15 @@ packages:
       {integrity: sha512-eOUIfzTBA+ylZUgfM8piT4wzJ4LHTCHTU4i5AbqApTBzZHBXFBB4YIRCEthe+GK35kPav7kTwTLzvUeuAasTgg==}
     dependencies:
       blueimp-gallery: 2.44.0
+    dev: false
+
+  /vue-i18n/8.28.2_vue@2.7.14:
+    resolution:
+      {integrity: sha512-C5GZjs1tYlAqjwymaaCPDjCyGo10ajUphiwA922jKt9n7KPpqR7oM1PCwYzhB/E7+nT3wfdG3oRre5raIT1rKA==}
+    peerDependencies:
+      vue: ^2
+    dependencies:
+      vue: 2.7.14
     dev: false
 
   /vue-image-lightbox/7.2.0:
