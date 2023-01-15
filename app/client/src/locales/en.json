@@ -150,7 +150,7 @@
     "updatePostsAndDeleteIcon": "Update Existing Posts and Delete Icon",
     "updateIconForPosts": "There are posts that have the selected icon as reference. Please select a new icon to update the existing posts before deleting!",
     "iconToDelete": "Icon to delete",
-    "iconToUpdatePosts" :"Icon to update existing posts",
+    "iconToUpdatePosts": "Icon to update existing posts",
     "postIconsUpdatedSuccess": "Post icons updated successfully!",
     "cantReplaceIcons": "Can't replace the post icons",
     "usersList": "Users List",
