@@ -1,5 +1,5 @@
 <template>
-  <p>Dashboard component</p>
+  <p>{{$t("dashboard.dashboardComponent")}}</p>
 </template>
 
 <script>

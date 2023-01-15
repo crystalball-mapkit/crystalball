@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-card>
-      <v-card-title> Post Icons </v-card-title>
+      <v-card-title> {{ $t(`dashboard.postIcon`) }} </v-card-title>
       <div class="d-flex flex-row">
         <div class="flex-grow-1 pa-2">
           <v-btn @click="addNewIcon" class="lighten-1" :color="color" dark>
-            New Icon
+            {{ $t('dashboard.newIcon') }}
             <v-icon right dark>add</v-icon>
           </v-btn>
         </div>
@@ -15,7 +15,7 @@
           class="mr-3"
           v-model="search"
           append-icon="mdi-magnify"
-          label="Search"
+          :label="$t(`general.search`)"
           single-line
           hide-details
         ></v-text-field>
@@ -36,17 +36,17 @@
             <tr>
               <th v-for="header in headers" :key="header.text">
                 <div v-if="header.value == 'iconUrl'" :class="`text-${header.align}`">
-                  <v-icon small>fas fa-link</v-icon> {{ header.text }}
+                  <v-icon small>fas fa-link</v-icon> {{ $t(`dashboard.${header.text}`) }}
                 </div>
                 <div v-else-if="header.value == 'group'" :class="`text-${header.align}`">
-                  <v-icon small>fas fa-object-group</v-icon> {{ header.text }}
+                  <v-icon small>fas fa-object-group</v-icon> {{ $t(`dashboard.${header.text}`) }}
                 </div>
                 <div v-else-if="header.value == 'title'" :class="`text-${header.align}`">
-                  <v-icon small>fas fa-heading</v-icon> {{ header.text }}
+                  <v-icon small>fas fa-heading</v-icon> {{ $t(`dashboard.${header.text}`) }}
                 </div>
 
                 <div v-else :class="`text-${header.align}`">
-                  {{ header.text }}
+                  {{ $t(`dashboard.${header.text}`) }}
                 </div>
               </th>
             </tr>
@@ -69,7 +69,7 @@
                         <v-icon small>edit</v-icon>
                       </v-btn>
                     </template>
-                    <span>Edit</span></v-tooltip
+                    <span>{{ $t(`general.edit`) }}</span></v-tooltip
                   >
                   <v-tooltip top>
                     <template v-slot:activator="{on}">
@@ -77,7 +77,7 @@
                         <v-icon small>delete</v-icon>
                       </v-btn>
                     </template>
-                    <span>Delete</span></v-tooltip
+                    <span>{{ $t(`general.delete`) }}</span></v-tooltip
                   >
                 </div>
               </td>
@@ -106,31 +106,31 @@ export default {
     return {
       headers: [
         {
-          text: '',
+          text: 'icon',
           value: false,
           align: 'left',
           sortable: false,
         },
         {
-          text: 'Icon URL',
+          text: 'iconUrl',
           value: 'iconUrl',
           align: 'left',
           sortable: false,
         },
         {
-          text: 'Navbar group',
+          text: 'navbarGroup',
           value: 'group',
           align: 'left',
           sortable: false,
         },
         {
-          text: 'Icon title',
+          text: 'iconTitle',
           value: 'title',
           align: 'left',
           sortable: false,
         },
         {
-          text: 'Action',
+          text: 'action',
           value: false,
           align: 'left',
           sortable: false,
@@ -166,7 +166,7 @@ export default {
             });
           } else {
             this.$refs.confirm
-              .open('Confirm Delete', 'Delete the selected icon ?', 'Yes', 'No', {
+              .open(this.$t(`general.confirmDelete`), this.$t(`dashboard.deleteIconConfirm`), this.$t(`general.yes`), this.$t(`general.no`), {
                 color: this.color,
               })
               .then(confirm => {
@@ -178,7 +178,7 @@ export default {
                       this.loading = false;
                       this.toggleSnackbar({
                         type: 'success',
-                        message: 'Icon deleted successfully',
+                        message: this.$t('dashboard.iconDeleteSuccess'),
                         state: true,
                         timeout: 2000,
                       });
@@ -188,7 +188,7 @@ export default {
                       this.loading = false;
                       this.toggleSnackbar({
                         type: 'error',
-                        message: "Can't delete icon",
+                        message: this.$t(`dashboard.iconDeleteFailed`),
                         state: true,
                         timeout: 2000,
                       });
@@ -204,9 +204,9 @@ export default {
     editIcon(icon) {
       this.$refs.iconForm.open(
         'update',
-        'Update Icon',
-        'Update',
-        'Cancel',
+        this.$t(`dashboard.updateIcon`),
+        this.$t(`general.update`),
+        this.$t(`general.cancel`),
         {
           color: this.color,
           icon: 'edit',
@@ -215,7 +215,7 @@ export default {
       );
     },
     addNewIcon() {
-      this.$refs.iconForm.open('new', 'New Icon', 'Save', 'Cancel', {
+      this.$refs.iconForm.open('new', this.$t(`dashboard.newIcon`), this.$t(`general.save`), this.$t(`general.cancel`), {
         color: this.color,
       });
     },
@@ -225,5 +225,3 @@ export default {
   },
 };
 </script>
-
-<style></style>
