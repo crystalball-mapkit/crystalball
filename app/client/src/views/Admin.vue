@@ -30,8 +30,31 @@
         <span class="title">Admin Dashboard</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <!-- USER INFO AND LOGOUT (AUTHENTICATED)-->
-
+      <v-menu offset-y>
+        <template v-slot:activator="{on, attrs}">
+          <v-btn class="mr-4" v-bind="attrs" v-on="on" icon>
+            <country-flag
+              :country="currentLanguage === 'en' ? 'us' : currentLanguage"
+              size="normal"
+              :rounded="true"
+              class="mt-0 pt-0"
+            />
+          </v-btn>
+        </template>
+        <v-list dense>
+          <v-list-item v-for="language in availableLanguages" :key="language.code" @click="switchLocale(language.code)">
+            <v-list-item-icon style="margin-top: 0px; margin-right: 5px;">
+              <country-flag
+                :country="language.code === 'en' ? 'usa' : language.code"
+                size="normal"
+                :rounded="true"
+                class="mt-0 pt-0"
+              />
+            </v-list-item-icon>
+            <v-list-item-title>{{ language.value }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <!-- USER INFO AND LOGOUT (AUTHENTICATED)-->
       <template v-if="loggedUser">
         <v-menu origin="center center" offset-y :nudge-bottom="10" transition="scale-transition">
@@ -103,6 +126,16 @@ export default {
       },
       {icon: 'settings', text: 'Settings', to: {name: 'admin.settings'}},
     ],
+    languageCodes: {
+      en: 'English',
+      de: 'Deutsch',
+      fr: 'Français',
+      es: 'Español',
+      pt: 'Português',
+      ru: 'Русский',
+      ar: 'العربية',
+      zh: '中文',
+    },
   }),
   methods: {
     goToMap() {
@@ -112,12 +145,33 @@ export default {
       this.$store.dispatch('auth/logout');
       this.goToMap();
     },
+    switchLocale(locale) {
+      if (this.$i18n.locale !== locale) {
+        this.$i18n.locale = locale;
+      }
+    },
   },
 
   computed: {
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',
     }),
+    currentLanguage() {
+      let countryCode = this.$i18n.locale;
+      if (countryCode.includes('-')) {
+        countryCode = countryCode.split('-')[0];
+      }
+      return countryCode;
+    },
+    availableLanguages() {
+      const availableLanguages = this.$i18n.availableLocales;
+      const currentLanguage = this.currentLanguage;
+      const languages = availableLanguages.filter(code => code !== currentLanguage);
+      return languages.map(language => ({
+        code: language || 'en',
+        value: this.languageCodes[language] || 'English',
+      }));
+    },
   },
 };
 </script>
