@@ -107,7 +107,7 @@
                         <v-icon small>delete</v-icon>
                       </v-btn>
                     </template>
-                    <span>{{$t('dashboard.deleteUser')}}</span></v-tooltip
+                    <span>{{ $t('dashboard.deleteUser') }}</span></v-tooltip
                   >
                 </div>
               </td>
@@ -204,9 +204,15 @@ export default {
     }),
     trash(user) {
       this.$refs.confirm
-        .open(this.$t('general.confirmDelete'), `${this.$t('dashboard.deleteUser')} ${user.userName} ?`, this.$t('general.yes'), this.$t('general.no'), {
-          color: this.color,
-        })
+        .open(
+          this.$t('general.confirmDelete'),
+          `${this.$t('dashboard.deleteUser')} ${user.userName} ?`,
+          this.$t('general.yes'),
+          this.$t('general.no'),
+          {
+            color: this.color,
+          }
+        )
         .then(confirm => {
           if (confirm.deleteUser === true) {
             // eslint-disable-next-line no-param-reassign
@@ -227,7 +233,7 @@ export default {
                 this.loading = false;
                 this.toggleSnackbar({
                   type: 'error',
-                  message: this.$t("dashboard.userDeletedFailed"),
+                  message: this.$t('dashboard.userDeletedFailed'),
                   state: true,
                   timeout: 2000,
                 });
@@ -238,16 +244,22 @@ export default {
     },
 
     registerNewUser() {
-      this.$refs.userForm.open('new', this.$t("dashboard.newUser"), this.$t("general.save"), this.$t("general.cancel"), {
-        color: this.color,
-      });
+      this.$refs.userForm.open(
+        'new',
+        this.$t('dashboard.newUser'),
+        this.$t('general.save'),
+        this.$t('general.cancel'),
+        {
+          color: this.color,
+        }
+      );
     },
     editUser(user) {
       this.$refs.userForm.open(
         'update',
-        this.$t("dashboard.updateUser"),
-        this.$t("general.update"),
-        this.$t("general.cancel"),
+        this.$t('dashboard.updateUser'),
+        this.$t('general.update'),
+        this.$t('general.cancel'),
         {
           color: this.color,
           icon: 'edit',
@@ -258,9 +270,9 @@ export default {
     changePassword(user) {
       this.$refs.userForm.open(
         'updatePassword',
-        this.$t("dashboard.changePassword"),
-        this.$t("general.save"),
-        this.$t("general.cancel"),
+        this.$t('dashboard.changePassword'),
+        this.$t('general.save'),
+        this.$t('general.cancel'),
         {
           color: this.color,
           icon: 'lock',

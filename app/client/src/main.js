@@ -4,7 +4,7 @@ import './plugins/vuescroll';
 import VueCookies from 'vue-cookies';
 import VueLazyLoad from 'vue-lazyload';
 import axios from 'axios';
-import CountryFlag from 'vue-country-flag'
+import CountryFlag from 'vue-country-flag';
 import App from './App.vue';
 import appStore from './store/modules/app';
 import InfoPopUp, {infoPopUpName} from './components/core/InfoPopUp.vue';
@@ -28,7 +28,7 @@ Vue.prototype.$isEmbedded = appEl.hasAttribute('embedded');
 
 Vue.use(VueLazyLoad);
 Vue.use(VueCookies);
-Vue.component('country-flag', CountryFlag)
+Vue.component('country-flag', CountryFlag);
 Vue.component(infoPopUpName, InfoPopUp);
 
 const getIcons = axios.get('./api/icons');

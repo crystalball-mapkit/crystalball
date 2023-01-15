@@ -4,14 +4,12 @@
       <v-card>
         <v-app-bar dark :color="color" dense flat>
           <v-app-bar-nav-icon><v-icon>fas fa-exchange-alt</v-icon></v-app-bar-nav-icon>
-          <v-toolbar-title class="white--text">{{$t("dashboard.updatePostsAndDeleteIcon")}}</v-toolbar-title>
+          <v-toolbar-title class="white--text">{{ $t('dashboard.updatePostsAndDeleteIcon') }}</v-toolbar-title>
         </v-app-bar>
         <v-card-text>
           <v-container>
             <v-alert dense border="left" type="warning" class="mx-0">
-              {{
-                $t("dashboard.updateIconForPosts")
-              }}
+              {{ $t('dashboard.updateIconForPosts') }}
             </v-alert>
             <v-form ref="iconReplaceForm" v-model="valid">
               <v-row>
@@ -40,11 +38,15 @@
                   >
                     <template slot="selection" slot-scope="{item}">
                       <img class="mr-2" style="max-width: 30px; max-height: 30px" :src="item.iconUrl" />
-                      <span class="short-text">{{ `${$t('general.group')}: ${item.group} - Url: ${item.iconUrl}` }}</span>
+                      <span class="short-text">{{
+                        `${$t('general.group')}: ${item.group} - Url: ${item.iconUrl}`
+                      }}</span>
                     </template>
                     <template slot="item" slot-scope="{item}">
                       <img class="mr-2" style="max-width: 40px; max-height: 40px" :src="item.iconUrl" />
-                      <span class="short-text">{{ `${$t('general.group')}: ${item.group} - Url: ${item.iconUrl}` }}</span>
+                      <span class="short-text">{{
+                        `${$t('general.group')}: ${item.group} - Url: ${item.iconUrl}`
+                      }}</span>
                     </template>
                   </v-select>
                 </v-col>
@@ -55,8 +57,10 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn :disabled="valid === false" color="blue darken-1" text @click="save">{{$t('general.replaceAndDelete')}}</v-btn>
-          <v-btn color="red darken-1" text @click="cancel">{{$t(`general.close`)}}</v-btn>
+          <v-btn :disabled="valid === false" color="blue darken-1" text @click="save">{{
+            $t('general.replaceAndDelete')
+          }}</v-btn>
+          <v-btn color="red darken-1" text @click="cancel">{{ $t(`general.close`) }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

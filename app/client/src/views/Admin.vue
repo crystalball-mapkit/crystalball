@@ -43,7 +43,7 @@
         </template>
         <v-list dense>
           <v-list-item v-for="language in availableLanguages" :key="language.code" @click="switchLocale(language.code)">
-            <v-list-item-icon style="margin-top: 0px; margin-right: 5px;">
+            <v-list-item-icon style="margin-top: 0px; margin-right: 5px">
               <country-flag
                 :country="language.code === 'en' ? 'usa' : language.code"
                 size="normal"

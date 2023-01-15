@@ -115,7 +115,7 @@
               :key="language.code"
               @click="switchLocale(language.code)"
             >
-              <v-list-item-icon style="margin-top: 0px; margin-right: 5px;">
+              <v-list-item-icon style="margin-top: 0px; margin-right: 5px">
                 <country-flag
                   :country="language.code === 'en' ? 'usa' : language.code"
                   size="normal"
@@ -161,7 +161,7 @@
             <!-- Main groups -->
             <v-list-item>
               <v-list-item-icon>
-                <v-icon style="margin-top: 10px;">map</v-icon>
+                <v-icon style="margin-top: 10px">map</v-icon>
               </v-list-item-icon>
 
               <v-list-item-content>
@@ -185,7 +185,7 @@
                     :key="language.code"
                     @click="switchLocale(language.code)"
                   >
-                    <v-list-item-icon style="margin-top: 0px; margin-right: 5px;">
+                    <v-list-item-icon style="margin-top: 0px; margin-right: 5px">
                       <country-flag
                         :country="language.code === 'en' ? 'usa' : language.code"
                         size="normal"

@@ -166,9 +166,15 @@ export default {
             });
           } else {
             this.$refs.confirm
-              .open(this.$t(`general.confirmDelete`), this.$t(`dashboard.deleteIconConfirm`), this.$t(`general.yes`), this.$t(`general.no`), {
-                color: this.color,
-              })
+              .open(
+                this.$t(`general.confirmDelete`),
+                this.$t(`dashboard.deleteIconConfirm`),
+                this.$t(`general.yes`),
+                this.$t(`general.no`),
+                {
+                  color: this.color,
+                }
+              )
               .then(confirm => {
                 if (confirm) {
                   this.loading = true;
@@ -215,9 +221,15 @@ export default {
       );
     },
     addNewIcon() {
-      this.$refs.iconForm.open('new', this.$t(`dashboard.newIcon`), this.$t(`general.save`), this.$t(`general.cancel`), {
-        color: this.color,
-      });
+      this.$refs.iconForm.open(
+        'new',
+        this.$t(`dashboard.newIcon`),
+        this.$t(`general.save`),
+        this.$t(`general.cancel`),
+        {
+          color: this.color,
+        }
+      );
     },
     ...mapMutations('map', {
       toggleSnackbar: 'TOGGLE_SNACKBAR',
