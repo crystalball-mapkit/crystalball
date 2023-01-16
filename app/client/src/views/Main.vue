@@ -101,12 +101,7 @@
         <v-menu offset-y>
           <template v-slot:activator="{on, attrs}">
             <v-btn v-bind="attrs" v-on="on" icon>
-              <country-flag
-                :country="currentLanguage === 'en' ? 'us' : currentLanguage"
-                size="normal"
-                :rounded="true"
-                class="mt-0 pt-0"
-              />
+              {{ $i18n.locale }}
             </v-btn>
           </template>
           <v-list dense>
@@ -115,14 +110,6 @@
               :key="language.code"
               @click="switchLocale(language.code)"
             >
-              <v-list-item-icon style="margin-top: 0px; margin-right: 5px">
-                <country-flag
-                  :country="language.code === 'en' ? 'usa' : language.code"
-                  size="normal"
-                  :rounded="true"
-                  class="mt-0 pt-0"
-                />
-              </v-list-item-icon>
               <v-list-item-title>{{ language.value }}</v-list-item-title>
             </v-list-item>
           </v-list>
@@ -161,7 +148,7 @@
             <!-- Main groups -->
             <v-list-item>
               <v-list-item-icon>
-                <v-icon style="margin-top: 10px">map</v-icon>
+                <v-icon>map</v-icon>
               </v-list-item-icon>
 
               <v-list-item-content>
@@ -171,12 +158,7 @@
               <v-menu offset-y>
                 <template v-slot:activator="{on, attrs}">
                   <v-btn v-bind="attrs" v-on="on" icon>
-                    <country-flag
-                      :country="currentLanguage === 'en' ? 'us' : currentLanguage"
-                      size="normal"
-                      :rounded="true"
-                      class="mt-0 pt-0"
-                    />
+                    {{ $i18n.locale }}
                   </v-btn>
                 </template>
                 <v-list dense>
@@ -185,14 +167,6 @@
                     :key="language.code"
                     @click="switchLocale(language.code)"
                   >
-                    <v-list-item-icon style="margin-top: 0px; margin-right: 5px">
-                      <country-flag
-                        :country="language.code === 'en' ? 'usa' : language.code"
-                        size="normal"
-                        :rounded="true"
-                        class="mt-0 pt-0"
-                      />
-                    </v-list-item-icon>
                     <v-list-item-title>{{ language.value }}</v-list-item-title>
                   </v-list-item>
                 </v-list>
