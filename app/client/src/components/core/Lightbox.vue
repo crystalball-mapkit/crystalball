@@ -163,7 +163,7 @@ export default {
       this.imageUpload.selectedFile = selectedFile;
       const fileSize = this.imageUpload.selectedFile.size / 1024 / 1024;
       if (fileSize > 5) {
-        this.imageUpload.message = `${this.$t('form.lightbox.fileSizeExceeds')} 5MB`;
+        this.imageUpload.message = `${this.$t('general.fileSizeExceeds')} 5MB`;
         setTimeout(() => {
           this.clearUploadImage();
         }, 2000);

@@ -53,7 +53,7 @@
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
     >
-      press ↑ or ↓ to change spotlight size
+      {{ $t('tooltip.changeSpotlight') }}
     </div>
 
     <!-- Popup overlay  -->
