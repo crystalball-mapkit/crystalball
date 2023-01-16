@@ -5,6 +5,7 @@
     "cancel": "Cancel",
     "ok": "OK",
     "yes": "Yes",
+    "no": "No",
     "delete": "Delete",
     "logIn": "Log In",
     "logOut": "Log Out",
@@ -17,10 +18,15 @@
     "bottom": "Bottom",
     "back": "Back",
     "confirm": "Confirm",
+    "confirmDelete": "Confirm Delete",
     "edit": "Edit",
     "zoom": "Zoom",
     "updateSuccess": "Updated successfully!",
-    "apply": "Apply"
+    "update": "Update",
+    "apply": "Apply",
+    "fileSizeExceeds": "File size exceeds",
+    "group": "Group",
+    "replaceAndDelete": "Replace and Delete"
   },
   "tooltip": {
     "zoomIn": "Zoom In",
@@ -33,7 +39,8 @@
     "modifyGeometry": "Modify Shape and Position",
     "modifyAttributes": "Modify Attributes",
     "deleteFeature": "Delete Feature",
-    "addPost": "Add Post"
+    "addPost": "Add Post",
+    "changeSpotlight": "press ↑ or ↓ to change spotlight size"
   },
   "form": {
     "user": {
@@ -42,7 +49,10 @@
       "confirmPassword": "Confirm Password",
       "firstName": "First Name",
       "lastName": "Last Name",
-      "email": "Email"
+      "email": "Email",
+      "role": "Role",
+      "roles": "Roles",
+      "action": "Action"
     },
     "shareMap": {
       "title": "Link to map",
@@ -85,7 +95,6 @@
       "imageUrl": "Image URL",
       "clickToUploadImage": "Click to upload image",
       "imageCaption": "Image Caption",
-      "fileSizeExceeds": "File size exceeds",
       "imageUploadSuccess": "Image uploaded successfully!",
       "imageUploadFailed": "Cannot upload image"
     },
@@ -113,5 +122,56 @@
       "clickToUpload": "Click to upload"
     }
   },
-  "dashboard": {}
+  "dashboard": {
+    "newIcon": "New Icon",
+    "postIcon": "Post Icon",
+    "iconUrl": "Icon URL",
+    "navbarGroup": "Navbar group",
+    "icon": "Icon",
+    "iconTitle": "Icon Title",
+    "action": "Action",
+    "deleteIconConfirm": "Delete the selected icon ?",
+    "iconDeleteSuccess": "Icon deleted successfully!",
+    "iconDeleteFailed": "Cannot delete icon",
+    "updateIcon": "Update Icon",
+    "dashboardComponent": "Dashboard component",
+    "iconExists": "Icon URL already exists in the table!",
+    "postWillUpdated": "All posts containing the previous icon will be updated!",
+    "clickToClear": "Click to clear",
+    "clickToUploadIcon": "Click to upload icon",
+    "iconTitlePlaceholder": "Icon title (enter one blank space for no title)",
+    "iconUploadedSuccess": "Icon uploaded successfully!",
+    "iconUpdatedSuccess": "Icon updated successfully!",
+    "iconAddedSuccess": "Icon added successfully!",
+    "iconUpdateFailed": "Cannot update icon",
+    "iconAddFailed": "Cannot add icon",
+    "iconUploadedFailed": "Cannot upload icon",
+    "navbarGroups": "Navbar group",
+    "updatePostsAndDeleteIcon": "Update Existing Posts and Delete Icon",
+    "updateIconForPosts": "There are posts that have the selected icon as reference. Please select a new icon to update the existing posts before deleting!",
+    "iconToDelete": "Icon to delete",
+    "iconToUpdatePosts": "Icon to update existing posts",
+    "postIconsUpdatedSuccess": "Post icons updated successfully!",
+    "cantReplaceIcons": "Can't replace the post icons",
+    "usersList": "Users List",
+    "newUser": "New User",
+    "updateUser": "Update User",
+    "manageRoles": "Manage Roles",
+    "managePermissions": "Manage Permissions",
+    "noRole": "No Role",
+    "editUserProfile": "Edit User Profile",
+    "changePassword": "Change Password",
+    "deleteUser": "Delete User",
+    "userDeletedSuccess": "User deleted successfully!",
+    "userDeletedFailed": "Cannot delete user",
+    "userCreatedSuccess": "User created successfully!",
+    "userCreatedFailed": "Cannot create user",
+    "userUpdatedSuccess": "User updated successfully!",
+    "userUpdatedFailed": "Cannot update user",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "passwordNotMatch": "Passwords must match",
+    "passwordUpdatedSuccess": "Password updated successfully!",
+    "passwordUpdatedFailed": "Cannot update password"
+  }
 }

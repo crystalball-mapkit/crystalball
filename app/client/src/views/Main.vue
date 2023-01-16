@@ -98,6 +98,35 @@
         <v-spacer></v-spacer><v-spacer></v-spacer>
 
         <span class="title pr-5">{{ $appConfig.app.tagline || '' }}</span>
+        <v-menu offset-y>
+          <template v-slot:activator="{on, attrs}">
+            <v-btn v-bind="attrs" v-on="on" icon>
+              <country-flag
+                :country="currentLanguage === 'en' ? 'us' : currentLanguage"
+                size="normal"
+                :rounded="true"
+                class="mt-0 pt-0"
+              />
+            </v-btn>
+          </template>
+          <v-list dense>
+            <v-list-item
+              v-for="language in availableLanguages"
+              :key="language.code"
+              @click="switchLocale(language.code)"
+            >
+              <v-list-item-icon style="margin-top: 0px; margin-right: 5px">
+                <country-flag
+                  :country="language.code === 'en' ? 'usa' : language.code"
+                  size="normal"
+                  :rounded="true"
+                  class="mt-0 pt-0"
+                />
+              </v-list-item-icon>
+              <v-list-item-title>{{ language.value }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
         <v-btn icon @click.stop="sidebarState = !sidebarState"
           ><v-icon medium>{{ sidebarState ? '$close' : '$menu' }}</v-icon></v-btn
         >
@@ -132,12 +161,42 @@
             <!-- Main groups -->
             <v-list-item>
               <v-list-item-icon>
-                <v-icon>map</v-icon>
+                <v-icon style="margin-top: 10px">map</v-icon>
               </v-list-item-icon>
 
               <v-list-item-content>
                 <v-list-item-title class="font-weight-bold">MAP</v-list-item-title>
+                <v-spacer></v-spacer>
               </v-list-item-content>
+              <v-menu offset-y>
+                <template v-slot:activator="{on, attrs}">
+                  <v-btn v-bind="attrs" v-on="on" icon>
+                    <country-flag
+                      :country="currentLanguage === 'en' ? 'us' : currentLanguage"
+                      size="normal"
+                      :rounded="true"
+                      class="mt-0 pt-0"
+                    />
+                  </v-btn>
+                </template>
+                <v-list dense>
+                  <v-list-item
+                    v-for="language in availableLanguages"
+                    :key="language.code"
+                    @click="switchLocale(language.code)"
+                  >
+                    <v-list-item-icon style="margin-top: 0px; margin-right: 5px">
+                      <country-flag
+                        :country="language.code === 'en' ? 'usa' : language.code"
+                        size="normal"
+                        :rounded="true"
+                        class="mt-0 pt-0"
+                      />
+                    </v-list-item-icon>
+                    <v-list-item-title>{{ language.value }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </v-list-item>
             <v-divider></v-divider>
             <v-list-item
@@ -211,6 +270,7 @@ import {mapFields} from 'vuex-map-fields';
 import {EventBus} from '../EventBus';
 import Viewer from '../components/viewer/viewer.vue';
 import SidePanel from '../components/core/SidePanel.vue';
+// import i18n from '@/plugins/i18n';
 // Store imports
 
 export default {
@@ -275,6 +335,22 @@ export default {
       });
       return title;
     },
+    currentLanguage() {
+      let countryCode = this.$i18n.locale;
+      if (countryCode.includes('-')) {
+        countryCode = countryCode.split('-')[0];
+      }
+      return countryCode;
+    },
+    availableLanguages() {
+      const availableLanguages = this.$i18n.availableLocales;
+      const currentLanguage = this.currentLanguage;
+      const languages = availableLanguages.filter(code => code !== currentLanguage);
+      return languages.map(language => ({
+        code: language || 'en',
+        value: this.languageCodes[language] || 'English',
+      }));
+    },
   },
   components: {
     'app-viewer': Viewer,
@@ -289,6 +365,16 @@ export default {
         corporateNetworkSelected: 600,
       },
       dropdownMenu: false,
+      languageCodes: {
+        en: 'English',
+        de: 'Deutsch',
+        fr: 'Français',
+        es: 'Español',
+        pt: 'Português',
+        ru: 'Русский',
+        ar: 'العربية',
+        zh: '中文',
+      },
     };
   },
   methods: {
@@ -382,6 +468,11 @@ export default {
         return true;
       }
       return false;
+    },
+    switchLocale(locale) {
+      if (this.$i18n.locale !== locale) {
+        this.$i18n.locale = locale;
+      }
     },
     closeAll() {
       EventBus.$emit('closeAll');

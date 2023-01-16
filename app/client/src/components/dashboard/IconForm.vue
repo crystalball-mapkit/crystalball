@@ -11,10 +11,10 @@
         <v-card-text>
           <v-container>
             <v-alert outlined v-if="iconUrlExists" dense border="left" type="error">
-              <strong>Icon URL already exists in the table!</strong>
+              <strong>{{ $t('dashboard.iconExists') }}</strong>
             </v-alert>
             <v-alert outlined v-if="mode == 'update'" dense border="left" type="warning">
-              <strong>All posts containing the previous icon will be updated!.</strong>
+              <strong>{{ $t('dashboard.postWillUpdated') }}</strong>
             </v-alert>
             <v-form v-if="['new', 'update'].includes(mode)" ref="iconForm" v-model="valid">
               <v-row>
@@ -36,8 +36,8 @@
                     v-model="icon.iconUrl"
                     clear-icon="mdi-close-circle"
                     clearable
-                    label="Icon Url*"
-                    prepend-icon="fas fa-link"
+                    :label="$t(`dashboard.iconUrl`) + `*`"
+                    prepend-iimageUploadcon="fas fa-link"
                     :rules="[rules.required]"
                   >
                     <template slot="append-outer">
@@ -53,7 +53,9 @@
                             {{ imageUpload.selectedFile !== null ? 'fa fa-close' : 'fas fa-upload' }}
                           </v-icon> </template
                         ><span>{{
-                          imageUpload.selectedFile !== null ? 'Click to clear' : 'Click to upload icon'
+                          imageUpload.selectedFile !== null
+                            ? $t('dashboard.clickToClear')
+                            : $t('dashboard.clickToUploadIcon')
                         }}</span>
                       </v-tooltip>
                       <input
@@ -69,7 +71,7 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="icon.title"
-                    label="Icon title (enter one blank space for no title)*"
+                    :label="$t(`dashboard.iconTitlePlaceholder`) + `*`"
                     prepend-icon="fas fa-heading"
                     :rules="[rules.required]"
                   ></v-text-field>
@@ -81,7 +83,7 @@
                     :items="groups"
                     item-text="display"
                     item-value="value"
-                    label="Navbar group*"
+                    :label="$t(`dashboard.navbarGroups`) + `*`"
                     :rules="[rules.required]"
                   ></v-select>
                 </v-col>
@@ -92,8 +94,8 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn :disabled="valid === false" color="blue darken-1" text @click="save">Save</v-btn>
-          <v-btn color="red darken-1" text @click="cancel">Close</v-btn>
+          <v-btn :disabled="valid === false" color="blue darken-1" text @click="save">{{ $t(`general.save`) }}</v-btn>
+          <v-btn color="red darken-1" text @click="cancel">{{ $t(`general.close`) }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -164,7 +166,8 @@ export default {
         .then(() => {
           this.toggleSnackbar({
             type: 'success',
-            message: `Icon ${this.mode == 'new' ? 'added' : 'updated'} succesfully`,
+            message:
+              this.mode === 'new' ? this.$t(`dashboard.iconAddedSuccess`) : this.$t(`dashboard.iconUpdatedSuccess`),
             state: true,
             timeout: 2000,
           });
@@ -173,7 +176,7 @@ export default {
         .catch(() => {
           this.toggleSnackbar({
             type: 'error',
-            message: `Can't ${this.mode == 'new' ? 'add' : 'update'} icon`,
+            message: this.mode === 'new' ? this.$t(`dashboard.iconAddFailed`) : this.$t(`dashboard.iconUpdateFailed`),
             state: true,
             timeout: 2000,
           });
@@ -204,7 +207,7 @@ export default {
       this.imageUpload.selectedFile = e.target.files[0];
       const fileSize = this.imageUpload.selectedFile.size / 1024 / 1024;
       if (fileSize > 5) {
-        this.imageUpload.message = 'File size exceeds 5 MB';
+        this.imageUpload.message = `${this.$t('general.fileSizeExceeds')} + ' 5MB'`;
         setTimeout(() => {
           this.clearUploadImage();
         }, 2000);
@@ -227,14 +230,14 @@ export default {
             }
             this.imageUpload.isUploading = false;
             this.imageUpload.isUploadedSuccessful = true;
-            this.imageUpload.message = 'Icon uploaded successfuly!';
+            this.imageUpload.message = this.$t('dashboard.iconUploadedSuccess');
             setTimeout(() => {
               this.imageUpload.message = '';
             }, 1000);
           })
           .catch(() => {
             this.imageUpload.isUploading = false;
-            this.imageUpload.message = 'Cannot upload icon!';
+            this.imageUpload.message = this.$t('dashboard.iconUploadedFailed');
             setTimeout(() => {
               this.imageUpload.message = '';
             }, 1000);
