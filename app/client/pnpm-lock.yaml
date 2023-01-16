@@ -38,7 +38,6 @@ specifiers:
   vite-plugin-eslint: 1.8.1
   vue: ^2.7.14
   vue-cookies: ^1.7.0
-  vue-country-flag: ^2.3.2
   vue-gallery: ^1.5.0
   vue-i18n: '8'
   vue-image-lightbox: ^7.2.0
@@ -71,7 +70,6 @@ dependencies:
   v-jsoneditor: 1.4.5
   vue: 2.7.14
   vue-cookies: 1.8.2
-  vue-country-flag: 2.3.2_vue@2.7.14
   vue-gallery: 1.5.0
   vue-i18n: 8.28.2_vue@2.7.14
   vue-image-lightbox: 7.2.0
@@ -4199,16 +4197,6 @@ packages:
   /vue-cookies/1.8.2:
     resolution:
       {integrity: sha512-+NfoC5l+7ybuVwpnqsf52qndnoYMjEb4EFhX4/j9RzzQP00dNzuJELsWuW2p8omNUzNlSgWGVyyWoOeJr347tw==}
-    dev: false
-
-  /vue-country-flag/2.3.2_vue@2.7.14:
-    resolution:
-      {integrity: sha512-YhSS+GbLT9tp8tjMXxJKlqpBUd6dbhQJrttKj8ZbHtBocorIomFDMVMxraWVMs3hxaCW6SsAYaREkoYM00ORiA==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      vue: ^2.6.12
-    dependencies:
-      vue: 2.7.14
     dev: false
 
   /vue-eslint-parser/9.1.0_eslint@8.29.0:
