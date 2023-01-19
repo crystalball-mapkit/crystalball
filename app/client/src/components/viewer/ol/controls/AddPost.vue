@@ -10,9 +10,9 @@
     >
       {{ $t('tooltip.addPost').toUpperCase() }}
     </v-btn>
-    <v-alert v-if="currentResolution && currentResolution > minResolution" dense border="left" type="warning"
-      >Zoom in close to add your post.</v-alert
-    >
+    <v-alert v-if="currentResolution && currentResolution > minResolution" dense border="left" type="warning">{{
+      $t('form.htmlPostEditor.addPostSnackbar')
+    }}</v-alert>
     <confirm-unsave ref="confirm" :color="color"></confirm-unsave>
   </div>
 </template>
@@ -68,9 +68,15 @@ export default {
     addPost() {
       if (this.isEditingHtml) {
         this.$refs.confirm
-          .open('Warning', 'You have unsaved changes! Are you sure you want to continue?', 'Yes', 'Cancel', {
-            color: this.color,
-          })
+          .open(
+            this.$t('general.warning'),
+            this.$t('form.htmlPostEditor.addPostWarning'),
+            this.$t('general.yes'),
+            this.$t('general.cancel'),
+            {
+              color: this.color,
+            }
+          )
           .then(confirm => {
             if (confirm) {
               this.enablePostEdit();

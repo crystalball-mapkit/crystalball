@@ -26,7 +26,9 @@
     "apply": "Solicitar",
     "fileSizeExceeds": "El tamaño del archivo supera",
     "group": "Grupo",
-    "replaceAndDelete": "Sustituir y borrar"
+    "replaceAndDelete": "Sustituir y borrar",
+    "warning": "Advertencia",
+    "map": "Mapa"
   },
   "tooltip": {
     "zoomIn": "Ampliar",
@@ -119,14 +121,21 @@
       "videoInsert": "Insertar vídeo",
       "audioInsert": "Insertar audio",
       "fileUpload": "Archivo subido. Haga clic en aplicar para insertarlo",
-      "clickToUpload": "Haga clic para cargar"
+      "clickToUpload": "Haga clic para cargar",
+      "addPostSnackbar":  "Acércate para añadir tu entrada",
+      "addPostWarning": "Tienes cambios sin guardar! Seguro que quieres continuar?"
     }
   },
   "dashboard": {
+    "dashboard": "Tablero",
+    "user": "Usuario",
+    "assets": "Activos",
+    "settings": "Configuración",
+    "adminDashboard": "Panel de administración",
     "newIcon": "Nuevo icono",
     "postIcon": "Icono del puesto",
     "icon": "Icono",
-    "iconUrl": "Icon URL",
+    "iconUrl": "Icono URL",
     "navbarGroup": "Grupo Navbar",
     "iconTitle": "Icono Título",
     "action": "Acción",
@@ -173,5 +182,45 @@
     "passwordNotMatch": "Las contraseñas deben coincidir",
     "passwordUpdatedSuccess": "Contraseña actualizada",
     "passwordUpdatedFailed": "No se puede actualizar la contraseña"
+  },
+  "$vuetify": {
+    "close": "Cerrar",
+    "dataIterator": {
+      "pageText": "{0}-{1} de {2}",
+      "noResultsText": "No se han encontrado registros coincidentes",
+      "loadingText": "Cargando artículos..."
+    },
+    "dataTable": {
+      "itemsPerPageText": "Filas por página:",
+      "ariaLabel": {
+        "sortDescending": ": Clasificación descendente. Activar para eliminar la clasificación.",
+        "sortAscending": ": Ordenación ascendente. Activar para ordenar descendentemente.",
+        "sortNone": ": No ordenado. Activar para ordenar ascendentemente."
+      }
+    },
+    "dataFooter": {
+      "pageText": "{0}-{1} de {2}",
+      "itemsPerPageText": "Artículos por página:",
+      "itemsPerPageAll": "Todos",
+      "nextPage": "Página siguiente",
+      "prevPage": "Página anterior",
+      "firstPage": "Primera página",
+      "lastPage": "Última página"
+    },
+    "datePicker": {
+      "itemsSelected": "{0} seleccionado"
+    },
+    "noDataText": "No hay datos disponibles",
+    "carousel": {
+      "prev": "Anterior visual",
+      "next": "Siguiente visual"
+    },
+    "calendar": {
+      "moreEvents": "{0} más"
+    },
+    "timePicker": {
+      "am": "AM",
+      "pm": "PM"
+    }
   }
 }
