@@ -26,7 +26,9 @@
     "apply": "Apply",
     "fileSizeExceeds": "File size exceeds",
     "group": "Group",
-    "replaceAndDelete": "Replace and Delete"
+    "replaceAndDelete": "Replace and Delete",
+    "warning": "Warning",
+    "map": "Map"
   },
   "tooltip": {
     "zoomIn": "Zoom In",
@@ -119,10 +121,17 @@
       "videoInsert": "Insert Video",
       "audioInsert": "Insert Audio",
       "fileUpload": "File uploaded. Click apply to insert it!",
-      "clickToUpload": "Click to upload"
+      "clickToUpload": "Click to upload",
+      "addPostSnackbar": "Zoom in close to add your post.",
+      "addPostWarning": "You have unsaved changes! Are you sure you want to continue?"
     }
   },
   "dashboard": {
+    "dashboard": "Dashboard",
+    "user": "User",
+    "assets": "Assets",
+    "settings": "Settings",
+    "adminDashboard": "Admin Dashboard",
     "newIcon": "New Icon",
     "postIcon": "Post Icon",
     "iconUrl": "Icon URL",
@@ -173,5 +182,45 @@
     "passwordNotMatch": "Passwords must match",
     "passwordUpdatedSuccess": "Password updated successfully!",
     "passwordUpdatedFailed": "Cannot update password"
+  },
+  "$vuetify": {
+    "close": "Close",
+    "dataIterator": {
+      "pageText": "{0}-{1} of {2}",
+      "noResultsText": "No matching records found",
+      "loadingText": "Loading items..."
+    },
+    "dataTable": {
+      "itemsPerPageText": "Rows per page:",
+      "ariaLabel": {
+        "sortDescending": ": Sorted descending. Activate to remove sorting.",
+        "sortAscending": ": Sorted ascending. Activate to sort descending.",
+        "sortNone": ": Not sorted. Activate to sort ascending."
+      }
+    },
+    "dataFooter": {
+      "pageText": "{0}-{1} of {2}",
+      "itemsPerPageText": "Items per page:",
+      "itemsPerPageAll": "All",
+      "nextPage": "Next page",
+      "prevPage": "Previous page",
+      "firstPage": "First page",
+      "lastPage": "Last page"
+    },
+    "datePicker": {
+      "itemsSelected": "{0} selected"
+    },
+    "noDataText": "No data available",
+    "carousel": {
+      "prev": "Previous visual",
+      "next": "Next visual"
+    },
+    "calendar": {
+      "moreEvents": "{0} more"
+    },
+    "timePicker": {
+      "am": "AM",
+      "pm": "PM"
+    }
   }
 }

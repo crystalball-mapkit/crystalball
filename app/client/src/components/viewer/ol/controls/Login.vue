@@ -29,7 +29,7 @@
               <v-icon>dashboard</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>Dashboard</v-list-item-title>
+              <v-list-item-title>{{ $t('dashboard.dashboard') }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item @click="logOut">
