@@ -14,7 +14,7 @@
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>
-                {{ item.text }}
+                {{ $t(`dashboard.${item.text}`) }}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -27,7 +27,7 @@
     <v-app-bar app clipped-left :color="$appConfig.app.color.primary" dark dense>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="mr-12 align-center">
-        <span class="title">Admin Dashboard</span>
+        <span class="title">{{ $t('dashboard.adminDashboard') }}</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu offset-y>
@@ -60,7 +60,7 @@
                 <v-icon>map</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>Map</v-list-item-title>
+                <v-list-item-title>{{ $t('general.map') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click="logOut">
@@ -68,7 +68,7 @@
                 <v-icon>exit_to_app</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>Logout</v-list-item-title>
+                <v-list-item-title>{{ $t('general.logOut') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -104,14 +104,14 @@ export default {
   data: () => ({
     drawer: null,
     items: [
-      {icon: 'dashboard', text: 'Dashboard', to: {name: 'admin.dashboard'}},
-      {icon: 'person', text: 'User', to: {name: 'admin.users'}},
+      {icon: 'dashboard', text: 'dashboard', to: {name: 'admin.dashboard'}},
+      {icon: 'person', text: 'user', to: {name: 'admin.users'}},
       {
         icon: 'mdi-chart-bubble',
-        text: 'Assets',
+        text: 'assets',
         to: {name: 'admin.assets'},
       },
-      {icon: 'settings', text: 'Settings', to: {name: 'admin.settings'}},
+      {icon: 'settings', text: 'settings', to: {name: 'admin.settings'}},
     ],
     languageCodes: {
       en: 'English',
