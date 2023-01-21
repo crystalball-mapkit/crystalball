@@ -10,16 +10,12 @@
         </v-app-bar>
         <v-card-text>
           <v-container>
-            <v-form
-              v-if="['new', 'update'].includes(mode)"
-              ref="userForm"
-              v-model="valid"
-            >
+            <v-form v-if="['new', 'update'].includes(mode)" ref="userForm" v-model="valid">
               <v-row>
                 <v-col cols="12" sm="6">
                   <v-text-field
                     v-model="user.firstName"
-                    label="First name*"
+                    :label="$t(`form.user.firstName`) + `*`"
                     prepend-icon="person"
                     :rules="[rules.required]"
                   ></v-text-field>
@@ -27,7 +23,7 @@
                 <v-col cols="12" sm="6">
                   <v-text-field
                     v-model="user.lastName"
-                    label="Last name*"
+                    :label="$t(`form.user.lastName`) + `*`"
                     prepend-icon="person"
                     :rules="[rules.required]"
                   ></v-text-field>
@@ -35,7 +31,7 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="user.email"
-                    label="Email*"
+                    :label="$t(`form.user.email`) + `*`"
                     prepend-icon="email"
                     :rules="[rules.required, rules.email]"
                   ></v-text-field>
@@ -44,21 +40,17 @@
                   <v-text-field
                     v-if="mode === 'new'"
                     v-model="user.password"
-                    label="Password*"
+                    :label="$t(`form.user.password`) + `*`"
                     prepend-icon="lock"
                     type="password"
-                    :rules="[
-                      rules.required,
-                      rules.password,
-                      rules.passwordNumber
-                    ]"
+                    :rules="[rules.required, rules.password, rules.passwordNumber]"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-text-field
                     v-if="mode === 'new'"
                     v-model="confirmPassword"
-                    label="Confirm Password*"
+                    :label="$t(`form.user.confirmPassword`) + `*`"
                     prepend-icon="lock"
                     type="password"
                     :rules="[rules.required, passwordConfirmationRule]"
@@ -71,35 +63,27 @@
                     :items="roleItems"
                     item-text="display"
                     item-value="value"
-                    label="Role*"
+                    :label="$t(`form.user.role`) + `*`"
                     :rules="[rules.required]"
                   ></v-select>
                 </v-col>
               </v-row>
             </v-form>
-            <v-form
-              v-model="valid"
-              v-if="mode === 'updatePassword'"
-              ref="updatePassword"
-            >
+            <v-form v-model="valid" v-if="mode === 'updatePassword'" ref="updatePassword">
               <v-row>
                 <v-col cols="12">
                   <v-text-field
                     v-model="user.password"
-                    label="New Password"
+                    :label="$t(`dashboard.newPassword`)"
                     prepend-icon="lock"
                     type="password"
-                    :rules="[
-                      rules.required,
-                      rules.password,
-                      rules.passwordNumber
-                    ]"
+                    :rules="[rules.required, rules.password, rules.passwordNumber]"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
                     v-model="confirmPassword"
-                    label="Confirm New Password"
+                    :label="$t(`dashboard.confirmPassword`)"
                     prepend-icon="lock"
                     type="password"
                     :rules="[rules.required, passwordConfirmationRule]"
@@ -111,24 +95,17 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            :disabled="valid === false"
-            color="blue darken-1"
-            text
-            @click="save"
-            >Save</v-btn
-          >
-          <v-btn color="red darken-1" text @click="cancel">Close</v-btn>
+          <v-btn :disabled="valid === false" color="blue darken-1" text @click="save">{{ $t(`general.save`) }}</v-btn>
+          <v-btn color="red darken-1" text @click="cancel">{{ $t(`general.close`) }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </v-row>
 </template>
 <script>
+import {mapMutations} from 'vuex';
 import User from '../../models/user';
 import UserUpdateDTO from '../../models/userUpdateDTO';
-
-import { mapMutations } from 'vuex';
 
 export default {
   data: () => ({
@@ -141,27 +118,27 @@ export default {
     confirmText: null,
     cancelText: null,
     title: null,
-    mode: ``,
+    mode: '',
     options: {
       color: 'primary',
       width: 320,
       icon: 'person',
-      zIndex: 200
+      zIndex: 200,
     },
     roleItems: [
-      { value: 1, display: 'Admin User' },
-      { value: 2, display: 'Regular User' },
-      { value: 3, display: 'Guest User' }
+      {value: 1, display: 'Admin User'},
+      {value: 2, display: 'Regular User'},
+      {value: 3, display: 'Guest User'},
     ],
     rules: {
       required: value => !!value || 'Required.',
       password: value => (value && value.length >= 8) || 'minimum 8 characters',
       passwordNumber: v => /(?=.*\d)/.test(v) || 'Must have one number',
-      email: value => /.+@.+/.test(value) || 'E-mail must be valid'
-    }
+      email: value => /.+@.+/.test(value) || 'E-mail must be valid',
+    },
   }),
   props: {
-    color: { type: String }
+    color: {type: String},
   },
   methods: {
     open(mode, title, confirmText, cancelText, options, user) {
@@ -189,16 +166,16 @@ export default {
       this.user.username = this.user.email;
       if (this.mode == 'new') {
         api = 'registerUser';
-        messageSuccess = 'User create succesfully';
-        messageError = "Can't register user";
+        messageSuccess = this.$t(`dashboard.userCreatedSuccess`);
+        messageError = this.$t(`dashboard.userCreatedFailed`);
       } else if (this.mode == 'update') {
         api = 'updateUser';
-        messageSuccess = 'User updated succesfully';
-        messageError = "Can't update user";
+        messageSuccess = this.$t(`dashboard.userUpdatedSuccess`);
+        messageError = this.$t(`dashboard.userUpdatedFailed`);
       } else if (this.mode == 'updatePassword') {
         api = 'updatePassword';
-        messageSuccess = 'Password changed succesfully';
-        messageError = "Can't change password";
+        messageSuccess = this.$t(`dashboard.passwordUpdatedSuccess`);
+        messageError = this.$t(`dashboard.passwordUpdatedFailed`);
       }
 
       this.$store.dispatch(`auth/${api}`, this.user).then(
@@ -207,7 +184,7 @@ export default {
             type: 'success',
             message: messageSuccess,
             state: true,
-            timeout: 2000
+            timeout: 2000,
           });
           this.$store.dispatch('auth/getUsers');
         },
@@ -216,7 +193,7 @@ export default {
             type: 'error',
             message: messageError,
             state: true,
-            timeout: 2000
+            timeout: 2000,
           });
         }
       );
@@ -236,14 +213,13 @@ export default {
       this.dialog = false;
     },
     ...mapMutations('map', {
-      toggleSnackbar: 'TOGGLE_SNACKBAR'
-    })
+      toggleSnackbar: 'TOGGLE_SNACKBAR',
+    }),
   },
   computed: {
     passwordConfirmationRule() {
-      return () =>
-        this.user.password === this.confirmPassword || 'Password must match';
-    }
-  }
+      return () => this.user.password === this.confirmPassword || this.$t(`dashboard.passwordNotMatch`);
+    },
+  },
 };
 </script>

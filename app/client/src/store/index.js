@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 // Create a new store
 const store = new Vuex.Store({
-  modules: { map, app, auth }
+  modules: {map, app, auth},
 });
 
 export default store;

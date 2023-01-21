@@ -1,15 +1,10 @@
 <template>
   <v-layout row justify-center>
-    <v-dialog
-      v-model="value"
-      persistent
-      content
-      content-class="centered-dialog"
-    >
+    <v-dialog v-model="value" persistent content content-class="centered-dialog">
       <v-container fill-height>
         <v-layout column justify-center align-center>
           <v-progress-circular
-          class="mb-8 pa-1"
+            class="mb-8 pa-1"
             indeterminate
             :size="70"
             :width="7"
@@ -21,18 +16,19 @@
     </v-dialog>
   </v-layout>
 </template>
+'no-param-reassign': 'off', 'no-param-reassign': 'off',
 
 <script>
 export default {
   name: 'Loading',
-  data: function() {
+  data() {
     return {};
   },
   props: {
-    value: { type: Boolean, default: false },
-    message: { type: String, default: null },
-    progressColor: { type: String, default: 'purple' }
-  }
+    value: {type: Boolean, default: false},
+    message: {type: String, default: null},
+    progressColor: {type: String, default: 'purple'},
+  },
 };
 </script>
 

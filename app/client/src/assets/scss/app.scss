@@ -7,6 +7,15 @@ body,
   height: 100%;
 }
 
+.row {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.row + .row {
+  margin-top: 0 !important;
+}
+
 @media only screen and (min-width: 960px) {
   html {
     overflow: hidden;
@@ -22,8 +31,8 @@ body,
 .wg-app {
   position: relative;
   width: 100%;
-  // font-family: 'Zen Dots'; Uncomment this line to change the custom fongs "Change 'Zen Dots' to your font name
 }
+
 .wg-app-embedded {
   width: 100%;
   height: 100%;

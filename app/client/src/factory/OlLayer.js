@@ -1,10 +1,11 @@
+/* eslint-disable no-bitwise */
 /* eslint-disable no-prototype-builtins */
 import TileLayer from 'ol/layer/Tile';
 import TileWmsSource from 'ol/source/TileWMS';
 import OsmSource from 'ol/source/OSM';
 import EsriJSON from 'ol/format/EsriJSON';
-import { tile as tileStrategy } from 'ol/loadingstrategy';
-import { createXYZ } from 'ol/tilegrid';
+import {tile as tileStrategy, bbox as bboxStrategy} from 'ol/loadingstrategy';
+import {createXYZ} from 'ol/tilegrid';
 import BingMaps from 'ol/source/BingMaps';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import VectorTileSource from 'ol/source/VectorTile';
@@ -14,13 +15,12 @@ import TopoJsonFormat from 'ol/format/TopoJSON';
 import KmlFormat from 'ol/format/KML';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import ImageWMS from 'ol/source/ImageWMS.js'
+import ImageWMS from 'ol/source/ImageWMS';
 import LayerGroup from 'ol/layer/Group';
-import { bbox as bboxStrategy } from 'ol/loadingstrategy';
-import { Image as ImageLayer } from 'ol/layer.js';
+import {Image as ImageLayer} from 'ol/layer';
 import XyzSource from 'ol/source/XYZ';
-import { OlStyleFactory } from './OlStyle';
-import { styleRefs, layersStylePropFn } from '../style/OlStyleDefs';
+import {OlStyleFactory} from './OlStyle';
+import {styleRefs, layersStylePropFn} from '../style/OlStyleDefs';
 import http from '../services/http';
 
 /**
@@ -36,19 +36,21 @@ export const LayerFactory = {
     MVT: MvtFormat,
     GeoJSON: GeoJsonFormat,
     TopoJSON: TopoJsonFormat,
-    KML: KmlFormat
+    KML: KmlFormat,
   },
 
-  computeQuadKey: function (x, y, z) {
-    let quadKeyDigits = [];
+  computeQuadKey(x, y, z) {
+    const quadKeyDigits = [];
+    // eslint-disable-next-line no-plusplus
     for (let i = z; i > 0; i--) {
       let digit = 0;
       const mask = 1 << (i - 1);
       if ((x & mask) !== 0) {
+        // eslint-disable-next-line no-plusplus
         digit++;
       }
       if ((y & mask) !== 0) {
-        digit = digit + 2;
+        digit += 2;
       }
       quadKeyDigits.push(digit);
     }
@@ -63,6 +65,7 @@ export const LayerFactory = {
         const renderedStyle = this.renderStyle(style, lConf.name);
         styleArray.push(renderedStyle);
       });
+      // eslint-disable-next-line consistent-return
       return (feature, resolution) => {
         const styles = [];
         styleArray.forEach(style => {
@@ -74,9 +77,9 @@ export const LayerFactory = {
         });
         return styles;
       };
-    } else {
-      return this.renderStyle(lConf.style, lConf.name);
     }
+    // eslint-disable-next-line consistent-return
+    return this.renderStyle(lConf.style, lConf.name);
   },
 
   /**
@@ -86,17 +89,15 @@ export const LayerFactory = {
    * @return {ol.style} Ol Style
    */
   renderStyle(styleProps, layerName) {
-    let { styleRef, stylePropFnRef, label } = styleProps;
+    let {styleRef, stylePropFnRef} = styleProps;
+    const {label} = styleProps;
     if ((stylePropFnRef && !styleRef) || label) {
       styleRef = 'baseStyle';
     }
     if (!stylePropFnRef) {
       stylePropFnRef = {};
     }
-    if (
-      (styleProps && styleRef && stylePropFnRef && styleRefs[styleRef]) ||
-      label
-    ) {
+    if ((styleProps && styleRef && stylePropFnRef && styleRefs[styleRef]) || label) {
       // Get style function reference (default is baseStyle)
       const styleFn = styleRefs[styleRef];
       // Get the functions of the layer
@@ -105,34 +106,26 @@ export const LayerFactory = {
       Object.keys(stylePropFnRef).forEach(fnName => {
         let fn;
         if (layersStylePropFn[layerName]) {
-          fn =
-            layersStylePropFn[layerName][fnName] ||
-            layersStylePropFn.default[fnName];
-        } else {
-          if (layersStylePropFn.default[fnName]) {
-            fn = layersStylePropFn.default[fnName];
-          }
+          fn = layersStylePropFn[layerName][fnName] || layersStylePropFn.default[fnName];
+        } else if (layersStylePropFn.default[fnName]) {
+          fn = layersStylePropFn.default[fnName];
         }
         if (fn) {
           stylePropFn[fnName] = fn;
         }
       });
-      const props = { ...styleProps, ...stylePropFn, layerName };
+      const props = {...styleProps, ...stylePropFn, layerName};
       return styleFn(props, layerName);
-    } else if (styleRef) {
+    }
+    if (styleRef) {
       // Edge case for colormap palete
       if (styleRef === 'colorMapStyle') {
-        return styleRefs[styleRef](
-          layerName,
-          styleProps.colorField,
-          styleProps.colormap
-        );
+        return styleRefs[styleRef](layerName, styleProps.colorField, styleProps.colormap);
       }
       return styleRefs[styleRef](layerName);
-    } else {
-      // Just a generic style
-      return OlStyleFactory.getInstance(styleProps);
     }
+    // Just a generic style
+    return OlStyleFactory.getInstance(styleProps);
   },
 
   /**
@@ -145,34 +138,43 @@ export const LayerFactory = {
   getInstance(lConf, zIndex) {
     // apply LID (Layer ID) if not existant
     if (!lConf.lid) {
-      var now = new Date();
+      const now = new Date();
+      // eslint-disable-next-line no-param-reassign
       lConf.lid = now.getTime();
     }
 
     // create correct layer type
     if (lConf.type === 'WMS') {
       return this.createWmsLayer(lConf);
-    } else if (lConf.type === 'WMSTILE') {
-      return this.createWmsTileLayer(lConf);
-    } else if (lConf.type === 'XYZ') {
-      return this.createXyzLayer(lConf);
-    } else if (lConf.type === 'OSM') {
-      return this.createOsmLayer(lConf);
-    } else if (lConf.type === 'BING') {
-      return this.createBingLayer(lConf);
-    } else if (lConf.type === 'BING-QUADKEY') {
-      return this.createBingQuadKeyLayer(lConf);
-    } else if (lConf.type === 'VECTOR') {
-      return this.createVectorLayer(lConf);
-    } else if (lConf.type === 'VECTORTILE') {
-      return this.createVectorTileLayer(lConf);
-    } else if (lConf.type === 'ESRI') {
-      return this.createESRIFeatureService(lConf);
-    } else if (lConf.type === 'GROUP') {
-      return this.createGroupLayer(lConf, zIndex);
-    } else {
-      return null;
     }
+    if (lConf.type === 'WMSTILE') {
+      return this.createWmsTileLayer(lConf);
+    }
+    if (lConf.type === 'XYZ') {
+      return this.createXyzLayer(lConf);
+    }
+    if (lConf.type === 'OSM') {
+      return this.createOsmLayer(lConf);
+    }
+    if (lConf.type === 'BING') {
+      return this.createBingLayer(lConf);
+    }
+    if (lConf.type === 'BING-QUADKEY') {
+      return this.createBingQuadKeyLayer(lConf);
+    }
+    if (lConf.type === 'VECTOR') {
+      return this.createVectorLayer(lConf);
+    }
+    if (lConf.type === 'VECTORTILE') {
+      return this.createVectorTileLayer(lConf);
+    }
+    if (lConf.type === 'ESRI') {
+      return this.createESRIFeatureService(lConf);
+    }
+    if (lConf.type === 'GROUP') {
+      return this.createGroupLayer(lConf, zIndex);
+    }
+    return null;
   },
 
   /**
@@ -202,12 +204,12 @@ export const LayerFactory = {
       source: new ImageWMS({
         url: lConf.url,
         params: {
-          LAYERS: lConf.layers
+          LAYERS: lConf.layers,
         },
         serverType: lConf.serverType ? lConf.serverType : 'geoserver',
         ratio: lConf.ratio,
-        attributions: lConf.attributions
-      })
+        attributions: lConf.attributions,
+      }),
     });
 
     return layer;
@@ -239,11 +241,11 @@ export const LayerFactory = {
         url: lConf.url,
         params: {
           LAYERS: lConf.layers,
-          TILED: lConf.tiled
+          TILED: lConf.tiled,
         },
         serverType: lConf.serverType ? lConf.serverType : 'geoserver',
-        attributions: lConf.attributions
-      })
+        attributions: lConf.attributions,
+      }),
     });
 
     return layer;
@@ -272,15 +274,13 @@ export const LayerFactory = {
       legendDisplayName: lConf.legendDisplayName,
       seriesDisplayName: lConf.seriesDisplayName,
       source: new XyzSource({
-        url: lConf.hasOwnProperty('accessToken')
-          ? lConf.url + '?access_token=' + lConf.accessToken
-          : lConf.url,
+        url: lConf.hasOwnProperty('accessToken') ? `${lConf.url}?access_token=${lConf.accessToken}` : lConf.url,
         maxZoom: lConf.maxZoom || 18,
         attributions: lConf.attributions,
         tilePixelRatio: lConf.tilePixelRatio || 1,
         crossOrigin: lConf.crossOrigin,
-        opaque: lConf.opaque || true
-      })
+        opaque: lConf.opaque || true,
+      }),
     });
 
     return xyzLayer;
@@ -308,8 +308,8 @@ export const LayerFactory = {
       group: lConf.group,
       source: new OsmSource({
         url: lConf.url,
-        maxZoom: lConf.maxZoom
-      })
+        maxZoom: lConf.maxZoom,
+      }),
     });
 
     return layer;
@@ -325,7 +325,7 @@ export const LayerFactory = {
     const bingMaps = new BingMaps({
       key: lConf.accessToken,
       imagerySet: lConf.imagerySet,
-      maxZoom: lConf.maxZoom
+      maxZoom: lConf.maxZoom,
     });
     const layer = new TileLayer({
       name: lConf.name,
@@ -342,7 +342,7 @@ export const LayerFactory = {
       visible: lConf.visible,
       group: lConf.group,
       opacity: lConf.opacity,
-      source: bingMaps
+      source: bingMaps,
     });
 
     return layer;
@@ -377,9 +377,9 @@ export const LayerFactory = {
           const z = tileCoord[0];
           const x = tileCoord[1];
           const y = -tileCoord[2] - 1;
-          return lConf.url + this.computeQuadKey(x, y, z) + '.jpg';
-        }
-      })
+          return `${lConf.url + this.computeQuadKey(x, y, z)}.jpg`;
+        },
+      }),
     });
 
     return layer;
@@ -395,18 +395,19 @@ export const LayerFactory = {
     let url;
     const sourceConfig = {
       format: new this.formatMapping[lConf.format](lConf.formatConfig),
-      attributions: lConf.attributions
+      attributions: lConf.attributions,
     };
     // Check if url is a WFS service
     if (lConf.url.includes('wfs?service=WFS&')) {
+      // eslint-disable-next-line func-names
       url = function (extent) {
         return `${lConf.url}&bbox=${extent.join(',')},EPSG:3857`;
       };
-      sourceConfig['strategy'] = bboxStrategy;
+      sourceConfig.strategy = bboxStrategy;
     } else {
       url = lConf.url;
     }
-    sourceConfig['url'] = url;
+    sourceConfig.url = url;
 
     const vectorLayer = new VectorLayer({
       type: lConf.type,
@@ -437,7 +438,7 @@ export const LayerFactory = {
       hoverable: lConf.hoverable,
       hoverAttribute: lConf.hoverAttribute,
       label: lConf.label,
-      styleObj: JSON.stringify(lConf.style)
+      styleObj: JSON.stringify(lConf.style),
     });
     return vectorLayer;
   },
@@ -474,12 +475,12 @@ export const LayerFactory = {
       source: new VectorTileSource({
         url: lConf.url,
         format: new this.formatMapping[lConf.format](),
-        attributions: lConf.attributions
+        attributions: lConf.attributions,
       }),
       style: this.getStyles(lConf),
       hoverable: lConf.hoverable,
       hoverAttribute: lConf.hoverAttribute,
-      styleObj: JSON.stringify(lConf.style)
+      styleObj: JSON.stringify(lConf.style),
     });
 
     return vtLayer;
@@ -494,29 +495,17 @@ export const LayerFactory = {
   createESRIFeatureService(lConf) {
     const esrijsonFormat = new EsriJSON();
     const vectorSource = new VectorSource({
-      loader: function (extent, resolution, projection) {
+      loader(extent, resolution, projection) {
         const url =
-          lConf.url +
-          lConf.layer +
-          '/query/?f=json&' +
-          'returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=' +
-          encodeURIComponent(
-            '{"xmin":' +
-            extent[0] +
-            ',"ymin":' +
-            extent[1] +
-            ',"xmax":' +
-            extent[2] +
-            ',"ymax":' +
-            extent[3] +
-            ',"spatialReference":{"wkid":102100}}'
-          ) +
-          '&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*' +
+          `${lConf.url + lConf.layer}/query/?f=json&` +
+          `returnGeometry=true&spatialRel=esriSpatialRelIntersects&geometry=${encodeURIComponent(
+            `{"xmin":${extent[0]},"ymin":${extent[1]},"xmax":${extent[2]},"ymax":${extent[3]},"spatialReference":{"wkid":102100}}`
+          )}&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*` +
           '&outSR=102100';
 
         http.get(url).then(response => {
-          var features = esrijsonFormat.readFeatures(response.data, {
-            featureProjection: projection
+          const features = esrijsonFormat.readFeatures(response.data, {
+            featureProjection: projection,
           });
           if (features.length > 0) {
             vectorSource.addFeatures(features);
@@ -525,9 +514,9 @@ export const LayerFactory = {
       },
       strategy: tileStrategy(
         createXYZ({
-          tileSize: 512
+          tileSize: 512,
         })
-      )
+      ),
     });
 
     const layer = new VectorLayer({
@@ -546,14 +535,14 @@ export const LayerFactory = {
       visible: lConf.visible,
       opacity: lConf.opacity,
       source: vectorSource,
-      style: this.getStyles(lConf)
+      style: this.getStyles(lConf),
     });
 
     return layer;
   },
 
   createGroupLayer(lConf, zIndex) {
-    const layers = []
+    const layers = [];
     const layersConfig = lConf.layers;
     if (Array.isArray(layersConfig)) {
       layersConfig.forEach((layerConfig, index) => {
@@ -591,7 +580,7 @@ export const LayerFactory = {
       displaySeries: lConf.displaySeries,
       defaultSeriesLayerIndex: lConf.defaultSeriesLayerIndex,
       activeLayerIndex: lConf.defaultSeriesLayerIndex || 0, // Used for layer series title in legend which is updated on layer change
-      layers
+      layers,
     });
     return layer;
   },
