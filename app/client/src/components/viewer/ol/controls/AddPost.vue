@@ -1,5 +1,5 @@
 <template>
-  <div v-if="postFeature === null && isEditingPost && editType !== 'update'"  >
+  <div v-if="postFeature === null && isEditingPost && editType !== 'update'">
     <v-btn
       v-if="currentResolution && currentResolution <= minResolution"
       rounded
@@ -8,36 +8,37 @@
       dark
       @click="addPost"
     >
-      ADD POST
+      {{ $t('tooltip.addPost').toUpperCase() }}
     </v-btn>
-    <v-alert
-      v-if="currentResolution && currentResolution > minResolution"
-      dense
-      border="left"
-      type="warning"
-      >Zoom in close to add your post.</v-alert
-    >
+    <v-alert v-if="currentResolution && currentResolution > minResolution" dense border="left" type="warning">{{
+      $t('form.htmlPostEditor.addPostSnackbar')
+    }}</v-alert>
+    <confirm-unsave ref="confirm" :color="color"></confirm-unsave>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { mapFields } from 'vuex-map-fields';
+import {mapGetters} from 'vuex';
+import {mapFields} from 'vuex-map-fields';
 
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
+import ConfirmDialog from '../../../core/ConfirmDialog.vue';
 
 export default {
   props: {
-    map: { type: Object, required: true },
-    color: { type: String }
+    map: {type: Object, required: true},
+    color: {type: String},
+  },
+  components: {
+    'confirm-unsave': ConfirmDialog,
   },
   data() {
     return {};
   },
   computed: {
     ...mapGetters('map', {
-      currentResolution: 'currentResolution'
+      currentResolution: 'currentResolution',
     }),
     ...mapFields('map', {
       htmlContent: 'htmlContent',
@@ -45,27 +46,47 @@ export default {
       isEditingHtml: 'isEditingHtml',
       postEditLayer: 'postEditLayer',
       editType: 'postEditType',
-      postFeature: 'postFeature'
+      postFeature: 'postFeature',
     }),
     minResolution() {
-      return this.$appConfig.map.addPost
-        ? this.$appConfig.map.addPost.minResolution
-        : 100;
-    }
+      return this.$appConfig.map.addPost ? this.$appConfig.map.addPost.minResolution : 100;
+    },
   },
   methods: {
-    addPost() {
+    enablePostEdit() {
+      this.isEditingHtml = false;
+      this.htmlContent = '';
       const feature = new Feature({
         geom: new Point(this.map.getView().getCenter()),
-        icon: ''
+        icon: '',
       });
       feature.setGeometryName('geom');
       this.postEditLayer.getSource().clear();
       this.postEditLayer.getSource().addFeature(feature);
       this.postFeature = feature;
     },
-   
-  }
+    addPost() {
+      if (this.isEditingHtml) {
+        this.$refs.confirm
+          .open(
+            this.$t('general.warning'),
+            this.$t('form.htmlPostEditor.addPostWarning'),
+            this.$t('general.yes'),
+            this.$t('general.cancel'),
+            {
+              color: this.color,
+            }
+          )
+          .then(confirm => {
+            if (confirm) {
+              this.enablePostEdit();
+            }
+          });
+      } else {
+        this.enablePostEdit();
+      }
+    },
+  },
 };
 </script>
 

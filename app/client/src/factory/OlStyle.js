@@ -1,10 +1,4 @@
-import {
-  Circle as CircleStyle,
-  Icon as IconStyle,
-  Fill,
-  Stroke,
-  Style
-} from 'ol/style';
+import {Circle as CircleStyle, Icon as IconStyle, Fill, Stroke, Style} from 'ol/style';
 
 /**
  * Factory, which creates OpenLayers style instances according to a given config
@@ -23,12 +17,15 @@ export const OlStyleFactory = {
    */
   getInstance(styleConf) {
     if (!styleConf) {
-      return []
-    } else if (styleConf.radius || styleConf.iconUrl) {
+      return [];
+    }
+    if (styleConf.radius || styleConf.iconUrl) {
       return OlStyleFactory.createPointStyle(styleConf);
-    } else if (styleConf.fillColor) {
+    }
+    if (styleConf.fillColor) {
       return OlStyleFactory.createPolygonStyle(styleConf);
-    } else if (styleConf.strokeColor || styleConf.strokeWidth) {
+    }
+    if (styleConf.strokeColor || styleConf.strokeWidth) {
       return OlStyleFactory.createLineStyle(styleConf);
     }
   },
@@ -49,16 +46,16 @@ export const OlStyleFactory = {
           opacity: styleConf.opacity || 1,
           anchor: styleConf.iconAnchor,
           anchorXUnits: styleConf.iconAnchorXUnits,
-          anchorYUnits: styleConf.iconAnchorYUnits
-        })
+          anchorYUnits: styleConf.iconAnchorYUnits,
+        }),
       });
     } else {
       pointStyle = new Style({
         image: new CircleStyle({
           radius: styleConf.radius,
           fill: OlStyleFactory.createFill(styleConf),
-          stroke: OlStyleFactory.createStroke(styleConf)
-        })
+          stroke: OlStyleFactory.createStroke(styleConf),
+        }),
       });
     }
 
@@ -73,7 +70,7 @@ export const OlStyleFactory = {
    */
   createLineStyle(styleConf) {
     const olStyle = new Style({
-      stroke: OlStyleFactory.createStroke(styleConf)
+      stroke: OlStyleFactory.createStroke(styleConf),
     });
 
     return olStyle;
@@ -86,7 +83,7 @@ export const OlStyleFactory = {
    * @return {Style}             OL style instance
    */
   createPolygonStyle(styleConf) {
-    let olStyle = OlStyleFactory.createLineStyle(styleConf);
+    const olStyle = OlStyleFactory.createLineStyle(styleConf);
     olStyle.setFill(OlStyleFactory.createFill(styleConf));
 
     return olStyle;
@@ -101,7 +98,7 @@ export const OlStyleFactory = {
   createStroke(styleConf) {
     return new Stroke({
       color: styleConf.strokeColor,
-      width: styleConf.strokeWidth
+      width: styleConf.strokeWidth,
     });
   },
 
@@ -113,7 +110,7 @@ export const OlStyleFactory = {
    */
   createFill(styleConf) {
     return new Fill({
-      color: styleConf.fillColor
+      color: styleConf.fillColor,
     });
-  }
+  },
 };

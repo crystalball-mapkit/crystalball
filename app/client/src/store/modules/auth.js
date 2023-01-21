@@ -1,21 +1,22 @@
+import jwtDecode from 'jwt-decode';
 import AuthService from '../../services/auth.service';
-const jwtDecode = require('jwt-decode');
+import {validateToken} from '../../utils/Helpers';
+
 const token = JSON.parse(localStorage.getItem('token'));
-import { validateToken } from '../../utils/Helpers';
 
 const state = {
   user: validateToken(token),
-  token: token,
-  users: []
+  token,
+  users: [],
 };
 
 const getters = {
   loggedUser: state => state.user,
-  users: state => state.users
+  users: state => state.users,
 };
 
 const actions = {
-  login({ commit }, user) {
+  login({commit}, user) {
     return AuthService.login(user).then(
       response => {
         commit('loginSuccess', response);
@@ -27,11 +28,11 @@ const actions = {
       }
     );
   },
-  logout({ commit }) {
+  logout({commit}) {
     AuthService.logout();
     commit('logout');
   },
-  registerUser({ commit }, user) {
+  registerUser({commit}, user) {
     return AuthService.registerUser(user).then(
       response => {
         commit('registerSuccess');
@@ -43,7 +44,7 @@ const actions = {
       }
     );
   },
-  registerGuestUser({ commit }, user) {
+  registerGuestUser({commit}, user) {
     return AuthService.registerGuestUser(user).then(
       response => {
         commit('registerSuccess');
@@ -56,28 +57,20 @@ const actions = {
     );
   },
   // eslint-disable-next-line no-unused-vars
-  updateUser({ commit }, user) {
+  updateUser({commit}, user) {
     return AuthService.updateUser(user).then(
-      response => {
-        return Promise.resolve(response.data);
-      },
-      error => {
-        return Promise.reject(error);
-      }
+      response => Promise.resolve(response.data),
+      error => Promise.reject(error)
     );
   },
   // eslint-disable-next-line no-unused-vars
-  updatePassword({ commit }, user) {
+  updatePassword({commit}, user) {
     return AuthService.updatePassword(user).then(
-      response => {
-        return Promise.resolve(response.data);
-      },
-      error => {
-        return Promise.reject(error);
-      }
+      response => Promise.resolve(response.data),
+      error => Promise.reject(error)
     );
   },
-  getUsers({ commit }) {
+  getUsers({commit}) {
     return AuthService.getUsers().then(
       response => {
         commit('getUsersSuccess', response.data);
@@ -90,16 +83,12 @@ const actions = {
     );
   },
   // eslint-disable-next-line no-unused-vars
-  deleteUser({ commit }, user) {
+  deleteUser({commit}, user) {
     return AuthService.deleteUser(user).then(
-      response => {
-        return Promise.resolve(response.data);
-      },
-      error => {
-        return Promise.reject(error);
-      }
+      response => Promise.resolve(response.data),
+      error => Promise.reject(error)
     );
-  }
+  },
 };
 
 const mutations = {
@@ -126,7 +115,7 @@ const mutations = {
   },
   getUseresFailure(state) {
     state.users = [];
-  }
+  },
 };
 
 export default {
@@ -134,5 +123,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };

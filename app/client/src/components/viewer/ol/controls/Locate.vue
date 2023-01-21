@@ -1,48 +1,40 @@
 <template>
   <div class="mt-4">
     <v-tooltip right>
-      <template v-slot:activator="{ on }">
-        <v-btn
-          class="locate-button"
-          v-on="on"
-          fab
-          dark
-          x-small
-          :color="color"
-          @click="handleZoomToMe()"
-        >
+      <template v-slot:activator="{on}">
+        <v-btn class="locate-button" v-on="on" fab dark x-small :color="color" @click="handleZoomToMe()">
           <v-icon medium>fas fa-location-arrow</v-icon>
         </v-btn>
       </template>
-      <span>Locate Me</span>
+      <span>{{ $t('tooltip.locateMe') }}</span>
     </v-tooltip>
     <confirm-location ref="confirm" :color="color"></confirm-location>
   </div>
 </template>
 <script>
-import { circular } from 'ol/geom/Polygon';
+import {circular} from 'ol/geom/Polygon';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
-import { fromLonLat } from 'ol/proj';
+import {fromLonLat} from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 
-import ConfirmDialog from '../../../core/ConfirmDialog';
+import ConfirmDialog from '../../../core/ConfirmDialog.vue';
 
 // import the app-wide EventBus
-import { EventBus } from '../../../../EventBus';
+import {EventBus} from '../../../../EventBus';
 
 export default {
   props: {
-    map: { type: Object, required: true },
-    color: { type: String }
+    map: {type: Object, required: true},
+    color: {type: String},
   },
   components: {
-    'confirm-location': ConfirmDialog
+    'confirm-location': ConfirmDialog,
   },
   data() {
     return {
-      userLocSource: null
+      userLocSource: null,
     };
   },
   name: 'locate',
@@ -54,21 +46,26 @@ export default {
      * scope, whose "this" scope is the event and the clicked button.
      *
      */
-    handleZoomToMe: function(resolution) {
+    handleZoomToMe(resolution) {
       if (!this.userLocSource) {
         this.createUserLocationLayer();
       }
       // Trigger the modal requesting zoom-to-location.
       if (!this.$cookies.get('locationRequested')) {
         this.$refs.confirm
-          .open('Zoom to my location?', '', 'Share my location', 'Cancel', {
-            color: this.color
-          })
+          .open(
+            this.$t('form.locateMe.zoomToLocation'),
+            '',
+            this.$t('form.locateMe.shareMyLocation'),
+            this.$t('general.cancel'),
+            {
+              color: this.color,
+            }
+          )
           .then(confirm => {
             if (confirm) {
               this.handleGetUserLocation(this.userLocSource, this.map);
               this.$cookies.set('locationRequested', true, '7d');
-              return;
             }
           });
       }
@@ -76,33 +73,30 @@ export default {
         this.handleGetUserLocation(this.userLocSource, this.map, resolution);
       }
     },
-    handleGetUserLocation: function(source, map, resolution) {
+    handleGetUserLocation(source, map, resolution) {
       const watchId = navigator.geolocation.watchPosition(
-        function(pos) {
+        pos => {
           const coords = [pos.coords.longitude, pos.coords.latitude];
           const accuracy = circular(coords, pos.coords.accuracy);
           source.clear(true);
           source.addFeatures([
-            new Feature(
-              accuracy.transform('EPSG:4326', map.getView().getProjection())
-            ),
-            new Feature(new Point(fromLonLat(coords)))
+            new Feature(accuracy.transform('EPSG:4326', map.getView().getProjection())),
+            new Feature(new Point(fromLonLat(coords))),
           ]);
           if (!source.isEmpty()) {
             map.getView().fit(source.getExtent(), {
               maxZoom: 6.1,
-              duration: 500,
-              minResolution: resolution ? resolution : 0
+              minResolution: resolution || 0,
             });
             navigator.geolocation.clearWatch(watchId);
           }
           source.clear(true);
         },
-        function(error) {
+        error => {
           alert(`ERROR: ${error.message}`);
         },
         {
-          enableHighAccuracy: true
+          enableHighAccuracy: true,
         }
       );
     },
@@ -113,18 +107,18 @@ export default {
      * @param {Object} map: this vueJS map object
      * @return {VectorSource}: The created user layer VectorSource
      */
-    createUserLocationLayer: function() {
+    createUserLocationLayer() {
       const source = new VectorSource();
       const layer = new VectorLayer({
-        source: source
+        source,
       });
       this.map.addLayer(layer);
       this.userLocSource = source;
-    }
+    },
   },
   mounted() {
     EventBus.$on('zoomToLocation', this.handleZoomToMe);
-  }
+  },
 };
 </script>
 <style lang="css" scoped>

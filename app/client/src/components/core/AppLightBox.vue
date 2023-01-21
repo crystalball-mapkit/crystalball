@@ -1,7 +1,7 @@
 <template>
   <div>
     <div @click="open" class="link"><slot></slot></div>
-    <LightBox v-if="isOpen" :images="images" :showCaption="true" @onOpened="onOpenChange"></LightBox>
+    <LightBox v-if="isOpen" :media="images" :showCaption="true" @onClosed="close"></LightBox>
   </div>
 </template>
 <style scoped>
@@ -10,29 +10,29 @@ div {
 }
 </style>
 <script>
-import LightBox from 'vue-image-lightbox'
+import LightBox from 'vue-image-lightbox';
 // see: https://www.npmjs.com/package/vue-image-lightbox
 
 export default {
   name: 'AppLightBox',
   components: {
-    LightBox
+    LightBox,
   },
   props: {
-    images: Array
+    images: Array,
   },
-  data: function () {
+  data() {
     return {
-      isOpen: false
-    }
+      isOpen: false,
+    };
   },
   methods: {
-    open: function () {
-      this.isOpen = true
+    open() {
+      this.isOpen = true;
     },
-    onOpenChange: function (opened) {
-      this.isOpen = opened
-    }
-  }
-}
+    close() {
+      this.isOpen = false;
+    },
+  },
+};
 </script>

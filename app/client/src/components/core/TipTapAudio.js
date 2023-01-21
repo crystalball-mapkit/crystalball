@@ -1,4 +1,4 @@
-import { Node } from 'tiptap';
+import {Node} from 'tiptap';
 
 export default class Audio extends Node {
   get name() {
@@ -9,8 +9,8 @@ export default class Audio extends Node {
     return {
       attrs: {
         src: {
-          default: null
-        }
+          default: null,
+        },
       },
       group: 'block',
       selectable: true,
@@ -19,36 +19,32 @@ export default class Audio extends Node {
       parseDOM: [
         {
           tag: 'audio',
-          getAttrs: dom => {
-            return {
-              src: dom.childNodes[0].getAttribute('src')
-            };
-          }
-        }
+          getAttrs: dom => ({
+            src: dom.childNodes[0].getAttribute('src'),
+          }),
+        },
       ],
       toDOM: node => [
         'audio',
         {
           controls: '',
-          style: 'width:100%;'
+          style: 'width:100%;',
         },
         [
           'source',
           {
             src: node.attrs.src,
-            type: 'audio/mpeg'
-          }
-        ]
-      ]
+            type: 'audio/mpeg',
+          },
+        ],
+      ],
     };
   }
 
-  commands({ type }) {
+  commands({type}) {
     return attrs => (state, dispatch) => {
-      const { selection } = state;
-      const position = selection.$cursor
-        ? selection.$cursor.pos
-        : selection.$to.pos;
+      const {selection} = state;
+      const position = selection.$cursor ? selection.$cursor.pos : selection.$to.pos;
       const node = type.create(attrs);
       const transaction = state.tr.insert(position, node);
       dispatch(transaction);

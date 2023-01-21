@@ -19,3 +19,4 @@ dist
 cache_data
 .env
 _volume_*
+.pnpm-debug.log

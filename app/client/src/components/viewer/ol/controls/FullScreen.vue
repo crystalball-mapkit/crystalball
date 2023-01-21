@@ -1,35 +1,25 @@
 <template>
   <div>
     <v-tooltip right>
-      <template v-slot:activator="{ on }">
-        <v-btn
-          class="zoom-buttons"
-          v-on="on"
-          fab
-          dark
-          x-small
-          :color="color"
-          @click="toggleFullScreen"
-        >
-          <v-icon medium>{{
-            isFullscreen ? 'fas fa-compress' : 'fas fa-expand'
-          }}</v-icon>
+      <template v-slot:activator="{on}">
+        <v-btn class="zoom-buttons" v-on="on" fab dark x-small :color="color" @click="toggleFullScreen">
+          <v-icon medium>{{ isFullscreen ? 'fas fa-compress' : 'fas fa-expand' }}</v-icon>
         </v-btn>
       </template>
-      <span>Toggle Fullscreen</span>
+      <span>{{ $t('tooltip.toggleFullScreen') }}</span>
     </v-tooltip>
   </div>
 </template>
 <script>
-import screenfull from '../../../../utils/ScreenFull';
+import screenfull from 'screenfull';
 
 export default {
   name: 'full-screen',
   data: () => ({
-    isFullscreen: false
+    isFullscreen: false,
   }),
   props: {
-    color: { type: String }
+    color: {type: String},
   },
   methods: {
     /**
@@ -40,14 +30,14 @@ export default {
       if (screenfull.isEnabled) {
         screenfull.toggle();
       }
-    }
+    },
   },
 
   mounted() {
     screenfull.on('change', () => {
       this.isFullscreen = screenfull.isFullscreen;
     });
-  }
+  },
 };
 </script>
 <style lang="css" scoped>

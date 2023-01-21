@@ -9,13 +9,9 @@
             class="mx-2 mb-2 locate-button"
             dark
             @click="changeRegion(region)"
-            :color="
-              activeLayerGroup.region === region.name
-                ? color.activeButton
-                : color.inactiveButton
-            "
+            :color="activeLayerGroup.region === region.name ? color.activeButton : color.inactiveButton"
             :class="{
-              'elevation-6': activeLayerGroup.region === region.name
+              'elevation-6': activeLayerGroup.region === region.name,
             }"
           >
             {{ region.title }}
@@ -26,35 +22,30 @@
   </div>
 </template>
 <script>
-//Store imports
-import { mapGetters } from 'vuex';
+// Store imports
+import {mapGetters} from 'vuex';
 
 // import the app-wide EventBus
-import { EventBus } from '../../../../EventBus';
+import {EventBus} from '../../../../EventBus';
 
 export default {
   name: 'route-control',
   props: {
-    color: { type: Object }
+    color: {type: Object},
   },
   methods: {
     changeRegion(region) {
       this.$router.push({
-        path: `/${this.activeLayerGroup.navbarGroup}/${region.name}`
+        path: `/${this.activeLayerGroup.navbarGroup}/${region.name}`,
       });
       if (region.name === 'local') {
         let regionResolution;
         if (this.$appConfig.app.customNavigationScheme === '3') {
-          regionResolution = this.$appConfig.map.groups[
-            this.activeLayerGroup.navbarGroup
-          ][region.name].resolution;
+          regionResolution = this.$appConfig.map.groups[this.activeLayerGroup.navbarGroup][region.name].resolution;
         }
         EventBus.$emit('zoomToLocation', regionResolution);
       }
-      if (
-        region.name === 'global' &&
-        this.$appConfig.app.customNavigationScheme === '3'
-      ) {
+      if (region.name === 'global' && this.$appConfig.app.customNavigationScheme === '3') {
         EventBus.$emit('resetMap');
       }
     },
@@ -64,26 +55,22 @@ export default {
       if (region.name === 'default') {
         return;
       }
-      if (
-        this.$appConfig.app.customNavigationScheme &&
-        this.$appConfig.app.customNavigationScheme === '2'
-      ) {
+      if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme === '2') {
         return true;
       }
       if (regions[region.name] && regions[region.name].layers.length > 0) {
         return true;
-      } else {
-        return false;
       }
-    }
+      return false;
+    },
   },
   computed: {
     ...mapGetters('map', {
       activeLayerGroup: 'activeLayerGroup',
       navbarGroups: 'navbarGroups',
-      regions: 'regions'
-    })
-  }
+      regions: 'regions',
+    }),
+  },
 };
 </script>
 <style lang="css" scoped>

@@ -1,4 +1,4 @@
-import { getNestedProperty } from '../utils/Helpers';
+import {getNestedProperty} from '../utils/Helpers';
 /**
  * Mixin, which share some reusable methods between componenet.
  */
@@ -16,6 +16,6 @@ export const SharedMethods = {
         popupMapping.default[propertyName] ||
         item.humanizedProperty.toUpperCase();
       return mappedProperty;
-    }
-  }
+    },
+  },
 };
