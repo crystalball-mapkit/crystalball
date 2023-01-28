@@ -44,7 +44,7 @@ export default class MapView extends Mark {
           ...node.attrs,
           rel: 'noopener noreferrer nofollow',
           target: '_self',
-          style: 'text-decoration:none;',
+          style: 'text-decoration:none; color: #aa8000;',
         },
         0,
       ],

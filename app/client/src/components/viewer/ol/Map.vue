@@ -47,14 +47,14 @@
     >
       <add-post :color="color.primary" :map="map"></add-post>
     </div>
-    <div
+    <!-- <div
       v-show="spotlightMessage === true && !$vuetify.breakpoint.smAndDown && !isEditingPost"
       :style="`background-color: ${color.primary}`"
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
     >
       {{ $t('tooltip.changeSpotlight') }}
-    </div>
+    </div> -->
 
     <!-- Popup overlay  -->
     <overlay-popup
@@ -241,7 +241,7 @@ export default {
       queryLayersGeoserverNames: null,
       activeInteractions: [],
       getInfoResult: [],
-      radius: 100,
+      radius: 160,
       mousePosition: undefined,
       spotlightMessage: false,
       lightBoxImages: [],

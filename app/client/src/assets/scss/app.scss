@@ -184,6 +184,7 @@ body,
   overflow-y: hidden;
   height: 0;
   transition: height 3.3s ease;
+  background: #bdf0ef;
 }
 
 .ep-accordion > input[type='checkbox']:checked ~ .content {
@@ -202,16 +203,16 @@ body,
 
 .ep-accordion label {
   display: block;
-  color: #333;
+  color: white;
   cursor: pointer;
-  font-weight: normal;
+  font-weight: bold;
   padding: 15px;
-  background: #e8e8e8;
+  background: #1cafd7;
 }
 
 .ep-accordion label:hover,
 .ep-accordion label:focus {
-  background: #d8d8d8;
+  background: #d6b550;
 }
 
 .ep-accordion .handle label:before {

@@ -41,7 +41,7 @@
           ><v-icon medium>fas fa-hourglass-half</v-icon></v-btn
         >
 
-        <v-spacer></v-spacer>
+        <v-spacer></v-spacer><v-spacer></v-spacer>
         <v-menu
           offset-y
           v-model="dropdownMenu"

@@ -597,23 +597,17 @@ export const layersStylePropFn = {
     radius: propertyValue => getRadiusValue(propertyValue),
     iconUrl: propertyValue => propertyValue,
   },
-  glri_projects: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.012),
-  },
   delta_complexes1: {
     fillColor: propertyValue => propertyValue,
   },
   epa_refineries: {
-    iconScaleFn: propertyValue => {
-      return getIconScaleValue(propertyValue, 0.0000001, 0.2, 1.2);
-    }
+    iconScaleFn: propertyValue => getIconScaleValue(propertyValue, 0.0000001, 0.2, 1.2),
   },
   points: {
     strokeColor: propertyValue => propertyValue,
     fillColor: propertyValue => propertyValue,
   },
-  lines: {
+  dodge_line: {
     strokeColor: propertyValue => propertyValue,
     strokeWidth: propertyValue => propertyValue,
   },
