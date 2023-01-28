@@ -1,1300 +1,1410 @@
 {
-    "app": {
-        "title": "Hourglass",
-        "projectWebsite": "https://www.anthropocene-curriculum.org/anthropogenic-markers/critical-environments/case-study/hourglass-river",
-        "color": {
-            "primary": "#00000e",
-            "secondary": "#00000e"
-        },
-        "legend": {
-            "isVisible": false
-        },
-        "controls": {
-            "locate_me": true,
-            "share_map": true,
-            "geocoder": true
-        },
-        "sideBar": {
-            "isVisible": true,
-            "backgroundColor": "#fefefe",
-            "textColor": "black"
-        },
-        "navbar": {
-            "dropdownMenu": true
-        },
-        "customNavigationScheme": "1"
+  "app": {
+    "title": "Hourglass River",
+    "projectWebsite": "https://www.anthropocene-curriculum.org/anthropogenic-markers/critical-environments/case-study/hourglass-river",
+    "tagline": "",
+    "color": {
+      "primary": "#00000e",
+      "secondary": "#00000e"
     },
-    "map": {
-        "projectionCode": "EPSG:3857",
-        "minZoom": 1,
-        "maxZoom": 21,
-        "zoom": 1,
-        "geoserverWorkspace": "workspace1",
-        "resolutions": [
-            156543.03,
-            78271.52,
-            39135.76,
-            19567.88,
-            9783.94,
-            4891.97,
-            2445.98,
-            1222.99,
-            611.5,
-            305.75,
-            152.87,
-            76.437,
-            38.219,
-            19.109,
-            9.5546,
-            4.7773,
-            2.3887,
-            1.1943,
-            0.5972
-        ],
-        "center": [
-            0,
-            0
-        ],
-        "layers": [
-            {
-                "type": "XYZ",
-                "name": "hourglass_land",
-                "group": "two",
-                "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:hourglass_land@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-                "minResolution": 200,
-                "maxResolution": 64000,
-                "opacity": 0.99,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "XYZ",
-                "name": "hourglass_land2",
-                "group": "two",
-                "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:hourglass_land@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Continent",
-                "minResolution": 1,
-                "maxResolution": 64000,
-                "opacity": 0.99,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "XYZ",
-                "name": "hourglass_basemap",
-                "group": "two",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/hourglass_basemap/{z}/{x}/{y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Elevation",
-                "minResolution": 1,
-                "maxResolution": 64000,
-                "opacity": 0.99,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "VECTOR",
-                "name": "dodge_line",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:dodge_line&outputFormat=application/json&srsname=EPSG:3857",
-                "queryable": false,
-                "displayInLegend": false,
-                "legendDisplayName": "dodge_line",
-                "format": "GeoJSON",
-                "visible": true,
-                "zIndex": 0,
-                "minResolution": 0,
-                "maxResolution": 64000,
-                "label": false,
-                "isInteractive": false,
-                "hoverable": false,
-                "style": {
-                    "strokeColor": "#32B8CC",
-                    "strokeWidth": 3
-                }
-            },
-            {
-                "type": "XYZ",
-                "name": "lower_miss_floodplain",
-                "group": "angola",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/lower_miss_floodplain/{z}/{x}/{y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Elevation",
-                "minResolution": 0.5,
-                "maxResolution": 64000,
-                "opacity": 0.99,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true,
-                "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/elevation.png"
-            },
-            {
-                "type": "XYZ",
-                "name": "lower_miss_floodplain2",
-                "group": "angola",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/lower_miss_floodplain/{z}/{x}/{y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Lower Mississippi",
-                "minResolution": 0.5,
-                "maxResolution": 64000,
-                "opacity": 0.99,
-                "queryable": false,
-                "visible": false,
-                "updatewhileanimating": true,
-                "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/elevation.png"
-            },
-            {
-                "type": "GROUP",
-                "name": "delta_complexes",
-                "legendIcon": "https://casario-mapa.s3.sa-east-1.amazonaws.com/assets/icons/legends/leyenda_soja_2001-2020.png",
-                "minResolution": 2,
-                "maxResolution": 60000,
-                "displayInLegend": true,
-                "legendDisplayName": "Delta Complexes",
-                "visible": true,
-                "displaySidebarInfo": false,
-                "group": "deeptime",
-                "attributions": "Test attributions",
-                "displaySeries": true,
-                "defaultSeriesLayerIndex": 4,
-                "layers": [
-                    {
-                        "type": "VECTOR",
-                        "name": "Maringouin: 7500-5000 yrs ago",
-                        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes1&outputFormat=application/json&srsname=EPSG:3857",
-                        "queryable": true,
-                        "displayInLegend": false,
-                        "legendDisplayName": "Delta Complex 1",
-                        "format": "GeoJSON",
-                        "visible": true,
-                        "zIndex": 0,
-                        "minResolution": 0.5,
-                        "maxResolution": 8000,
-                        "label": false,
-                        "hoverable": true,
-                        "style": {
-                            "hoverTextColor": "white",
-                            "hoverBackgroundColor": "#000000",
-                            "strokeColor": "#00000",
-                            "strokeWidth": 1,
-                            "fillColor": "rgba(55, 159, 210, 0.7)"
-                        }
-                    },
-                    {
-                        "type": "VECTOR",
-                        "name": "Teche: 5500-3800 yrs ago",
-                        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes2&outputFormat=application/json&srsname=EPSG:3857",
-                        "queryable": true,
-                        "displayInLegend": false,
-                        "legendDisplayName": "Delta Complex 2",
-                        "format": "GeoJSON",
-                        "visible": true,
-                        "zIndex": 0,
-                        "minResolution": 0.5,
-                        "maxResolution": 8000,
-                        "label": false,
-                        "hoverable": true,
-                        "style": {
-                            "hoverTextColor": "white",
-                            "hoverBackgroundColor": "#000000",
-                            "strokeColor": "#00000",
-                            "strokeWidth": 1,
-                            "fillColor": "rgba(117, 110, 170, 0.7)"
-                        }
-                    },
-                    {
-                        "type": "VECTOR",
-                        "name": "St Bernard: 4000 - 2000 yrs ago",
-                        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes3&outputFormat=application/json&srsname=EPSG:3857",
-                        "queryable": true,
-                        "displayInLegend": false,
-                        "legendDisplayName": "Delta Complex 3",
-                        "format": "GeoJSON",
-                        "visible": true,
-                        "zIndex": 0,
-                        "minResolution": 0.5,
-                        "maxResolution": 8000,
-                        "label": false,
-                        "hoverable": true,
-                        "style": {
-                            "hoverTextColor": "white",
-                            "hoverBackgroundColor": "#000000",
-                            "strokeColor": "#00000",
-                            "strokeWidth": 1,
-                            "fillColor": "rgba(206, 103, 51, 0.7)"
-                        }
-                    },
-                    {
-                        "type": "VECTOR",
-                        "name": "La Fourche: 2500-800 yrs ago",
-                        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes4&outputFormat=application/json&srsname=EPSG:3857",
-                        "queryable": true,
-                        "displayInLegend": false,
-                        "legendDisplayName": "Delta Complex 4",
-                        "format": "GeoJSON",
-                        "visible": true,
-                        "zIndex": 0,
-                        "minResolution": 0.5,
-                        "maxResolution": 8000,
-                        "label": false,
-                        "hoverable": true,
-                        "style": {
-                            "hoverTextColor": "white",
-                            "hoverBackgroundColor": "#000000",
-                            "strokeColor": "#00000",
-                            "strokeWidth": 1,
-                            "fillColor": "rgba(255, 174, 74, 0.7)"
-                        }
-                    },
-                    {
-                        "type": "VECTOR",
-                        "name": "Balize: 1000 yrs ago to present",
-                        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes5&outputFormat=application/json&srsname=EPSG:3857",
-                        "queryable": true,
-                        "displayInLegend": false,
-                        "legendDisplayName": "Delta Complex 5",
-                        "format": "GeoJSON",
-                        "visible": true,
-                        "zIndex": 0,
-                        "minResolution": 0.5,
-                        "maxResolution": 8000,
-                        "label": false,
-                        "hoverable": true,
-                        "style": {
-                            "hoverTextColor": "white",
-                            "hoverBackgroundColor": "#000000",
-                            "strokeColor": "#00000",
-                            "strokeWidth": 1,
-                            "fillColor": "rgba(65, 156, 125, 0.7)"
-                        }
-                    },
-                    {
-                        "type": "VECTOR",
-                        "name": "Atchafalaya: 400 to present",
-                        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes6&outputFormat=application/json&srsname=EPSG:3857",
-                        "queryable": true,
-                        "displayInLegend": false,
-                        "legendDisplayName": "Delta Complex 6",
-                        "format": "GeoJSON",
-                        "visible": true,
-                        "zIndex": 0,
-                        "minResolution": 0.5,
-                        "maxResolution": 8000,
-                        "label": false,
-                        "hoverable": true,
-                        "style": {
-                            "hoverTextColor": "white",
-                            "hoverBackgroundColor": "#000000",
-                            "strokeColor": "#00000",
-                            "strokeWidth": 1,
-                            "fillColor": "rgba(219, 68, 136, 0.5)"
-                        }
-                    }
-                ]
-            },
-            {
-                "type": "VECTORTILE",
-                "name": "major_rivers",
-                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:nhd_major@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-                "group": "locations",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "Major Rivers",
-                "format": "MVT",
-                "renderMode": "vector",
-                "visible": true,
-                "zIndex": 0,
-                "minResolution": 80,
-                "maxResolution": 64000,
-                "hoverable": false,
-                "isInteractive": false,
-                "style": {
-                    "strokeColor": "#3aacbc",
-                    "strokeWidth": 0.2,
-                    "fillColor": "#3aacbc"
-                }
-            },
-            {
-                "type": "VECTORTILE",
-                "name": "nhd_clipped",
-                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:nhd_clipped@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-                "group": "locations",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "All Rivers",
-                "format": "MVT",
-                "renderMode": "vector",
-                "visible": true,
-                "zIndex": 100,
-                "minResolution": 0,
-                "maxResolution": 80,
-                "hoverable": false,
-                "isInteractive": false,
-                "style": {
-                    "strokeColor": "#3aacbc",
-                    "strokeWidth": 0.2,
-                    "fillColor": "#3aacbc"
-                }
-            },
-            {
-              "type": "WMS",
-              "name": "rivers",
-              "url": "https://geo.timetochange.today/geoserver/wms",
-              "layers": "osm:nhd_area_louisiana",
-              "group": "two",
-              "renderMode": "image",
-              "includeInSearch": false,
-              "queryable": false,
-              "displayInLegend": true,
-              "legendDisplayName": "Rivers",
-              "format": "GeoJSON",
-              "hoverable": true,
-              "visible": true,
-              "zIndex": 0,
-              "minResolution": 0.25,
-              "maxResolution": 8000,
-              "isInteractive": false,
-              "opacity": 0.8
-            },
-            {
-                "type": "VECTOR",
-                "name": "hourglass_locations",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:locations&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "locations",
-                "queryable": true,
-                "displayInLegend": false,
-                "legendDisplayName": "Locations",
-                "format": "GeoJSON",
-                "visible": true,
-                "zIndex": 10,
-                "minResolution": 0.5,
-                "maxResolution": 2000,
-                "label": false,
-                "style": {
-                    "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass.png",
-                    "scale": 0.9,
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000"
-                }
-            },
-            {
-                "type": "VECTOR",
-                "name": "locations2",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:locations2&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "locations",
-                "queryable": true,
-                "displayInLegend": false,
-                "legendDisplayName": "Locations 2",
-                "format": "GeoJSON",
-                "visible": true,
-                "zIndex": 10,
-                "minResolution": 0.5,
-                "maxResolution": 90,
-                "hoverable": true,
-                "label": false,
-                "style": {
-                    "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass.png",
-                    "scale": 0.7,
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000"
-                }
-            },
-            {
-                "type": "VECTOR",
-                "name": "delta_complexes_all",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "deeptime",
-                "queryable": true,
-                "displayInLegend": false,
-                "legendDisplayName": "Delta Complexes",
-                "format": "GeoJSON",
-                "visible": true,
-                "zIndex": 0,
-                "minResolution": 0.5,
-                "maxResolution": 8000,
-                "label": true,
-                "hoverable": true,
-                "style": {
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000",
-                    "strokeColor": "#ffffff",
-                    "strokeWidth": 1,
-                    "fillColor": "rgba(255, 255, 255, 0.1)"
-                }
-            },
-            {
-                "type": "VECTORTILE",
-                "name": "active_injection",
-                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:active_injection@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-                "group": "morgan",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "Injection Well",
-                "format": "MVT",
-                "renderMode": "vector",
-                "visible": true,
-                "zIndex": 10,
-                "minResolution": 1,
-                "maxResolution": 40,
-                "label": true,
-                "hoverable": true,
-                "style": {
-                    "iconUrl": "https://d2ol233wwuwy6t.cloudfront.net/icons/injection.png",
-                    "scale": 1,
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000"
-                }
-            },
-            {
-                "type": "VECTORTILE",
-                "name": "active_producing",
-                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:active_producing@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-                "group": "morgan",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "Production Well",
-                "format": "MVT",
-                "renderMode": "vector",
-                "visible": true,
-                "zIndex": 10,
-                "minResolution": 1,
-                "maxResolution": 40,
-                "label": true,
-                "hoverable": true,
-                "style": {
-                    "iconUrl": "https://d2ol233wwuwy6t.cloudfront.net/icons/1656650905652_oil.png",
-                    "scale": 0.8,
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000"
-                }
-            },
-            {
-                "type": "VECTORTILE",
-                "name": "abandoned",
-                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:abandoned@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-                "group": "morgan",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "Abandoned Well",
-                "format": "MVT",
-                "renderMode": "vector",
-                "visible": true,
-                "zIndex": 10,
-                "minResolution": 1,
-                "maxResolution": 40,
-                "label": true,
-                "hoverable": true,
-                "style": {
-                    "type": "circle",
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000",
-                    "radius": 3,
-                    "strokeColor": "lightgray",
-                    "strokeWidth": 1,
-                    "fillColor": "lightgray"
-                }
-            },
-            {
-                "type": "VECTOR",
-                "name": "cancer_alley_tri",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:cancer_alley&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "locations",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "Cancer Alley",
-                "displaySidebarInfo": true,
-                "format": "GeoJSON",
-                "visible": true,
-                "zIndex": 100,
-                "minResolution": 0.1,
-                "maxResolution": 8000,
-                "label": null,
-                "hoverable": true,
-                "style": {
-                    "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/toxic.png",
-                    "scale": 0.7,
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000"
-                }
-            },
-            {
-                "type": "VECTOR",
-                "name": "photos",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:photos&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "locations",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "Photos",
-                "displaySidebarInfo": false,
-                "format": "GeoJSON",
-                "visible": true,
-                "zIndex": 100,
-                "minResolution": 0.5,
-                "maxResolution": 8000,
-                "label": null,
-                "hoverable": true,
-                "style": {
-                    "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass.png",
-                    "scale": 0.7,
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000"
-                }
-            },
-            {
-                "type": "XYZ",
-                "name": "labels",
-                "group": "background",
-                "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmtob2xtZXMiLCJhIjoiNjlkYjI4MDUyYTRlZWEyYzkwYTdmOTgxNmMzOGYwMTUifQ.VSUo52PYOUzS60NR6jqXTw",
-                "minResolution": 0.0,
-                "maxResolution": 3800,
-                "zIndex": 1000,
-                "displayInLegend": true,
-                "legendDisplayName": "Street Map",
-                "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
-                "visible": false,
-                "opacity": 0.99,
-                "queryable": false
-            },
-            {
-                "type": "XYZ",
-                "name": "labels1",
-                "group": "background",
-                "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmtob2xtZXMiLCJhIjoiNjlkYjI4MDUyYTRlZWEyYzkwYTdmOTgxNmMzOGYwMTUifQ.VSUo52PYOUzS60NR6jqXTw",
-                "minResolution": 0.5,
-                "maxResolution": 3800,
-                "zIndex": 1000,
-                "displayInLegend": true,
-                "legendDisplayName": "Street Map",
-                "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
-                "visible": false,
-                "opacity": 0.99,
-                "queryable": false
-            },
-            {
-                "type": "XYZ",
-                "name": "labels2",
-                "group": "background",
-                "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmtob2xtZXMiLCJhIjoiNjlkYjI4MDUyYTRlZWEyYzkwYTdmOTgxNmMzOGYwMTUifQ.VSUo52PYOUzS60NR6jqXTw",
-                "minResolution": 0.5,
-                "maxResolution": 550,
-                "zIndex": 1000,
-                "displayInLegend": true,
-                "legendDisplayName": "Street Map",
-                "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
-                "visible": true,
-                "opacity": 0.99,
-                "queryable": false
-            },
-            {
-                "type": "XYZ",
-                "name": "navigation",
-                "url": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/tiles/navigation/{z}/{x}/{y}.png",
-                "minResolution": 1,
-                "maxResolution": 8000,
-                "displayInLegend": true,
-                "legendDisplayName": "Navigation",
-                "visible": false,
-                "opacity": 0.99,
-                "queryable": false
-            },
-            {
-                "type": "VECTOR",
-                "name": "hsdrrs",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:hsdrrs&outputFormat=application/json&srsname=EPSG:3857",
-                "queryable": true,
-                "legendDisplayName": "NOLA Floodwalls",
-                "displayInLegend": true,
-                "visible": true,
-                "format": "GeoJSON",
-                "zIndex": 0,
-                "minResolution": 6,
-                "maxResolution": 800,
-                "hoverable": true,
-                "isInteractive": true,
-                "style": {
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000",
-                    "strokeColor": "#3f2b57",
-                    "strokeWidth": 5
-                }
-            },
-            {
-                "type": "XYZ",
-                "name": "angola_topo",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/angola_topo/{z}/{x}/{y}.png",
-                "minResolution": 1.5,
-                "maxResolution": 2000,
-                "displayInLegend": true,
-                "legendDisplayName": "Angola Topo",
-                "visible": false,
-                "opacity": 0.99,
-                "queryable": false
-            },
-            {
-                "type": "XYZ",
-                "name": "nola_streets",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/nola_streets/{z}/{x}/{y}.png",
-                "minResolution": 0.5,
-                "maxResolution": 2000,
-                "displayInLegend": true,
-                "legendDisplayName": "Nola Streets",
-                "visible": true,
-                "opacity": 0.99,
-                "queryable": false
-            },
-            {
-                "type": "XYZ",
-                "name": "nola_streets2",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/nola_streets/{z}/{x}/{y}.png",
-                "minResolution": 0.5,
-                "maxResolution": 2000,
-                "displayInLegend": true,
-                "legendDisplayName": "Nola Streets",
-                "visible": false,
-                "opacity": 0.99,
-                "queryable": false
-            },
-            {
-                "type": "VECTOR",
-                "name": "morgan_city",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:morgan_city&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "morgan",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "Morgan City",
-                "format": "GeoJSON",
-                "visible": true,
-                "zIndex": 0,
-                "minResolution": 1,
-                "maxResolution": 64000,
-                "hoverable": true,
-                "isInteractive": true,
-                "style": {
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000",
-                    "strokeColor": "#300000",
-                    "strokeWidth": 6.5
-                }
-            },
-            {
-                "type": "VECTORTILE",
-                "name": "miss_levees",
-                "group": "locations",
-                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:miss_levees@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-                "minResolution": 1,
-                "maxResolution": 8000,
-                "displayInLegend": true,
-                "legendDisplayName": "Levees",
-                "opacity": 1,
-                "visible": true,
-                "queryable": true,
-                "format": "MVT",
-                "renderMode": "hybrid",
-                "hoverable": true,
-                "isInteractive": true,
-                "style": {
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000",
-                    "strokeColor": "#3f2b57",
-                    "strokeWidth": 2
-                }
-            },
-            {
-                "type": "VECTORTILE",
-                "name": "miss_levees3",
-                "group": "locations",
-                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:miss_levees@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-                "minResolution": 1,
-                "maxResolution": 8000,
-                "displayInLegend": true,
-                "legendDisplayName": "Levees",
-                "opacity": 1,
-                "visible": false,
-                "queryable": true,
-                "format": "MVT",
-                "renderMode": "hybrid",
-                "hoverable": true,
-                "isInteractive": true,
-                "style": {
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000",
-                    "strokeColor": "orange",
-                    "strokeWidth": 2
-                }
-            },
-            {
-                "type": "VECTOR",
-                "name": "miss_gages",
-                "url": "https://bigmuddy.rivertoday.org/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_gages2&outputFormat=application/json&srsname=EPSG:3857",
-                "group": "locations",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "River Gages",
-                "displaySidebarInfo": true,
-                "format": "GeoJSON",
-                "visible": false,
-                "zIndex": 100,
-                "minResolution": 0.5,
-                "maxResolution": 8000,
-                "label": true,
-                "hoverable": true,
-                "style": {
-                    "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/gage.png",
-                    "scale": 0.7,
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000"
-                }
-            },
-            {
-                "type": "VECTOR",
-                "name": "miss_pipes",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_pipes&outputFormat=application/json&srsname=EPSG:3857",
-                "queryable": true,
-                "legendDisplayName": "Pipelines",
-                "displayInLegend": true,
-                "visible": false,
-                "format": "GeoJSON",
-                "zIndex": 0,
-                "minResolution": 0.5,
-                "maxResolution": 8000,
-                "hoverable": true,
-                "isInteractive": true,
-                "style": {
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000",
-                    "strokeColor": "#CB1735",
-                    "strokeWidth": 1.5
-                }
-            },
-            {
-                "type": "VECTORTILE",
-                "name": "gom_pipelines",
-                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:gom_pipelines@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-                "queryable": true,
-                "displayInLegend": true,
-                "legendDisplayName": "Gulf Pipelines",
-                "format": "MVT",
-                "renderMode": "vector",
-                "visible": false,
-                "zIndex": 100,
-                "minResolution": 1,
-                "maxResolution": 4000,
-                "label": true,
-                "hoverable": true,
-                "style": {
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000",
-                    "strokeColor": "#BCC6CC",
-                    "strokeWidth": 0.8
-                }
-            },
-            {
-                "type": "VECTOR",
-                "name": "refineries",
-                "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_refineries_ghg&outputFormat=application/json&srsname=EPSG:3857",
-                "queryable": true,
-                "legendDisplayName": "Refineries",
-                "displayInLegend": true,
-                "visible": false,
-                "format": "GeoJSON",
-                "zIndex": 0,
-                "minResolution": 1,
-                "maxResolution": 8000,
-                "label": null,
-                "hoverable": true,
-                "isInteractive": true,
-                "style": {
-                    "iconUrl": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/refinery.png",
-                    "scale": 0.5,
-                    "hoverTextColor": "white",
-                    "hoverBackgroundColor": "#000000"
-                }
-            },
-            {
-                "type": "XYZ",
-                "name": "ag_system",
-                "group": "two",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/ag_system/{z}/{x}/{y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Agricultural system",
-                "minResolution": 1,
-                "maxResolution": 64000,
-                "opacity": 0.79,
-                "queryable": false,
-                "visible": false,
-                "updatewhileanimating": true,
-                "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/ag_system.png"
-            },
-            {
-                "type": "XYZ",
-                "name": "ag_system2",
-                "group": "two",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/ag_system/{z}/{x}/{y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Agricultural system",
-                "minResolution": 1,
-                "maxResolution": 64000,
-                "opacity": 0.79,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true,
-                "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/ag_system.png"
-            },
-            {
-                "type": "XYZ",
-                "name": "osm_transparencies",
-                "group": "two",
-                "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_transparencies@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-                "minResolution": 0.5,
-                "maxResolution": 8000,
-                "displayInLegend": true,
-                "legendDisplayName": "OSM",
-                "opacity": 0.99,
-                "visible": false,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "XYZ",
-                "name": "mississippi",
-                "group": "two",
-                "url": "https://maptime.s3.us-east-2.amazonaws.com/assets/prod/tiles/miss_map/{z}/{x}/{y}.png",
-                "displayInLegend": false,
-                "legendDisplayName": "Mississippi Basin",
-                "minResolution": 20,
-                "maxResolution": 64000,
-                "opacity": 0.99,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "XYZ",
-                "name": "old_tiles",
-                "group": "two",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/old_tiles/{z}/{x}/{y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Old USGS maps",
-                "minResolution": 4,
-                "maxResolution": 40,
-                "opacity": 0.99,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "XYZ",
-                "name": "angola",
-                "group": "two",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/angola2/{z}/{x}/{y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Angola Prison",
-                "minResolution": 0.25,
-                "maxResolution": 64000,
-                "opacity": 0.99,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true,
-                "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/prison.png"
-            },
-            {
-                "type": "XYZ",
-                "name": "poverty_point",
-                "group": "two",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/poverty_point4/{z}/{x}/{y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Poverty Point",
-                "minResolution": 1,
-                "maxResolution": 64000,
-                "opacity": 0.99,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "XYZ",
-                "name": "orcs",
-                "group": "two",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/orcs2/{z}/{x}/{y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Old River",
-                "minResolution": 0.25,
-                "maxResolution": 64000,
-                "opacity": 0.99,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "XYZ",
-                "name": "morgantiles",
-                "group": "two",
-                "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/morgan/{z}/{x}/{y}.png",
-                "displayInLegend": true,
-                "legendDisplayName": "Morgan City Map",
-                "minResolution": 0.25,
-                "maxResolution": 64000,
-                "opacity": 0.99,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "XYZ",
-                "name": "hydro",
-                "group": "two",
-                "url": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer/tile/{z}/{y}/{x}",
-                "minResolution": 0,
-                "maxResolution": 64000,
-                "displayInLegend": true,
-                "legendDisplayName": "Hydro",
-                "opacity": 0.99,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "XYZ",
-                "name": "oceans",
-                "group": "backgroundLayers",
-                "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}",
-                "minResolution": 0.25,
-                "maxResolution": 64000,
-                "opacity": 0.8,
-                "queryable": false,
-                "visible": true,
-                "updatewhileanimating": true
-            },
-            {
-                "type": "XYZ",
-                "name": "ESRI-World-Imagery",
-                "group": "backgroundLayers",
-                "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                "minResolution": 0.25,
-                "maxResolution": 4,
-                "queryable": false,
-                "visible": true,
-                "attributions": "Sources: Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community"
-            },
-            {
-                "type": "XYZ",
-                "name": "ESRI-World-Imagery2",
-                "group": "backgroundLayers",
-                "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                "minResolution": 0,
-                "maxResolution": 4,
-                "queryable": false,
-                "visible": true,
-                "opacity": 0.9,
-                "attributions": "Sources: Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community"
-            },
-            {
-              "type": "XYZ",
-              "name": "aerials",
-              "group": "angola",
-              "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-              "displayInLegend": true,
-              "legendDisplayName": "Satellite Image",
-              "minResolution": 0.25,
-              "maxResolution": 800,
-              "queryable": false,
-              "visible": false
-            },
-            {
-                "type": "XYZ",
-                "name": "ESRI-World-Imagery4",
-                "group": "backgroundLayers",
-                "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                "minResolution": 0,
-                "maxResolution": 8000,
-                "queryable": false,
-                "visible": true,
-                "opacity": 0.9,
-                "attributions": "Sources: Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community"
-            },
-            {
-                "type": "XYZ",
-                "name": "ESRI_world_physical2",
-                "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm%3AWorld_Physical_Map@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-                "group": "backgroundLayers",
-                "visible": true,
-                "opacity": 0.99,
-                "zIndex": 1,
-                "minResolution": 800,
-                "maxResolution": 64000
-            }
-        ],
-        "flyToSlideshow": {
-            "delayInSecondsForInitialStart": 9000000,
-            "delayInSecondsBetweenFrames": 120000,
-            "maplinks": [
-                ""
-            ]
-        },
-        "groups": {
-            "locations": {
-                "default": {
-                    "layers": [
-                        "hourglass_land2",
-                        "mississippi",
-                        "lower_miss_floodplain2",
-                        "ESRI-World-Imagery2",
-                        "hourglass_basemap",
-                        "dodge_line",
-                        "ag_system",
-                        "miss_pipes",
-                        "gom_pipelines",
-                        "refineries",
-                        "miss_gages",
-                        "nola_streets2",
-                        "cancer_alley_tri",
-                        "labels2",
-                        "locations2",
-                        "hourglass_locations"
-                    ],
-                    "center": [
-                        -91.292,
-                        30.5
-                    ],
-                    "resolution": 530,
-                    "mobileCenter": [
-                        -91.57,
-                        30.5
-                    ],
-                    "mobileResolution": 1900,
-                    "minResolution": 0.25,
-                    "maxResolution": 32000
-                }
-            },
-            "deeptime": {
-                "default": {
-                    "layers": [
-                        "hourglass_land",
-                        "mississippi",
-                        "ESRI-World-Imagery2",
-                        "hourglass_basemap",
-                        "dodge_line",
-                        "delta_complexes_all",
-                        "delta_complexes",
-                        "labels2"
-                    ],
-                    "center": [
-                        -91.019,
-                        29.683
-                    ],
-                    "resolution": 500,
-                    "mobileCenter": [
-                        -90.755,
-                        29.85
-                    ],
-                    "mobileResolution": 800,
-                    "minResolution": 0.25,
-                    "maxResolution": 32000
-                }
-            },
-            "poverty_point": {
-                "default": {
-                    "layers": [
-                        "ESRI-World-Imagery4",
-                        "poverty_point",
-                        "rivers",
-                        "labels",
-                        "locations2"
-                    ],
-                    "center": [
-                        -91.408,
-                        32.636
-                    ],
-                    "resolution": 4.1,
-                    "mobileCenter": [
-                        -91.405,
-                        32.636
-                    ],
-                    "mobileResolution": 9,
-                    "minResolution": 1,
-                    "maxResolution": 32000
-                }
-            },
-            "angola": {
-                "default": {
-                    "layers": [
-                        "hourglass_land",
-                        "mississippi",
-                        "lower_miss_floodplain",
-                        "angola",
-                        "angola_topo",
-                        "aerials",
-                        "miss_levees3",
-                        "labels",
-                        "locations2"
-                    ],
-                    "center": [
-                        -91.608,
-                        30.964
-                    ],
-                    "resolution": 7.5,
-                    "mobileCenter": [
-                        -91.595,
-                        30.956
-                    ],
-                    "mobileResolution": 3,
-                    "minResolution": 0.25,
-                    "maxResolution": 32000
-                }
-            },
-            "old_river": {
-                "default": {
-                    "layers": [
-                        "hourglass_land",
-                        "mississippi",
-                        "lower_miss_floodplain",
-                        "orcs",
-                        "labels",
-                        "locations2",
-                        "photos",
-                        "ESRI-World-Imagery"
-                    ],
-                    "center": [
-                        -91.66,
-                        31.034
-                    ],
-                    "resolution": 28,
-                    "mobileCenter": [
-                        -91.658,
-                        31.025
-                    ],
-                    "mobileResolution": 80,
-                    "minResolution": 0.25,
-                    "maxResolution": 32000
-                }
-            },
-            "plantation": {
-                "default": {
-                    "layers": [
-                        "hourglass_land",
-                        "mississippi",
-                        "hourglass_basemap",
-                        "old_tiles",
-                        "dodge_line",
-                        "ag_system",
-                        "labels1",
-                        "cancer_alley_tri",
-                        "ESRI-World-Imagery2",
-                        "photos",
-                        "locations2"
-                    ],
-                    "center": [
-                        -90.652,
-                        30.044
-                    ],
-                    "resolution": 12,
-                    "mobileCenter": [
-                        -90.831,
-                        30.101
-                    ],
-                    "mobileResolution": 100,
-                    "minResolution": 0.25,
-                    "maxResolution": 32000
-                }
-            },
-            "morgan": {
-                "default": {
-                    "layers": [
-                        "hourglass_land",
-                        "mississippi",
-                        "ESRI-World-Imagery4",
-                        "hourglass_basemap",
-                        "dodge_line",
-                        "lower_miss_coast",
-                        "morgantiles",
-                        "morgan_city",
-                        "abandoned",
-                        "active_producing",
-                        "active_injection",
-                        "labels",
-                        "photos",
-                        "locations2"
-                    ],
-                    "center": [
-                        -91.195,
-                        29.704
-                    ],
-                    "resolution": 20,
-                    "mobileCenter": [
-                        -91.191,
-                        29.704
-                    ],
-                    "mobileResolution": 40,
-                    "minResolution": 0.25,
-                    "maxResolution": 32000
-                }
-            },
-            "hsdrrs": {
-                "default": {
-                    "layers": [
-                        "hourglass_land",
-                        "mississippi",
-                        "ESRI-World-Imagery4",
-                        "hourglass_basemap",
-                        "dodge_line",
-                        "ag_system",
-                        "nola_streets",
-                        "hsdrrs",
-                        "miss_levees",
-                        "locations2"
-                    ],
-                    "center": [
-                        -90.098,
-                        29.929
-                    ],
-                    "resolution": 80,
-                    "mobileCenter": [
-                        -90.158,
-                        29.946
-                    ],
-                    "mobileResolution": 320,
-                    "minResolution": 0.25,
-                    "maxResolution": 32000
-                }
-            }
-        },
-        "defaultActiveGroup": "locations",
-        "groupTitles": {
-            "locations": "Locations",
-            "deeptime": "Living Delta",
-            "old_river": "Old River Control",
-            "angola": "Angola Prison",
-            "poverty_point": "Poverty Point",
-            "plantation": "Plantation Alley",
-            "morgan": "Morgan City",
-            "hsdrrs": "Great Wall of New Orleans"
-        },
-        "regionTitles": {
-            "default": ""
-        },
-        "popupFieldsMapping": {
-            "default": {
-                "title": "NAME",
-                "entity": "OWNER"
-            }
-        },
-        "featureInfoHiddenProps": [
-            "caption",
-            "variable1",
-            "variable2",
-            "imageUrl",
-            "sidebarMediaTop",
-            "sidebarMediaBottom",
-            "videoUrl",
-            "videoSrc",
-            "STAID2",
-            "facility_id",
-            "frs_id",
-            "primary_naics_code",
-            "facn",
-            "frsid",
-            "original_id"
-        ],
-        "corporateEntitiesUrls": {
-            "Enbridge": ""
+    "font": {
+      "url": "https://fonts.googleapis.com/css2?family=Merriweather&display=swap",
+      "family": "Merriweather"
+    },
+    "legend": {
+      "isVisible": false
+    },
+    "controls": {
+      "locate_me": true,
+      "share_map": true,
+      "geocoder": true
+    },
+    "sideBar": {
+      "isVisible": true,
+      "backgroundColor": "#fefefe",
+      "textColor": "black"
+    },
+    "navbar": {
+      "dropdownMenu": true
+    },
+    "customNavigationScheme": "1"
+  },
+  "map": {
+    "projectionCode": "EPSG:3857",
+    "minZoom": 1,
+    "maxZoom": 21,
+    "zoom": 1,
+    "geoserverWorkspace": "workspace1",
+    "resolutions": [
+      156543.03, 78271.52, 39135.76, 19567.88, 9783.94, 4891.97, 2445.98, 1222.99, 611.5, 305.75, 152.87, 76.437,
+      38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
+    ],
+    "center": [0, 0],
+    "minResolution": 0.12,
+    "maxResolution": 64000,
+    "layers": [
+      {
+        "type": "XYZ",
+        "name": "hourglass_land",
+        "group": "two",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:hourglass_land@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "minResolution": 200,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "hourglass_land2",
+        "group": "two",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:hourglass_land@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Continent",
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "hourglass_basemap",
+        "group": "two",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/hourglass_basemap/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Elevation",
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "cancer_tiles",
+        "group": "plantation_alley",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/cancer_tiles/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Plantation Alley",
+        "minResolution": 0.12,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": false,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "ESRI-World-Imagery3",
+        "group": "plantation_alley",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/cancer_tiles/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "spotlight",
+        "minResolution": 0.12,
+        "maxResolution": 20,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": false,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "VECTOR",
+        "name": "industrial_footprints",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:cancer_industrial&outputFormat=application/json&srsname=EPSG:3857",
+        "queryable": false,
+        "displayInLegend": false,
+        "legendDisplayName": "Industrial Footprints",
+        "format": "GeoJSON",
+        "visible": false,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 80,
+        "label": false,
+        "isInteractive": false,
+        "hoverable": false,
+        "style": {
+          "fillColor": "rgba(0, 0, 0, 0.0)",
+          "strokeColor": "#000000",
+          "strokeWidth": 2
         }
+      },
+      {
+        "type": "XYZ",
+        "name": "early_channels",
+        "group": "old_river",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/early_channels/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Early Channels",
+        "minResolution": 4,
+        "maxResolution": 2000,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": false,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "VECTOR",
+        "name": "atchafalaya",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:atchafalaya_mainstem&outputFormat=application/json&srsname=EPSG:3857",
+        "queryable": false,
+        "displayInLegend": true,
+        "legendDisplayName": "Atchafalaya",
+        "format": "GeoJSON",
+        "visible": false,
+        "zIndex": 0,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": false,
+        "isInteractive": false,
+        "hoverable": false,
+        "style": {
+          "fillColor": "#0a67c1",
+          "strokeColor": "#0a67c1",
+          "strokeWidth": 0.3
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "dodge_line",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:dodge_line&outputFormat=application/json&srsname=EPSG:3857",
+        "queryable": false,
+        "displayInLegend": false,
+        "legendDisplayName": "dodge_line",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": false,
+        "isInteractive": false,
+        "hoverable": false,
+        "style": {
+          "type": "line",
+          "strokeColor": "#32B8CC",
+          "strokeWidth": 3
+        }
+      },
+      {
+        "type": "XYZ",
+        "name": "lower_miss_floodplain",
+        "group": "angola",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/lower_miss_floodplain/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Elevation",
+        "minResolution": 0.5,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true,
+        "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/elevation.png"
+      },
+      {
+        "type": "XYZ",
+        "name": "lower_miss_floodplain2",
+        "group": "angola",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/lower_miss_floodplain/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Lower Mississippi",
+        "minResolution": 0.5,
+        "maxResolution": 64000,
+        "opacity": 0.84,
+        "queryable": false,
+        "visible": false,
+        "updatewhileanimating": true,
+        "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/elevation.png"
+      },
+      {
+        "type": "GROUP",
+        "name": "delta_complexes",
+        "legendIcon": "https://casario-mapa.s3.sa-east-1.amazonaws.com/assets/icons/legends/leyenda_soja_2001-2020.png",
+        "minResolution": 2,
+        "maxResolution": 60000,
+        "displayInLegend": true,
+        "legendDisplayName": "Delta Complexes",
+        "visible": true,
+        "displaySidebarInfo": false,
+        "group": "deeptime",
+        "attributions": "Test attributions",
+        "displaySeries": true,
+        "defaultSeriesLayerIndex": 4,
+        "layers": [
+          {
+            "type": "VECTOR",
+            "name": "Maringouin: 7500-5000 yrs ago",
+            "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes1&outputFormat=application/json&srsname=EPSG:3857",
+            "queryable": true,
+            "displayInLegend": false,
+            "legendDisplayName": "Delta Complex 1",
+            "format": "GeoJSON",
+            "visible": true,
+            "zIndex": 0,
+            "minResolution": 0.5,
+            "maxResolution": 8000,
+            "label": false,
+            "hoverable": true,
+            "style": {
+              "hoverTextColor": "white",
+              "hoverBackgroundColor": "#000000",
+              "strokeColor": "#00000",
+              "strokeWidth": 1,
+              "fillColor": "rgba(55, 159, 210, 0.7)"
+            }
+          },
+          {
+            "type": "VECTOR",
+            "name": "Teche: 5500-3800 yrs ago",
+            "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes2&outputFormat=application/json&srsname=EPSG:3857",
+            "queryable": true,
+            "displayInLegend": false,
+            "legendDisplayName": "Delta Complex 2",
+            "format": "GeoJSON",
+            "visible": true,
+            "zIndex": 0,
+            "minResolution": 0.5,
+            "maxResolution": 8000,
+            "label": false,
+            "hoverable": true,
+            "style": {
+              "hoverTextColor": "white",
+              "hoverBackgroundColor": "#000000",
+              "strokeColor": "#00000",
+              "strokeWidth": 1,
+              "fillColor": "rgba(117, 110, 170, 0.7)"
+            }
+          },
+          {
+            "type": "VECTOR",
+            "name": "St Bernard: 4000 - 2000 yrs ago",
+            "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes3&outputFormat=application/json&srsname=EPSG:3857",
+            "queryable": true,
+            "displayInLegend": false,
+            "legendDisplayName": "Delta Complex 3",
+            "format": "GeoJSON",
+            "visible": true,
+            "zIndex": 0,
+            "minResolution": 0.5,
+            "maxResolution": 8000,
+            "label": false,
+            "hoverable": true,
+            "style": {
+              "hoverTextColor": "white",
+              "hoverBackgroundColor": "#000000",
+              "strokeColor": "#00000",
+              "strokeWidth": 1,
+              "fillColor": "rgba(206, 103, 51, 0.7)"
+            }
+          },
+          {
+            "type": "VECTOR",
+            "name": "La Fourche: 2500-800 yrs ago",
+            "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes4&outputFormat=application/json&srsname=EPSG:3857",
+            "queryable": true,
+            "displayInLegend": false,
+            "legendDisplayName": "Delta Complex 4",
+            "format": "GeoJSON",
+            "visible": true,
+            "zIndex": 0,
+            "minResolution": 0.5,
+            "maxResolution": 8000,
+            "label": false,
+            "hoverable": true,
+            "style": {
+              "hoverTextColor": "white",
+              "hoverBackgroundColor": "#000000",
+              "strokeColor": "#00000",
+              "strokeWidth": 1,
+              "fillColor": "rgba(255, 174, 74, 0.7)"
+            }
+          },
+          {
+            "type": "VECTOR",
+            "name": "Balize: 1000 yrs ago to present",
+            "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes5&outputFormat=application/json&srsname=EPSG:3857",
+            "queryable": true,
+            "displayInLegend": false,
+            "legendDisplayName": "Delta Complex 5",
+            "format": "GeoJSON",
+            "visible": true,
+            "zIndex": 0,
+            "minResolution": 0.5,
+            "maxResolution": 8000,
+            "label": false,
+            "hoverable": true,
+            "style": {
+              "hoverTextColor": "white",
+              "hoverBackgroundColor": "#000000",
+              "strokeColor": "#00000",
+              "strokeWidth": 1,
+              "fillColor": "rgba(65, 156, 125, 0.7)"
+            }
+          },
+          {
+            "type": "VECTOR",
+            "name": "Atchafalaya: 400 to present",
+            "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes6&outputFormat=application/json&srsname=EPSG:3857",
+            "queryable": true,
+            "displayInLegend": false,
+            "legendDisplayName": "Delta Complex 6",
+            "format": "GeoJSON",
+            "visible": true,
+            "zIndex": 0,
+            "minResolution": 0.5,
+            "maxResolution": 8000,
+            "label": false,
+            "hoverable": true,
+            "style": {
+              "hoverTextColor": "white",
+              "hoverBackgroundColor": "#000000",
+              "strokeColor": "#00000",
+              "strokeWidth": 1,
+              "fillColor": "rgba(219, 68, 136, 0.5)"
+            }
+          }
+        ]
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "major_rivers",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:nhd_major@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "locations",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Major Rivers",
+        "format": "MVT",
+        "renderMode": "vector",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 80,
+        "maxResolution": 64000,
+        "hoverable": false,
+        "isInteractive": false,
+        "style": {
+          "strokeColor": "#3aacbc",
+          "strokeWidth": 0.2,
+          "fillColor": "#3aacbc"
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "nhd_clipped",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:nhd_clipped@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "locations",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "All Rivers",
+        "format": "MVT",
+        "renderMode": "vector",
+        "visible": true,
+        "zIndex": 100,
+        "minResolution": 0,
+        "maxResolution": 80,
+        "hoverable": false,
+        "isInteractive": false,
+        "style": {
+          "strokeColor": "#3aacbc",
+          "strokeWidth": 0.2,
+          "fillColor": "#3aacbc"
+        }
+      },
+      {
+        "type": "WMS",
+        "name": "rivers",
+        "url": "https://geo.timetochange.today/geoserver/wms",
+        "layers": "osm:nhd_area_louisiana",
+        "group": "two",
+        "renderMode": "image",
+        "includeInSearch": false,
+        "queryable": false,
+        "displayInLegend": true,
+        "legendDisplayName": "Rivers",
+        "format": "GeoJSON",
+        "hoverable": true,
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.25,
+        "maxResolution": 8000,
+        "isInteractive": false,
+        "opacity": 0.8
+      },
+      {
+        "type": "VECTOR",
+        "name": "hourglass_locations",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:locations&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "locations",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Locations",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 10,
+        "minResolution": 0.5,
+        "maxResolution": 2000,
+        "label": false,
+        "style": {
+          "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass.png",
+          "scale": 0.9,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "locations2",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:locations2&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "locations",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Locations 2",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 100,
+        "minResolution": 0.5,
+        "maxResolution": 80,
+        "hoverable": true,
+        "label": false,
+        "style": {
+          "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass_highlight.png",
+          "scale": 0.7,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "delta_complexes_all",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:delta_complexes&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "deeptime",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Delta Complexes",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 0.5,
+        "maxResolution": 8000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "strokeColor": "#ffffff",
+          "strokeWidth": 1,
+          "fillColor": "rgba(255, 255, 255, 0.1)"
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "active_injection",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:active_injection@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "morgan",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Injection Well",
+        "format": "MVT",
+        "renderMode": "vector",
+        "visible": true,
+        "zIndex": 10,
+        "minResolution": 1,
+        "maxResolution": 40,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://d2ol233wwuwy6t.cloudfront.net/icons/injection.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "active_producing",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:active_producing@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "morgan",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Production Well",
+        "format": "MVT",
+        "renderMode": "vector",
+        "visible": true,
+        "zIndex": 10,
+        "minResolution": 1,
+        "maxResolution": 40,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://d2ol233wwuwy6t.cloudfront.net/icons/1656650905652_oil.png",
+          "scale": 0.8,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "abandoned",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:abandoned@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "morgan",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Abandoned Well",
+        "format": "MVT",
+        "renderMode": "vector",
+        "visible": true,
+        "zIndex": 10,
+        "minResolution": 1,
+        "maxResolution": 40,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "type": "circle",
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "radius": 3,
+          "strokeColor": "lightgray",
+          "strokeWidth": 1,
+          "fillColor": "lightgray"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "cancer_alley_tri",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:cancer_alley&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "locations",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Cancer Alley",
+        "displaySidebarInfo": false,
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 100,
+        "minResolution": 0.1,
+        "maxResolution": 8000,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/toxic.png",
+          "scale": 0.6,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "photos",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:photos&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "locations",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Photos",
+        "displaySidebarInfo": false,
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 100,
+        "minResolution": 0.5,
+        "maxResolution": 200,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/hourglass.png",
+          "scale": 0.7,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "XYZ",
+        "name": "labels",
+        "group": "background",
+        "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmtob2xtZXMiLCJhIjoiNjlkYjI4MDUyYTRlZWEyYzkwYTdmOTgxNmMzOGYwMTUifQ.VSUo52PYOUzS60NR6jqXTw",
+        "minResolution": 0.0,
+        "maxResolution": 3800,
+        "zIndex": 1000,
+        "displayInLegend": true,
+        "legendDisplayName": "Street Map",
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
+        "visible": false,
+        "opacity": 0.99,
+        "queryable": false
+      },
+      {
+        "type": "XYZ",
+        "name": "labels1",
+        "group": "background",
+        "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmtob2xtZXMiLCJhIjoiNjlkYjI4MDUyYTRlZWEyYzkwYTdmOTgxNmMzOGYwMTUifQ.VSUo52PYOUzS60NR6jqXTw",
+        "minResolution": 0.5,
+        "maxResolution": 3800,
+        "zIndex": 1000,
+        "displayInLegend": true,
+        "legendDisplayName": "Street Map",
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
+        "visible": false,
+        "opacity": 0.99,
+        "queryable": false
+      },
+      {
+        "type": "XYZ",
+        "name": "labels2",
+        "group": "background",
+        "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmtob2xtZXMiLCJhIjoiNjlkYjI4MDUyYTRlZWEyYzkwYTdmOTgxNmMzOGYwMTUifQ.VSUo52PYOUzS60NR6jqXTw",
+        "minResolution": 0.5,
+        "maxResolution": 550,
+        "zIndex": 1000,
+        "displayInLegend": true,
+        "legendDisplayName": "Street Map",
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
+        "visible": true,
+        "opacity": 0.99,
+        "queryable": false
+      },
+      {
+        "type": "XYZ",
+        "name": "navigation",
+        "url": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/tiles/navigation/{z}/{x}/{y}.png",
+        "minResolution": 1,
+        "maxResolution": 8000,
+        "displayInLegend": true,
+        "legendDisplayName": "Navigation",
+        "visible": false,
+        "opacity": 0.99,
+        "queryable": false
+      },
+      {
+        "type": "VECTOR",
+        "name": "hsdrrs",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:hsdrrs&outputFormat=application/json&srsname=EPSG:3857",
+        "queryable": true,
+        "legendDisplayName": "NOLA Floodwalls",
+        "displayInLegend": true,
+        "visible": true,
+        "format": "GeoJSON",
+        "zIndex": 0,
+        "minResolution": 6,
+        "maxResolution": 800,
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "strokeColor": "#3f2b57",
+          "strokeWidth": 5
+        }
+      },
+      {
+        "type": "XYZ",
+        "name": "angola_topo",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/angola_topo/{z}/{x}/{y}.png",
+        "minResolution": 1.5,
+        "maxResolution": 200,
+        "displayInLegend": true,
+        "legendDisplayName": "Angola Topo",
+        "visible": false,
+        "opacity": 0.99,
+        "queryable": false
+      },
+      {
+        "type": "XYZ",
+        "name": "nola_streets",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/nola_streets/{z}/{x}/{y}.png",
+        "minResolution": 0.5,
+        "maxResolution": 2000,
+        "displayInLegend": true,
+        "legendDisplayName": "Nola Streets",
+        "visible": true,
+        "opacity": 0.99,
+        "queryable": false
+      },
+      {
+        "type": "XYZ",
+        "name": "nola_streets2",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/nola_streets/{z}/{x}/{y}.png",
+        "minResolution": 0.5,
+        "maxResolution": 2000,
+        "displayInLegend": true,
+        "legendDisplayName": "Nola Streets",
+        "visible": false,
+        "opacity": 0.99,
+        "queryable": false
+      },
+      {
+        "type": "VECTOR",
+        "name": "morgan_city",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:morgan_city&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "morgan",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Morgan City",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "strokeColor": "#300000",
+          "strokeWidth": 6.5
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "miss_levees",
+        "group": "locations",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:miss_levees@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "minResolution": 1,
+        "maxResolution": 8000,
+        "displayInLegend": true,
+        "legendDisplayName": "Levees",
+        "opacity": 1,
+        "visible": true,
+        "queryable": true,
+        "format": "MVT",
+        "renderMode": "hybrid",
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "strokeColor": "#3f2b57",
+          "strokeWidth": 2
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "miss_levees3",
+        "group": "locations",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:miss_levees@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "minResolution": 1,
+        "maxResolution": 8000,
+        "displayInLegend": true,
+        "legendDisplayName": "Levees",
+        "opacity": 1,
+        "visible": false,
+        "queryable": true,
+        "format": "MVT",
+        "renderMode": "hybrid",
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "strokeColor": "orange",
+          "strokeWidth": 2
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "miss_gages",
+        "url": "https://bigmuddy.rivertoday.org/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_gages2&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "locations",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "River Gages",
+        "displaySidebarInfo": true,
+        "format": "GeoJSON",
+        "visible": false,
+        "zIndex": 100,
+        "minResolution": 0.5,
+        "maxResolution": 8000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/gage.png",
+          "scale": 0.7,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "miss_pipes",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_pipes&outputFormat=application/json&srsname=EPSG:3857",
+        "queryable": true,
+        "legendDisplayName": "Pipelines",
+        "displayInLegend": true,
+        "visible": false,
+        "format": "GeoJSON",
+        "zIndex": 0,
+        "minResolution": 0.5,
+        "maxResolution": 8000,
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "strokeColor": "#CB1735",
+          "strokeWidth": 1.5
+        }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "gom_pipelines",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:gom_pipelines@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Gulf Pipelines",
+        "format": "MVT",
+        "renderMode": "vector",
+        "visible": false,
+        "zIndex": 100,
+        "minResolution": 1,
+        "maxResolution": 4000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "strokeColor": "#CB1735",
+          "strokeWidth": 0.4
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "refineries",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:miss_refineries_ghg&outputFormat=application/json&srsname=EPSG:3857",
+        "queryable": true,
+        "legendDisplayName": "Refineries",
+        "displayInLegend": true,
+        "visible": false,
+        "format": "GeoJSON",
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 8000,
+        "label": null,
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "iconUrl": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/refinery.png",
+          "scale": 0.5,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "XYZ",
+        "name": "ag_system",
+        "group": "two",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/ag_system/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Agricultural system",
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "opacity": 0.79,
+        "queryable": false,
+        "visible": false,
+        "updatewhileanimating": true,
+        "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/ag_system.png"
+      },
+      {
+        "type": "XYZ",
+        "name": "ag_system2",
+        "group": "two",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/ag_system/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Agricultural system",
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "opacity": 0.79,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true,
+        "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/ag_system.png"
+      },
+      {
+        "type": "XYZ",
+        "name": "osm_transparencies",
+        "group": "two",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_transparencies@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "minResolution": 0.5,
+        "maxResolution": 8000,
+        "displayInLegend": true,
+        "legendDisplayName": "OSM",
+        "opacity": 0.99,
+        "visible": false,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "mississippi",
+        "group": "two",
+        "url": "https://maptime.s3.us-east-2.amazonaws.com/assets/prod/tiles/miss_map/{z}/{x}/{y}.png",
+        "displayInLegend": false,
+        "legendDisplayName": "Mississippi Basin",
+        "minResolution": 20,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "old_tiles",
+        "group": "plantation",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/old_tiles/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Old topo maps",
+        "minResolution": 4,
+        "maxResolution": 40,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "angola",
+        "group": "two",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/angola2/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Angola Prison",
+        "minResolution": 0.25,
+        "maxResolution": 200,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true,
+        "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/prison.png"
+      },
+      {
+        "type": "XYZ",
+        "name": "poverty_point",
+        "group": "two",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/poverty_point4/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Poverty Point",
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "orcs",
+        "group": "old_river",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/orcs2/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Old River",
+        "minResolution": 0.25,
+        "maxResolution": 200,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": false,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "orcs2",
+        "group": "old_river",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/orcs2/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Old River",
+        "minResolution": 0.25,
+        "maxResolution": 800,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "orleans",
+        "group": "two",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/orleans/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Territoire d'Orléans (1806)",
+        "minResolution": 2,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": false,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "hydro",
+        "group": "two",
+        "url": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "displayInLegend": true,
+        "legendDisplayName": "Hydro",
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "oceans",
+        "group": "backgroundLayers",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0.25,
+        "maxResolution": 64000,
+        "opacity": 0.8,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
+        "name": "ESRI-World-Imagery",
+        "group": "locations",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0.25,
+        "maxResolution": 20,
+        "displayInLegend": true,
+        "legendDisplayName": "Spotlight",
+        "queryable": false,
+        "visible": true,
+        "attributions": "Sources: Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community"
+      },
+      {
+        "type": "XYZ",
+        "name": "ESRI-World-Imagery2",
+        "group": "backgroundLayers",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0,
+        "maxResolution": 4,
+        "queryable": false,
+        "visible": true,
+        "opacity": 0.9,
+        "attributions": "Sources: Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community"
+      },
+      {
+        "type": "XYZ",
+        "name": "aerials",
+        "group": "angola",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "displayInLegend": true,
+        "legendDisplayName": "Satellite Image",
+        "minResolution": 0.25,
+        "maxResolution": 800,
+        "queryable": false,
+        "visible": false
+      },
+      {
+        "type": "XYZ",
+        "name": "ESRI-World-Imagery4",
+        "group": "backgroundLayers",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0,
+        "maxResolution": 8000,
+        "queryable": false,
+        "visible": true,
+        "opacity": 0.9,
+        "attributions": "Sources: Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community"
+      },
+      {
+        "type": "XYZ",
+        "name": "ESRI_world_physical2",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm%3AWorld_Physical_Map@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "group": "backgroundLayers",
+        "visible": true,
+        "opacity": 0.99,
+        "zIndex": 1,
+        "minResolution": 800,
+        "maxResolution": 64000
+      }
+    ],
+    "flyToSlideshow": {
+      "delayInSecondsForInitialStart": 9000000,
+      "delayInSecondsBetweenFrames": 120000,
+      "maplinks": [""]
+    },
+    "groups": {
+      "locations": {
+        "default": {
+          "layers": [
+            "hourglass_land2",
+            "mississippi",
+            "lower_miss_floodplain2",
+            "ESRI-World-Imagery2",
+            "hourglass_basemap",
+            "old_tiles",
+            "dodge_line",
+            "orcs",
+            "cancer_tiles",
+            "industrial_footprints",
+            "atchafalaya",
+            "ag_system",
+            "angola",
+            "labels2",
+            "angola_topo",
+            "ESRI-World-Imagery3",
+            "cancer_alley_tri",
+            "locations2",
+            "photos",
+            "hourglass_locations"
+          ],
+          "center": [-90.805, 30.45],
+          "resolution": 360,
+          "mobileCenter": [-91.57, 30.5],
+          "mobileResolution": 1900,
+          "minResolution": 0.25,
+          "maxResolution": 32000
+        },
+        "local": {
+          "layers": [],
+          "center": [-88.179, 41.837],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [-12.42, 29.84],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      },
+      "angola": {
+        "default": {
+          "layers": [
+            "hourglass_land",
+            "mississippi",
+            "lower_miss_floodplain",
+            "angola",
+            "angola_topo",
+            "aerials",
+            "miss_levees3",
+            "labels",
+            "locations2"
+          ],
+          "center": [-91.596, 30.967],
+          "resolution": 16,
+          "mobileCenter": [-91.59, 30.966],
+          "mobileResolution": 30,
+          "minResolution": 0.25,
+          "maxResolution": 32000
+        },
+        "local": {
+          "layers": [],
+          "center": [-88.179, 41.837],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [-12.42, 29.84],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      },
+      "old_river": {
+        "default": {
+          "layers": [
+            "hourglass_land",
+            "mississippi",
+            "lower_miss_floodplain",
+            "orcs2",
+            "labels",
+            "locations2",
+            "photos",
+            "early_channels",
+            "ESRI-World-Imagery"
+          ],
+          "center": [-91.669, 31.032],
+          "resolution": 30,
+          "mobileCenter": [-91.658, 31.025],
+          "mobileResolution": 80,
+          "minResolution": 0.25,
+          "maxResolution": 32000
+        },
+        "local": {
+          "layers": [],
+          "center": [-88.179, 41.837],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [-12.42, 29.84],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      },
+      "plantation": {
+        "default": {
+          "layers": [
+            "hourglass_land",
+            "mississippi",
+            "hourglass_basemap",
+            "ESRI-World-Imagery3",
+            "cancer_tiles",
+            "old_tiles",
+            "dodge_line",
+            "ag_system",
+            "labels1",
+            "cancer_alley_tri",
+            "cancer_tiles",
+            "old_tiles",
+            "orleans",
+            "photos",
+            "locations2"
+          ],
+          "center": [-90.652, 30.044],
+          "resolution": 12,
+          "mobileCenter": [-90.831, 30.101],
+          "mobileResolution": 100,
+          "minResolution": 0.25,
+          "maxResolution": 32000
+        },
+        "local": {
+          "layers": [],
+          "center": [-88.179, 41.837],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [-12.42, 29.84],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      },
+      "morgan": {
+        "default": {
+          "layers": [
+            "hourglass_land",
+            "mississippi",
+            "ESRI-World-Imagery4",
+            "hourglass_basemap",
+            "dodge_line",
+            "lower_miss_coast",
+            "morgantiles",
+            "morgan_city",
+            "abandoned",
+            "active_producing",
+            "active_injection",
+            "labels",
+            "photos",
+            "locations2",
+            "refineries"
+          ],
+          "center": [-91.195, 29.704],
+          "resolution": 20,
+          "mobileCenter": [-91.191, 29.704],
+          "mobileResolution": 40,
+          "minResolution": 0.25,
+          "maxResolution": 32000
+        },
+        "local": {
+          "layers": [],
+          "center": [-88.179, 41.837],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [-12.42, 29.84],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      },
+      "hsdrrs": {
+        "default": {
+          "layers": [
+            "hourglass_land",
+            "mississippi",
+            "ESRI-World-Imagery4",
+            "hourglass_basemap",
+            "dodge_line",
+            "ag_system",
+            "nola_streets",
+            "hsdrrs",
+            "miss_levees",
+            "locations2"
+          ],
+          "center": [-90.098, 29.929],
+          "resolution": 80,
+          "mobileCenter": [-90.158, 29.946],
+          "mobileResolution": 320,
+          "minResolution": 0.25,
+          "maxResolution": 32000
+        },
+        "local": {
+          "layers": [],
+          "center": [-88.179, 41.837],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [-12.42, 29.84],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      }
+    },
+    "flyToSlideshow": {
+      "delayInSecondsForInitialStart": 9000000,
+      "delayInSecondsBetweenFrames": 120000,
+      "maplinks": [""]
+    },
+    "defaultActiveGroup": "locations",
+    "groupTitles": {
+      "locations": "Locations",
+      "old_river": "Old River Control",
+      "angola": "Angola Prison",
+      "plantation": "Plantation Alley",
+      "morgan": "Morgan City",
+      "hsdrrs": "Beyond the Flood"
+    },
+    "regionTitles": {
+      "default": ""
+    },
+    "popupFieldsMapping": {
+      "default": {
+        "title": "NAME",
+        "entity": "OWNER"
+      }
+    },
+    "featureInfoHiddenProps": [
+      "caption",
+      "variable1",
+      "variable2",
+      "imageUrl",
+      "sidebarMediaTop",
+      "sidebarMediaBottom",
+      "videoUrl",
+      "videoSrc",
+      "STAID2",
+      "facility_id",
+      "frs_id",
+      "primary_naics_code",
+      "facn",
+      "frsid",
+      "original_id"
+    ],
+    "corporateEntitiesUrls": {
+      "Enbridge": ""
     }
+  }
 }
