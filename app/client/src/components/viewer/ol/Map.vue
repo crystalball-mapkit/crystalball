@@ -291,7 +291,7 @@ export default {
     EventBus.$on('closePopupInfo', me.closePopup);
     EventBus.$on('resetMap', me.resetMap);
     EventBus.$on('noMapReset', () => {
-      this.noMapReset = true;
+      this.noMapReset = false;
     });
     EventBus.$on('diveToFeatureEnd', () => {
       this.updateMousePosition();
@@ -1354,7 +1354,7 @@ export default {
         }
       } else {
         this.resetMap();
-      }
+      } //
 
       this.selectedCoorpNetworkEntity = null;
       // Emit group change event.

@@ -601,7 +601,7 @@ export const layersStylePropFn = {
     fillColor: propertyValue => propertyValue,
   },
   epa_refineries: {
-    iconScaleFn: propertyValue => getIconScaleValue(propertyValue, 0.0000001, 0.2, 1.2),
+    iconScaleFn: propertyValue => getIconScaleValue(propertyValue, 0.00000001, 0.2, 3.2),
   },
   points: {
     strokeColor: propertyValue => propertyValue,
@@ -610,5 +610,9 @@ export const layersStylePropFn = {
   dodge_line: {
     strokeColor: propertyValue => propertyValue,
     strokeWidth: propertyValue => propertyValue,
+  },
+  polygons: {
+    strokeColor: propertyValue => propertyValue,
+    fillColor: propertyValue => propertyValue,
   },
 };
