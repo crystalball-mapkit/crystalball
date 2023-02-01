@@ -411,7 +411,9 @@ export default {
       if (!this.popup.activeFeature) {
         return true;
       }
-      if (this.getHtml(this.popup.activeFeature.getProperties(), this.$appConfig.app.defaultLanguage, this.$i18n.locale)) {
+      if (
+        this.getHtml(this.popup.activeFeature.getProperties(), this.$appConfig.app.defaultLanguage, this.$i18n.locale)
+      ) {
         return false;
       }
       return true;
