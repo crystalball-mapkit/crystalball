@@ -57,7 +57,7 @@ import {postEditLayerStyle} from '../../style/OlStyleDefs';
 
 import authHeader from '../../services/auth-header';
 import {EventBus} from '../../EventBus';
-import {addProps} from '../../utils/Helpers';
+import {addProps, getHtml} from '../../utils/Helpers';
 
 export default {
   mixins: [Mapable],
@@ -99,7 +99,7 @@ export default {
       const clonedFeature = feature.clone();
       clonedFeature.setId(fId);
       this.postEditLayer.getSource().addFeature(clonedFeature);
-      this.htmlContent = feature.get('html');
+      this.htmlContent = this.getHtml(feature.getProperties(), this.$appConfig.app.defaultLanguage, this.$i18n.locale);
       this.postFeature = clonedFeature;
       this.editType = 'update';
       this.isEditingPost = true;
@@ -111,6 +111,7 @@ export default {
     EventBus.$on('clearEditHtml', this.cancel);
   },
   methods: {
+    getHtml,
     onMapBound() {
       this.createEditPostLayer();
     },
@@ -197,6 +198,11 @@ export default {
       toggleSnackbar: 'TOGGLE_SNACKBAR',
     }),
     transactPost(type) {
+      const language = {
+        default: this.$appConfig.app.defaultLanguage || 'en',
+        available: this.$i18n.availableLocales,
+        active: this.$i18n.locale,
+      };
       const feature = this.postEditLayer.getSource().getFeatures()[0];
       const payload = {
         type,
@@ -205,18 +211,22 @@ export default {
         geometry: new GeoJSON().writeGeometryObject(feature.getGeometry().clone().transform('EPSG:3857', 'EPSG:4326')),
         featureId: feature.getId(),
         properties: {},
+        language,
       };
       if (type !== 'delete') {
         payload.properties = {
           icon: this.postFeature.get('icon'),
           group: this.activeLayerGroup.navbarGroup,
           title: this.postIconTitle,
+          titleTranslations: this.postFeature.get('titleTranslations') || {},
           html: this.htmlContent,
+          htmlTranslations: this.postFeature.get('htmlTranslations') || {},
           createdBy: null, // The value is added from the api
           updatedBy: null, // The value is added from the api,
           createdAt: null, // The value is added from the api,
           updatedAt: null, // The value is added from the api,
         };
+        payload.originalProperties = this.postFeature.clone().getProperties();
       }
       const formData = new FormData();
       formData.append('payload', JSON.stringify(payload));
@@ -240,11 +250,17 @@ export default {
     },
     transactHtml(type) {
       let req;
+      const language = {
+        default: this.$appConfig.app.defaultLanguage || 'en',
+        available: this.$i18n.availableLocales,
+        active: this.$i18n.locale,
+      };
       if (type === 'layer') {
         const payload = {
           type: 'layer',
           name: this.lastSelectedLayer,
           html: this.htmlContent,
+          language,
         };
         if (this.sidebarHtml.layers[this.lastSelectedLayer]) {
           req = axios.patch('api/html', payload, {
@@ -260,6 +276,7 @@ export default {
           type: 'group',
           name: this.groupName,
           html: this.htmlContent,
+          language,
         };
         if (this.sidebarHtml.groups[this.groupName]) {
           req = axios.patch('api/html', payload, {
@@ -271,7 +288,7 @@ export default {
           });
         }
       }
-      req.then(() => {
+      req.then(response => {
         setTimeout(() => {
           this.toggleSnackbar({
             type: 'success',
@@ -281,12 +298,16 @@ export default {
           });
           if (type === 'layer') {
             const {layers} = this.sidebarHtml;
+            Object.keys(response.data).forEach(key => {
+              addProps(layers, `${this.lastSelectedLayer}.${key}`, response.data[key]);
+            });
             addProps(layers, `${this.lastSelectedLayer}.type`, 'layer');
-            addProps(layers, `${this.lastSelectedLayer}.html`, this.htmlContent);
           } else {
             const {groups} = this.sidebarHtml;
+            Object.keys(response.data).forEach(key => {
+              addProps(groups, `${this.groupName}.${key}`, response.data[key]);
+            });
             addProps(groups, `${this.groupName}.type`, 'group');
-            addProps(groups, `${this.groupName}.html`, this.htmlContent);
           }
           // Clear.
           EventBus.$emit('closePopupInfo');
