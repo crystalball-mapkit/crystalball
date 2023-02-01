@@ -139,6 +139,7 @@ services:
       - JWT_SECRET=${API_JWT_SECRET}
       - USERS_OPEN_REGISTRATION=${USERS_OPEN_REGISTRATION}
       - API_PORT=3000
+      - DEEPL_API_KEY=${DEEPL_API_KEY}
     volumes:
       - /app/node_modules
       - ./app/api:/app

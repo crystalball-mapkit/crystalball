@@ -6,6 +6,7 @@ const singleUpload = upload.single("image");
 const jwtDecode = require("jwt-decode");
 const { v4: uuidv4 } = require('uuid');
 const moment = require("moment");
+const { translateContent } = require("../../utils.js")
 
 
 exports.layer_post = async (req, res) => {
@@ -72,6 +73,9 @@ exports.layer_post = async (req, res) => {
             }
             if (["html_posts"].includes(payload.table)) {
               payload.properties.id = uuidv4();
+              if (payload.language) {
+                await translateContent(payload.language, payload.properties.html, "html", payload.properties)
+              }
             }
             // For html_posts and every layer that has createdAt props and isn't defined in sequelize model createdBy has to be added manually
             if (payload.properties.hasOwnProperty("createdAt")) {
@@ -114,6 +118,24 @@ exports.layer_post = async (req, res) => {
               // Exclude CreatedBy and CreateAt from update. 
               delete payload.properties["createdBy"];
               delete payload.properties["createdAt"]
+
+              if (payload.language && ["html_posts"].includes(payload.table)) {
+                const originalProperties = payload.originalProperties;
+                if (originalProperties) {
+                  for (let key in originalProperties) {
+                    if (key.includes("Translations")) {
+                      const originalKey = key.replace("Translations", "");
+                      if (payload.properties[key] && typeof payload.properties[key] === "string") {
+                        payload.properties[key] = JSON.parse(payload.properties[key]);
+                      }
+                      await translateContent(payload.language, payload.properties[originalKey], originalKey, payload.properties, {
+                        default: originalProperties[originalKey],
+                        translations: originalProperties[key]
+                      })
+                    }
+                  }
+                }
+              }
 
               Object.keys(payload.properties).forEach((key, index, array) => {
                 let value = payload.properties[key];
