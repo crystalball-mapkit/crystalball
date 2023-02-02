@@ -218,7 +218,7 @@
         "visible": true,
         "zIndex": 0,
         "minResolution": 0,
-        "maxResolution": 400,
+        "maxResolution": 60,
         "label": false,
         "isInteractive": true,
         "hoverable": false,
@@ -611,7 +611,7 @@
           "stylePropFnRef": {
             "iconUrl": "variable1"
           },
-          "scale": 1.2,
+          "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -1011,13 +1011,13 @@
       },
       {
         "type": "XYZ",
-        "name": "orcs2",
+        "name": "orcs_angola",
         "group": "old_river",
         "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/orcs_angola/{z}/{x}/{y}.png",
         "displayInLegend": true,
         "legendDisplayName": "Old River",
         "minResolution": 0,
-        "maxResolution": 800,
+        "maxResolution": 60,
         "opacity": 0.99,
         "queryable": false,
         "visible": true,
@@ -1131,25 +1131,22 @@
         "default": {
           "layers": [
             "hourglass_land",
+            "ESRI-World-Imagery2",
             "major_rivers",
             "lower_miss_floodplain",
             "hourglass_basemap",
-            "old_tiles",
             "dodge_line",
-            "orcs",
             "cancer_tiles",
             "industrial_footprints",
             "atchafalaya",
             "atchafalaya_mainstem",
+            "orcs_angola",
             "polygons",
-            "ESRI-World-Imagery3",
             "cancer_alley_tri",
             "labels2",
-            "locations2",
-            "photos",
             "hourglass_locations"
           ],
-          "center": [-90.65, 30.289],
+          "center": [-91.223, 30.292],
           "resolution": 440,
           "mobileCenter": [-91.57, 30.5],
           "mobileResolution": 1900,
@@ -1216,7 +1213,7 @@
             "hourglass_land",
             "lower_miss_floodplain2",
             "rivers",
-            "orcs2",
+            "orcs_angola",
             "old_river_cutout",
             "labels",
             "locations2",
@@ -1372,12 +1369,12 @@
     },
     "defaultActiveGroup": "locations",
     "groupTitles": {
-      "locations": "The Paradox",
-      "deeptime": "The Geological Clock",
-      "old_river": "The Historical Knot",
+      "locations": "Introduction",
+      "deeptime": "The Clock",
+      "old_river": "The Knot",
       "plantation": "Plantation Alley",
       "morgan": "Oil City",
-      "hsdrrs": "The Flood"
+      "hsdrrs": "Release"
     },
     "regionTitles": {
       "default": ""
