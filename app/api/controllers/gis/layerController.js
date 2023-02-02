@@ -132,6 +132,11 @@ exports.layer_post = async (req, res) => {
                         default: originalProperties[originalKey],
                         translations: originalProperties[key]
                       })
+                      // if active language is not the same as the default one delete the key
+                      if (payload.language.active !== payload.language.default) { 
+                        delete payload.properties[originalKey];
+                      }
+
                     }
                   }
                 }
