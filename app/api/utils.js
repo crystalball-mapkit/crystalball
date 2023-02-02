@@ -39,10 +39,12 @@ const translateContent = async (language, text, key, payload, column) => {
 
   let columnTranslations = column && column.translations ? column.translations : {};
   // check if it is string. If so parse it to an object
-  if (typeof columnTranslations === "string") { 
+  if (typeof columnTranslations === "string") {
     columnTranslations = JSON.parse(columnTranslations);
   }
-
+  if (!columnTranslations[language.active] && language.default !== language.active) {
+    payload[`${key}Translations`][language.active] = text;
+  }
   // loop through the languages in language.available and add the translations if they are not already there
   for (let i = 0; i < language.available.length; i++) {
     const lang = language.available[i];
