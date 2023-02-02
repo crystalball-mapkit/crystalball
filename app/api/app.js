@@ -3,7 +3,6 @@ const express = require("express");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const app = express();
-const cors = require('cors')
 
 // Require controller modules
 const registerController = require("./controllers/auth/registerController.js");
@@ -23,7 +22,6 @@ const upload = require("./services/file-upload.js");
 app.use(logger("dev"));
 app.use(bodyParser.json({ limit: "10mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
-app.use(cors());
 
 
 
