@@ -13,11 +13,17 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
       },
+      titleTranslations: {
+        type: Sequelize.JSON,
+      },
       group: {
         type: Sequelize.STRING,
       },
       html: {
         type: Sequelize.TEXT,
+      },
+      htmlTranslations: {
+        type: Sequelize.JSON,
       },
       geom: {
         type: Sequelize.GEOMETRY("POINT", 4326),
