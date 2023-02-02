@@ -115,6 +115,7 @@ app
 
 console.log(process.env.S3_BUCKET)
 // Run server on port
-app.listen(3001, () =>
-  console.log(`API listening on port 3001`)
+// Run server on port
+app.listen(process.env.API_PORT || 3000, () =>
+  console.log(`API listening on port ${process.env.API_PORT || 3000}!`)
 );
