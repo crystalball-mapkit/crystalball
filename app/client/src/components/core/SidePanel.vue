@@ -96,12 +96,12 @@
                         <p
                           v-if="lastSelectedLayer && sidebarHtml.layers"
                           v-html="
-                            sidebarHtml.layers[lastSelectedLayer] ? sidebarHtml.layers[lastSelectedLayer].html : ''
+                            getHtml(sidebarHtml.layers[lastSelectedLayer], $appConfig.app.defaultLanguage, $i18n.locale)
                           "
                         ></p>
                         <p
                           v-else-if="sidebarHtml.groups && sidebarHtml.groups[groupName]"
-                          v-html="sidebarHtml.groups[groupName].html"
+                          v-html="getHtml(sidebarHtml.groups[groupName], $appConfig.app.defaultLanguage, $i18n.locale)"
                         ></p>
                       </v-col>
                     </v-row>
@@ -247,7 +247,9 @@
                 </v-btn>
               </v-toolbar> -->
               <div class="px-2 mt-1">
-                <span v-html="popup.activeFeature.get('html')"></span>
+                <span
+                  v-html="getHtml(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale)"
+                ></span>
               </div>
             </div>
           </v-col>
@@ -370,6 +372,7 @@
 import {mapGetters} from 'vuex';
 import {mapFields} from 'vuex-map-fields';
 import UrlUtil from '../../utils/Url';
+import {getHtml} from '../../utils/Helpers';
 import {SharedMethods} from '../../mixins/SharedMethods';
 import {EventBus} from '../../EventBus';
 import {formatPopupRows, getIframeUrl} from '../../utils/Layer';
@@ -393,13 +396,24 @@ export default {
       this.closeCorpNetworkSelection();
       this.closePopupInfo();
     });
+    EventBus.$on('switchLocale', () => {
+      if (this.isEditingHtml) {
+        // update html if editing
+        this.editHtml();
+      }
+      if (this.isEditingPost && this.popup.activeFeature) {
+        this.editPost(this.popup.activeFeature);
+      }
+    });
   },
   computed: {
     isFeatureGetInfo() {
       if (!this.popup.activeFeature) {
         return true;
       }
-      if (this.popup.activeFeature.get('html')) {
+      if (
+        this.getHtml(this.popup.activeFeature.getProperties(), this.$appConfig.app.defaultLanguage, this.$i18n.locale)
+      ) {
         return false;
       }
       return true;
@@ -416,7 +430,10 @@ export default {
           'easeInQuad'
         );
       }
-      if (this.popup.activeFeature && this.popup.activeFeature.get('html')) {
+      if (
+        this.popup.activeFeature &&
+        this.getHtml(this.popup.activeFeature.getProperties(), this.$appConfig.app.defaultLanguage, this.$i18n.locale)
+      ) {
         return true;
       }
       return false;
@@ -484,6 +501,7 @@ export default {
     ...mapFields('map', {
       previousMapPosition: 'previousMapPosition',
       previousMapPositionSearch: 'previousMapPositionSearch',
+      isEditingHtml: 'isEditingHtml',
       popup: 'popup',
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       lastSelectedLayer: 'lastSelectedLayer',
@@ -497,6 +515,7 @@ export default {
   },
   methods: {
     formatPopupRows,
+    getHtml,
     parseUrl(url) {
       return UrlUtil.parseUrl(url);
     },
@@ -509,11 +528,17 @@ export default {
     editHtml() {
       let html = '';
       if (this.lastSelectedLayer && this.sidebarHtml.layers) {
-        html = this.sidebarHtml.layers[this.lastSelectedLayer]
-          ? this.sidebarHtml.layers[this.lastSelectedLayer].html
-          : '';
+        html = this.getHtml(
+          this.sidebarHtml.layers[this.lastSelectedLayer],
+          this.$appConfig.app.defaultLanguage,
+          this.$i18n.locale
+        );
       } else {
-        html = this.sidebarHtml.groups[this.groupName] ? this.sidebarHtml.groups[this.groupName].html : '';
+        html = this.getHtml(
+          this.sidebarHtml.groups[this.groupName],
+          this.$appConfig.app.defaultLanguage,
+          this.$i18n.locale
+        );
       }
       EventBus.$emit('editHtml', html);
     },

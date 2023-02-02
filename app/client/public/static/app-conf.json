@@ -3,11 +3,11 @@
     "title": "Crystalball",
     "tagline": "open-source mapkit",
     "projectWebsite": "https://wiki.timetochange.today",
+    "defaultLanguage": "en",
     "color": {
       "primary": "#00000e",
       "secondary": "red"
     },
-
     "legend": {
       "isVisible": false
     },
@@ -168,7 +168,6 @@
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:mississippi&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
         "queryable": false,
-        "displayInLegend": false,
         "legendDisplayName": "Lines",
         "format": "GeoJSON",
         "visible": true,

@@ -17,7 +17,6 @@ function loadLocaleMessages() {
       messages[language] = languagesSorted[language];
     }
   }
-
   return messages;
 }
 export default new VueI18n({
