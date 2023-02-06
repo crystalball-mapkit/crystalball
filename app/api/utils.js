@@ -1,6 +1,10 @@
 const deepl = require('deepl-node');
 const translator = new deepl.Translator(process.env.DEEPL_API_KEY);
 
+const langVariants = { 
+  "en": "en-US",
+  "pt": "pt-PT"
+};
 const translateContent = async (language, text, key, payload, column) => {
   /**
    * language: {
@@ -28,7 +32,7 @@ const translateContent = async (language, text, key, payload, column) => {
    */
   // adds/updates the default columns 
   if (!column || !column.default) {
-    const targetLanguage = language.default === "en" ? "en-US" : language.default;
+    const targetLanguage = langVariants[language.default] || language.default;
     const langResult = await translator.translateText(text, null, targetLanguage, {
       tagHandling: 'html',
     })
