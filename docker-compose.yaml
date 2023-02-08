@@ -101,6 +101,7 @@ services:
       - API_PORT=3000
       - DEEPL_API_KEY=${DEEPL_API_KEY}
     volumes:
+      - /app/node_modules
       - ./app/api:/app
     labels:
       - "traefik.enable=true"
