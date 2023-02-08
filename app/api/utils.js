@@ -53,7 +53,7 @@ const translateContent = async (language, text, key, payload, column) => {
   for (let i = 0; i < language.available.length; i++) {
     const lang = language.available[i];
     if (lang !== language.default) {
-      const targetLanguage = lang === "en" ? "en-US" : lang;
+      const targetLanguage = langVariants[lang] || lang;
       // if the row doesn't exist in other languages
       if (lang !== language.active && !columnTranslations[lang]) {
         try {
