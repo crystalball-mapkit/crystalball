@@ -3,7 +3,7 @@ const translator = new deepl.Translator(process.env.DEEPL_API_KEY);
 
 const langVariants = { 
   "en": "en-US",
-  "pt": "pt-PT"
+  "pt": "pt-BR"
 };
 const translateContent = async (language, text, key, payload, column) => {
   /**
