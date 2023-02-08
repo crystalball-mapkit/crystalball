@@ -4,7 +4,7 @@ const translator = new deepl.Translator(process.env.DEEPL_API_KEY);
 
 const langVariants = { 
     "en": "en-US",
-    "pt": "pt-PT"
+    "pt": "pt-BR"
 };
 
 exports.translate = (req, res) => {
