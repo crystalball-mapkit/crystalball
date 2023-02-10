@@ -348,16 +348,18 @@
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
-        "minResolution": 0.5,
+        "minResolution": 40,
         "maxResolution": 8000,
         "label": true,
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
-          "strokeColor": "#ffffff",
-          "strokeWidth": 1,
-          "fillColor": "rgba(255, 255, 255, 0.1)"
+          "stylePropFnRef": {
+            "strokeColor": "variable2",
+            "fillColor": "variable1"
+          },
+          "strokeWidth": 1
         }
       },
       {
@@ -1145,7 +1147,6 @@
           "layers": [
             "hourglass_land",
             "ESRI-World-Imagery2",
-            "lower_miss_floodplain",
             "hourglass_basemap",
             "cancer_tiles",
             "industrial_footprints",
@@ -1227,12 +1228,10 @@
             "hourglass_basemap",
             "cancer_tiles",
             "overlay_1892",
-            "ag_system",
             "locations2",
             "labels1",
             "cancer_alley_tri",
             "polygons",
-            "orleans",
             "photos"
           ],
           "center": [-90.889, 30.136],
@@ -1265,7 +1264,6 @@
             "hourglass_land",
             "ESRI-World-Imagery2",
             "hourglass_basemap",
-            "lower_miss_coast",
             "morgantiles",
             "morgan_city",
             "abandoned",
@@ -1273,8 +1271,7 @@
             "active_injection",
             "labels2",
             "photos",
-            "locations2",
-            "refineries"
+            "locations2"
           ],
           "center": [-91.195, 29.704],
           "resolution": 20,
@@ -1306,7 +1303,6 @@
             "hourglass_land",
             "ESRI-World-Imagery2",
             "hourglass_basemap",
-            "ag_system",
             "nola_streets",
             "hsdrrs",
             "miss_levees",
@@ -1344,10 +1340,9 @@
             "hourglass_basemap",
             "cancer_tiles",
             "delta_complexes_all",
-            "delta_complexes",
             "labels2"
           ],
-          "center": [-90.528, 29.616],
+          "center": [-90.799, 29.768],
           "resolution": 400,
           "mobileCenter": [-90.755, 29.85],
           "mobileResolution": 800,

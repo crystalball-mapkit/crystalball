@@ -607,6 +607,10 @@ export const layersStylePropFn = {
     strokeColor: propertyValue => propertyValue,
     fillColor: propertyValue => propertyValue,
   },
+  delta_complexes_all: {
+    strokeColor: propertyValue => propertyValue,
+    fillColor: propertyValue => propertyValue,
+  },
   dodge_line: {
     strokeColor: propertyValue => propertyValue,
     strokeWidth: propertyValue => propertyValue,
