@@ -40,7 +40,7 @@
       38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
     ],
     "center": [0, 0],
-    "minResolution": 0.12,
+    "minResolution": 0.25,
     "maxResolution": 64000,
     "layers": [
       {
@@ -1157,7 +1157,7 @@
             "labels2",
             "hourglass_locations"
           ],
-          "center": [-91.223, 30.292],
+          "center": [-91.350, 30.486],
           "resolution": 440,
           "mobileCenter": [-91.57, 30.5],
           "mobileResolution": 1900,
@@ -1185,6 +1185,7 @@
         "default": {
           "layers": [
             "hourglass_land",
+            "ESRI-World-Imagery2",
             "lower_miss_floodplain2",
             "rivers",
             "orcs_angola",
@@ -1195,7 +1196,7 @@
             "early_channels"
           ],
           "center": [-91.669, 31.032],
-          "resolution": 50,
+          "resolution": 40,
           "mobileCenter": [-91.658, 31.025],
           "mobileResolution": 80,
           "minResolution": 0.25,
@@ -1222,6 +1223,7 @@
         "default": {
           "layers": [
             "hourglass_land",
+            "ESRI-World-Imagery2",
             "hourglass_basemap",
             "cancer_tiles",
             "overlay_1892",
@@ -1230,12 +1232,11 @@
             "labels1",
             "cancer_alley_tri",
             "polygons",
-            "dodge_line",
             "orleans",
             "photos"
           ],
-          "center": [-90.652, 30.039],
-          "resolution": 10,
+          "center": [-90.889, 30.136],
+          "resolution": 160,
           "mobileCenter": [-90.831, 30.101],
           "mobileResolution": 100,
           "minResolution": 0.25,
@@ -1262,9 +1263,8 @@
         "default": {
           "layers": [
             "hourglass_land",
-            "ESRI-World-Imagery4",
+            "ESRI-World-Imagery2",
             "hourglass_basemap",
-            "dodge_line",
             "lower_miss_coast",
             "morgantiles",
             "morgan_city",
@@ -1304,8 +1304,8 @@
         "default": {
           "layers": [
             "hourglass_land",
+            "ESRI-World-Imagery2",
             "hourglass_basemap",
-            "dodge_line",
             "ag_system",
             "nola_streets",
             "hsdrrs",
@@ -1340,17 +1340,15 @@
         "default": {
           "layers": [
             "hourglass_land",
-            "mississippi",
             "ESRI-World-Imagery2",
             "hourglass_basemap",
             "cancer_tiles",
-            "dodge_line",
             "delta_complexes_all",
             "delta_complexes",
             "labels2"
           ],
-          "center": [-91.019, 29.683],
-          "resolution": 500,
+          "center": [-90.528, 29.616],
+          "resolution": 400,
           "mobileCenter": [-90.755, 29.85],
           "mobileResolution": 800,
           "minResolution": 0.25,
