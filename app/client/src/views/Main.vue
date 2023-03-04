@@ -451,6 +451,7 @@ export default {
       if (this.$i18n.locale !== locale) {
         this.$i18n.locale = locale;
       }
+      EventBus.$emit('switchLocale', locale);
     },
     closeAll() {
       EventBus.$emit('closeAll');

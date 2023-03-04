@@ -16,6 +16,9 @@ module.exports = {
       html: {
         type: Sequelize.TEXT,
       },
+      htmlTranslations: {
+        type: Sequelize.JSON,
+      },
       createdBy: {
         allowNull: true,
         type: Sequelize.UUID

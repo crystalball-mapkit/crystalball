@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       name: DataTypes.STRING,
       html: DataTypes.TEXT,
+      htmlTranslations: DataTypes.JSON,
       createdBy: DataTypes.UUID,
       updatedBy: DataTypes.UUID
     },

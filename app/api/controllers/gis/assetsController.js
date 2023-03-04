@@ -4,8 +4,8 @@ const HtmlSidebar = sequelize.import("../../models/html_sidebar.js");
 const Icons = sequelize.import("../../models/icons.js");
 const jwtDecode = require("jwt-decode");
 const { v4: uuidv4 } = require('uuid');
+const { translateContent } = require("../../utils.js")
 
-/** HTML ENDPOINT */
 
 exports.html_sidebar_get = (req, res) => {
   HtmlSidebar.findAll({
@@ -36,8 +36,8 @@ exports.html_sidebar_get = (req, res) => {
     });
 };
 
-exports.html_sidebar_post = (req, res) => {
-  permissionController.hasPermission(req, res, "edit_html", () => {
+exports.html_sidebar_post = async (req, res) => {
+  permissionController.hasPermission(req, res, "edit_html", async () => {
     const decodedToken = jwtDecode(req.headers.authorization);
     const uploaderId = decodedToken.user.userID;
     const payload = {
@@ -46,11 +46,16 @@ exports.html_sidebar_post = (req, res) => {
       name: req.body.name,
       html: req.body.html,
       createdBy: uploaderId,
+      htmlTranslations: {}
     };
+    if (req.body.language) {
+      await translateContent(req.body.language, req.body.html, "html", payload, null);
+    }
+
     HtmlSidebar.create(payload)
       .then(() => {
         res.status(200);
-        return res.json("html added successfuly");
+        return res.json(payload);
       })
       .catch((err) => {
         console.log(err);
@@ -59,15 +64,33 @@ exports.html_sidebar_post = (req, res) => {
       });
   });
 };
-exports.html_sidebar_patch = (req, res) => {
-  permissionController.hasPermission(req, res, "edit_html", () => {
+exports.html_sidebar_patch = async (req, res) => {
+  permissionController.hasPermission(req, res, "edit_html", async () => {
     const decodedToken = jwtDecode(req.headers.authorization);
     const userID = decodedToken.user.userID;
-    HtmlSidebar.update(
-      {
-        html: req.body.html,
-        updatedBy: userID
+
+    // get the row to update
+    const row = await HtmlSidebar.findOne({
+      where: {
+        name: req.body.name,
       },
+    })
+
+    // update the row
+    const updatePayload = {
+      updatedBy: userID,
+      htmlTranslations: {
+        ...row.htmlTranslations || {},
+      }
+    }
+    if (req.body.language) {
+      await translateContent(req.body.language, req.body.html, "html", updatePayload, {
+        default: row.html,
+        translations: row.htmlTranslations || {},
+      });
+    }
+    HtmlSidebar.update(
+      updatePayload,
       {
         where: {
           name: req.body.name,
@@ -76,7 +99,7 @@ exports.html_sidebar_patch = (req, res) => {
     )
       .then(() => {
         res.status(200);
-        return res.json("html updated successfuly");
+        return res.json(updatePayload);
       })
       .catch((err) => {
         console.log(err);

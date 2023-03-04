@@ -162,3 +162,20 @@ export function Timer(fn, t) {
     return this.stop().start();
   };
 }
+
+export function getHtml(content, defaultLanguage, currentLanguage) {
+  let html = content && content.html ? content.html : '';
+  let htmlTranslations;
+  if (content && content.htmlTranslations) {
+    if (typeof content.htmlTranslations === 'string') {
+      htmlTranslations = JSON.parse(content.htmlTranslations);
+    } else {
+      htmlTranslations = content.htmlTranslations;
+    }
+  }
+
+  if (defaultLanguage !== currentLanguage && content && htmlTranslations && htmlTranslations[currentLanguage]) {
+    html = htmlTranslations[currentLanguage];
+  }
+  return html;
+}
