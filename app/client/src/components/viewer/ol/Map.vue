@@ -409,6 +409,14 @@ export default {
         }
       });
     },
+    resetLayersVisibility() {
+      const visibleLayers = this.visibleGroup.layers;
+      this.map.getLayers().forEach(layer => {
+        const layerIndex = visibleLayers.indexOf(layer.get('name'));
+        if (layerIndex === -1) return;
+        layer.setVisible(true);
+      });
+    },
     createHtmlPostLayer() {
       const layer = LayerFactory.getInstance(this.htmlPostLayerConf);
       this.setPersistentLayer(layer);
@@ -1256,6 +1264,10 @@ export default {
       //   this.map.getView().maxResolution_ = visibleGroup.maxResolution;
       // }
       this.closePopup();
+
+      if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme == '1') {
+        this.resetLayersVisibility();
+      }
     },
     ...mapActions('map', {
       fetchColorMapEntities: 'fetchColorMapEntities',
@@ -1337,11 +1349,13 @@ export default {
       if (clearMap) {
         // store layer visibility state before changing fuel group
         const mapLayers = this.map.getLayers().getArray();
-        mapLayers.forEach(layer => {
-          const name = layer.get('name');
-          const visibility = layer.getVisible();
-          this.layerVisibilityState[name] = visibility;
-        });
+        if (this.$appConfig.app.customNavigationScheme !== '1') {
+          mapLayers.forEach(layer => {
+            const name = layer.get('name');
+            const visibility = layer.getVisible();
+            this.layerVisibilityState[name] = visibility;
+          });
+        }
         this.removeAllLayers();
         this.closePopup();
         // Reset geoserver layer names array

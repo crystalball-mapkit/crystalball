@@ -155,6 +155,23 @@
             </template>
             {{ $t(`form.htmlPostEditor.addMapViewLink`) }}
           </v-tooltip>
+          <span class="mx-3" style="border-right: 1px solid grey"></span>
+          <v-tooltip top>
+            <template v-slot:activator="{on}">
+              <v-btn
+                v-on="on"
+                :class="{
+                  'tiptap-vuetify-editor__action-render-btn': true,
+                }"
+                small
+                icon
+                @click="translateHtmlContent"
+              >
+                <v-icon>translate</v-icon>
+              </v-btn>
+            </template>
+            {{ $t(`form.htmlPostEditor.translateContent`) + ` ${currentLanguage.value}` }}
+          </v-tooltip>
         </div>
       </template>
     </tiptap-vuetify>
@@ -165,6 +182,7 @@
 <script>
 import {mapFields} from 'vuex-map-fields';
 import {toLonLat} from 'ol/proj';
+import axios from 'axios';
 
 import {
   TiptapVuetify,
@@ -193,6 +211,7 @@ import Align from './TipTapAlign';
 import MediaDialog from './TipTapMediaDialog.vue';
 import TipTapExpansionDialog from './TipTapExpansionDialog.vue';
 // import the component and the necessary extensions
+import authHeader from '../../services/auth-header';
 
 export default {
   // specify TiptapVuetify component in "components"
@@ -226,11 +245,31 @@ export default {
       HardBreak,
     ],
     nativeExtensions: [new Iframe(), new Audio(), new Image(), new Expansion(), new MapView(), new Align()],
+    languageCodes: {
+      en: 'English',
+      de: 'Deutsch',
+      fr: 'Français',
+      es: 'Español',
+      pt: 'Português',
+      ru: 'Русский',
+      ar: 'العربية',
+      zh: '中文',
+    },
   }),
   computed: {
     ...mapFields('map', {
       htmlContent: 'htmlContent',
     }),
+    currentLanguage() {
+      let countryCode = this.$i18n.locale;
+      if (countryCode.includes('-')) {
+        countryCode = countryCode.split('-')[0];
+      }
+      return {
+        code: countryCode,
+        value: this.languageCodes[countryCode] || 'English',
+      };
+    },
   },
   methods: {
     openModal(command) {
@@ -264,6 +303,23 @@ export default {
         .toFixed(3)
         .toString()}&layers=${visibleLayers.toString()}`;
       this.editor.commands.mapview({href});
+    },
+    translateHtmlContent() {
+      const htmlContent = this.htmlContent;
+      axios
+        .post(
+          './api/translate',
+          {content: htmlContent, targetLanguage: this.currentLanguage.code},
+          {
+            headers: authHeader(),
+          }
+        )
+        .then(response => {
+          this.htmlContent = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     addCommand(data) {
       if (data.command !== null) {

@@ -3,6 +3,7 @@
     "title": "Hourglass River",
     "projectWebsite": "https://www.anthropocene-curriculum.org/anthropogenic-markers/critical-environments/case-study/hourglass-river",
     "tagline": "",
+    "defaultLanguage": "en",
     "color": {
       "primary": "#00000e",
       "secondary": "#00000e"

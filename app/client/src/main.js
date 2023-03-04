@@ -70,7 +70,10 @@ fetch('https://hourglass.s3.us-east-2.amazonaws.com/assets/settings/app-conf.jso
       router.addRoutes(getRoutes(data));
       Vue.prototype.$appConfig = data;
       appStore.state.appConfig = data;
-      console.log(i18n);
+      // change language if set in app config
+      if (data.app.defaultLanguage) {
+        i18n.locale = data.app.defaultLanguage;
+      }
       new Vue({
         router,
         i18n,
