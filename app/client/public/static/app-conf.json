@@ -1074,6 +1074,20 @@
       },
       {
         "type": "XYZ",
+        "name": "morgantiles",
+        "group": "two",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/morgan/{z}/{x}/{y}.png",
+        "displayInLegend": true,
+        "legendDisplayName": "Morgan City",
+        "minResolution": 0.5,
+        "maxResolution": 200,
+        "opacity": 0.99,
+        "queryable": false,
+        "visible": true,
+        "updatewhileanimating": true
+      },
+      {
+        "type": "XYZ",
         "name": "hydro",
         "group": "two",
         "url": "https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer/tile/{z}/{y}/{x}",
@@ -1196,8 +1210,8 @@
             "photos",
             "early_channels"
           ],
-          "center": [-91.669, 31.032],
-          "resolution": 40,
+          "center": [-91.667, 31.030],
+          "resolution": 18,
           "mobileCenter": [-91.658, 31.025],
           "mobileResolution": 80,
           "minResolution": 0.25,
