@@ -1,5 +1,5 @@
 <template>
-  <div id="ol-map-container">
+  <div id="ol-map-container" @click="$event => resetAfterSlide()" @mousemove="resetAfterSlide()">
     <!-- Map Controls -->
     <map-legend :color="color.primary" />
     <div style="position: absolute; left: 20px; top: 10px">
@@ -361,7 +361,6 @@ export default {
     me.resetMap();
     me.createLayers();
     me.createHtmlPostLayer();
-
     // Event bus setup for managing interactions
     EventBus.$on('ol-interaction-activated', startedInteraction => {
       me.activeInteractions.push(startedInteraction);
@@ -373,6 +372,14 @@ export default {
   },
 
   methods: {
+    resetAfterSlide() {
+      if (this.slideshow.isRunning) {
+        this.slideshow.isRunning = false;
+        this.stopSlideshow();
+        this.sidebarState = true;
+        this.initMapFly();
+      }
+    },
     /**
      * Creates the OL layers due to the map "layers" array in app config.
      * @return {ol.layer.Base[]} Array of OL layer instances
@@ -968,11 +975,14 @@ export default {
       this.stopSlideshow();
       // Timeout for initial start.
       this.slideshow.timeout = setTimeout(() => {
+        this.slideshow.isRunning = true;
+
         // Timer for slideshow.
         this.slideshow.timer = new Timer(
           this.mapFlyToFn,
           this.$appConfig.map.flyToSlideshow.delayInSecondsBetweenFrames * 1000
         );
+
         this.slideshow.timer.start();
       }, this.$appConfig.map.flyToSlideshow.delayInSecondsForInitialStart * 1000);
     },
@@ -1292,6 +1302,9 @@ export default {
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',
+    }),
+    ...mapFields('app', {
+      sidebarState: 'sidebarState',
     }),
     ...mapFields('map', {
       previousMapPosition: 'previousMapPosition',
