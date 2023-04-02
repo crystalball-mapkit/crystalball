@@ -3,7 +3,6 @@
     "title": "Hourglass River",
     "projectWebsite": "https://www.anthropocene-curriculum.org/anthropogenic-markers/critical-environments/case-study/hourglass-river",
     "tagline": "",
-    "defaultLanguage": "en",
     "color": {
       "primary": "#00000e",
       "secondary": "#00000e"
@@ -58,7 +57,7 @@
         "name": "hourglass_basemap",
         "group": "background",
         "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/hourtiles/{z}/{x}/{y}.png",
-        "displayInLegend": true,
+        "displayInLegend": false,
         "legendDisplayName": "Elevation",
         "minResolution": 1,
         "maxResolution": 64000,
@@ -82,20 +81,6 @@
       },
       {
         "type": "XYZ",
-        "name": "cancer_tiles2",
-        "group": "plantation_alley",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/cancer_tiles/{z}/{x}/{y}.png",
-        "displayInLegend": true,
-        "legendDisplayName": "Plantation footprints",
-        "minResolution": 0.12,
-        "maxResolution": 4,
-        "opacity": 0.99,
-        "queryable": false,
-        "visible": true,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
         "name": "overlay_1892",
         "group": "plantation_alley",
         "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/overlay_1892/{z}/{x}/{y}.png",
@@ -106,32 +91,6 @@
         "opacity": 0.99,
         "queryable": false,
         "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "ESRI-World-Imagery3",
-        "group": "plantation_alley",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/cancer_tiles/{z}/{x}/{y}.png",
-        "displayInLegend": true,
-        "legendDisplayName": "Spotlight",
-        "minResolution": 0.12,
-        "maxResolution": 20,
-        "opacity": 0.99,
-        "queryable": false,
-        "visible": false
-      },
-      {
-        "type": "XYZ",
-        "name": "early_channels",
-        "group": "old_river",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/early_channels/{z}/{x}/{y}.png",
-        "displayInLegend": true,
-        "legendDisplayName": "Early Channels",
-        "minResolution": 4,
-        "maxResolution": 2000,
-        "opacity": 0.99,
-        "queryable": false,
-        "visible": false
       },
       {
         "type": "VECTOR",
@@ -179,7 +138,7 @@
         "type": "VECTOR",
         "name": "polygons",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:polygons&outputFormat=application/json&srsname=EPSG:3857",
-        "queryable": false,
+        "queryable": true,
         "displayInLegend": false,
         "legendDisplayName": "Polygons",
         "format": "GeoJSON",
@@ -196,29 +155,6 @@
             "fillColor": "variable1"
           },
           "strokeWidth": 3
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "dodge_line",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:dodge_line&outputFormat=application/json&srsname=EPSG:3857",
-        "queryable": false,
-        "displayInLegend": false,
-        "legendDisplayName": "dodge_line",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 0,
-        "minResolution": 0,
-        "maxResolution": 64000,
-        "label": false,
-        "isInteractive": true,
-        "hoverable": false,
-        "style": {
-          "type": "line",
-          "stylePropFnRef": {
-            "strokeColor": "variable1",
-            "strokeWidth": "variable2"
-          }
         }
       },
       {
@@ -247,23 +183,8 @@
         "name": "lower_miss_floodplain",
         "group": "old_river",
         "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/lower_miss_floodplain/{z}/{x}/{y}.png",
-        "displayInLegend": true,
-        "legendDisplayName": "Lower Mississippi",
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "opacity": 0.99,
-        "queryable": false,
-        "visible": false,
-        "updatewhileanimating": true,
-        "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/elevation.png"
-      },
-      {
-        "type": "XYZ",
-        "name": "lower_miss_floodplain2",
-        "group": "old_river",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/lower_miss_floodplain/{z}/{x}/{y}.png",
-        "displayInLegend": true,
-        "legendDisplayName": "Lower Miss",
+        "displayInLegend": false,
+        "legendDisplayName": "Lower Mississippi Floodplain",
         "minResolution": 0.5,
         "maxResolution": 64000,
         "opacity": 0.99,
@@ -320,7 +241,7 @@
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:locations2&outputFormat=application/json&srsname=EPSG:3857",
         "group": "locations",
         "queryable": true,
-        "displayInLegend": true,
+        "displayInLegend": false,
         "legendDisplayName": "Locations 2",
         "format": "GeoJSON",
         "visible": true,
@@ -333,7 +254,7 @@
           "stylePropFnRef": {
             "iconUrl": "variable1"
           },
-          "scale": 1,
+          "scale": 0.9,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -614,7 +535,7 @@
         "group": "locations",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Photos",
+        "legendDisplayName": "Photosets",
         "displaySidebarInfo": false,
         "format": "GeoJSON",
         "visible": true,
@@ -631,21 +552,6 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
-      },
-      {
-        "type": "XYZ",
-        "name": "labels",
-        "group": "background",
-        "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmtob2xtZXMiLCJhIjoiNjlkYjI4MDUyYTRlZWEyYzkwYTdmOTgxNmMzOGYwMTUifQ.VSUo52PYOUzS60NR6jqXTw",
-        "minResolution": 0.0,
-        "maxResolution": 3800,
-        "zIndex": 1000,
-        "displayInLegend": true,
-        "legendDisplayName": "Street Map",
-        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
-        "visible": false,
-        "opacity": 0.99,
-        "queryable": false
       },
       {
         "type": "XYZ",
@@ -700,18 +606,6 @@
       },
       {
         "type": "XYZ",
-        "name": "angola_topo",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/angola_topo/{z}/{x}/{y}.png",
-        "minResolution": 1.5,
-        "maxResolution": 200,
-        "displayInLegend": true,
-        "legendDisplayName": "US Topo",
-        "visible": false,
-        "opacity": 0.99,
-        "queryable": false
-      },
-      {
-        "type": "XYZ",
         "name": "nola_streets",
         "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/nola_streets/{z}/{x}/{y}.png",
         "minResolution": 0.5,
@@ -735,13 +629,25 @@
         "queryable": false
       },
       {
+        "type": "XYZ",
+        "name": "morgantiles",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/morgan/{z}/{x}/{y}.png",
+        "minResolution": 0.5,
+        "maxResolution": 2000,
+        "displayInLegend": true,
+        "legendDisplayName": "Morgan City Streets",
+        "visible": true,
+        "opacity": 0.99,
+        "queryable": false
+      },
+      {
         "type": "VECTOR",
         "name": "morgan_city",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:morgan_city&outputFormat=application/json&srsname=EPSG:3857",
         "group": "morgan",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Morgan City",
+        "legendDisplayName": "Morgan City Ring",
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 0,
@@ -776,29 +682,6 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "strokeColor": "#3f2b57",
-          "strokeWidth": 2
-        }
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "miss_levees2",
-        "group": "locations",
-        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:miss_levees@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "minResolution": 1,
-        "maxResolution": 8000,
-        "displayInLegend": true,
-        "legendDisplayName": "Levees",
-        "opacity": 1,
-        "visible": false,
-        "queryable": true,
-        "format": "MVT",
-        "renderMode": "hybrid",
-        "hoverable": true,
-        "isInteractive": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "strokeColor": "orange",
           "strokeWidth": 2
         }
       },
@@ -929,72 +812,43 @@
       {
         "type": "XYZ",
         "name": "osm_transparencies",
-        "group": "two",
+        "group": "hsdrrs",
         "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_transparencies@EPSG%3A900913@png/{z}/{x}/{-y}.png",
         "minResolution": 0.5,
         "maxResolution": 8000,
         "displayInLegend": true,
         "legendDisplayName": "OSM",
-        "opacity": 0.99,
+        "opacity": 0.69,
         "visible": false,
         "updatewhileanimating": true
       },
       {
         "type": "XYZ",
-        "name": "old_tiles",
-        "group": "plantation",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/1892_overlay/{z}/{x}/{y}.png",
-        "displayInLegend": true,
-        "legendDisplayName": "US topo, 1892",
-        "minResolution": 4,
-        "maxResolution": 60,
-        "opacity": 0.79,
-        "queryable": false,
+        "name": "waterplaces",
+        "group": "hsdrrs",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:waterplaces@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "minResolution": 0.5,
+        "maxResolution": 56,
+        "displayInLegend": false,
+        "legendDisplayName": "Water names",
+        "opacity": 0.99,
         "visible": true,
         "updatewhileanimating": true
       },
       {
         "type": "XYZ",
-        "name": "old_tiles2",
-        "group": "plantation",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/1892_overlay/{z}/{x}/{y}.png",
-        "displayInLegend": true,
-        "legendDisplayName": "US topo 1892",
-        "minResolution": 4,
-        "maxResolution": 60,
-        "opacity": 0.79,
-        "queryable": false,
-        "visible": true,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "old_tiles3",
-        "group": "plantation",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/1892_overlay/{z}/{x}/{y}.png",
-        "displayInLegend": true,
-        "legendDisplayName": "Topo 1892",
-        "minResolution": 4,
-        "maxResolution": 60,
-        "opacity": 0.89,
-        "queryable": false,
-        "visible": true,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "angola",
-        "group": "two",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/angola2/{z}/{x}/{y}.png",
-        "displayInLegend": true,
-        "legendDisplayName": "Angola Prison",
+        "name": "circles",
+        "group": "orcs",
+        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/circles/{z}/{x}/{y}.png",
+        "displayInLegend": false,
+        "legendDisplayName": "Control installations",
         "minResolution": 0.25,
-        "maxResolution": 200,
+        "maxResolution": 4,
         "opacity": 0.99,
         "queryable": false,
         "visible": true,
         "updatewhileanimating": true,
-        "legendIcon": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/legend_images/prison.png"
+        "legendIcon": ""
       },
       {
         "type": "XYZ",
@@ -1060,32 +914,47 @@
         "opacity": 0.8
       },
       {
-        "type": "XYZ",
-        "name": "orleans",
-        "group": "two",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/orleans/{z}/{x}/{y}.png",
+        "type": "VECTOR",
+        "name": "cmp2017_structural",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:cmp2017_structural&outputFormat=application/json&srsname=EPSG:3857",
+        "queryable": true,
+        "legendDisplayName": "Structural Protections",
         "displayInLegend": true,
-        "legendDisplayName": "Territoire d'Orléans (1806)",
-        "minResolution": 2,
-        "maxResolution": 64000,
-        "opacity": 0.99,
-        "queryable": false,
-        "visible": false,
-        "updatewhileanimating": true
+        "visible": true,
+        "format": "GeoJSON",
+        "zIndex": 0,
+        "minResolution": 1,
+        "maxResolution": 800,
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "strokeColor": "red",
+          "strokeWidth": 3
+        }
       },
       {
-        "type": "XYZ",
-        "name": "morgantiles",
-        "group": "two",
-        "url": "https://hourglass.s3.us-east-2.amazonaws.com/assets/tiles/morgan/{z}/{x}/{y}.png",
+        "type": "VECTOR",
+        "name": "cmp2017_diversions",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:cmp2017_diversions&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "hsdrrs",
+        "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Morgan City",
-        "minResolution": 0.5,
-        "maxResolution": 200,
-        "opacity": 0.99,
-        "queryable": false,
+        "legendDisplayName": "River Diversions",
+        "format": "GeoJSON",
         "visible": true,
-        "updatewhileanimating": true
+        "zIndex": 10,
+        "minResolution": 0.5,
+        "maxResolution": 2000,
+        "label": false,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://hourglass.s3.us-east-2.amazonaws.com/assets/icons/diversion2.png",
+          "scale": 0.9,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
       },
       {
         "type": "XYZ",
@@ -1151,11 +1020,6 @@
         "attributions": "Sources: Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community"
       }
     ],
-    "flyToSlideshow": {
-      "delayInSecondsForInitialStart": 9000000,
-      "delayInSecondsBetweenFrames": 120000,
-      "maplinks": [""]
-    },
     "groups": {
       "locations": {
         "default": {
@@ -1168,6 +1032,7 @@
             "atchafalaya",
             "atchafalaya_mainstem",
             "orcs_angola",
+            "circles",
             "polygons",
             "cancer_alley_tri",
             "labels2",
@@ -1202,16 +1067,15 @@
           "layers": [
             "hourglass_land",
             "ESRI-World-Imagery2",
-            "lower_miss_floodplain2",
+            "lower_miss_floodplain",
             "rivers",
             "orcs_angola",
             "old_river_cutout",
-            "labels",
             "locations2",
             "photos",
-            "early_channels"
+            "circles"
           ],
-          "center": [-91.667, 31.03],
+          "center": [ -91.666, 31.015],
           "resolution": 18,
           "mobileCenter": [-91.658, 31.025],
           "mobileResolution": 80,
@@ -1242,9 +1106,9 @@
             "ESRI-World-Imagery2",
             "hourglass_basemap",
             "cancer_tiles",
+            "labels1",
             "overlay_1892",
             "locations2",
-            "labels1",
             "cancer_alley_tri",
             "polygons",
             "photos"
@@ -1284,6 +1148,7 @@
             "abandoned",
             "active_producing",
             "active_injection",
+            "waterplaces",
             "labels2",
             "photos",
             "locations2"
@@ -1321,6 +1186,9 @@
             "nola_streets",
             "hsdrrs",
             "miss_levees",
+            "waterplaces",
+            "cmp2017_structural",
+            "cmp2017_diversions",
             "locations2"
           ],
           "center": [-90.098, 29.929],
@@ -1383,18 +1251,20 @@
       }
     },
     "flyToSlideshow": {
-      "delayInSecondsForInitialStart": 9000000,
-      "delayInSecondsBetweenFrames": 120000,
-      "maplinks": [""]
+      "delayInSecondsForInitialStart": 10,
+      "delayInSecondsBetweenFrames": 10,
+      "maplinks": [
+        "/#/locations/default?center=30.998,-91.664&zoom=12.521&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false", "/#/plantation/default?center=30.076,-90.861&zoom=15.147&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false", "/#/locations/default?center=30.345,-93.057&zoom=14.416&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false", "/#/morgan/default?center=29.814,-91.797&zoom=12.974&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false", "/#/locations/default?center=29.938,-90.193&zoom=12.561&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false", "/#/locations/default?center=29.234,-89.411&zoom=12.406&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false", "/#/locations/default?center=29.448,-91.283&zoom=11.560&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false", "/#/old_river/default?center=31.067,-91.609&zoom=12.321&layers=photos,orcs_angola,rivers& sidebar=false", "/#/old_river/default?center=31.078,-91.828&zoom=9.233&layers=photos,orcs_angola,rivers&sidebar=false", "/#/old_river/default?center=30.970,-91.602&zoom=12.165&layers=photos,orcs_angola,rivers&sidebar=false", "/#/old_river/default?center=30.960,-91.578&zoom=16.146&layers=photos,orcs_angola,rivers&sidebar=false", "/#/old_river/default?center=30.957,-91.595&zoom=17.000&layers=photos,orcs_angola,rivers&sidebar=false", "/#/plantation/default?center=30.136,-90.889&zoom=8.644&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos& sidebar=false", "/#/plantation/default?center=30.042,-90.637&zoom=12.398&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false", "/#/plantation/default?center=30.038,-90.649&zoom=16.585&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false", "/#/plantation/default?center=30.051,-90.649&zoom=13.185&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false", "/#/morgan/default?center=29.702,-91.185&zoom=12.393&layers=active_injection,active_producing,abandoned,photos,morgantiles,morgan_city& sidebar=false", "/#/morgan/default?center=29.981,-91.968&zoom=13.170&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false", "/#/morgan/default?center=29.641,-91.114&zoom=16.200&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false", "/#/morgan/default?center=29.900,-91.906&zoom=12.416&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false", "/#/hsdrrs/default?center=29.929,-90.098&zoom=9.644&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions& sidebar=false", "/#/hsdrrs/default?center=30.006,-89.895&zoom=11.483&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions&sidebar=false", "/#/hsdrrs/default?center=29.706,-90.549&zoom=8.452&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions&sidebar=false", "/#/hsdrrs/default?center=29.978,-90.022&zoom=15.096&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions&sidebar=false","/#/deeptime/default?center=29.768,-90.799&zoom=7.322&layers=cancer_tiles,labels2& sidebar=false", "/#/deeptime/default?center=29.768,-90.799&zoom=7.322&layers=cancer_tiles,labels2& sidebar=false", "/#/deeptime/default?center=30.213,-91.062&zoom=8.656&layers=cancer_tiles,labels2& sidebar=false", "/#/deeptime/default?center=29.563,-91.303&zoom=9.677&layers=cancer_tiles,labels2& sidebar=false", "/#/deeptime/default?center=29.488,-91.344&zoom=10.877&layers=cancer_tiles,labels2&sidebar=false", "/#/locations/default?center=30.486,-91.350&zoom=7.184&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola& sidebar=false"
+      ]
     },
     "defaultActiveGroup": "locations",
     "groupTitles": {
       "locations": "Introduction",
-      "deeptime": "Release",
       "old_river": "The Knot",
       "plantation": "Plantation Alley",
       "morgan": "Oil City",
-      "hsdrrs": "Floodwalls"
+      "hsdrrs": "Walls & Diversions",
+      "deeptime": "Release"
     },
     "regionTitles": {
       "default": ""
@@ -1427,3 +1297,4 @@
     }
   }
 }
+
