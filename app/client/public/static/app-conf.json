@@ -1075,7 +1075,7 @@
             "photos",
             "circles"
           ],
-          "center": [ -91.666, 31.015],
+          "center": [-91.666, 31.015],
           "resolution": 18,
           "mobileCenter": [-91.658, 31.025],
           "mobileResolution": 80,
@@ -1254,7 +1254,36 @@
       "delayInSecondsForInitialStart": 10,
       "delayInSecondsBetweenFrames": 10,
       "maplinks": [
-        "/#/locations/default?center=30.998,-91.664&zoom=12.521&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false", "/#/plantation/default?center=30.076,-90.861&zoom=15.147&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false", "/#/locations/default?center=30.345,-93.057&zoom=14.416&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false", "/#/morgan/default?center=29.814,-91.797&zoom=12.974&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false", "/#/locations/default?center=29.938,-90.193&zoom=12.561&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false", "/#/locations/default?center=29.234,-89.411&zoom=12.406&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false", "/#/locations/default?center=29.448,-91.283&zoom=11.560&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false", "/#/old_river/default?center=31.067,-91.609&zoom=12.321&layers=photos,orcs_angola,rivers& sidebar=false", "/#/old_river/default?center=31.078,-91.828&zoom=9.233&layers=photos,orcs_angola,rivers&sidebar=false", "/#/old_river/default?center=30.970,-91.602&zoom=12.165&layers=photos,orcs_angola,rivers&sidebar=false", "/#/old_river/default?center=30.960,-91.578&zoom=16.146&layers=photos,orcs_angola,rivers&sidebar=false", "/#/old_river/default?center=30.957,-91.595&zoom=17.000&layers=photos,orcs_angola,rivers&sidebar=false", "/#/plantation/default?center=30.136,-90.889&zoom=8.644&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos& sidebar=false", "/#/plantation/default?center=30.042,-90.637&zoom=12.398&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false", "/#/plantation/default?center=30.038,-90.649&zoom=16.585&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false", "/#/plantation/default?center=30.051,-90.649&zoom=13.185&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false", "/#/morgan/default?center=29.702,-91.185&zoom=12.393&layers=active_injection,active_producing,abandoned,photos,morgantiles,morgan_city& sidebar=false", "/#/morgan/default?center=29.981,-91.968&zoom=13.170&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false", "/#/morgan/default?center=29.641,-91.114&zoom=16.200&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false", "/#/morgan/default?center=29.900,-91.906&zoom=12.416&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false", "/#/hsdrrs/default?center=29.929,-90.098&zoom=9.644&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions& sidebar=false", "/#/hsdrrs/default?center=30.006,-89.895&zoom=11.483&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions&sidebar=false", "/#/hsdrrs/default?center=29.706,-90.549&zoom=8.452&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions&sidebar=false", "/#/hsdrrs/default?center=29.978,-90.022&zoom=15.096&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions&sidebar=false","/#/deeptime/default?center=29.768,-90.799&zoom=7.322&layers=cancer_tiles,labels2& sidebar=false", "/#/deeptime/default?center=29.768,-90.799&zoom=7.322&layers=cancer_tiles,labels2& sidebar=false", "/#/deeptime/default?center=30.213,-91.062&zoom=8.656&layers=cancer_tiles,labels2& sidebar=false", "/#/deeptime/default?center=29.563,-91.303&zoom=9.677&layers=cancer_tiles,labels2& sidebar=false", "/#/deeptime/default?center=29.488,-91.344&zoom=10.877&layers=cancer_tiles,labels2&sidebar=false", "/#/locations/default?center=30.486,-91.350&zoom=7.184&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola& sidebar=false"
+        "/#/locations/default?center=30.998,-91.664&zoom=12.521&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false",
+        "/#/plantation/default?center=30.076,-90.861&zoom=15.147&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false",
+        "/#/locations/default?center=30.345,-93.057&zoom=14.416&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false",
+        "/#/morgan/default?center=29.814,-91.797&zoom=12.974&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false",
+        "/#/locations/default?center=29.938,-90.193&zoom=12.561&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false",
+        "/#/locations/default?center=29.234,-89.411&zoom=12.406&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false",
+        "/#/locations/default?center=29.448,-91.283&zoom=11.560&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola&sidebar=false",
+        "/#/old_river/default?center=31.067,-91.609&zoom=12.321&layers=photos,orcs_angola,rivers& sidebar=false",
+        "/#/old_river/default?center=31.078,-91.828&zoom=9.233&layers=photos,orcs_angola,rivers&sidebar=false",
+        "/#/old_river/default?center=30.970,-91.602&zoom=12.165&layers=photos,orcs_angola,rivers&sidebar=false",
+        "/#/old_river/default?center=30.960,-91.578&zoom=16.146&layers=photos,orcs_angola,rivers&sidebar=false",
+        "/#/old_river/default?center=30.957,-91.595&zoom=17.000&layers=photos,orcs_angola,rivers&sidebar=false",
+        "/#/plantation/default?center=30.136,-90.889&zoom=8.644&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos& sidebar=false",
+        "/#/plantation/default?center=30.042,-90.637&zoom=12.398&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false",
+        "/#/plantation/default?center=30.038,-90.649&zoom=16.585&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false",
+        "/#/plantation/default?center=30.051,-90.649&zoom=13.185&layers=cancer_tiles,overlay_1892,cancer_alley_tri,photos&sidebar=false",
+        "/#/morgan/default?center=29.702,-91.185&zoom=12.393&layers=active_injection,active_producing,abandoned,photos,morgantiles,morgan_city& sidebar=false",
+        "/#/morgan/default?center=29.981,-91.968&zoom=13.170&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false",
+        "/#/morgan/default?center=29.641,-91.114&zoom=16.200&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false",
+        "/#/morgan/default?center=29.900,-91.906&zoom=12.416&layers=active_injection,active_producing,abandoned,photos,labels2,morgantiles,morgan_city&sidebar=false",
+        "/#/hsdrrs/default?center=29.929,-90.098&zoom=9.644&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions& sidebar=false",
+        "/#/hsdrrs/default?center=30.006,-89.895&zoom=11.483&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions&sidebar=false",
+        "/#/hsdrrs/default?center=29.706,-90.549&zoom=8.452&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions&sidebar=false",
+        "/#/hsdrrs/default?center=29.978,-90.022&zoom=15.096&layers=hsdrrs,nola_streets,miss_levees,cmp2017_structural,cmp2017_diversions&sidebar=false",
+        "/#/deeptime/default?center=29.768,-90.799&zoom=7.322&layers=cancer_tiles,labels2& sidebar=false",
+        "/#/deeptime/default?center=29.768,-90.799&zoom=7.322&layers=cancer_tiles,labels2& sidebar=false",
+        "/#/deeptime/default?center=30.213,-91.062&zoom=8.656&layers=cancer_tiles,labels2& sidebar=false",
+        "/#/deeptime/default?center=29.563,-91.303&zoom=9.677&layers=cancer_tiles,labels2& sidebar=false",
+        "/#/deeptime/default?center=29.488,-91.344&zoom=10.877&layers=cancer_tiles,labels2&sidebar=false",
+        "/#/locations/default?center=30.486,-91.350&zoom=7.184&layers=cancer_tiles,atchafalaya,atchafalaya_mainstem,cancer_alley_tri,labels2,orcs_angola& sidebar=false"
       ]
     },
     "defaultActiveGroup": "locations",
@@ -1297,4 +1326,3 @@
     }
   }
 }
-
