@@ -405,7 +405,7 @@ export default {
         this.editPost(this.popup.activeFeature);
       }
     });
-    EventBus.$on("scrollSidePanelTop",()=>{
+    EventBus.$on('scrollSidePanelTop', () => {
       const scrollEl = this.$refs.vs;
       if (scrollEl && scrollEl.scrollTo) {
         scrollEl.scrollTo(
