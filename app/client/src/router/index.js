@@ -109,7 +109,6 @@ const router = new VueRouter({});
 //   });
 // };
 router.beforeEach((to, from, next) => {
- 
   EventBus.$emit('scrollSidePanelTop');
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
   if (!requiresAuth) {
