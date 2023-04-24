@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Main from '../views/Main.vue';
 import {validateToken} from '../utils/Helpers';
+import {EventBus} from '../EventBus';
 
 Vue.use(VueRouter);
 
@@ -108,6 +109,7 @@ const router = new VueRouter({});
 //   });
 // };
 router.beforeEach((to, from, next) => {
+  EventBus.$emit('scrollSidePanelTop');
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
   if (!requiresAuth) {
     return next();
