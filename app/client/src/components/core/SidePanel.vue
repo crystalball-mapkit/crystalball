@@ -405,6 +405,18 @@ export default {
         this.editPost(this.popup.activeFeature);
       }
     });
+    EventBus.$on('scrollSidePanelTop', () => {
+      const scrollEl = this.$refs.vs;
+      if (scrollEl && scrollEl.scrollTo) {
+        scrollEl.scrollTo(
+          {
+            y: 0,
+          },
+          100,
+          'easeInQuad'
+        );
+      }
+    });
   },
   computed: {
     isFeatureGetInfo() {
@@ -622,7 +634,7 @@ export default {
             : this.popup.activeFeature.getGeometry().getFirstCoordinate();
         this.map.getView().animate({
           center,
-          zoom: 13.5,
+          zoom: 15.5,
           duration: 800,
         });
       }

@@ -17,6 +17,7 @@
     "axios": "^1.2.1",
     "colormap": "^2.3.0",
     "deps": "^1.0.0",
+    "dotenv": "^16.0.2",
     "jwt-decode": "^2.2.0",
     "location": "0.0.1",
     "material-design-icons": "^3.0.1",
