@@ -13,7 +13,7 @@
       "family": "Roboto"
     },
     "legend": {
-      "isVisible": false
+      "isVisible": true
     },
     "controls": {
       "locate_me": true,
@@ -103,7 +103,7 @@
         "group": "media",
         "queryable": true,
         "format": "GeoJSON",
-        "visible": true,
+        "visible": false,
         "displayInLegend": true,
         "legendDisplayName": "Polygons",
         "zIndex": 1000,
@@ -209,7 +209,7 @@
         "queryable": true,
         "format": "GeoJSON",
         "legendDisplayName": "Restoration projects",
-        "visible": true,
+        "visible": false,
         "displayInLegend": true,
         "zIndex": 1000,
         "minResolution": 0,
@@ -226,6 +226,32 @@
           },
           "strokeColor": "rgba(255,255,255,0.7)",
           "strokeWidth": 1
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "export_rosario",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:export_rosario&outputFormat=application/json&srsname=EPSG:3857",
+        "queryable": true,
+        "isInteractive": true,
+        "displayInLegend": true,
+        "legendDisplayName": "Exports from Rosario",
+        "format": "GeoJSON",
+        "visible": true,
+        "displaySidebarInfo": false,
+        "zIndex": 1000,
+        "minResolution": 2,
+        "maxResolution": 64000,
+        "label": false,
+        "hoverable": true,
+        "style": {
+          "type": "line",
+          "stylePropFnRef": {
+            "strokeWidth": "variable1"
+          },
+          "strokeColor": "#7c2ca3",
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -312,11 +338,11 @@
       },
       "data": {
         "default": {
-          "layers": ["osm", "ESRI-World-Imagery", "glri_projects"],
-          "center": [-84.474, 43.822],
-          "resolution": 1000,
-          "mobileResolution": 1400,
-          "mobileCenter": [-84.509, 43.901],
+          "layers": ["osm", "ESRI-World-Imagery", "glri_projects", "export_rosario"],
+          "center": [26.041, -4.828],
+          "resolution": 60000,
+          "mobileResolution": 40000,
+          "mobileCenter": [26.041, -4.828],
           "minResolution": 0,
           "maxResolution": 64000
         },
