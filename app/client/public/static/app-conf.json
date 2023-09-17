@@ -1,6 +1,10 @@
 {
   "app": {
-    "title": "Crystalball",
+    "title": {
+      "en": "Crystalball",
+      "es": "Bola de cristal",
+      "pt": "Bola de cristal"
+    },
     "tagline": "open-source mapkit",
     "projectWebsite": "https://wiki.timetochange.today",
     "defaultLanguage": "en",
