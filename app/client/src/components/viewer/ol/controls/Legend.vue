@@ -86,7 +86,11 @@
                           'blue--text': item.get('displaySidebarInfo') ? true : false,
                         }"
                       >
-                        {{ item.get('legendDisplayName')[$i18n.locale] || item.get('legendDisplayName') || humanize(item.get('name')) }}
+                        {{
+                          item.get('legendDisplayName')[$i18n.locale] ||
+                          item.get('legendDisplayName') ||
+                          humanize(item.get('name'))
+                        }}
                       </span>
                     </template>
                   </v-checkbox>
