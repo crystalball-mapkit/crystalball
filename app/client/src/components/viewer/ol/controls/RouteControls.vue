@@ -14,7 +14,7 @@
               'elevation-6': activeLayerGroup.region === region.name,
             }"
           >
-            {{ region.title }}
+            {{ region.title[$i18n.locale] || region.title }}
           </v-btn>
         </div>
       </v-layout>

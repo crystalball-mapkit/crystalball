@@ -57,7 +57,9 @@
                 'mx-2': true,
               }"
             >
-              {{ `${$appConfig.map.groupTitles[activeLayerGroup.navbarGroup]}` }}
+              {{
+                `${$appConfig.map.groupTitles[activeLayerGroup.navbarGroup][$i18n.locale] || $appConfig.map.groupTitles[activeLayerGroup.navbarGroup]}`
+              }}
               <v-icon class="mx-2" left> expand_more </v-icon>
             </v-btn>
           </template>
@@ -68,7 +70,7 @@
               @click="changeNavbarGroup(navbarGroup)"
               :key="index"
             >
-              <v-list-item-title>{{ navbarGroup.title }}</v-list-item-title>
+              <v-list-item-title>{{ navbarGroup.title[$i18n.locale] || navbarGroup.title }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -90,14 +92,14 @@
                 'elevation-6': activeLayerGroup.navbarGroup === navbarGroup.name,
               }"
             >
-              {{ navbarGroup.title }}
+              {{ navbarGroup.title[$i18n.locale] || navbarGroup.title }}
             </v-btn>
           </div>
         </template>
 
         <v-spacer></v-spacer><v-spacer></v-spacer>
 
-        <span class="title pr-5">{{ $appConfig.app.tagline || '' }}</span>
+        <span class="title pr-5">{{ $appConfig.app.tagline[$i18n.locale] || $appConfig.app.tagline || '' }}</span>
         <v-menu offset-y>
           <template v-slot:activator="{on, attrs}">
             <v-btn v-bind="attrs" v-on="on" icon>
@@ -127,7 +129,7 @@
     </v-app>
 
     <!-- ===MOBILE=== -->
-    <v-app data-app v-if="$vuetify.breakpoint.smAndDown" class="mobile-parent-wrap">
+    <v-app data-app v-if="true" class="mobile-parent-wrap">
       <!-- APP BAR MOBILE -->
       <v-app-bar :color="color.primary" height="60" absolute dark>
         <v-btn icon @click="navDrawer = !navDrawer"
@@ -183,7 +185,7 @@
               :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
               :key="index"
             >
-              <v-list-item-title>{{ navbarGroup.title.toUpperCase() }}</v-list-item-title>
+              <v-list-item-title>{{ (navbarGroup.title[$i18n.locale] || navbarGroup.title).toUpperCase() }}</v-list-item-title>
             </v-list-item>
           </v-list>
 
@@ -207,7 +209,7 @@
                 :style="`background-color:${activeLayerGroup.region === region.name ? color.primary : 'white'};`"
                 :key="index"
               >
-                <v-list-item-title>{{ region.title.toUpperCase() }}</v-list-item-title>
+                <v-list-item-title>{{ region.title[$i18n.locale] || region.title }}</v-list-item-title>
               </v-list-item>
             </template>
           </v-list>
@@ -299,12 +301,12 @@ export default {
       let title = '';
       this.navbarGroups.forEach(group => {
         if (group.name === activeNavbarGroup) {
-          title = group.title.toUpperCase();
+          title = (group.title[this.$i18n.locale] || group.title).toUpperCase();
         }
       });
       this.regions.forEach(region => {
         if (region.name === activeRegion && region.name !== 'default') {
-          title += ` - ${region.title}`;
+          title += ` - ${region.title[this.$i18n.locale]  || region.title}`;
         }
       });
       return title;

@@ -123,7 +123,7 @@
         <v-divider></v-divider>
         <v-row class="my-1" justify="center">
           <span class="black--text text--darken-2 subtitle-2">
-            {{ title }}
+            {{ title[$i18n.locale] || title }}
           </span>
         </v-row>
       </v-expansion-panel>
@@ -248,15 +248,18 @@ export default {
       });
     },
     updateTitle() {
-      let title = '';
+      // let title = '';
+      let title = {};
       this.navbarGroups.forEach(navbarGroup => {
         if (navbarGroup.name === this.activeLayerGroup.navbarGroup) {
-          title += navbarGroup.title;
+          // title += navbarGroup.title;
+          title = navbarGroup.title;
         }
       });
       this.regions.forEach(region => {
         if (region.name === this.activeLayerGroup.region && region.name !== 'default') {
-          title += ` (${region.title})`;
+          // title += ` (${region.title})`;
+          title = region.title;
         }
       });
       this.title = title;
