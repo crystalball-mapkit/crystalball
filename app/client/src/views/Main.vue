@@ -58,7 +58,10 @@
               }"
             >
               {{
-                `${$appConfig.map.groupTitles[activeLayerGroup.navbarGroup][$i18n.locale] || $appConfig.map.groupTitles[activeLayerGroup.navbarGroup]}`
+                `${
+                  $appConfig.map.groupTitles[activeLayerGroup.navbarGroup][$i18n.locale] ||
+                  $appConfig.map.groupTitles[activeLayerGroup.navbarGroup]
+                }`
               }}
               <v-icon class="mx-2" left> expand_more </v-icon>
             </v-btn>
@@ -185,7 +188,9 @@
               :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
               :key="index"
             >
-              <v-list-item-title>{{ (navbarGroup.title[$i18n.locale] || navbarGroup.title).toUpperCase() }}</v-list-item-title>
+              <v-list-item-title>{{
+                (navbarGroup.title[$i18n.locale] || navbarGroup.title).toUpperCase()
+              }}</v-list-item-title>
             </v-list-item>
           </v-list>
 
@@ -306,7 +311,7 @@ export default {
       });
       this.regions.forEach(region => {
         if (region.name === activeRegion && region.name !== 'default') {
-          title += ` - ${region.title[this.$i18n.locale]  || region.title}`;
+          title += ` - ${region.title[this.$i18n.locale] || region.title}`;
         }
       });
       return title;
