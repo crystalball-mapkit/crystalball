@@ -25,7 +25,7 @@
           <template v-slot:activator="{on, attrs}">
             <v-btn v-bind="attrs" v-on="on" class="edit-buttons" dark rounded :color="color.primary"
               ><v-icon small left>far fa-edit</v-icon>
-              {{ selectedLayer ? selectedLayer.get('legendDisplayName') : '' }}</v-btn
+              {{ selectedLayer ? (selectedLayer.get('legendDisplayName')[$i18n.locale] || selectedLayer.get('legendDisplayName')) : '' }}</v-btn
             >
           </template>
 
@@ -118,10 +118,10 @@
           :label="$t(`general.layers`)"
         >
           <template slot="selection" slot-scope="{item}">
-            {{ item.get('legendDisplayName') }}
+            {{ item.get('legendDisplayName')[$i18n.locale] || item.get('legendDisplayName') }}
           </template>
           <template slot="item" slot-scope="{item}">
-            {{ item.get('legendDisplayName') }}
+            {{ item.get('legendDisplayName')[$i18n.locale] || item.get('legendDisplayName') }}
           </template>
         </v-select>
         <v-card-actions>
