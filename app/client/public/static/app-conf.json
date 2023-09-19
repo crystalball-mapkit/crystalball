@@ -72,8 +72,8 @@
           "radius": 10,
           "strokeWidth": 2,
           "stylePropFnRef": {
-            "fillColor": "variable1",
-            "strokeColor": "variable2"
+            "fillColor": "red",
+            "strokeColor": "red"
           },
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -101,8 +101,8 @@
         "style": {
           "type": "line",
           "stylePropFnRef": {
-            "strokeColor": "variable1",
-            "strokeWidth": "variable2"
+            "strokeColor": "red",
+            "strokeWidth": "red"
           },
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -132,8 +132,8 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "stylePropFnRef": {
-            "strokeColor": "variable2",
-            "fillColor": "variable1"
+            "strokeColor": "red",
+            "fillColor": "red"
           },
           "strokeWidth": 3
         }
@@ -245,8 +245,8 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "stylePropFnRef": {
-            "fillColor": "variable1",
-            "radius": "variable2"
+            "fillColor": "red",
+            "radius": "red"
           },
           "strokeColor": "rgba(255,255,255,0.7)",
           "strokeWidth": 1
@@ -271,7 +271,7 @@
         "style": {
           "type": "line",
           "stylePropFnRef": {
-            "strokeWidth": "variable1"
+            "strokeWidth": "red"
           },
           "strokeColor": "#7c2ca3",
           "hoverTextColor": "white",
