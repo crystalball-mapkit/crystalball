@@ -154,7 +154,7 @@
     </v-app>
 
     <!-- ===MOBILE=== -->
-    <v-app data-app v-if="true" class="mobile-parent-wrap">
+    <v-app data-app v-if="$vuetify.breakpoint.smAndDown" class="mobile-parent-wrap">
       <!-- APP BAR MOBILE -->
       <v-app-bar :color="color.primary" height="60" absolute dark>
         <v-btn icon @click="navDrawer = !navDrawer">
