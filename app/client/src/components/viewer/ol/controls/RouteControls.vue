@@ -4,17 +4,21 @@
       <v-layout row>
         <div v-for="(region, index) in regions" :key="index">
           <v-btn
-            v-if="hasRegion(region)"
-            min-width="140"
-            class="mx-2 mb-2 locate-button"
-            dark
-            @click="changeRegion(region)"
-            :color="activeLayerGroup.region === region.name ? color.activeButton : color.inactiveButton"
-            :class="{
+              v-if="hasRegion(region)"
+              min-width="140"
+              class="mx-2 mb-2 locate-button"
+              dark
+              @click="changeRegion(region)"
+              :color="activeLayerGroup.region === region.name ? color.activeButton : color.inactiveButton"
+              :class="{
               'elevation-6': activeLayerGroup.region === region.name,
             }"
           >
-            {{ region.title[$i18n.locale] || region.title }}
+            {{
+              region.title[$i18n.locale] ||
+              (typeof region.title === "object" && Object.values(region.title)[0]) ||
+              region.title
+            }}
           </v-btn>
         </div>
       </v-layout>
