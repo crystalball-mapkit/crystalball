@@ -15,24 +15,25 @@
         </div>
 
         <v-menu
-            v-if="selectedLayer"
-            class="edit-buttons"
-            origin="center center"
-            offset-y
-            :nudge-bottom="5"
-            transition="slide-y-transition"
+          v-if="selectedLayer"
+          class="edit-buttons"
+          origin="center center"
+          offset-y
+          :nudge-bottom="5"
+          transition="slide-y-transition"
         >
           <template v-slot:activator="{on, attrs}">
-            <v-btn v-bind="attrs" v-on="on" class="edit-buttons" dark rounded :color="color.primary"
-            >
+            <v-btn v-bind="attrs" v-on="on" class="edit-buttons" dark rounded :color="color.primary">
               <v-icon small left>far fa-edit</v-icon>
               {{
-                selectedLayer ? (selectedLayer.get('legendDisplayName')[$i18n.locale] ||
-                    (typeof selectedLayer.get('legendDisplayName') === "object" && Object.values(selectedLayer.get('legendDisplayName'))[0]) ||
-                    selectedLayer.get('legendDisplayName')) : ''
+                selectedLayer
+                  ? selectedLayer.get('legendDisplayName')[$i18n.locale] ||
+                    (typeof selectedLayer.get('legendDisplayName') === 'object' &&
+                      Object.values(selectedLayer.get('legendDisplayName'))[0]) ||
+                    selectedLayer.get('legendDisplayName')
+                  : ''
               }}
-            </v-btn
-            >
+            </v-btn>
           </template>
 
           <v-list dense>
@@ -60,13 +61,13 @@
       <v-tooltip left>
         <template v-slot:activator="{on}">
           <v-btn
-              class="edit-buttons mt-2"
-              v-on="on"
-              @click="togglePostEdit"
-              :color="isEditingPost ? 'error' : color.primary"
-              fab
-              dark
-              small
+            class="edit-buttons mt-2"
+            v-on="on"
+            @click="togglePostEdit"
+            :color="isEditingPost ? 'error' : color.primary"
+            fab
+            dark
+            small
           >
             <v-icon small>{{ isEditingPost ? 'close' : 'fas fa-map-pin' }}</v-icon>
           </v-btn>
@@ -81,14 +82,14 @@
           <v-tooltip left>
             <template v-slot:activator="{on}">
               <v-btn
-                  class="edit-buttons mt-2"
-                  v-on="on"
-                  fab
-                  dark
-                  right
-                  x-small
-                  :color="isEditingPost ? color.activeButton : color.primary"
-                  @click="edit(item.action)"
+                class="edit-buttons mt-2"
+                v-on="on"
+                fab
+                dark
+                right
+                x-small
+                :color="isEditingPost ? color.activeButton : color.primary"
+                @click="edit(item.action)"
               >
                 <v-icon medium>{{ item.icon }}</v-icon>
               </v-btn>
@@ -108,8 +109,8 @@
         </v-app-bar>
 
         <v-select
-            class="mx-4 my-2"
-            :items="
+          class="mx-4 my-2"
+          :items="
             flatLayers.filter(
               l =>
                 ['VECTORTILE', 'VECTOR'].includes(l.get('type')) &&
@@ -118,22 +119,22 @@
                 l.get('canEdit') !== false
             )
           "
-            v-model="dialogSelectedLayer"
-            return-object
-            item-value="values_.name"
-            :label="$t(`general.layers`)"
+          v-model="dialogSelectedLayer"
+          return-object
+          item-value="values_.name"
+          :label="$t(`general.layers`)"
         >
           <template slot="selection" slot-scope="{item}">
             {{
               item.get('legendDisplayName')[$i18n.locale] ||
-              (typeof item.get('legendDisplayName') === "object" && Object.values(item.get('legendDisplayName'))[0]) ||
+              (typeof item.get('legendDisplayName') === 'object' && Object.values(item.get('legendDisplayName'))[0]) ||
               item.get('legendDisplayName')
             }}
           </template>
           <template slot="item" slot-scope="{item}">
             {{
               item.get('legendDisplayName')[$i18n.locale] ||
-              (typeof item.get('legendDisplayName') === "object" && Object.values(item.get('legendDisplayName'))[0]) ||
+              (typeof item.get('legendDisplayName') === 'object' && Object.values(item.get('legendDisplayName'))[0]) ||
               item.get('legendDisplayName')
             }}
           </template>
@@ -141,17 +142,16 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-              color="primary darken-1"
-              text
-              :disabled="!dialogSelectedLayer"
-              @click.native="
+            color="primary darken-1"
+            text
+            :disabled="!dialogSelectedLayer"
+            @click.native="
               removeInteraction();
               selectedLayer = dialogSelectedLayer;
               layersDialog = false;
             "
-          >{{ $t('general.ok') }}
-          </v-btn
-          >
+            >{{ $t('general.ok') }}
+          </v-btn>
           <v-btn :color="color.primary" text @click.native="layersDialog = false">{{ $t('general.cancel') }}</v-btn>
         </v-card-actions>
       </v-card>
@@ -161,11 +161,11 @@
     <lightbox-dialog></lightbox-dialog>
     <!-- POPUP OVERLAY  -->
     <overlay-popup
-        v-if="!$vuetify.breakpoint.smAndDown"
-        style="cursor: default"
-        :title="popup.title"
-        v-show="popup.isVisible"
-        ref="popup"
+      v-if="!$vuetify.breakpoint.smAndDown"
+      style="cursor: default"
+      :title="popup.title"
+      v-show="popup.isVisible"
+      ref="popup"
     >
       <v-btn icon>
         <v-icon>close</v-icon>
@@ -188,18 +188,17 @@
                     <v-tooltip left>
                       <template v-slot:activator="{on}">
                         <v-btn
-                            style="cursor: pointer"
-                            v-on="on"
-                            @click="lightboxDialogState = true"
-                            class="mx-2 mb-2 lock-button elevation-1"
-                            depressed
-                            fab
-                            small
+                          style="cursor: pointer"
+                          v-on="on"
+                          @click="lightboxDialogState = true"
+                          class="mx-2 mb-2 lock-button elevation-1"
+                          depressed
+                          fab
+                          small
                         >
                           <v-icon> fas fa-image</v-icon>
                         </v-btn>
-                      </template
-                      >
+                      </template>
                       <span>{{ $t('form.edit.lightBoxImagesPanel') }}</span>
                     </v-tooltip>
                   </template>
@@ -223,7 +222,7 @@
               </template>
               <span>{{ $t('form.edit.uploadImage') }}</span>
             </v-tooltip>
-            <input ref="imageUploader" class="d-none" type="file" accept="image/*" @change="onFileUploadChanged"/>
+            <input ref="imageUploader" class="d-none" type="file" accept="image/*" @change="onFileUploadChanged" />
             <v-btn v-if="imageUpload.selectedFile" class="ml-1" @click="clearUploadImage()" small icon>
               <v-icon small>close</v-icon>
             </v-btn>
@@ -237,26 +236,25 @@
               <template v-slot:activator="{on, attrs}">
                 <v-btn class="mt-2" rounded small depressed v-on="on" v-bind="attrs">
                   <v-icon left
-                  >{{ imageUpload.position === 'sidebarMediaTop' ? 'picture_in_picture' : 'picture_in_picture_alt' }}
+                    >{{ imageUpload.position === 'sidebarMediaTop' ? 'picture_in_picture' : 'picture_in_picture_alt' }}
                   </v-icon>
                   <span
-                  >{{ $t(`general.sidebar`) }}:
+                    >{{ $t(`general.sidebar`) }}:
                     {{ imageUpload.position === 'sidebarMediaTop' ? $t(`general.top`) : $t(`general.bottom`) }}</span
                   >
                 </v-btn>
               </template>
               <v-list dense>
                 <v-list-item
-                    @click="
+                  @click="
                     imageUpload.position === 'sidebarMediaTop'
                       ? (imageUpload.position = 'sidebarMediaBottom')
                       : (imageUpload.position = 'sidebarMediaTop')
                   "
                 >
                   <v-list-item-content>
-                    <v-list-item-title>{{
-                        imageUpload.position === 'sidebarMediaTop' ? $t(`general.bottom`) : $t(`general.top`)
-                      }}
+                    <v-list-item-title
+                      >{{ imageUpload.position === 'sidebarMediaTop' ? $t(`general.bottom`) : $t(`general.top`) }}
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
@@ -271,9 +269,8 @@
           <v-btn color="grey" text @click="popupCancel">{{ $t(`general.cancel`) }}</v-btn>
         </template>
         <template v-else-if="['addFeature', 'modifyAttributes'].includes(editType)">
-          <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text>{{
-              $t(`general.save`)
-            }}
+          <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text
+            >{{ $t(`general.save`) }}
           </v-btn>
 
           <v-btn color="grey" text @click="popupCancel">{{ $t(`general.cancel`) }}</v-btn>
@@ -283,9 +280,9 @@
 
     <!-- Mobile delete confirmation bottom sheet  -->
     <v-bottom-sheet
-        v-if="$vuetify.breakpoint.smAndDown && editType === 'deleteFeature'"
-        v-model="showDeleteDialog"
-        inset
+      v-if="$vuetify.breakpoint.smAndDown && editType === 'deleteFeature'"
+      v-model="showDeleteDialog"
+      inset
     >
       <v-card>
         <v-app-bar :color="color.primary" dark dense flat>
@@ -295,9 +292,8 @@
           <v-toolbar-title class="white--text">{{ $t(`general.confirm`) }}</v-toolbar-title>
         </v-app-bar>
 
-        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0">{{
-            $t(`form.edit.confirmDeleteFeature`)
-          }}
+        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0"
+          >{{ $t(`form.edit.confirmDeleteFeature`) }}
         </v-card-text>
         <v-divider></v-divider>
 
@@ -452,15 +448,15 @@ export default {
     flatLayers() {
       const layers = [];
       this.map
-          .getLayers()
-          .getArray()
-          .forEach(layer => {
-            if (layer.get('type') === 'GROUP') {
-              layers.push(...layer.getLayers().getArray());
-            } else {
-              layers.push(layer);
-            }
-          });
+        .getLayers()
+        .getArray()
+        .forEach(layer => {
+          if (layer.get('type') === 'GROUP') {
+            layers.push(...layer.getLayers().getArray());
+          } else {
+            layers.push(layer);
+          }
+        });
       return layers;
     },
   },
@@ -552,8 +548,8 @@ export default {
         const geometryFields = layerMetadata.properties.filter(p => ['geom', 'geometry'].includes(p.name));
         // eslint-disable-next-line no-unused-expressions
         Array.isArray(geometryFields) && geometryFields.length > 0
-            ? (geometryType = geometryFields[0].localType)
-            : null;
+          ? (geometryType = geometryFields[0].localType)
+          : null;
       }
       if (!geometryType) return;
       if (!this.$vuetify.breakpoint.smAndDown) {
@@ -619,9 +615,9 @@ export default {
               const fieldMapping = this.$appConfig.map.popupFieldsMapping;
               if (fieldMapping) {
                 title =
-                    getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
-                    fieldMapping.default[property.name] ||
-                    property.name;
+                  getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
+                  fieldMapping.default[property.name] ||
+                  property.name;
               }
               title = title.toUpperCase();
               this.formSchema.properties[property.name] = {
@@ -875,10 +871,10 @@ export default {
       if (this.sketch) {
         const geom = this.sketch.getGeometry();
         if (
-            geom instanceof Polygon ||
-            geom instanceof MultiPolygon ||
-            geom instanceof LineString ||
-            geom instanceof MultiLineString
+          geom instanceof Polygon ||
+          geom instanceof MultiPolygon ||
+          geom instanceof LineString ||
+          geom instanceof MultiLineString
         ) {
           this.helpMessage = this.$t(this.helpTooltipMessages.polygonAndLine.continue);
           if (geom.getCoordinates && geom.getCoordinates().length > 2) {
@@ -929,8 +925,8 @@ export default {
       }
       if (this.editType === 'addFeature') {
         this.helpMessage = ['Point'].some(r => geometryType.includes(r))
-            ? this.$t(this.helpTooltipMessages.point.start)
-            : this.$t(this.helpTooltipMessages.polygonAndLine.start);
+          ? this.$t(this.helpTooltipMessages.point.start)
+          : this.$t(this.helpTooltipMessages.polygonAndLine.start);
       }
       if (this.editType === 'modifyFeature') {
         this.helpMessage = this.$t(this.helpTooltipMessages.select);
@@ -993,15 +989,15 @@ export default {
 
       // For sidebar video player
       if (
-          propsWithNoGeometry.sidebarMediaTop &&
-          videoPossibilities.some(v => propsWithNoGeometry.sidebarMediaTop.includes(v))
+        propsWithNoGeometry.sidebarMediaTop &&
+        videoPossibilities.some(v => propsWithNoGeometry.sidebarMediaTop.includes(v))
       ) {
         propsWithNoGeometry.sidebarMediaTop = parseVideoUrl(propsWithNoGeometry.sidebarMediaTop);
       }
 
       if (
-          propsWithNoGeometry.sidebarMediaBottom &&
-          videoPossibilities.some(v => propsWithNoGeometry.sidebarMediaBottom.includes(v))
+        propsWithNoGeometry.sidebarMediaBottom &&
+        videoPossibilities.some(v => propsWithNoGeometry.sidebarMediaBottom.includes(v))
       ) {
         propsWithNoGeometry.sidebarMediaBottom = parseVideoUrl(propsWithNoGeometry.sidebarMediaBottom);
       }
@@ -1038,33 +1034,33 @@ export default {
       }
       formData.append('payload', JSON.stringify(payload));
       axios
-          .post('api/layer', formData, {
-            headers: authHeader(),
-          })
-          .then(() => {
-            if (this.editType !== 'modifyFeature') {
-              this.editLayer.getSource().clear();
+        .post('api/layer', formData, {
+          headers: authHeader(),
+        })
+        .then(() => {
+          if (this.editType !== 'modifyFeature') {
+            this.editLayer.getSource().clear();
+          }
+          this.formData = {};
+          if (this.selectedLayer && this.selectedLayer.getSource().refresh) {
+            if (this.selectedLayer.get('type') === 'VECTOR') {
+              this.selectedLayer.getSource().refresh();
+            } else if (this.selectedLayer.get('type') === 'VECTORTILE') {
+              // this.selectedLayer.getSource().tileCache.expireCache({});
+              // this.selectedLayer.getSource().clear();
+              // this.selectedLayer.getSource().tileCache.clear();
+              this.selectedLayer.getSource().clear();
+              this.selectedLayer.getSource().refresh({force: true});
+              this.selectedLayer.redraw();
             }
-            this.formData = {};
-            if (this.selectedLayer && this.selectedLayer.getSource().refresh) {
-              if (this.selectedLayer.get('type') === 'VECTOR') {
-                this.selectedLayer.getSource().refresh();
-              } else if (this.selectedLayer.get('type') === 'VECTORTILE') {
-                // this.selectedLayer.getSource().tileCache.expireCache({});
-                // this.selectedLayer.getSource().clear();
-                // this.selectedLayer.getSource().tileCache.clear();
-                this.selectedLayer.getSource().clear();
-                this.selectedLayer.getSource().refresh({force: true});
-                this.selectedLayer.redraw();
-              }
-              this.toggleSnackbar({
-                type: 'success',
-                message: this.editSnackbarMessages[this.editType],
-                timeout: 2000,
-                state: true,
-              });
-            }
-          });
+            this.toggleSnackbar({
+              type: 'success',
+              message: this.editSnackbarMessages[this.editType],
+              timeout: 2000,
+              state: true,
+            });
+          }
+        });
     },
     ...mapMutations('map', {
       toggleSnackbar: 'TOGGLE_SNACKBAR',

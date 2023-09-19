@@ -3,16 +3,16 @@
     <v-tooltip v-show="!isVisible" right>
       <template v-slot:activator="{on}">
         <v-btn
-            v-on="on"
-            :style="`position:absolute;${$vuetify.breakpoint.smAndDown ? 'right' : 'left'}:16px;bottom:${
+          v-on="on"
+          :style="`position:absolute;${$vuetify.breakpoint.smAndDown ? 'right' : 'left'}:16px;bottom:${
             $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 40
           }px;z-index:1;`"
-            v-show="!isVisible"
-            :color="color"
-            @click="toggleLegend"
-            fab
-            small
-            class="white--text"
+          v-show="!isVisible"
+          :color="color"
+          @click="toggleLegend"
+          fab
+          small
+          class="white--text"
         >
           <v-icon>fas fa-layer-group</v-icon>
         </v-btn>
@@ -20,26 +20,25 @@
       <span>{{ $t('general.layers') }}</span>
     </v-tooltip>
     <v-expansion-panels
-        v-model="panel"
-        v-show="isVisible"
-        class="elevation-3"
-        :width="isVisible ? '250px' : '0px'"
-        :style="`position:absolute;${$vuetify.breakpoint.smAndDown ? 'right' : 'left'}:25px;bottom:${
+      v-model="panel"
+      v-show="isVisible"
+      class="elevation-3"
+      :width="isVisible ? '250px' : '0px'"
+      :style="`position:absolute;${$vuetify.breakpoint.smAndDown ? 'right' : 'left'}:25px;bottom:${
         $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
       }px;max-width:200px;opacity:90%;z-index:1000;`"
     >
       <v-btn
-          v-show="isVisible"
-          @click="toggleLegend"
-          class="legend-toggle-button white--text"
-          text
-          min-width="30px"
-          x-small
-          :style="`z-index:100;background-color:${color};position:absolute;bottom:30px;right:-19px;`"
+        v-show="isVisible"
+        @click="toggleLegend"
+        class="legend-toggle-button white--text"
+        text
+        min-width="30px"
+        x-small
+        :style="`z-index:100;background-color:${color};position:absolute;bottom:30px;right:-19px;`"
       >
         <v-icon class="ml-0" x-small>fas fa-chevron-up</v-icon>
-      </v-btn
-      >
+      </v-btn>
       <v-expansion-panel class="my-0" :style="`background-color: white;`">
         <v-row class="my-1" justify="center">
           <span class="grey--text text--darken-2 subtitle-2">
@@ -52,10 +51,10 @@
           <vue-scroll style="height: calc(100% + 5px)">
             <template v-for="(item, index) in layers">
               <v-row
-                  :key="'layer-' + index"
-                  class="fill-height ma-0"
-                  v-if="item.get('displayInLegend')"
-                  v-show="item.get('group') !== 'backgroundLayers' && item.get('isVisibleInResolution') === true"
+                :key="'layer-' + index"
+                class="fill-height ma-0"
+                v-if="item.get('displayInLegend')"
+                v-show="item.get('group') !== 'backgroundLayers' && item.get('isVisibleInResolution') === true"
               >
                 <template v-if="item.get('displaySidebarInfo')">
                   <v-tooltip right>
@@ -63,11 +62,9 @@
                       <v-flex v-on="on" @click="lastSelectedLayer = item.get('name')" style="cursor: pointer" xs1>
                         <span v-html="getGraphic(item)"></span>
                       </v-flex>
-                    </template
-                    >
+                    </template>
                     More Information
-                  </v-tooltip
-                  >
+                  </v-tooltip>
                 </template>
                 <template v-else>
                   <v-flex xs1>
@@ -77,22 +74,23 @@
 
                 <v-flex xs11>
                   <v-checkbox
-                      class="layer-input ml-1 pt-1 py-0 my-0"
-                      dense
-                      color="purple"
-                      :input-value="item.getVisible()"
-                      @change="toggleLayerVisibility(item)"
+                    class="layer-input ml-1 pt-1 py-0 my-0"
+                    dense
+                    color="purple"
+                    :input-value="item.getVisible()"
+                    @change="toggleLayerVisibility(item)"
                   >
                     <template v-slot:label>
                       <span
-                          :class="{
+                        :class="{
                           'text--darken-2 subtitle-2': true,
                           'blue--text': item.get('displaySidebarInfo') ? true : false,
                         }"
                       >
                         {{
                           item.get('legendDisplayName')[$i18n.locale] ||
-                          (typeof item.get('legendDisplayName') === "object" && Object.values(item.get('legendDisplayName'))[0]) ||
+                          (typeof item.get('legendDisplayName') === 'object' &&
+                            Object.values(item.get('legendDisplayName'))[0]) ||
                           item.get('legendDisplayName') ||
                           humanize(item.get('name'))
                         }}
@@ -102,22 +100,22 @@
                 </v-flex>
               </v-row>
               <v-row
-                  align="center"
-                  justify="center"
-                  v-if="item.get('displaySeries') && item.getVisible() && item.getLayers().getArray().length >= 2"
-                  :key="'time-series' + index"
-                  class="fill-height ma-0 pa-0"
+                align="center"
+                justify="center"
+                v-if="item.get('displaySeries') && item.getVisible() && item.getLayers().getArray().length >= 2"
+                :key="'time-series' + index"
+                class="fill-height ma-0 pa-0"
               >
                 <span class="text--darken-2 subtitle-2 mt-n2 mb-n2">{{ getSeriesActiveLayerTitle(item) }}</span>
                 <v-flex xs11>
                   <v-slider
-                      hide-details
-                      class="ml-4 mr-3 pb-0 mb-1"
-                      step="1"
-                      :value="item.get('defaultSeriesLayerIndex') || 0"
-                      :max="item.getLayers().getArray().length - 1"
-                      ticks
-                      @change="activateTimeSeriesLayer($event, item)"
+                    hide-details
+                    class="ml-4 mr-3 pb-0 mb-1"
+                    step="1"
+                    :value="item.get('defaultSeriesLayerIndex') || 0"
+                    :max="item.getLayers().getArray().length - 1"
+                    ticks
+                    @change="activateTimeSeriesLayer($event, item)"
                   >
                   </v-slider>
                 </v-flex>
@@ -128,7 +126,7 @@
         <v-divider></v-divider>
         <v-row class="my-1" justify="center">
           <span class="black--text text--darken-2 subtitle-2">
-            {{ title[$i18n.locale] || (typeof title === "object" && Object.values(title)[0]) || title }}
+            {{ title[$i18n.locale] || (typeof title === 'object' && Object.values(title)[0]) || title }}
           </span>
         </v-row>
       </v-expansion-panel>
@@ -239,8 +237,8 @@ export default {
 
       if (item.get('displaySeries') && item.getVisible()) {
         this.activateTimeSeriesLayer(
-            item.get('defaultSeriesLayerIndex') || 0, // default to first layer
-            item
+          item.get('defaultSeriesLayerIndex') || 0, // default to first layer
+          item
         );
       }
     },
@@ -253,20 +251,40 @@ export default {
       });
     },
     updateTitle() {
-      // let title = '';
-      let title = {};
+      let title = '';
       this.navbarGroups.forEach(navbarGroup => {
         if (navbarGroup.name === this.activeLayerGroup.navbarGroup) {
-          // title += navbarGroup.title;
           title = navbarGroup.title;
         }
       });
-      this.regions.forEach(region => {
+      for (const region of this.regions) {
         if (region.name === this.activeLayerGroup.region && region.name !== 'default') {
-          // title += ` (${region.title})`;
-          title = region.title;
+          if (typeof title === "object") {
+            let navbarGroupTitle = {};
+            if (typeof region.title === "object") {
+              const languages = [...new Set([...Object.keys(title), ...Object.keys(region.title)])];
+              for (const language of languages) {
+                navbarGroupTitle[language] = (title[language] || Object.values(title)[0]) + ` (${region.title[language] || Object.values(region.title)[0]})`;
+              }
+            } else {
+              for (const language in title) {
+                navbarGroupTitle[language] = title[language] + ` (${region.title})`;
+              }
+            }
+            title = navbarGroupTitle;
+          } else {
+            let regionTitle = {};
+            if (typeof region.title === "object") {
+              for (const language in region.title) {
+                regionTitle[language] = title + ` (${region.title[language]})`;
+              }
+              title = regionTitle;
+            } else {
+              title += ` (${region.title})`;
+            }
+          }
         }
-      });
+      };
       this.title = title;
     },
     toggleLegend() {

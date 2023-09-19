@@ -2,26 +2,26 @@
   <div id="site-wrap">
     <!-- ===DESKTOP=== -->
     <v-app
-        v-if="!$vuetify.breakpoint.smAndDown"
-        id="wg-app"
-        data-app
-        :class="{'wg-app': true}"
-        :style="`font-family:${
+      v-if="!$vuetify.breakpoint.smAndDown"
+      id="wg-app"
+      data-app
+      :class="{'wg-app': true}"
+      :style="`font-family:${
         $appConfig.app.font && $appConfig.app.font.family ? $appConfig.app.font.family : 'Roboto'
       }, 'Roboto', serif;`"
     >
       <template>
         <v-expand-transition>
           <v-navigation-drawer
-              v-model="sidebarState"
-              :width="!selectedCoorpNetworkEntity ? sidebarWidth.default : sidebarWidth.corporateNetworkSelected"
-              class="elevation-6"
-              :color="$appConfig.app.sideBar.backgroundColor"
-              stateless
-              app
-              clipped
-              right
-              :style="`color:${$appConfig.app.sideBar.textColor};`"
+            v-model="sidebarState"
+            :width="!selectedCoorpNetworkEntity ? sidebarWidth.default : sidebarWidth.corporateNetworkSelected"
+            class="elevation-6"
+            :color="$appConfig.app.sideBar.backgroundColor"
+            stateless
+            app
+            clipped
+            right
+            :style="`color:${$appConfig.app.sideBar.textColor};`"
           >
             <side-panel></side-panel>
           </v-navigation-drawer>
@@ -31,44 +31,42 @@
       <!-- APP BAR DESKTOP -->
       <v-app-bar app clipped-right height="60" :color="color.primary" dark>
         <v-toolbar-title
-            @click="$appConfig.app.projectWebsite ? openWebsite() : resetMap()"
-            flat
-            :style="`background-color:${color.primary};text-color:white;`"
-            class="logo headline font-weight-bold gray--text ml-3 dark mx-2"
-        >{{
+          @click="$appConfig.app.projectWebsite ? openWebsite() : resetMap()"
+          flat
+          :style="`background-color:${color.primary};text-color:white;`"
+          class="logo headline font-weight-bold gray--text ml-3 dark mx-2"
+          >{{
             $appConfig.app.title[$i18n.locale] ||
-            (typeof $appConfig.app.title === "object" && Object.values($appConfig.app.title)[0]) ||
+            (typeof $appConfig.app.title === 'object' && Object.values($appConfig.app.title)[0]) ||
             $appConfig.app.title
           }}
-        </v-toolbar-title
-        >
-        <v-btn small depressed fab color="gray" class="ml-0" @click="goToHome()"
-        >
+        </v-toolbar-title>
+        <v-btn small depressed fab color="gray" class="ml-0" @click="goToHome()">
           <v-icon small>fas fa-home</v-icon>
-        </v-btn
-        >
+        </v-btn>
 
         <v-spacer></v-spacer>
         <v-menu
-            offset-y
-            v-model="dropdownMenu"
-            v-if="$appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu === true"
+          offset-y
+          v-model="dropdownMenu"
+          v-if="$appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu === true"
         >
           <template v-slot:activator="{on, attrs}">
             <v-btn
-                text
-                v-bind="attrs"
-                v-on="on"
-                :class="{
+              text
+              v-bind="attrs"
+              v-on="on"
+              :class="{
                 active: dropdownMenu,
                 'mx-2': true,
               }"
             >
               {{
                 `${
-                    $appConfig.map.groupTitles[activeLayerGroup.navbarGroup][$i18n.locale] ||
-                    (typeof $appConfig.map.groupTitles[activeLayerGroup.navbarGroup] === "object" && Object.values($appConfig.map.groupTitles[activeLayerGroup.navbarGroup])[0]) ||
-                    $appConfig.map.groupTitles[activeLayerGroup.navbarGroup]
+                  $appConfig.map.groupTitles[activeLayerGroup.navbarGroup][$i18n.locale] ||
+                  (typeof $appConfig.map.groupTitles[activeLayerGroup.navbarGroup] === 'object' &&
+                    Object.values($appConfig.map.groupTitles[activeLayerGroup.navbarGroup])[0]) ||
+                  $appConfig.map.groupTitles[activeLayerGroup.navbarGroup]
                 }`
               }}
               <v-icon class="mx-2" left> expand_more</v-icon>
@@ -76,14 +74,15 @@
           </template>
           <v-list>
             <v-list-item
-                :style="`background-color:${activeLayerGroup.navbarGroup === navbarGroup.name ? '#EEEEEE' : ''};`"
-                v-for="(navbarGroup, index) in navbarGroups"
-                @click="changeNavbarGroup(navbarGroup)"
-                :key="index"
+              :style="`background-color:${activeLayerGroup.navbarGroup === navbarGroup.name ? '#EEEEEE' : ''};`"
+              v-for="(navbarGroup, index) in navbarGroups"
+              @click="changeNavbarGroup(navbarGroup)"
+              :key="index"
             >
-              <v-list-item-title>{{
+              <v-list-item-title
+                >{{
                   navbarGroup.title[$i18n.locale] ||
-                  (typeof navbarGroup.title === "object" && Object.values(navbarGroup.title)[0]) ||
+                  (typeof navbarGroup.title === 'object' && Object.values(navbarGroup.title)[0]) ||
                   navbarGroup.title
                 }}
               </v-list-item-title>
@@ -93,16 +92,16 @@
 
         <v-spacer></v-spacer>
         <template
-            v-if="($appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu !== true) || !$appConfig.app.navbar"
+          v-if="($appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu !== true) || !$appConfig.app.navbar"
         >
           <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
             <v-btn
-                min-width="200"
-                class="mx-10"
-                :dark="activeLayerGroup.navbarGroup === navbarGroup.name ? false : true"
-                @click="changeNavbarGroup(navbarGroup)"
-                :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
-                :class="{
+              min-width="200"
+              class="mx-10"
+              :dark="activeLayerGroup.navbarGroup === navbarGroup.name ? false : true"
+              @click="changeNavbarGroup(navbarGroup)"
+              :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
+              :class="{
                 'elevation-0': activeLayerGroup.navbarGroup !== navbarGroup.name,
                 'font-weight-bold black--text': activeLayerGroup.navbarGroup === navbarGroup.name,
                 'elevation-6': activeLayerGroup.navbarGroup === navbarGroup.name,
@@ -110,7 +109,7 @@
             >
               {{
                 navbarGroup.title[$i18n.locale] ||
-                (typeof navbarGroup.title === "object" && Object.values(navbarGroup.title)[0]) ||
+                (typeof navbarGroup.title === 'object' && Object.values(navbarGroup.title)[0]) ||
                 navbarGroup.title
               }}
             </v-btn>
@@ -121,10 +120,11 @@
         <v-spacer></v-spacer>
 
         <span class="title pr-5">{{
-            $appConfig.app.tagline[$i18n.locale] ||
-            (typeof $appConfig.app.tagline === "object" && Object.values($appConfig.app.tagline)[0]) ||
-            $appConfig.app.tagline || ''
-          }}</span>
+          $appConfig.app.tagline[$i18n.locale] ||
+          (typeof $appConfig.app.tagline === 'object' && Object.values($appConfig.app.tagline)[0]) ||
+          $appConfig.app.tagline ||
+          ''
+        }}</span>
         <v-menu offset-y>
           <template v-slot:activator="{on, attrs}">
             <v-btn v-bind="attrs" v-on="on" icon>
@@ -133,24 +133,22 @@
           </template>
           <v-list dense>
             <v-list-item
-                v-for="language in availableLanguages"
-                :key="language.code"
-                @click="switchLocale(language.code)"
+              v-for="language in availableLanguages"
+              :key="language.code"
+              @click="switchLocale(language.code)"
             >
               <v-list-item-title>{{ language.value }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-btn icon @click.stop="sidebarState = !sidebarState"
-        >
+        <v-btn icon @click.stop="sidebarState = !sidebarState">
           <v-icon medium>{{ sidebarState ? '$close' : '$menu' }}</v-icon>
-        </v-btn
-        >
+        </v-btn>
       </v-app-bar>
 
       <v-content>
         <v-container style="max-height: 100%" fluid fill-height class="pa-0">
-          <app-viewer/>
+          <app-viewer />
         </v-container>
       </v-content>
     </v-app>
@@ -159,11 +157,9 @@
     <v-app data-app v-if="true" class="mobile-parent-wrap">
       <!-- APP BAR MOBILE -->
       <v-app-bar :color="color.primary" height="60" absolute dark>
-        <v-btn icon @click="navDrawer = !navDrawer"
-        >
+        <v-btn icon @click="navDrawer = !navDrawer">
           <v-icon medium>{{ navDrawer ? '$close' : '$menu' }}</v-icon>
-        </v-btn
-        >
+        </v-btn>
 
         <v-toolbar-title>{{ title }}</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -194,9 +190,9 @@
                 </template>
                 <v-list dense>
                   <v-list-item
-                      v-for="language in availableLanguages"
-                      :key="language.code"
-                      @click="switchLocale(language.code)"
+                    v-for="language in availableLanguages"
+                    :key="language.code"
+                    @click="switchLocale(language.code)"
                   >
                     <v-list-item-title>{{ language.value }}</v-list-item-title>
                   </v-list-item>
@@ -205,19 +201,22 @@
             </v-list-item>
             <v-divider></v-divider>
             <v-list-item
-                :dark="activeLayerGroup.navbarGroup === navbarGroup.name ? true : false"
-                :style="`background-color:${
+              :dark="activeLayerGroup.navbarGroup === navbarGroup.name ? true : false"
+              :style="`background-color:${
                 activeLayerGroup.navbarGroup === navbarGroup.name ? color.primary : 'white'
               };`"
-                @click="changeNavbarGroup(navbarGroup)"
-                v-for="(navbarGroup, index) in navbarGroups"
-                :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
-                :key="index"
+              @click="changeNavbarGroup(navbarGroup)"
+              v-for="(navbarGroup, index) in navbarGroups"
+              :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
+              :key="index"
             >
-              <v-list-item-title>{{
-                  (navbarGroup.title[$i18n.locale] ||
-                      (typeof navbarGroup.title === "object" && Object.values(navbarGroup.title)[0]) ||
-                      navbarGroup.title).toUpperCase()
+              <v-list-item-title
+                >{{
+                  (
+                    navbarGroup.title[$i18n.locale] ||
+                    (typeof navbarGroup.title === 'object' && Object.values(navbarGroup.title)[0]) ||
+                    navbarGroup.title
+                  ).toUpperCase()
                 }}
               </v-list-item-title>
             </v-list-item>
@@ -237,15 +236,16 @@
             <v-divider class="mb-4"></v-divider>
             <template v-for="(region, index) in regions">
               <v-list-item
-                  @click="changeRegion(region)"
-                  v-if="hasRegion(region)"
-                  :dark="activeLayerGroup.region === region.name ? true : false"
-                  :style="`background-color:${activeLayerGroup.region === region.name ? color.primary : 'white'};`"
-                  :key="index"
+                @click="changeRegion(region)"
+                v-if="hasRegion(region)"
+                :dark="activeLayerGroup.region === region.name ? true : false"
+                :style="`background-color:${activeLayerGroup.region === region.name ? color.primary : 'white'};`"
+                :key="index"
               >
-                <v-list-item-title>{{
+                <v-list-item-title
+                  >{{
                     region.title[$i18n.locale] ||
-                    (typeof region.title === "object" && Object.values(region.title)[0]) ||
+                    (typeof region.title === 'object' && Object.values(region.title)[0]) ||
                     region.title
                   }}
                 </v-list-item-title>
@@ -256,19 +256,19 @@
           <!-- Project link -->
           <v-spacer></v-spacer>
           <a
-              v-if="$appConfig.app.projectWebsite"
-              style="text-decoration: none"
-              class="mb-3 ml-4"
-              :href="$appConfig.app.projectWebsite"
-              target="_blank"
-          >Project Website</a
+            v-if="$appConfig.app.projectWebsite"
+            style="text-decoration: none"
+            class="mb-3 ml-4"
+            :href="$appConfig.app.projectWebsite"
+            target="_blank"
+            >Project Website</a
           >
         </v-layout>
       </v-navigation-drawer>
 
       <app-viewer
-          :style="`height: calc(${mobilePanelState ? 60 : 100}% - 60px);touch-action: none;`"
-          class="mobile-map-viewer"
+        :style="`height: calc(${mobilePanelState ? 60 : 100}% - 60px);touch-action: none;`"
+        class="mobile-map-viewer"
       ></app-viewer>
 
       <div class="mobile-bottom-sheet" v-show="mobilePanelState">
@@ -340,12 +340,20 @@ export default {
       let title = '';
       this.navbarGroups.forEach(group => {
         if (group.name === activeNavbarGroup) {
-          title = (group.title[this.$i18n.locale] || (typeof group.title === "object" && Object.values(group.title)[0]) || group.title).toUpperCase();
+          title = (
+            group.title[this.$i18n.locale] ||
+            (typeof group.title === 'object' && Object.values(group.title)[0]) ||
+            group.title
+          ).toUpperCase();
         }
       });
       this.regions.forEach(region => {
         if (region.name === activeRegion && region.name !== 'default') {
-          title += ` - ${region.title[this.$i18n.locale] || (typeof region.title === "object" && Object.values(region.title)[0]) || region.title}`;
+          title += ` - ${
+            region.title[this.$i18n.locale] ||
+            (typeof region.title === 'object' && Object.values(region.title)[0]) ||
+            region.title
+          }`;
         }
       });
       return title;
