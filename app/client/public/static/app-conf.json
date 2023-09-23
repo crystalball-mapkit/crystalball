@@ -71,8 +71,10 @@
           "type": "circle",
           "radius": 10,
           "strokeWidth": 2,
-          "fillColor": "black",
-          "strokeColor": "white",
+          "stylePropFnRef": {
+            "fillColor": "variable1",
+            "strokeColor": "variable2"
+          },
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -129,8 +131,10 @@
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
-          "strokeColor": "black",
-          "fillColor": "red",
+          "stylePropFnRef": {
+            "strokeColor": "variable2",
+            "fillColor": "variable1"
+          },
           "strokeWidth": 3
         }
       },
