@@ -35,11 +35,15 @@
           flat
           :style="`background-color:${color.primary};text-color:white;`"
           class="logo headline font-weight-bold gray--text ml-3 dark mx-2"
-          >{{ $appConfig.app.title }}</v-toolbar-title
-        >
-        <v-btn small depressed fab color="gray" class="ml-0" @click="goToHome()"
-          ><v-icon small>fas fa-home</v-icon></v-btn
-        >
+          >{{
+            $appConfig.app.title[$i18n.locale] ||
+            (typeof $appConfig.app.title === 'object' && Object.values($appConfig.app.title)[0]) ||
+            $appConfig.app.title
+          }}
+        </v-toolbar-title>
+        <v-btn small depressed fab color="gray" class="ml-0" @click="goToHome()">
+          <v-icon small>fas fa-home</v-icon>
+        </v-btn>
 
         <v-spacer></v-spacer>
         <v-menu
@@ -57,8 +61,15 @@
                 'mx-2': true,
               }"
             >
-              {{ `${$appConfig.map.groupTitles[activeLayerGroup.navbarGroup]}` }}
-              <v-icon class="mx-2" left> expand_more </v-icon>
+              {{
+                `${
+                  $appConfig.map.groupTitles[activeLayerGroup.navbarGroup][$i18n.locale] ||
+                  (typeof $appConfig.map.groupTitles[activeLayerGroup.navbarGroup] === 'object' &&
+                    Object.values($appConfig.map.groupTitles[activeLayerGroup.navbarGroup])[0]) ||
+                  $appConfig.map.groupTitles[activeLayerGroup.navbarGroup]
+                }`
+              }}
+              <v-icon class="mx-2" left> expand_more</v-icon>
             </v-btn>
           </template>
           <v-list>
@@ -68,7 +79,13 @@
               @click="changeNavbarGroup(navbarGroup)"
               :key="index"
             >
-              <v-list-item-title>{{ navbarGroup.title }}</v-list-item-title>
+              <v-list-item-title
+                >{{
+                  navbarGroup.title[$i18n.locale] ||
+                  (typeof navbarGroup.title === 'object' && Object.values(navbarGroup.title)[0]) ||
+                  navbarGroup.title
+                }}
+              </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -90,14 +107,24 @@
                 'elevation-6': activeLayerGroup.navbarGroup === navbarGroup.name,
               }"
             >
-              {{ navbarGroup.title }}
+              {{
+                navbarGroup.title[$i18n.locale] ||
+                (typeof navbarGroup.title === 'object' && Object.values(navbarGroup.title)[0]) ||
+                navbarGroup.title
+              }}
             </v-btn>
           </div>
         </template>
 
-        <v-spacer></v-spacer><v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
 
-        <span class="title pr-5">{{ $appConfig.app.tagline || '' }}</span>
+        <span class="title pr-5">{{
+          $appConfig.app.tagline[$i18n.locale] ||
+          (typeof $appConfig.app.tagline === 'object' && Object.values($appConfig.app.tagline)[0]) ||
+          $appConfig.app.tagline ||
+          ''
+        }}</span>
         <v-menu offset-y>
           <template v-slot:activator="{on, attrs}">
             <v-btn v-bind="attrs" v-on="on" icon>
@@ -114,9 +141,9 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-btn icon @click.stop="sidebarState = !sidebarState"
-          ><v-icon medium>{{ sidebarState ? '$close' : '$menu' }}</v-icon></v-btn
-        >
+        <v-btn icon @click.stop="sidebarState = !sidebarState">
+          <v-icon medium>{{ sidebarState ? '$close' : '$menu' }}</v-icon>
+        </v-btn>
       </v-app-bar>
 
       <v-content>
@@ -130,9 +157,9 @@
     <v-app data-app v-if="$vuetify.breakpoint.smAndDown" class="mobile-parent-wrap">
       <!-- APP BAR MOBILE -->
       <v-app-bar :color="color.primary" height="60" absolute dark>
-        <v-btn icon @click="navDrawer = !navDrawer"
-          ><v-icon medium>{{ navDrawer ? '$close' : '$menu' }}</v-icon></v-btn
-        >
+        <v-btn icon @click="navDrawer = !navDrawer">
+          <v-icon medium>{{ navDrawer ? '$close' : '$menu' }}</v-icon>
+        </v-btn>
 
         <v-toolbar-title>{{ title }}</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -183,7 +210,15 @@
               :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
               :key="index"
             >
-              <v-list-item-title>{{ navbarGroup.title.toUpperCase() }}</v-list-item-title>
+              <v-list-item-title
+                >{{
+                  (
+                    navbarGroup.title[$i18n.locale] ||
+                    (typeof navbarGroup.title === 'object' && Object.values(navbarGroup.title)[0]) ||
+                    navbarGroup.title
+                  ).toUpperCase()
+                }}
+              </v-list-item-title>
             </v-list-item>
           </v-list>
 
@@ -207,7 +242,13 @@
                 :style="`background-color:${activeLayerGroup.region === region.name ? color.primary : 'white'};`"
                 :key="index"
               >
-                <v-list-item-title>{{ region.title.toUpperCase() }}</v-list-item-title>
+                <v-list-item-title
+                  >{{
+                    region.title[$i18n.locale] ||
+                    (typeof region.title === 'object' && Object.values(region.title)[0]) ||
+                    region.title
+                  }}
+                </v-list-item-title>
               </v-list-item>
             </template>
           </v-list>
@@ -299,12 +340,20 @@ export default {
       let title = '';
       this.navbarGroups.forEach(group => {
         if (group.name === activeNavbarGroup) {
-          title = group.title.toUpperCase();
+          title = (
+            group.title[this.$i18n.locale] ||
+            (typeof group.title === 'object' && Object.values(group.title)[0]) ||
+            group.title
+          ).toUpperCase();
         }
       });
       this.regions.forEach(region => {
         if (region.name === activeRegion && region.name !== 'default') {
-          title += ` - ${region.title}`;
+          title += ` - ${
+            region.title[this.$i18n.locale] ||
+            (typeof region.title === 'object' && Object.values(region.title)[0]) ||
+            region.title
+          }`;
         }
       });
       return title;
@@ -473,6 +522,7 @@ export default {
       });
     });
     this.navbarGroups = navbarGroups;
+
     // Regions
     let regionTitles;
     if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme === '2') {

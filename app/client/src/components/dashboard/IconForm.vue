@@ -273,7 +273,7 @@ export default {
         Object.keys(this.$appConfig.map.groups).forEach(value => {
           groups.push({
             value,
-            display: this.$appConfig.map.groupTitles[value] ? this.$appConfig.map.groupTitles[value] : value,
+            display: this.$appConfig.map.groupTitles[value] || value,
           });
         });
       }

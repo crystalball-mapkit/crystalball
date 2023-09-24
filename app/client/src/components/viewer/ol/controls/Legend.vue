@@ -37,8 +37,8 @@
         x-small
         :style="`z-index:100;background-color:${color};position:absolute;bottom:30px;right:-19px;`"
       >
-        <v-icon class="ml-0" x-small>fas fa-chevron-up</v-icon></v-btn
-      >
+        <v-icon class="ml-0" x-small>fas fa-chevron-up</v-icon>
+      </v-btn>
       <v-expansion-panel class="my-0" :style="`background-color: white;`">
         <v-row class="my-1" justify="center">
           <span class="grey--text text--darken-2 subtitle-2">
@@ -61,9 +61,10 @@
                     <template v-slot:activator="{on}">
                       <v-flex v-on="on" @click="lastSelectedLayer = item.get('name')" style="cursor: pointer" xs1>
                         <span v-html="getGraphic(item)"></span>
-                      </v-flex> </template
-                    >More Information</v-tooltip
-                  >
+                      </v-flex>
+                    </template>
+                    More Information
+                  </v-tooltip>
                 </template>
                 <template v-else>
                   <v-flex xs1>
@@ -86,7 +87,13 @@
                           'blue--text': item.get('displaySidebarInfo') ? true : false,
                         }"
                       >
-                        {{ item.get('legendDisplayName') || humanize(item.get('name')) }}
+                        {{
+                          item.get('legendDisplayName')[$i18n.locale] ||
+                          (typeof item.get('legendDisplayName') === 'object' &&
+                            Object.values(item.get('legendDisplayName'))[0]) ||
+                          item.get('legendDisplayName') ||
+                          humanize(item.get('name'))
+                        }}
                       </span>
                     </template>
                   </v-checkbox>
@@ -119,7 +126,7 @@
         <v-divider></v-divider>
         <v-row class="my-1" justify="center">
           <span class="black--text text--darken-2 subtitle-2">
-            {{ title }}
+            {{ title[$i18n.locale] || (typeof title === 'object' && Object.values(title)[0]) || title }}
           </span>
         </v-row>
       </v-expansion-panel>
@@ -247,14 +254,39 @@ export default {
       let title = '';
       this.navbarGroups.forEach(navbarGroup => {
         if (navbarGroup.name === this.activeLayerGroup.navbarGroup) {
-          title += navbarGroup.title;
+          title = navbarGroup.title;
         }
       });
-      this.regions.forEach(region => {
+      for (const region of this.regions) {
         if (region.name === this.activeLayerGroup.region && region.name !== 'default') {
-          title += ` (${region.title})`;
+          if (typeof title === 'object') {
+            let navbarGroupTitle = {};
+            if (typeof region.title === 'object') {
+              const languages = [...new Set([...Object.keys(title), ...Object.keys(region.title)])];
+              for (const language of languages) {
+                navbarGroupTitle[language] =
+                  (title[language] || Object.values(title)[0]) +
+                  ` (${region.title[language] || Object.values(region.title)[0]})`;
+              }
+            } else {
+              for (const language in title) {
+                navbarGroupTitle[language] = title[language] + ` (${region.title})`;
+              }
+            }
+            title = navbarGroupTitle;
+          } else {
+            let regionTitle = {};
+            if (typeof region.title === 'object') {
+              for (const language in region.title) {
+                regionTitle[language] = title + ` (${region.title[language]})`;
+              }
+              title = regionTitle;
+            } else {
+              title += ` (${region.title})`;
+            }
+          }
         }
-      });
+      }
       this.title = title;
     },
     toggleLegend() {
@@ -318,6 +350,7 @@ export default {
 .layer-input >>> .v-messages {
   min-height: 0px;
 }
+
 .legend-toggle-button {
   transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);

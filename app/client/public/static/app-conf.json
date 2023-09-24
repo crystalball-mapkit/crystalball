@@ -1,7 +1,15 @@
 {
   "app": {
-    "title": "Crystalball",
-    "tagline": "open-source mapkit",
+    "title": {
+      "en": "Crystalball",
+      "es": "Bola de cristal",
+      "pt": "Bola de cristal"
+    },
+    "tagline": {
+      "en": "open-source mapkit",
+      "es": "mapeo a código abierto",
+      "pt": "mapeamento de código aberto"
+    },
     "projectWebsite": "https://wiki.timetochange.today",
     "defaultLanguage": "en",
     "color": {
@@ -51,7 +59,11 @@
         "group": "media",
         "queryable": true,
         "format": "GeoJSON",
-        "legendDisplayName": "Points",
+        "legendDisplayName": {
+          "en": "Points",
+          "es": "Puntos",
+          "pt": "Pontos"
+        },
         "visible": true,
         "displayInLegend": true,
         "zIndex": 1000,
@@ -59,14 +71,13 @@
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
+        "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
           "type": "circle",
           "radius": 10,
           "strokeWidth": 2,
-          "stylePropFnRef": {
-            "fillColor": "variable1",
-            "strokeColor": "variable2"
-          },
+          "strokeColor": "black",
+          "fillColor": "blue",
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -77,7 +88,11 @@
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:lines&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
         "queryable": true,
-        "legendDisplayName": "Lines",
+        "legendDisplayName": {
+          "en": "Lines",
+          "es": "Líneas",
+          "pt": "Linhas"
+        },
         "format": "GeoJSON",
         "visible": true,
         "displayInLegend": true,
@@ -86,6 +101,7 @@
         "maxResolution": 64000,
         "label": false,
         "hoverable": true,
+        "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_line.png",
         "style": {
           "type": "line",
           "stylePropFnRef": {
@@ -103,9 +119,13 @@
         "group": "media",
         "queryable": true,
         "format": "GeoJSON",
-        "visible": false,
+        "visible": true,
         "displayInLegend": true,
-        "legendDisplayName": "Polygons",
+        "legendDisplayName": {
+          "en": "Polygons",
+          "es": "Polígonos",
+          "pt": "Polígonos"
+        },
         "zIndex": 1000,
         "minResolution": 1,
         "maxResolution": 64000,
@@ -116,8 +136,8 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
           "stylePropFnRef": {
-            "strokeColor": "variable2",
-            "fillColor": "variable1"
+            "strokeColor": "variable1",
+            "fillColor": "variable2"
           },
           "strokeWidth": 3
         }
@@ -129,7 +149,11 @@
         "group": "media",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Photos",
+        "legendDisplayName": {
+          "en": "Photos",
+          "es": "Fotografías",
+          "pt": "Fotos"
+        },
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 1000,
@@ -151,7 +175,11 @@
         "group": "media",
         "queryable": true,
         "displayInLegend": true,
-        "legendDisplayName": "Videos",
+        "legendDisplayName": {
+          "en": "Videos",
+          "es": "Vídeos",
+          "pt": "Vídeos"
+        },
         "format": "GeoJSON",
         "visible": true,
         "zIndex": 1000,
@@ -208,8 +236,12 @@
         "group": "data",
         "queryable": true,
         "format": "GeoJSON",
-        "legendDisplayName": "Restoration projects",
-        "visible": false,
+        "legendDisplayName": {
+          "en": "Restoration projects",
+          "es": "Proyectos de restauro",
+          "pt": "Projetos de restauração"
+        },
+        "visible": true,
         "displayInLegend": true,
         "zIndex": 1000,
         "minResolution": 0,
@@ -230,16 +262,20 @@
       },
       {
         "type": "VECTOR",
-        "name": "export_rosario",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:export_rosario&outputFormat=application/json&srsname=EPSG:3857",
+        "name": "Rosario",
+        "url": "https://map.casariolab.art/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:puerto_rosario&outputFormat=application/json&srsname=EPSG:3857",
         "queryable": true,
         "isInteractive": true,
         "displayInLegend": true,
-        "legendDisplayName": "Exports from Rosario",
+        "legendDisplayName": {
+          "en": "Restoration projects",
+          "es": "Proyectos de restauro",
+          "pt": "Projetos de restauração"
+        },
         "format": "GeoJSON",
         "visible": true,
         "displaySidebarInfo": false,
-        "zIndex": 1000,
+        "zIndex": 1,
         "minResolution": 2,
         "maxResolution": 64000,
         "label": false,
@@ -320,7 +356,7 @@
           "maxResolution": 64000
         },
         "local": {
-          "layers": [],
+          "layers": ["World_Hillshade", "ESRI-World-Imagery2", "osm"],
           "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
@@ -328,7 +364,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": [],
+          "layers": ["World_Hillshade", "ESRI-World-Imagery2", "osm", "Rosario"],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
@@ -338,7 +374,7 @@
       },
       "data": {
         "default": {
-          "layers": ["osm", "ESRI-World-Imagery", "glri_projects", "export_rosario"],
+          "layers": ["osm", "ESRI-World-Imagery", "glri_projects"],
           "center": [26.041, -4.828],
           "resolution": 60000,
           "mobileResolution": 40000,
@@ -371,12 +407,28 @@
     },
     "defaultActiveGroup": "media",
     "groupTitles": {
-      "media": "media",
-      "data": "data"
+      "media": {
+        "en": "Media",
+        "es": "Media",
+        "pt": "Mídia"
+      },
+      "data": {
+        "en": "Data",
+        "es": "Dados",
+        "pt": "Datos"
+      }
     },
     "regionTitles": {
-      "local": "local",
-      "global": "global",
+      "local": {
+        "en": "local",
+        "es": "entorno",
+        "pt": "entorno"
+      },
+      "global": {
+        "en": "global",
+        "es": "mundo",
+        "pt": "mundo"
+      },
       "default": "Default"
     },
     "popupFieldsMapping": {
