@@ -259,12 +259,14 @@ export default {
       });
       for (const region of this.regions) {
         if (region.name === this.activeLayerGroup.region && region.name !== 'default') {
-          if (typeof title === "object") {
+          if (typeof title === 'object') {
             let navbarGroupTitle = {};
-            if (typeof region.title === "object") {
+            if (typeof region.title === 'object') {
               const languages = [...new Set([...Object.keys(title), ...Object.keys(region.title)])];
               for (const language of languages) {
-                navbarGroupTitle[language] = (title[language] || Object.values(title)[0]) + ` (${region.title[language] || Object.values(region.title)[0]})`;
+                navbarGroupTitle[language] =
+                  (title[language] || Object.values(title)[0]) +
+                  ` (${region.title[language] || Object.values(region.title)[0]})`;
               }
             } else {
               for (const language in title) {
@@ -274,7 +276,7 @@ export default {
             title = navbarGroupTitle;
           } else {
             let regionTitle = {};
-            if (typeof region.title === "object") {
+            if (typeof region.title === 'object') {
               for (const language in region.title) {
                 regionTitle[language] = title + ` (${region.title[language]})`;
               }
@@ -284,7 +286,7 @@ export default {
             }
           }
         }
-      };
+      }
       this.title = title;
     },
     toggleLegend() {
