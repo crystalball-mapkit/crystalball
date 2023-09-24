@@ -159,7 +159,8 @@ export default {
       this.lightboxImages.splice(index, 1);
     },
     onFileUploadChanged(e) {
-      this.imageUpload.selectedFile = e.target.files[0];
+      const {selectedFile} = e.target.files[0];
+      this.imageUpload.selectedFile = selectedFile;
       const fileSize = this.imageUpload.selectedFile.size / 1024 / 1024;
       if (fileSize > 5) {
         this.imageUpload.message = `${this.$t('general.fileSizeExceeds')} 5MB`;
