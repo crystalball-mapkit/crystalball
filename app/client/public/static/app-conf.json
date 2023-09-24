@@ -7,9 +7,8 @@
     },
     "tagline": {
       "en": "open-source mapkit",
-      "es" :"mapeo a código abierto",
+      "es": "mapeo a código abierto",
       "pt": "mapeamento de código aberto"
-
     },
     "projectWebsite": "https://wiki.timetochange.today",
     "defaultLanguage": "en",
@@ -357,10 +356,7 @@
           "maxResolution": 64000
         },
         "local": {
-          "layers": [
-            "World_Hillshade",
-            "ESRI-World-Imagery2",
-            "osm"],
+          "layers": ["World_Hillshade", "ESRI-World-Imagery2", "osm"],
           "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
@@ -368,11 +364,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": [
-            "World_Hillshade",
-            "ESRI-World-Imagery2",
-            "osm",
-            "Rosario"],
+          "layers": ["World_Hillshade", "ESRI-World-Imagery2", "osm", "Rosario"],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
@@ -420,7 +412,7 @@
         "es": "Media",
         "pt": "Mídia"
       },
-      "data":  {
+      "data": {
         "en": "Data",
         "es": "Dados",
         "pt": "Datos"
