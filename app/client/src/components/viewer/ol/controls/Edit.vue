@@ -23,10 +23,17 @@
           transition="slide-y-transition"
         >
           <template v-slot:activator="{on, attrs}">
-            <v-btn v-bind="attrs" v-on="on" class="edit-buttons" dark rounded :color="color.primary"
-              ><v-icon small left>far fa-edit</v-icon>
-              {{ selectedLayer ? selectedLayer.get('legendDisplayName') : '' }}</v-btn
-            >
+            <v-btn v-bind="attrs" v-on="on" class="edit-buttons" dark rounded :color="color.primary">
+              <v-icon small left>far fa-edit</v-icon>
+              {{
+                selectedLayer
+                  ? selectedLayer.get('legendDisplayName')[$i18n.locale] ||
+                    (typeof selectedLayer.get('legendDisplayName') === 'object' &&
+                      Object.values(selectedLayer.get('legendDisplayName'))[0]) ||
+                    selectedLayer.get('legendDisplayName')
+                  : ''
+              }}
+            </v-btn>
           </template>
 
           <v-list dense>
@@ -118,10 +125,18 @@
           :label="$t(`general.layers`)"
         >
           <template slot="selection" slot-scope="{item}">
-            {{ item.get('legendDisplayName') }}
+            {{
+              item.get('legendDisplayName')[$i18n.locale] ||
+              (typeof item.get('legendDisplayName') === 'object' && Object.values(item.get('legendDisplayName'))[0]) ||
+              item.get('legendDisplayName')
+            }}
           </template>
           <template slot="item" slot-scope="{item}">
-            {{ item.get('legendDisplayName') }}
+            {{
+              item.get('legendDisplayName')[$i18n.locale] ||
+              (typeof item.get('legendDisplayName') === 'object' && Object.values(item.get('legendDisplayName'))[0]) ||
+              item.get('legendDisplayName')
+            }}
           </template>
         </v-select>
         <v-card-actions>
@@ -135,8 +150,8 @@
               selectedLayer = dialogSelectedLayer;
               layersDialog = false;
             "
-            >{{ $t('general.ok') }}</v-btn
-          >
+            >{{ $t('general.ok') }}
+          </v-btn>
           <v-btn :color="color.primary" text @click.native="layersDialog = false">{{ $t('general.cancel') }}</v-btn>
         </v-card-actions>
       </v-card>
@@ -181,9 +196,10 @@
                           fab
                           small
                         >
-                          <v-icon> fas fa-image </v-icon>
-                        </v-btn> </template
-                      ><span>{{ $t('form.edit.lightBoxImagesPanel') }}</span>
+                          <v-icon> fas fa-image</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>{{ $t('form.edit.lightBoxImagesPanel') }}</span>
                     </v-tooltip>
                   </template>
                 </editor-form>
@@ -198,7 +214,7 @@
             <v-tooltip top>
               <template v-slot:activator="{on}">
                 <v-btn v-on="on" rounded small depressed :loading="imageUpload.isSelecting" @click="openImageUpload">
-                  <v-icon left> insert_photo </v-icon>
+                  <v-icon left> insert_photo</v-icon>
                   <span class="image-upload-btn">
                     {{ imageUploadButtonText }}
                   </span>
@@ -237,9 +253,9 @@
                   "
                 >
                   <v-list-item-content>
-                    <v-list-item-title>{{
-                      imageUpload.position === 'sidebarMediaTop' ? $t(`general.bottom`) : $t(`general.top`)
-                    }}</v-list-item-title>
+                    <v-list-item-title
+                      >{{ imageUpload.position === 'sidebarMediaTop' ? $t(`general.bottom`) : $t(`general.top`) }}
+                    </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -253,9 +269,9 @@
           <v-btn color="grey" text @click="popupCancel">{{ $t(`general.cancel`) }}</v-btn>
         </template>
         <template v-else-if="['addFeature', 'modifyAttributes'].includes(editType)">
-          <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text>{{
-            $t(`general.save`)
-          }}</v-btn>
+          <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text
+            >{{ $t(`general.save`) }}
+          </v-btn>
 
           <v-btn color="grey" text @click="popupCancel">{{ $t(`general.cancel`) }}</v-btn>
         </template>
@@ -270,13 +286,15 @@
     >
       <v-card>
         <v-app-bar :color="color.primary" dark dense flat>
-          <v-app-bar-nav-icon><v-icon>delete</v-icon></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon>
+            <v-icon>delete</v-icon>
+          </v-app-bar-nav-icon>
           <v-toolbar-title class="white--text">{{ $t(`general.confirm`) }}</v-toolbar-title>
         </v-app-bar>
 
-        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0">{{
-          $t(`form.edit.confirmDeleteFeature`)
-        }}</v-card-text>
+        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0"
+          >{{ $t(`form.edit.confirmDeleteFeature`) }}
+        </v-card-text>
         <v-divider></v-divider>
 
         <v-card-actions>
