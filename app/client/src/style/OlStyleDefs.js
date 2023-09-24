@@ -613,7 +613,7 @@ export const layersStylePropFn = {
     strokeColor: propertyValue => propertyValue,
     strokeWidth: propertyValue => propertyValue,
   },
-  export_rosario: {
-    strokeWidth: propertyValue => propertyValue / 3000000,
+  Rosario: {
+    strokeWidth: propertyValue => propertyValue / 100000,
   },
 };
