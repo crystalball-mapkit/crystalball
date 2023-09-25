@@ -14,7 +14,7 @@
     "defaultLanguage": "en",
     "color": {
       "primary": "#00000e",
-      "secondary": "#7C2CA3"
+      "secondary": "red"
     },
     "font": {
       "url": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
@@ -66,6 +66,7 @@
         },
         "visible": true,
         "displayInLegend": true,
+        "displaySidebarInfo": true,
         "zIndex": 1000,
         "minResolution": 0,
         "maxResolution": 64000,
@@ -76,10 +77,8 @@
           "type": "circle",
           "radius": 10,
           "strokeWidth": 2,
-          "stylePropFnRef": {
-            "strokeColor": "variable1",
-            "fillColor": "variable2"
-          },
+          "strokeColor": "black",
+          "fillColor": "blue",
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -134,7 +133,6 @@
         "opacity": 1,
         "label": null,
         "hoverable": true,
-        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/images/legend_polygon.png",
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
@@ -255,12 +253,12 @@
           "type": "circle",
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
-          "strokeColor": "rgba(255,255,255,0.7)",
-          "strokeWidth": 1,
           "stylePropFnRef": {
             "fillColor": "variable1",
             "radius": "variable2"
-          }
+          },
+          "strokeColor": "rgba(255,255,255,0.7)",
+          "strokeWidth": 1
         }
       },
       {
@@ -378,8 +376,8 @@
       "data": {
         "default": {
           "layers": ["osm", "ESRI-World-Imagery", "glri_projects"],
-          "center": [-84.69, 44.24],
-          "resolution": 2000,
+          "center": [26.041, -4.828],
+          "resolution": 60000,
           "mobileResolution": 40000,
           "mobileCenter": [26.041, -4.828],
           "minResolution": 0,
