@@ -61,8 +61,9 @@
                       <span class="ml-2 mt-1 subtitle" v-if="lastSelectedLayer">{{
                         layers[lastSelectedLayer].get('legendDisplayName')[$i18n.locale] ||
                         (typeof layers[lastSelectedLayer].get('legendDisplayName') === 'object' &&
-                            Object.values(layers[lastSelectedLayer].get('legendDisplayName'))[0]) ||
-                        layers[lastSelectedLayer].get('legendDisplayName') || lastSelectedLayer
+                          Object.values(layers[lastSelectedLayer].get('legendDisplayName'))[0]) ||
+                        layers[lastSelectedLayer].get('legendDisplayName') ||
+                        lastSelectedLayer
                       }}</span>
                       <v-spacer></v-spacer>
                       <!-- EDIT SIDEBAR TEXT BUTTON -->
