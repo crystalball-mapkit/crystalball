@@ -420,16 +420,7 @@
     "groups": {
       "media": {
         "default": {
-          "layers": [
-            "satellite_image",
-            "osm",
-            "mississippi",
-            "polygons",
-            "points",
-            "lines",
-            "videos",
-            "photos"
-          ],
+          "layers": ["satellite_image", "osm", "mississippi", "polygons", "points", "lines", "videos", "photos"],
           "center": [-87.476, 41.662],
           "resolution": 32,
           "mobileResolution": 120,

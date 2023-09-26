@@ -603,7 +603,7 @@ export const layersStylePropFn = {
   },
   burnables: {
     fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.20, 3, 26),
+    radius: propertyValue => getRadiusValue(propertyValue, 0.2, 3, 26),
   },
   polygons: {
     strokeColor: propertyValue => propertyValue,
