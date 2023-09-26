@@ -638,7 +638,7 @@ export default {
             : this.popup.activeFeature.getGeometry().getFirstCoordinate();
         this.map.getView().animate({
           center,
-          zoom: 15.5,
+          zoom: 13,
           duration: 800,
         });
       }

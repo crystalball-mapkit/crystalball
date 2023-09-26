@@ -96,7 +96,7 @@
         >
           <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
             <v-btn
-              min-width="200"
+              min-width="140"
               class="mx-10"
               :dark="activeLayerGroup.navbarGroup === navbarGroup.name ? false : true"
               @click="changeNavbarGroup(navbarGroup)"

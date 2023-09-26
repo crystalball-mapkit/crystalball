@@ -14,7 +14,7 @@
     "defaultLanguage": "en",
     "color": {
       "primary": "#00000e",
-      "secondary": "red"
+      "secondary": "#7C2CA3"
     },
     "font": {
       "url": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
@@ -30,7 +30,7 @@
     },
     "sideBar": {
       "isVisible": true,
-      "backgroundColor": "#ffffff",
+      "backgroundColor": "#F5FFFA",
       "textColor": "black"
     },
     "navbar": {
@@ -102,7 +102,7 @@
         "maxResolution": 64000,
         "label": false,
         "hoverable": true,
-        "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_line.png",
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/line.png",
         "style": {
           "type": "line",
           "stylePropFnRef": {
@@ -122,6 +122,7 @@
         "format": "GeoJSON",
         "visible": true,
         "displayInLegend": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/polygon.png",
         "legendDisplayName": {
           "en": "Polygons",
           "es": "Polígonos",
@@ -221,43 +222,65 @@
       {
         "type": "XYZ",
         "name": "osm",
-        "group": "backgroundLayers",
+        "group": "media",
         "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png",
         "minResolution": 0.25,
-        "maxResolution": 60000,
-        "displayInLegend": false,
-        "legendDisplayName": "OpenStreetMap",
-        "opacity": 0.99,
+        "maxResolution": 64000,
+        "queryable": false,
+        "displayInLegend": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/osm.png",
+        "legendDisplayName": {
+          "en": "OpenStreetMap",
+          "es": "OpenStreetMap",
+          "pt": "OpenStreetMap"
+        },
         "visible": true
       },
       {
-        "type": "VECTOR",
+        "type": "XYZ",
+        "name": "osm2",
+        "group": "media",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "minResolution": 0.25,
+        "maxResolution": 64000,
+        "queryable": false,
+        "displayInLegend": false,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/osm.png",
+        "legendDisplayName": {
+          "en": "OpenStreetMap",
+          "es": "OpenStreetMap",
+          "pt": "OpenStreetMap"
+        },
+        "visible": true
+      },
+      {
+        "type": "VECTORTILE",
         "name": "glri_projects",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:glri_projects&outputFormat=application/json&srsname=EPSG:3857",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:glri_projects@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
         "group": "data",
         "queryable": true,
-        "format": "GeoJSON",
+        "displayInLegend": true,
         "legendDisplayName": {
           "en": "Restoration projects",
           "es": "Proyectos de restauro",
           "pt": "Projetos de restauração"
         },
+        "format": "MVT",
+        "renderMode": "hybrid",
         "visible": true,
-        "displayInLegend": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 64000,
-        "label": true,
+        "zIndex": 100,
+        "minResolution": 1,
+        "maxResolution": 20000,
         "hoverable": true,
         "style": {
-          "type": "circle",
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
+          "hoverBackgroundColor": "gray",
+          "type": "circle",
           "stylePropFnRef": {
-            "fillColor": "variable1",
-            "radius": "variable2"
+            "radius": "variable2",
+            "fillColor": "variable1"
           },
-          "strokeColor": "rgba(255,255,255,0.7)",
+          "strokeColor": "#000000",
           "strokeWidth": 1
         }
       },
@@ -269,9 +292,9 @@
         "isInteractive": true,
         "displayInLegend": true,
         "legendDisplayName": {
-          "en": "Restoration projects",
-          "es": "Proyectos de restauro",
-          "pt": "Projetos de restauração"
+          "en": "Soybean exports",
+          "es": "Exportación de soja",
+          "pt": "Exportação de soja"
         },
         "format": "GeoJSON",
         "visible": true,
@@ -282,14 +305,62 @@
         "label": false,
         "hoverable": true,
         "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
           "type": "line",
           "stylePropFnRef": {
             "strokeWidth": "variable1"
           },
-          "strokeColor": "#7c2ca3",
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "strokeColor": "#7c2ca3"
         }
+      },
+      {
+        "type": "VECTORTILE",
+        "name": "burnables",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:burnables3@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "group": "data",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": {
+          "en": "Power Plants",
+          "es": "Generadores",
+          "pt": "Generacão"
+        },
+        "format": "MVT",
+        "renderMode": "hybrid",
+        "visible": true,
+        "zIndex": 100,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "hoverable": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "gray",
+          "type": "circle",
+          "stylePropFnRef": {
+            "fillColor": "variable1",
+            "radius": "variable2"
+          },
+          "strokeColor": "#ffffff",
+          "strokeWidth": 0.4
+        }
+      },
+      {
+        "type": "XYZ",
+        "name": "satellite_image",
+        "group": "media",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0.25,
+        "maxResolution": 64000,
+        "queryable": false,
+        "displayInLegend": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/satellite.png",
+        "legendDisplayName": {
+          "en": "Satellite image",
+          "es": "Imagen satélital",
+          "pt": "Imagem de satélite"
+        },
+        "visible": true
       },
       {
         "type": "XYZ",
@@ -297,7 +368,8 @@
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.25,
-        "maxResolution": 8,
+        "maxResolution": 4,
+        "opacity": 0.2,
         "queryable": false,
         "visible": true
       },
@@ -307,8 +379,8 @@
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.25,
-        "maxResolution": 4,
-        "opacity": 0.2,
+        "maxResolution": 8,
+        "opacity": 1,
         "queryable": false,
         "visible": true
       },
@@ -332,32 +404,41 @@
         "opacity": 0.6,
         "queryable": false,
         "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "carto_dark",
+        "group": "backgroundLayers",
+        "url": "https://{a-d}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "opacity": 1,
+        "queryable": false,
+        "visible": true
       }
     ],
     "groups": {
       "media": {
         "default": {
           "layers": [
-            "World_Hillshade",
-            "ESRI-World-Imagery2",
+            "satellite_image",
             "osm",
             "mississippi",
             "polygons",
-            "ESRI-World-Imagery",
             "points",
             "lines",
             "videos",
             "photos"
           ],
-          "center": [-87.468, 41.68],
-          "resolution": 38,
+          "center": [-87.476, 41.662],
+          "resolution": 32,
           "mobileResolution": 120,
           "mobileCenter": [-87.573, 41.736],
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
-          "layers": ["World_Hillshade", "ESRI-World-Imagery2", "osm"],
+          "layers": ["ESRI-World-Imagery", "osm"],
           "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
@@ -365,7 +446,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": ["World_Hillshade", "ESRI-World-Imagery2", "osm", "Rosario"],
+          "layers": ["ESRI-World-Imagery", "osm2", "Rosario"],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
@@ -375,16 +456,16 @@
       },
       "data": {
         "default": {
-          "layers": ["osm", "ESRI-World-Imagery", "glri_projects"],
-          "center": [26.041, -4.828],
-          "resolution": 60000,
-          "mobileResolution": 40000,
+          "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects"],
+          "center": [-85.57, 44.65],
+          "resolution": 2000,
+          "mobileResolution": 4000,
           "mobileCenter": [26.041, -4.828],
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
-          "layers": [],
+          "layers": ["carto_dark", "ESRI-World-Imagery2", "burnables"],
           "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
@@ -392,7 +473,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": [],
+          "layers": ["carto_dark", "ESRI-World-Imagery2", "burnables"],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
@@ -452,7 +533,9 @@
       "videoSrc",
       "colorkey",
       "latitude",
-      "longitude"
+      "longitude",
+      "port",
+      "soybean_importer"
     ],
     "corporateEntitiesUrls": {
       "Enbridge": ""
