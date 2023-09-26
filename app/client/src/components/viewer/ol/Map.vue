@@ -241,7 +241,7 @@ export default {
       queryLayersGeoserverNames: null,
       activeInteractions: [],
       getInfoResult: [],
-      radius: 160,
+      radius: 260,
       mousePosition: undefined,
       spotlightMessage: false,
       lightBoxImages: [],
@@ -403,7 +403,7 @@ export default {
           layer.setVisible(this.layerVisibilityState[layer.get('name')]);
         }
         // Enable spotlight for ESRI Imagery
-        if (layer.get('name') === 'ESRI-World-Imagery' || layer.get('name') === 'ESRI-World-Imagery3') {
+        if (layer.get('name') === 'ESRI-World-Imagery2' || layer.get('name') === 'ESRI-World-Imagery3') {
           layer.on('prerender', e => {
             this.spotlight(e);
           });
@@ -749,7 +749,7 @@ export default {
         this.mousePosition = this.map.getEventPixel(evt.originalEvent);
         // Render is only triggered for spotlight which is visible in zoom levels below 20
         const resolutionLevel = this.map.getView().getResolution();
-        if (resolutionLevel <= 20) {
+        if (resolutionLevel <= 40) {
           this.map.render();
         }
       });
@@ -795,7 +795,7 @@ export default {
       // for using the spotlights should be shown based on zoom level.
       this.map.on('moveend', () => {
         const resolutionLevel = this.map.getView().getResolution();
-        if (resolutionLevel <= 8) {
+        if (resolutionLevel <= 40) {
           this.spotlightMessage = true;
         } else {
           this.spotlightMessage = false;
