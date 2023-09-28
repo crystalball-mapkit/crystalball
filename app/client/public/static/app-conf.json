@@ -182,7 +182,7 @@
         "group": "media",
         "queryable": true,
         "displayInLegend": true,
-        "displaySidebarInfo": true, 
+        "displaySidebarInfo": true,
         "legendDisplayName": {
           "en": "Videos",
           "es": "Vídeos",
@@ -479,7 +479,7 @@
       "data": {
         "default": {
           "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects"],
-          "center": [-84.750, 43.561],
+          "center": [-84.75, 43.561],
           "resolution": 860,
           "mobileResolution": 4000,
           "mobileCenter": [26.041, -4.828],
