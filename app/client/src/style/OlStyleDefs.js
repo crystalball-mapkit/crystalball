@@ -599,7 +599,7 @@ export const layersStylePropFn = {
   },
   glri_projects: {
     fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.012),
+    radius: propertyValue => getRadiusValue(propertyValue, 0.012, 2, 26),
   },
   burnables: {
     fillColor: propertyValue => propertyValue,
