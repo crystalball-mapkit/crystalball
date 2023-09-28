@@ -47,14 +47,14 @@
     >
       <add-post :color="color.primary" :map="map"></add-post>
     </div>
-    <!-- <div
+    <div
       v-show="spotlightMessage === true && !$vuetify.breakpoint.smAndDown && !isEditingPost"
       :style="`background-color: ${color.primary}`"
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
     >
       {{ $t('tooltip.changeSpotlight') }}
-    </div> -->
+    </div>
 
     <!-- Popup overlay  -->
     <overlay-popup
@@ -241,7 +241,7 @@ export default {
       queryLayersGeoserverNames: null,
       activeInteractions: [],
       getInfoResult: [],
-      radius: 260,
+      radius: 200,
       mousePosition: undefined,
       spotlightMessage: false,
       lightBoxImages: [],
@@ -795,7 +795,7 @@ export default {
       // for using the spotlights should be shown based on zoom level.
       this.map.on('moveend', () => {
         const resolutionLevel = this.map.getView().getResolution();
-        if (resolutionLevel <= 40) {
+        if (resolutionLevel <= 2) {
           this.spotlightMessage = true;
         } else {
           this.spotlightMessage = false;
