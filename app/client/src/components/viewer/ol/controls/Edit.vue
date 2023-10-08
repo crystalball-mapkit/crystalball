@@ -182,6 +182,42 @@
         <div v-else-if="['addFeature', 'modifyAttributes'].includes(editType)">
           <vue-scroll ref="vs">
             <div style="max-height: 280px" class="pr-2">
+              <v-flex class="d-flex flex-row justify-space-between" v-if="isTranslatable">
+                <v-checkbox
+                  class="layer-input ml-0 pt-1 py-0 my-0"
+                  dense
+                  color="purple"
+                  :input-value="showAllTranslations"
+                  @change="showAllTranslations = !showAllTranslations"
+                >
+                  <template v-slot:label>
+                    <span
+                      :class="{
+                        'text--darken-2 subtitle-2': true,
+                        'blue--text': false,
+                      }"
+                    >
+                      Show All Translations
+                    </span>
+                  </template>
+                </v-checkbox>
+                <v-tooltip top>
+                  <template v-slot:activator="{on}">
+                    <v-btn
+                      v-on="on"
+                      :class="{
+                        'tiptap-vuetify-editor__action-render-btn': true,
+                      }"
+                      small
+                      icon
+                      @click="translateAttributes"
+                    >
+                      <v-icon>translate</v-icon>
+                    </v-btn>
+                  </template>
+                  {{ $t(`form.htmlPostEditor.translateContent`) }}
+                </v-tooltip>
+              </v-flex>
               <v-form ref="edit-form" v-model="formValid">
                 <editor-form v-model="formData" :schema="formSchema" :options="formOptions">
                   <template slot="lightbox-append">
@@ -334,6 +370,17 @@ import authHeader from '../../../../services/auth-header';
 import {EventBus} from '../../../../EventBus';
 
 import Lightbox from '../../../core/Lightbox.vue';
+import JSONFeature from 'ol/format/JSONFeature';
+
+function parseXmlToJson(xml) {
+  const json = {};
+  for (const res of xml.matchAll(/(?:<(\w*)(?:\s[^>]*)*>)((?:(?!<\1).)*)(?:<\/\1>)|<(\w*)(?:\s*)*\/>/gm)) {
+    const key = res[1] || res[3];
+    const value = res[2] && parseXmlToJson(res[2]);
+    json[key] = (value && Object.keys(value).length ? value : res[2]) || null;
+  }
+  return json;
+}
 
 export default {
   components: {
@@ -417,6 +464,9 @@ export default {
 
     postMapMarkerLayer_: null,
     showDeleteDialog: false,
+
+    showAllTranslations: false,
+    translations: {},
   }),
   name: 'edit-control',
   computed: {
@@ -427,8 +477,8 @@ export default {
       postFeature: 'postFeature',
       postEditType: 'postEditType',
       formValid: 'formValid',
-      formSchema: 'formSchema',
-      formSchemaCache: 'formSchemaCache',
+      // formSchema: 'formSchema',
+      // formSchemaCache: 'formSchemaCache',
       formOptions: 'formOptions',
       formData: 'formData',
       imageUpload: 'imageUpload',
@@ -445,6 +495,96 @@ export default {
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',
     }),
+    formSchema() {
+      let tempFormSchema = {
+        type: 'object',
+        required: [],
+        properties: {},
+      };
+      const layerName = this.selectedLayer.get('name');
+      // if (!this.formSchemaCache[layerName]) {
+      const layerMetadata = this.layersMetadata[layerName];
+      if (layerMetadata) {
+        if (this.showAllTranslations) {
+          const properties = layerMetadata.properties.filter(property => property.name !== 'translations');
+          /*layerMetadata.*/ properties.forEach(property => {
+            const type = this.formTypesMapping[property.localType];
+            if (type) {
+              if (this.$appConfig.map.popupTranslatableFields.indexOf(property.name) !== -1) {
+                this.$i18n.availableLocales.forEach(language => {
+                  // const translation = this.translations.find(translation => translation.language === language);
+                  const translation = this.translations[language];
+                  if (translation) {
+                    let title = property.name;
+                    title = language + ':' + title.toUpperCase();
+                    tempFormSchema.properties[language + ':' + property.name] = {
+                      type,
+                      title,
+                    };
+                    this.formData[language + ':' + property.name] = translation[property.name];
+                  } else {
+                    let title;
+                    const fieldMapping = this.$appConfig.map.popupFieldsMapping;
+                    if (fieldMapping) {
+                      title =
+                        getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
+                        fieldMapping.default[property.name] ||
+                        property.name;
+                    }
+                    title = title.toUpperCase();
+                    tempFormSchema.properties[property.name] = {
+                      type,
+                      title,
+                    };
+                  }
+                });
+              } else {
+                let title;
+                const fieldMapping = this.$appConfig.map.popupFieldsMapping;
+                if (fieldMapping) {
+                  title =
+                    getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
+                    fieldMapping.default[property.name] ||
+                    property.name;
+                }
+                title = title.toUpperCase();
+                tempFormSchema.properties[property.name] = {
+                  type,
+                  title,
+                };
+              }
+            }
+          });
+        } else {
+          // modify attributes
+          const properties = layerMetadata.properties.filter(property => property.name !== 'translations');
+          /*layerMetadata.*/ properties.forEach(property => {
+            const type = this.formTypesMapping[property.localType];
+            if (type) {
+              let title;
+              const fieldMapping = this.$appConfig.map.popupFieldsMapping;
+              if (fieldMapping) {
+                title =
+                  getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
+                  fieldMapping.default[property.name] ||
+                  property.name;
+              }
+              title = title.toUpperCase();
+              tempFormSchema.properties[property.name] = {
+                type,
+                title,
+              };
+            }
+          });
+        }
+      }
+      return tempFormSchema;
+    },
+    isTranslatable() {
+      const layerName = this.selectedLayer.get('name');
+      const layerMetadata = this.layersMetadata[layerName];
+      return layerMetadata && layerMetadata.properties.findIndex(property => property.name === 'translations') !== -1;
+    },
     flatLayers() {
       const layers = [];
       this.map
@@ -542,7 +682,7 @@ export default {
       if (!this.selectedLayer) return;
       const layerName = this.selectedLayer.get('name');
       const layerMetadata = this.layersMetadata[layerName];
-      this.createSchemaFromLayerMetadata(); // Used for dynamic form rendering
+      // this.createSchemaFromLayerMetadata(); // Used for dynamic form rendering
       let geometryType;
       if (layerMetadata) {
         const geometryFields = layerMetadata.properties.filter(p => ['geom', 'geometry'].includes(p.name));
@@ -764,7 +904,12 @@ export default {
                 }, 100);
               } else if (this.editType === 'modifyAttributes') {
                 this.popup.title = 'Modify Attributes';
-                this.formData = feature.getProperties();
+
+                let properties = feature.getProperties();
+                this.translations = JSON.parse(properties.translations);
+                delete properties.translations;
+                this.formData = properties;
+
                 if (this.$vuetify.breakpoint.smAndDown) {
                   this.mobilePanelState = true;
                   // this.map.getView().setCenter(closestPoint);
@@ -855,6 +1000,8 @@ export default {
       }
       this.mobilePanelState = false;
       this.showDeleteDialog = false;
+      this.showAllTranslations = false;
+      this.translations = {};
     },
 
     /**
@@ -968,13 +1115,20 @@ export default {
         return;
       }
 
-      const {
+      let {
         // eslint-disable-next-line no-unused-vars
         geometry,
         // eslint-disable-next-line no-unused-vars
         geom,
         ...propsWithNoGeometry
       } = this.selectedFeature.getProperties();
+
+      // filter out properties that have semicolon, that is, are temporary translations
+      // propsWithNoGeometry = propsWithNoGeometry.filter(property => property.indexOf(':') === -1);
+      propsWithNoGeometry = Object.fromEntries(
+        Object.entries(propsWithNoGeometry).filter(([key]) => !key.includes(':'))
+      );
+      propsWithNoGeometry['translations'] = this.translations;
 
       // Transform Video Url if exists
       const videoPossibilities = ['youtube-nocookie.com', 'youtube.com', 'vimeo.com'];
@@ -1015,6 +1169,7 @@ export default {
         modifyFeature: 'update',
         deleteFeature: 'delete',
       };
+
       const payload = {
         type: type[this.editType],
         srid: '4326',
@@ -1023,7 +1178,6 @@ export default {
         properties: propsWithNoGeometry,
         featureId: feature.getId(),
       };
-
       const formData = new FormData();
       if (this.imageUpload.selectedFile) {
         formData.append('image', this.imageUpload.selectedFile);
@@ -1038,6 +1192,8 @@ export default {
           headers: authHeader(),
         })
         .then(() => {
+          this.translations = {};
+          this.showAllTranslations = false;
           if (this.editType !== 'modifyFeature') {
             this.editLayer.getSource().clear();
           }
@@ -1062,6 +1218,47 @@ export default {
           }
         });
     },
+
+    translateAttributes() {
+      this.translations = {};
+
+      const layerName = this.selectedLayer.get('name');
+      const layerMetadata = this.layersMetadata[layerName];
+
+      const availableLanguages = this.$i18n.availableLocales;
+      const currentLanguage = this.$i18n.locale;
+      const languages = availableLanguages.filter(code => code !== currentLanguage);
+      languages.forEach(language => {
+        let xml = '';
+        layerMetadata.properties.forEach(property => {
+          if (
+            this.$appConfig.map.popupTranslatableFields.indexOf(property.name) !== -1 &&
+            this.formData[property.name]
+          ) {
+            xml += `<${property.name}>${this.formData[property.name]}</${property.name}>`;
+          }
+        });
+        if (xml.length > 0) {
+          axios
+            .post(
+              './api/translate',
+              {content: xml, targetLanguage: language},
+              {
+                headers: authHeader(),
+              }
+            )
+            .then(response => {
+              const translation = parseXmlToJson(response.data);
+              // this.translations.push({language, translation});
+              this.translations[language] = translation;
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      });
+    },
+
     ...mapMutations('map', {
       toggleSnackbar: 'TOGGLE_SNACKBAR',
     }),

@@ -910,6 +910,7 @@ export default {
             return;
           }
           this.previousMapPosition = null;
+
           this.popup.activeFeature = feature.clone ? feature.clone() : feature;
 
           // Add id reference
