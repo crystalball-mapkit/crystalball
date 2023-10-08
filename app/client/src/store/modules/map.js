@@ -112,11 +112,16 @@ const getters = {
   selectedLayer: state => state.selectedLayer,
   isEditingHtml: state => state.isEditingHtml,
   isEditingPost: state => state.isEditingPost,
-
   popupInfo: state => {
     const feature = state.popup.activeFeature;
     if (!feature) return;
     return formatPopupRows(feature, state.popup.exludedProps);
+  },
+  translations: state => {
+    const feature = state.popup.activeFeature;
+    if (!feature) return;
+    const translations = JSON.parse(feature.getProperties().translations);
+    return translations;
   },
   splittedEntities: state => {
     if (state.selectedCoorpNetworkEntity) {

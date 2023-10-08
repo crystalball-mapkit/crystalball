@@ -53,7 +53,13 @@
                     v-if="popup.showInSidePanel === true && popup.activeFeature && popup.activeFeature.get('caption')"
                     tabindex="0"
                   >
-                    <span v-html="popup.activeFeature.get('caption')"></span>
+                    <span
+                      v-html="
+                        translations[$i18n.locale]
+                          ? translations[$i18n.locale]['caption'] || popup.activeFeature.get('caption')
+                          : popup.activeFeature.get('caption')
+                      "
+                    ></span>
                   </div>
                   <!-- HTML DISPLAY FOR GROUPS AND LAYERS -->
                   <template v-if="!popup.showInSidePanel">
@@ -159,7 +165,12 @@
                     <div class="body-2" v-for="item in popupInfo" :key="item.property">
                       <span
                         v-if="!hiddenProps.includes(item.property) && !['null', '---'].includes(item.value)"
-                        v-html="`<strong>${mapPopupPropName(item, popup.activeLayer)}: </strong>` + item.value"
+                        v-html="
+                          `<strong>${mapPopupPropName(item, popup.activeLayer)}: </strong>` +
+                          (translations[$i18n.locale]
+                            ? translations[$i18n.locale][item.property] || item.value
+                            : item.value)
+                        "
                       ></span>
                     </div>
                     <v-divider class="mt-4"></v-divider>
@@ -499,6 +510,7 @@ export default {
       map: 'map',
       activeLayerGroup: 'activeLayerGroup',
       popupInfo: 'popupInfo',
+      translations: 'translations',
       splittedEntities: 'splittedEntities',
       isEditingLayer: 'isEditingLayer',
       isEditingPost: 'isEditingPost',

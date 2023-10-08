@@ -544,6 +544,13 @@
         "videoSrc": "youtube_or_vimeo_URL"
       }
     },
+    "popupTranslatableFields": [
+      "title",
+      "description",
+      "comments",
+      "caption",
+      "caption2"
+    ],
     "featureInfoHiddenProps": [
       "caption",
       "variable1",
@@ -557,7 +564,8 @@
       "latitude",
       "longitude",
       "port",
-      "soybean_importer"
+      "soybean_importer",
+      "translations"
     ],
     "corporateEntitiesUrls": {
       "Enbridge": ""
