@@ -575,13 +575,7 @@
         "videoSrc": "youtube_or_vimeo_URL"
       }
     },
-    "popupTranslatableFields": [
-      "title",
-      "description",
-      "comments",
-      "caption",
-      "caption2"
-    ],
+    "popupTranslatableFields": ["title", "description", "comments", "caption", "caption2"],
     "featureInfoHiddenProps": [
       "caption",
       "variable1",
