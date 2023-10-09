@@ -87,6 +87,37 @@
       },
       {
         "type": "VECTOR",
+        "name": "legacy_coal_ash",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:legacy_coal_ash&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "legendDisplayName": {
+          "en": "Many Points",
+          "es": "Muchos Puntos",
+          "pt": "Muitos Pontos"
+        },
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "legendIcon": "",
+        "style": {
+          "type": "circle",
+          "radius": 6,
+          "strokeWidth": 1,
+          "strokeColor": "black",
+          "fillColor": "purple",
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "lines",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:lines&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -451,7 +482,7 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["osm", "mississippi", "polygons", "points", "lines", "videos", "photos"],
+          "layers": ["osm", "mississippi", "polygons", "points", "lines", "videos", "photos", "legacy_coal_ash"],
           "center": [-87.473, 41.658],
           "resolution": 40,
           "mobileResolution": 120,
