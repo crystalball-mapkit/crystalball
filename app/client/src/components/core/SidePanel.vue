@@ -55,7 +55,7 @@
                   >
                     <span
                       v-html="
-                        translations[$i18n.locale]
+                        translations && translations[$i18n.locale]
                           ? translations[$i18n.locale]['caption'] || popup.activeFeature.get('caption')
                           : popup.activeFeature.get('caption')
                       "
@@ -167,7 +167,7 @@
                         v-if="!hiddenProps.includes(item.property) && !['null', '---'].includes(item.value)"
                         v-html="
                           `<strong>${mapPopupPropName(item, popup.activeLayer)}: </strong>` +
-                          (translations[$i18n.locale]
+                          (translations && translations[$i18n.locale]
                             ? translations[$i18n.locale][item.property] || item.value
                             : item.value)
                         "

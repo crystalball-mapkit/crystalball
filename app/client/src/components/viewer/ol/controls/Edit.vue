@@ -906,8 +906,10 @@ export default {
                 this.popup.title = 'Modify Attributes';
 
                 let properties = feature.getProperties();
-                this.translations = JSON.parse(properties.translations);
-                delete properties.translations;
+                if (properties.translations) {
+                  this.translations = JSON.parse(properties.translations);
+                  delete properties.translations;
+                }
                 this.formData = properties;
 
                 if (this.$vuetify.breakpoint.smAndDown) {
@@ -1111,6 +1113,7 @@ export default {
      * TRANSACT METHOD
      */
     transact() {
+      console.log('transact', Array.isArray(this.translations));
       if (!this.selectedFeature) {
         return;
       }
@@ -1128,7 +1131,9 @@ export default {
       propsWithNoGeometry = Object.fromEntries(
         Object.entries(propsWithNoGeometry).filter(([key]) => !key.includes(':'))
       );
-      propsWithNoGeometry['translations'] = this.translations;
+      if (Array.isArray(this.translations)) {
+        propsWithNoGeometry['translations'] = this.translations;
+      }
 
       // Transform Video Url if exists
       const videoPossibilities = ['youtube-nocookie.com', 'youtube.com', 'vimeo.com'];
@@ -1186,6 +1191,7 @@ export default {
           payload.sidebarPosition = this.imageUpload.position;
         }
       }
+      console.log('payload', payload);
       formData.append('payload', JSON.stringify(payload));
       axios
         .post('api/layer', formData, {
