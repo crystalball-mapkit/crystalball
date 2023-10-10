@@ -120,8 +120,7 @@ const getters = {
   translations: state => {
     const feature = state.popup.activeFeature;
     if (!feature) return;
-    const translations = JSON.parse(feature.getProperties().translations);
-    return translations;
+    return feature.getProperties().translations ? JSON.parse(feature.getProperties().translations) : null;
   },
   splittedEntities: state => {
     if (state.selectedCoorpNetworkEntity) {
