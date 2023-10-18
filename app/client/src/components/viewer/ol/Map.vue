@@ -131,6 +131,11 @@
       :progressColor="progressLoading.progressColor"
       :message="progressLoading.message"
     ></progress-loader>
+    <progress-loader
+      :value="isTranslating"
+      :progressColor="progressLoading.progressColor"
+      :message="$t('translation.translateLoadingText')"
+    ></progress-loader>
     <!-- Show snackbar -->
     <snackbar style="margin-top: 60px"></snackbar>
   </div>
@@ -1300,6 +1305,7 @@ export default {
       persistentLayers: 'persistentLayers',
       mobilePanelState: 'mobilePanelState',
       visibleGroup: 'visibleGroup',
+      isTranslating: 'isTranslating',
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',

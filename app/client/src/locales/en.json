@@ -42,7 +42,8 @@
     "modifyAttributes": "Modify Attributes",
     "deleteFeature": "Delete Feature",
     "addPost": "Add Post",
-    "changeSpotlight": "press ↑ or ↓ to change spotlight size"
+    "changeSpotlight": "press ↑ or ↓ to change spotlight size",
+    "translateAllFeatures": "Translate All Features"
   },
   "form": {
     "user": {
@@ -223,5 +224,10 @@
       "am": "AM",
       "pm": "PM"
     }
+  },
+  "translation": {
+    "translateLoadingText": "Translating...",
+    "translateAllFeaturesSuccess": "Translated successfully",
+    "translateAllFeaturesError": "Error while translating"
   }
 }

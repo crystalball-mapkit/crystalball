@@ -416,6 +416,11 @@ export default {
         action: 'deleteFeature',
         tooltip: 'deleteFeature',
       },
+      {
+        icon: 'translate',
+        action: 'translateAllFeatures',
+        tooltip: 'translateAllFeatures',
+      },
     ],
     layersDialog: false,
     // INTERACTION
@@ -487,6 +492,7 @@ export default {
       lightboxDialogState: 'lightboxDialogState',
       editLayer: 'editLayer',
       highlightLayer: 'highlightLayer',
+      isTranslating: 'isTranslating',
     }),
     ...mapGetters('map', {
       layersMetadata: 'layersMetadata',
@@ -677,6 +683,35 @@ export default {
      * Main Edit function
      */
     edit(editType) {
+      if (editType === 'translateAllFeatures') {
+        const layerName = this.layersMetadata[this.selectedLayer.get('name')].typeName;
+        this.isTranslating = true;
+        axios
+          .get(`./api/translate/${layerName}`, {
+            headers: authHeader(),
+          })
+          .then(response => {
+            this.isTranslating = false;
+            this.toggleSnackbar({
+              type: 'success',
+              message: this.$t('translation.translateAllFeaturesSuccess'),
+              timeout: 2000,
+              state: true,
+            });
+          })
+          .catch(error => {
+            console.log('error', error);
+            this.isTranslating = false;
+            this.toggleSnackbar({
+              type: 'error',
+              message: this.$t('translation.translateAllFeaturesError'),
+              timeout: 2000,
+              state: true,
+            });
+          });
+        return;
+      }
+
       this.removeInteraction();
       this.editType = editType;
       if (!this.selectedLayer) return;
@@ -1113,7 +1148,6 @@ export default {
      * TRANSACT METHOD
      */
     transact() {
-      console.log('transact', Array.isArray(this.translations));
       if (!this.selectedFeature) {
         return;
       }
@@ -1131,7 +1165,8 @@ export default {
       propsWithNoGeometry = Object.fromEntries(
         Object.entries(propsWithNoGeometry).filter(([key]) => !key.includes(':'))
       );
-      if (Array.isArray(this.translations)) {
+
+      if (typeof this.translations === 'object' && Object.keys(this.translations).length > 0) {
         propsWithNoGeometry['translations'] = this.translations;
       }
 
@@ -1191,7 +1226,6 @@ export default {
           payload.sidebarPosition = this.imageUpload.position;
         }
       }
-      console.log('payload', payload);
       formData.append('payload', JSON.stringify(payload));
       axios
         .post('api/layer', formData, {
@@ -1217,7 +1251,7 @@ export default {
             }
             this.toggleSnackbar({
               type: 'success',
-              message: this.editSnackbarMessages[this.editType],
+              message: this.$t(this.editSnackbarMessages[this.editType]),
               timeout: 2000,
               state: true,
             });
@@ -1234,6 +1268,7 @@ export default {
       const availableLanguages = this.$i18n.availableLocales;
       const currentLanguage = this.$i18n.locale;
       const languages = availableLanguages.filter(code => code !== currentLanguage);
+
       languages.forEach(language => {
         let xml = '';
         layerMetadata.properties.forEach(property => {
@@ -1245,6 +1280,7 @@ export default {
           }
         });
         if (xml.length > 0) {
+          this.isTranslating = true;
           axios
             .post(
               './api/translate',
@@ -1254,12 +1290,25 @@ export default {
               }
             )
             .then(response => {
+              this.isTranslating = false;
+              this.toggleSnackbar({
+                type: 'success',
+                message: this.$t('translation.translateAllFeaturesSuccess'),
+                timeout: 2000,
+                state: true,
+              });
               const translation = parseXmlToJson(response.data);
-              // this.translations.push({language, translation});
               this.translations[language] = translation;
             })
             .catch(error => {
               console.log(error);
+              this.isTranslating = false;
+              this.toggleSnackbar({
+                type: 'error',
+                message: this.$t('translation.translateAllFeaturesError'),
+                timeout: 2000,
+                state: true,
+              });
             });
         }
       });

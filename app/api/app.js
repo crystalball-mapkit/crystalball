@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 // Require dependencies
 const express = require("express");
 const logger = require("morgan");
@@ -107,8 +105,6 @@ app
 
 app.route("/api/config").get(configController.config_get);
 
-console.log("POSTGRES_DB_NAME", process.env.POSTGRES_DB_NAME);
-console.log("S3_BUCKET", process.env.S3_BUCKET);
 // Run server on port
 // Run server on port
 app.listen(process.env.API_PORT || 3000, () =>
