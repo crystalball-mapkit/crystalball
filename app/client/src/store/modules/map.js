@@ -99,6 +99,7 @@ const state = {
   editType: null,
   editLayer: null,
   highlightLayer: null,
+  isTranslating: false,
 };
 
 const getters = {
@@ -182,6 +183,7 @@ const getters = {
   imageUpload: state => state.imageUpload,
   highlightLayer: state => state.highlightLayer,
   getField,
+  isTranslating: state => state.isTranslating,
 };
 
 const actions = {

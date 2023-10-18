@@ -42,7 +42,8 @@
     "modifyAttributes": "Modificar atributos",
     "deleteFeature": "Borrar rasgo",
     "addPost": "Añadir puesto",
-    "changeSpotlight": "pulsa ↑ o ↓ para cambiar el tamaño del foco"
+    "changeSpotlight": "pulsa ↑ o ↓ para cambiar el tamaño del foco",
+    "translateAllFeatures": "Traducir todas las funciones"
   },
   "form": {
     "user": {
@@ -223,5 +224,10 @@
       "am": "AM",
       "pm": "PM"
     }
+  },
+  "translation": {
+    "translateLoadingText": "Esta traduciendo...",
+    "translateAllFeaturesSuccess": "Traducido con éxito",
+    "translateAllFeaturesError": "Error al traducir"
   }
 }

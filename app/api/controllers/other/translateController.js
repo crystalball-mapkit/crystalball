@@ -13,6 +13,23 @@ const langVariants = {
   pt: "pt-BR",
 };
 
+const nonTranslatableProperties = [
+  "id",
+  "year",
+  "amount",
+  "funder",
+  "start",
+  "end",
+  "variable1",
+  "variable2",
+  "geom",
+  "translations",
+  "link1",
+  "link2",
+  "sidebarMediaTop",
+  "sidebarMediaBottom",
+];
+
 const languages = ["es", "pt"];
 
 function parseXmlToJson(xml) {
@@ -58,26 +75,14 @@ exports.translateAllFeatures = async (req, res) => {
     if (req.params.layer) {
       try {
         const response = await sequelize.query(
-          `SELECT * FROM ${req.params.layer} WHERE translations IS NULL`
+          `SELECT * FROM ${req.params.layer} WHERE translations IS NULL OR translations::text = '{}'::text`
         );
         if (response[0].length > 0) {
           for (const feature of response[0]) {
             let translations = {};
             let xml = "";
             for (let key in feature) {
-              if (
-                ![
-                  "year",
-                  "amount",
-                  "funder",
-                  "start",
-                  "end",
-                  "variable1",
-                  "variable2",
-                  "geom",
-                  "translations",
-                ].includes(key)
-              ) {
+              if (!nonTranslatableProperties.includes(key)) {
                 xml += `<${key}>${feature[key]}</${key}>`;
               }
             }
@@ -104,7 +109,7 @@ exports.translateAllFeatures = async (req, res) => {
       } catch (err) {
         console.log("err", err);
         res.status(400);
-        res.json();
+        res.json({ error: err });
       }
     }
   });
