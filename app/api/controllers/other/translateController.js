@@ -88,6 +88,22 @@ exports.translateAllFeatures = async (req, res) => {
 
           for (const lang of languages) {
             let translations = await translator.translateText(
+              keys.map((k) => k.replace(/_/g, " ")),
+              null,
+              langVariants[lang],
+              {
+                tagHandling: "xml",
+              }
+            );
+
+            keyTranslations = translations.map((t) => t.text);
+
+            let objectKeyTranslations = {};
+            for (let i = 0; i < keys.length; i++) {
+              objectKeyTranslations[keys[i]] = keyTranslations[i];
+            }
+
+            translations = await translator.translateText(
               xmls,
               null,
               langVariants[lang],
@@ -102,6 +118,7 @@ exports.translateAllFeatures = async (req, res) => {
               for (let j = 0; j < elements.length; j++) {
                 item[keys[j]] = elements[j].innerHTML;
               }
+              item["keys"] = objectKeyTranslations;
               if (items[ids[i]]) {
                 items[ids[i]][lang] = item;
               } else {
@@ -118,6 +135,7 @@ exports.translateAllFeatures = async (req, res) => {
             );
           }
         }
+
         res.status(200);
         return res.json();
       } catch (err) {

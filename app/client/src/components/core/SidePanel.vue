@@ -166,7 +166,11 @@
                       <span
                         v-if="!hiddenProps.includes(item.property) && !['null', '---'].includes(item.value)"
                         v-html="
-                          `<strong>${mapPopupPropName(item, popup.activeLayer)}: </strong>` +
+                          `<strong>${mapPopupPropName(
+                            item,
+                            popup.activeLayer,
+                            translations[$i18n.locale] && translations[$i18n.locale]['keys']
+                          )}: </strong>` +
                           (translations && translations[$i18n.locale]
                             ? translations[$i18n.locale][item.property] || item.value
                             : item.value)
