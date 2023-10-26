@@ -715,6 +715,7 @@ export default {
               hitTolerance: 3,
             }
           );
+
           this.map.getTarget().style.cursor = feature ? 'pointer' : '';
 
           if (!feature || !layer.get('hoverable')) {
@@ -723,8 +724,21 @@ export default {
           } else {
             if (!feature) return;
             if (this.popup.activeFeature && this.popup.activeFeature.getId() === `clone.${feature.getId()}`) return;
-            const attr =
-              feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
+
+            let attr = '';
+            if (feature.get('translations')) {
+              const translations = JSON.parse(feature.get('translations'));
+              if (translations[this.$i18n.locale]) {
+                attr = translations[this.$i18n.locale].title;
+              } else {
+                attr =
+                  feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
+              }
+            } else {
+              attr =
+                feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
+            }
+
             if (!attr) return;
             if (layer.get('styleObj')) {
               const {hoverTextColor, hoverBackgroundColor} = JSON.parse(layer.get('styleObj'));
