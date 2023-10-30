@@ -183,13 +183,7 @@
           <vue-scroll ref="vs">
             <div style="max-height: 280px" class="pr-2">
               <v-flex class="d-flex flex-row justify-space-between" v-if="isTranslatable">
-                <v-checkbox
-                  class="layer-input ml-0 pt-1 py-0 my-0"
-                  dense
-                  color="purple"
-                  :input-value="showAllTranslations"
-                  @change="showAllTranslations = !showAllTranslations"
-                >
+                <v-checkbox class="layer-input ml-0 pt-1 py-0 my-0" dense color="purple" v-model="showAllTranslations">
                   <template v-slot:label>
                     <span
                       :class="{
@@ -370,17 +364,6 @@ import authHeader from '../../../../services/auth-header';
 import {EventBus} from '../../../../EventBus';
 
 import Lightbox from '../../../core/Lightbox.vue';
-import JSONFeature from 'ol/format/JSONFeature';
-
-function parseXmlToJson(xml) {
-  const json = {};
-  for (const res of xml.matchAll(/(?:<(\w*)(?:\s[^>]*)*>)((?:(?!<\1).)*)(?:<\/\1>)|<(\w*)(?:\s*)*\/>/gm)) {
-    const key = res[1] || res[3];
-    const value = res[2] && parseXmlToJson(res[2]);
-    json[key] = (value && Object.keys(value).length ? value : res[2]) || null;
-  }
-  return json;
-}
 
 export default {
   components: {
@@ -482,7 +465,7 @@ export default {
       postFeature: 'postFeature',
       postEditType: 'postEditType',
       formValid: 'formValid',
-      // formSchema: 'formSchema',
+      formSchema: 'formSchema',
       // formSchemaCache: 'formSchemaCache',
       formOptions: 'formOptions',
       formData: 'formData',
@@ -501,96 +484,6 @@ export default {
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',
     }),
-    formSchema() {
-      let tempFormSchema = {
-        type: 'object',
-        required: [],
-        properties: {},
-      };
-      const layerName = this.selectedLayer.get('name');
-      // if (!this.formSchemaCache[layerName]) {
-      const layerMetadata = this.layersMetadata[layerName];
-      if (layerMetadata) {
-        if (this.showAllTranslations) {
-          const properties = layerMetadata.properties.filter(property => property.name !== 'translations');
-          /*layerMetadata.*/ properties.forEach(property => {
-            const type = this.formTypesMapping[property.localType];
-            if (type) {
-              if (this.$appConfig.map.popupTranslatableFields.indexOf(property.name) !== -1) {
-                this.$i18n.availableLocales.forEach(language => {
-                  // const translation = this.translations.find(translation => translation.language === language);
-                  const translation = this.translations[language];
-                  if (translation) {
-                    let title = property.name;
-                    title = language + ':' + title.toUpperCase();
-                    tempFormSchema.properties[language + ':' + property.name] = {
-                      type,
-                      title,
-                    };
-                    this.formData[language + ':' + property.name] = translation[property.name];
-                  } else {
-                    let title;
-                    const fieldMapping = this.$appConfig.map.popupFieldsMapping;
-                    if (fieldMapping) {
-                      title =
-                        getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
-                        fieldMapping.default[property.name] ||
-                        property.name;
-                    }
-                    title = title.toUpperCase();
-                    tempFormSchema.properties[property.name] = {
-                      type,
-                      title,
-                    };
-                  }
-                });
-              } else {
-                let title;
-                const fieldMapping = this.$appConfig.map.popupFieldsMapping;
-                if (fieldMapping) {
-                  title =
-                    getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
-                    fieldMapping.default[property.name] ||
-                    property.name;
-                }
-                title = title.toUpperCase();
-                tempFormSchema.properties[property.name] = {
-                  type,
-                  title,
-                };
-              }
-            }
-          });
-        } else {
-          // modify attributes
-          const properties = layerMetadata.properties.filter(property => property.name !== 'translations');
-          /*layerMetadata.*/ properties.forEach(property => {
-            const type = this.formTypesMapping[property.localType];
-            if (type) {
-              let title;
-              const fieldMapping = this.$appConfig.map.popupFieldsMapping;
-              if (fieldMapping) {
-                title =
-                  getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
-                  fieldMapping.default[property.name] ||
-                  property.name;
-              }
-              title = title.toUpperCase();
-              tempFormSchema.properties[property.name] = {
-                type,
-                title,
-              };
-            }
-          });
-        }
-      }
-      return tempFormSchema;
-    },
-    isTranslatable() {
-      const layerName = this.selectedLayer.get('name');
-      const layerMetadata = this.layersMetadata[layerName];
-      return layerMetadata && layerMetadata.properties.findIndex(property => property.name === 'translations') !== -1;
-    },
     flatLayers() {
       const layers = [];
       this.map
@@ -604,6 +497,11 @@ export default {
           }
         });
       return layers;
+    },
+    isTranslatable() {
+      const layerName = this.selectedLayer.get('name');
+      const layerMetadata = this.layersMetadata[layerName];
+      return layerMetadata && layerMetadata.properties.findIndex(property => property.name === 'translations') !== -1;
     },
   },
   methods: {
@@ -683,6 +581,8 @@ export default {
      * Main Edit function
      */
     edit(editType) {
+      console.log('edit', editType);
+
       if (editType === 'translateAllFeatures') {
         const layerName = this.layersMetadata[this.selectedLayer.get('name')].typeName;
         this.isTranslating = true;
@@ -717,7 +617,7 @@ export default {
       if (!this.selectedLayer) return;
       const layerName = this.selectedLayer.get('name');
       const layerMetadata = this.layersMetadata[layerName];
-      // this.createSchemaFromLayerMetadata(); // Used for dynamic form rendering
+      this.createSchemaFromLayerMetadata(); // Used for dynamic form rendering
       let geometryType;
       if (layerMetadata) {
         const geometryFields = layerMetadata.properties.filter(p => ['geom', 'geometry'].includes(p.name));
@@ -774,47 +674,114 @@ export default {
      * Transforms layer metadata into a json structure which can be used to render dynamic vuetify components
      */
     createSchemaFromLayerMetadata() {
-      this.formSchema = {
+      const formSchema = {
         type: 'object',
         required: [],
         properties: {},
       };
       const layerName = this.selectedLayer.get('name');
-      if (!this.formSchemaCache[layerName]) {
-        const layerMetadata = this.layersMetadata[layerName];
-        if (layerMetadata) {
-          layerMetadata.properties.forEach(property => {
-            const type = this.formTypesMapping[property.localType];
-            if (type) {
-              let title;
-              const fieldMapping = this.$appConfig.map.popupFieldsMapping;
-              if (fieldMapping) {
-                title =
-                  getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
-                  fieldMapping.default[property.name] ||
-                  property.name;
-              }
-              title = title.toUpperCase();
-              this.formSchema.properties[property.name] = {
-                type,
-                title,
-              };
-              if (property.nillable === false) {
-                this.formSchema.required.push(property.name);
-              }
-              if (property.name === 'geom') {
-                this.formSchema[property.name]['x-display'] = 'hidden';
-              }
-              if (property.name === 'lightbox') {
-                this.formSchema.properties[property.name].readOnly = true;
-              }
+      // if (!this.formSchemaCache[layerName]) {
+      const layerMetadata = this.layersMetadata[layerName];
+      if (layerMetadata) {
+        layerMetadata.properties.forEach(property => {
+          const type = this.formTypesMapping[property.localType];
+          if (type) {
+            let title;
+            const fieldMapping = this.$appConfig.map.popupFieldsMapping;
+            if (fieldMapping) {
+              title =
+                getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
+                fieldMapping.default[property.name] ||
+                property.name;
             }
-          });
-          this.formSchemaCache[layerName] = this.formSchema;
-        }
-      } else {
-        this.formSchema = this.formSchemaCache[layerName];
+            title = title.toUpperCase();
+            formSchema.properties[property.name] = {
+              type,
+              title,
+            };
+            if (property.nillable === false) {
+              formSchema.required.push(property.name);
+            }
+            if (property.name === 'geom') {
+              formSchema[property.name]['x-display'] = 'hidden';
+            }
+            if (property.name === 'lightbox') {
+              formSchema.properties[property.name].readOnly = true;
+            }
+            if (property.name === 'translations') {
+              formSchema.properties[property.name]['x-display'] = 'hidden';
+            }
+          }
+        });
+        // this.formSchemaCache[layerName] = this.formSchema;
       }
+      // } else {
+      // this.formSchema = this.formSchemaCache[layerName];
+      // }
+      this.formSchema = formSchema;
+    },
+
+    createSchemaWithTranslations() {
+      const formSchema = {
+        type: 'object',
+        required: [],
+        properties: {},
+      };
+      const layerName = this.selectedLayer.get('name');
+      const layerMetadata = this.layersMetadata[layerName];
+
+      if (layerMetadata) {
+        // parse translations field
+        const translations = this.formData.translations ? JSON.parse(this.formData.translations) : {};
+
+        layerMetadata.properties.forEach(property => {
+          const type = this.formTypesMapping[property.localType];
+          if (type) {
+            let title;
+            const fieldMapping = this.$appConfig.map.popupFieldsMapping;
+            if (fieldMapping) {
+              title =
+                getNestedProperty(fieldMapping, `${layerName}.${property.name}`) ||
+                fieldMapping.default[property.name] ||
+                property.name;
+            }
+            formSchema.properties[property.name] = {
+              type,
+              title: title.toUpperCase(),
+            };
+
+            // populate translated fields
+            if (this.$appConfig.map.featureInfoHiddenProps.indexOf(property.name) === -1) {
+              this.$i18n.availableLocales.forEach(language => {
+                const translation = translations[language];
+                if (translation) {
+                  formSchema.properties[`${language}:${property.name}`] = {
+                    type,
+                    title: `${language}:${property.name.toUpperCase()}`,
+                  };
+                  // console.log('setting', `${language}:${property.name}`, 'to', translation[property.name]);
+                  this.formData[`${language}:${property.name}`] = translation[property.name];
+                }
+              });
+            }
+
+            if (property.nillable === false) {
+              formSchema.required.push(property.name);
+            }
+            if (property.name === 'geom') {
+              formSchema[property.name]['x-display'] = 'hidden';
+            }
+            if (property.name === 'lightbox') {
+              formSchema.properties[property.name].readOnly = true;
+            }
+            if (property.name === 'translations') {
+              formSchema.properties[property.name]['x-display'] = 'hidden';
+            }
+          }
+        });
+      }
+
+      this.formSchema = formSchema;
     },
 
     /**
@@ -940,12 +907,9 @@ export default {
               } else if (this.editType === 'modifyAttributes') {
                 this.popup.title = 'Modify Attributes';
 
-                let properties = feature.getProperties();
-                if (properties.translations) {
-                  this.translations = JSON.parse(properties.translations);
-                  delete properties.translations;
-                }
+                const properties = feature.getProperties();
                 this.formData = properties;
+                console.log('selectFeature setting formData', this.formData);
 
                 if (this.$vuetify.breakpoint.smAndDown) {
                   this.mobilePanelState = true;
@@ -1016,6 +980,7 @@ export default {
       }
       // Commit change in db
       this.transact();
+
       // Close popup and clear previous interactions.
       this.popupCancel();
       this.showDeleteDialog = false;
@@ -1167,7 +1132,7 @@ export default {
       );
 
       if (typeof this.translations === 'object' && Object.keys(this.translations).length > 0) {
-        propsWithNoGeometry['translations'] = this.translations;
+        propsWithNoGeometry.translations = this.translations;
       }
 
       // Transform Video Url if exists
@@ -1209,7 +1174,6 @@ export default {
         modifyFeature: 'update',
         deleteFeature: 'delete',
       };
-
       const payload = {
         type: type[this.editType],
         srid: '4326',
@@ -1218,6 +1182,7 @@ export default {
         properties: propsWithNoGeometry,
         featureId: feature.getId(),
       };
+
       const formData = new FormData();
       if (this.imageUpload.selectedFile) {
         formData.append('image', this.imageUpload.selectedFile);
@@ -1251,7 +1216,7 @@ export default {
             }
             this.toggleSnackbar({
               type: 'success',
-              message: this.$t(this.editSnackbarMessages[this.editType]),
+              message: this.editSnackbarMessages[this.editType],
               timeout: 2000,
               state: true,
             });
@@ -1260,8 +1225,6 @@ export default {
     },
 
     translateAttributes() {
-      this.translations = {};
-
       const layerName = this.selectedLayer.get('name');
       const layerMetadata = this.layersMetadata[layerName];
 
@@ -1269,49 +1232,87 @@ export default {
       const currentLanguage = this.$i18n.locale;
       const languages = availableLanguages.filter(code => code !== currentLanguage);
 
+      const translations = this.formData.translations ? JSON.parse(this.formData.translations) : {};
+
+      const promises = [];
+      const promisesParams = [];
       languages.forEach(language => {
-        let xml = '';
+        const propertyFields = [];
+        const propertyValues = [];
         layerMetadata.properties.forEach(property => {
           if (
-            this.$appConfig.map.popupTranslatableFields.indexOf(property.name) !== -1 &&
-            this.formData[property.name]
+            this.$appConfig.map.featureInfoHiddenProps.indexOf(property.name) === -1 &&
+            this.formData[property.name] &&
+            (!translations[language] || // a form is translated for the first time
+              !translations[language][property.name] || // a previously empty field has been filled in and needs to be translated
+              (translations[language][property.name] && !this.formData[`${language}:${property.name}`])) // an existing translation needs to be re-translated
           ) {
-            xml += `<${property.name}>${this.formData[property.name]}</${property.name}>`;
+            propertyFields.push(property.name);
+            propertyValues.push(this.formData[property.name]);
           }
         });
-        if (xml.length > 0) {
-          this.isTranslating = true;
-          axios
-            .post(
+
+        if (propertyFields.length > 0) {
+          promisesParams.push({language, propertyFields, propertyValues});
+          promises.push(
+            axios.post(
               './api/translate',
-              {content: xml, targetLanguage: language},
+              {content: propertyValues, targetLanguage: language},
               {
                 headers: authHeader(),
               }
             )
-            .then(response => {
-              this.isTranslating = false;
-              this.toggleSnackbar({
-                type: 'success',
-                message: this.$t('translation.translateAllFeaturesSuccess'),
-                timeout: 2000,
-                state: true,
-              });
-              const translation = parseXmlToJson(response.data);
-              this.translations[language] = translation;
-            })
-            .catch(error => {
-              console.log(error);
-              this.isTranslating = false;
-              this.toggleSnackbar({
-                type: 'error',
-                message: this.$t('translation.translateAllFeaturesError'),
-                timeout: 2000,
-                state: true,
-              });
-            });
+          );
         }
       });
+
+      if (promises.length > 0) {
+        // show progress spinner
+        this.isTranslating = true;
+
+        Promise.all(promises)
+          .then(results => {
+            // hide progress spinner
+            this.isTranslating = false;
+
+            // show success message
+            this.toggleSnackbar({
+              type: 'success',
+              message: this.$t('translation.translateAllFeaturesSuccess'),
+              timeout: 2000,
+              state: true,
+            });
+
+            for (let i = 0; i < results.length; i += 1) {
+              if (!translations[promisesParams[i].language]) {
+                // if a form is translated for the first time
+                translations[promisesParams[i].language] = {};
+              }
+              for (let j = 0; j < promisesParams[i].propertyFields.length; j += 1) {
+                translations[promisesParams[i].language][promisesParams[i].propertyFields[j]] = results[i].data[j];
+                // populate a form field with translation
+                this.formData[`${promisesParams[i].language}:${promisesParams[i].propertyFields[j]}`] =
+                  results[i].data[j];
+              }
+            }
+
+            // populate translations field with updated translations
+            this.formData.translations = JSON.stringify(translations);
+          })
+          .catch(error => {
+            console.log('error', error);
+            // hide progress spinner
+            this.isTranslating = false;
+
+            // show error message
+            this.toggleSnackbar({
+              type: 'error',
+              message: this.$t('translation.translateAllFeaturesError'),
+              timeout: 2000,
+              state: true,
+            });
+          });
+      }
     },
 
     ...mapMutations('map', {
@@ -1387,6 +1388,13 @@ export default {
       } else {
         this.map.removeLayer(this.postMapMarkerLayer_);
         this.postMapMarkerLayer_.setFlashlightVisible(false);
+      }
+    },
+    showAllTranslations(newValue) {
+      if (newValue) {
+        this.createSchemaWithTranslations();
+      } else {
+        this.createSchemaFromLayerMetadata();
       }
     },
   },

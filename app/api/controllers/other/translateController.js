@@ -49,7 +49,11 @@ exports.translate = (req, res) => {
       )
       .then((result) => {
         res.status(200);
-        res.json(result.text);
+        if (Array.isArray(req.body.content)) {
+          res.json(result.map((r) => r.text));
+        } else {
+          res.json(result.text);
+        }
       })
       .catch((error) => {
         res.status(500);
