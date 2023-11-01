@@ -454,7 +454,6 @@ export default {
     showDeleteDialog: false,
 
     showAllTranslations: false,
-    translations: {},
   }),
   name: 'edit-control',
   computed: {
@@ -581,8 +580,6 @@ export default {
      * Main Edit function
      */
     edit(editType) {
-      console.log('edit', editType);
-
       if (editType === 'translateAllFeatures') {
         const layerName = this.layersMetadata[this.selectedLayer.get('name')].typeName;
         this.isTranslating = true;
@@ -732,7 +729,8 @@ export default {
 
       if (layerMetadata) {
         // parse translations field
-        const translations = this.formData.translations ? JSON.parse(this.formData.translations) : {};
+
+        const translations = this.formData.translations;
 
         layerMetadata.properties.forEach(property => {
           const type = this.formTypesMapping[property.localType];
@@ -759,7 +757,6 @@ export default {
                     type,
                     title: `${language}:${property.name.toUpperCase()}`,
                   };
-                  // console.log('setting', `${language}:${property.name}`, 'to', translation[property.name]);
                   this.formData[`${language}:${property.name}`] = translation[property.name];
                 }
               });
@@ -908,8 +905,11 @@ export default {
                 this.popup.title = 'Modify Attributes';
 
                 const properties = feature.getProperties();
+
                 this.formData = properties;
-                console.log('selectFeature setting formData', this.formData);
+                if (properties.translations) {
+                  this.formData.translations = JSON.parse(properties.translations);
+                }
 
                 if (this.$vuetify.breakpoint.smAndDown) {
                   this.mobilePanelState = true;
@@ -1003,7 +1003,6 @@ export default {
       this.mobilePanelState = false;
       this.showDeleteDialog = false;
       this.showAllTranslations = false;
-      this.translations = {};
     },
 
     /**
@@ -1125,14 +1124,24 @@ export default {
         ...propsWithNoGeometry
       } = this.selectedFeature.getProperties();
 
+      // update translations if they have been edited manually
+      const propsWithTranslations = Object.fromEntries(
+        Object.entries(propsWithNoGeometry).filter(([key]) => key.includes(':'))
+      );
+
+      // eslint-disable-next-line guard-for-in
+      for (const propName in propsWithTranslations) {
+        const [lang, propVakue] = propName.split(':');
+        propsWithNoGeometry.translations[lang][propVakue] = propsWithTranslations[propName];
+      }
+
       // filter out properties that have semicolon, that is, are temporary translations
-      // propsWithNoGeometry = propsWithNoGeometry.filter(property => property.indexOf(':') === -1);
       propsWithNoGeometry = Object.fromEntries(
         Object.entries(propsWithNoGeometry).filter(([key]) => !key.includes(':'))
       );
 
-      if (typeof this.translations === 'object' && Object.keys(this.translations).length > 0) {
-        propsWithNoGeometry.translations = this.translations;
+      if (propsWithNoGeometry.translations.length === 0) {
+        propsWithNoGeometry.translations = {};
       }
 
       // Transform Video Url if exists
@@ -1191,13 +1200,13 @@ export default {
           payload.sidebarPosition = this.imageUpload.position;
         }
       }
+
       formData.append('payload', JSON.stringify(payload));
       axios
         .post('api/layer', formData, {
           headers: authHeader(),
         })
         .then(() => {
-          this.translations = {};
           this.showAllTranslations = false;
           if (this.editType !== 'modifyFeature') {
             this.editLayer.getSource().clear();
@@ -1232,7 +1241,7 @@ export default {
       const currentLanguage = this.$i18n.locale;
       const languages = availableLanguages.filter(code => code !== currentLanguage);
 
-      const translations = this.formData.translations ? JSON.parse(this.formData.translations) : {};
+      const translations = this.formData.translations;
 
       const promises = [];
       const promisesParams = [];
@@ -1245,7 +1254,9 @@ export default {
             this.formData[property.name] &&
             (!translations[language] || // a form is translated for the first time
               !translations[language][property.name] || // a previously empty field has been filled in and needs to be translated
-              (translations[language][property.name] && !this.formData[`${language}:${property.name}`])) // an existing translation needs to be re-translated
+              (translations[language][property.name] &&
+                this.showAllTranslations &&
+                !this.formData[`${language}:${property.name}`])) // an existing translation needs to be re-translated
           ) {
             propertyFields.push(property.name);
             propertyValues.push(this.formData[property.name]);
@@ -1297,7 +1308,7 @@ export default {
             }
 
             // populate translations field with updated translations
-            this.formData.translations = JSON.stringify(translations);
+            this.formData.translations = translations;
           })
           .catch(error => {
             console.log('error', error);
