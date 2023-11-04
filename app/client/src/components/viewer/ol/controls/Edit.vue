@@ -750,16 +750,19 @@ export default {
 
             // populate translated fields
             if (this.$appConfig.map.featureInfoHiddenProps.indexOf(property.name) === -1) {
-              this.$i18n.availableLocales.forEach(language => {
-                const translation = translations[language];
-                if (translation) {
+              this.$i18n.availableLocales
+                .filter(l => l !== this.$i18n.locale)
+                .forEach(language => {
                   formSchema.properties[`${language}:${property.name}`] = {
                     type,
                     title: `${language}:${property.name.toUpperCase()}`,
                   };
-                  this.formData[`${language}:${property.name}`] = translation[property.name];
-                }
-              });
+                  if (translations && translations[language]) {
+                    this.formData[`${language}:${property.name}`] = translations[language][property.name];
+                  } else {
+                    this.formData[`${language}:${property.name}`] = '';
+                  }
+                });
             }
 
             if (property.nillable === false) {
@@ -1236,46 +1239,43 @@ export default {
     translateAttributes() {
       const layerName = this.selectedLayer.get('name');
       const layerMetadata = this.layersMetadata[layerName];
-
-      const availableLanguages = this.$i18n.availableLocales;
-      const currentLanguage = this.$i18n.locale;
-      const languages = availableLanguages.filter(code => code !== currentLanguage);
-
       const translations = this.formData.translations;
 
       const promises = [];
       const promisesParams = [];
-      languages.forEach(language => {
-        const propertyFields = [];
-        const propertyValues = [];
-        layerMetadata.properties.forEach(property => {
-          if (
-            this.$appConfig.map.featureInfoHiddenProps.indexOf(property.name) === -1 &&
-            this.formData[property.name] &&
-            (!translations[language] || // a form is translated for the first time
-              !translations[language][property.name] || // a previously empty field has been filled in and needs to be translated
-              (translations[language][property.name] &&
-                this.showAllTranslations &&
-                !this.formData[`${language}:${property.name}`])) // an existing translation needs to be re-translated
-          ) {
-            propertyFields.push(property.name);
-            propertyValues.push(this.formData[property.name]);
+      this.$i18n.availableLocales
+        .filter(l => l !== this.$i18n.locale)
+        .forEach(language => {
+          const propertyFields = [];
+          const propertyValues = [];
+          layerMetadata.properties.forEach(property => {
+            if (
+              this.$appConfig.map.featureInfoHiddenProps.indexOf(property.name) === -1 &&
+              this.formData[property.name] &&
+              (!translations[language] || // a form is translated for the first time
+                !translations[language][property.name] || // a previously empty field has been filled in and needs to be translated
+                (translations[language][property.name] &&
+                  this.showAllTranslations &&
+                  !this.formData[`${language}:${property.name}`])) // an existing translation needs to be re-translated
+            ) {
+              propertyFields.push(property.name);
+              propertyValues.push(this.formData[property.name]);
+            }
+          });
+
+          if (propertyFields.length > 0) {
+            promisesParams.push({language, propertyFields, propertyValues});
+            promises.push(
+              axios.post(
+                './api/translate',
+                {content: propertyValues, targetLanguage: language},
+                {
+                  headers: authHeader(),
+                }
+              )
+            );
           }
         });
-
-        if (propertyFields.length > 0) {
-          promisesParams.push({language, propertyFields, propertyValues});
-          promises.push(
-            axios.post(
-              './api/translate',
-              {content: propertyValues, targetLanguage: language},
-              {
-                headers: authHeader(),
-              }
-            )
-          );
-        }
-      });
 
       if (promises.length > 0) {
         // show progress spinner
