@@ -169,7 +169,7 @@
                           `<strong>${mapPopupPropName(
                             item,
                             popup.activeLayer,
-                            translations[$i18n.locale] && translations[$i18n.locale]['keys']
+                            translations && translations[$i18n.locale] && translations[$i18n.locale]['keys']
                           )}: </strong>` +
                           (translations && translations[$i18n.locale]
                             ? translations[$i18n.locale][item.property] || item.value
