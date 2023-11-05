@@ -1242,7 +1242,7 @@ export default {
     translateAttributes() {
       const layerName = this.selectedLayer.get('name');
       const layerMetadata = this.layersMetadata[layerName];
-      const translations = this.formData.translations;
+      const translations = this.formData.translations ? this.formData.translations : {};
 
       const promises = [];
       const promisesParams = [];
