@@ -910,8 +910,11 @@ export default {
                 const properties = feature.getProperties();
 
                 this.formData = properties;
+
                 if (properties.translations) {
                   this.formData.translations = JSON.parse(properties.translations);
+                } else {
+                  this.formData.translations = {};
                 }
 
                 if (this.$vuetify.breakpoint.smAndDown) {
@@ -1224,7 +1227,7 @@ export default {
               // this.selectedLayer.getSource().tileCache.clear();
               this.selectedLayer.getSource().clear();
               this.selectedLayer.getSource().refresh({force: true});
-              this.selectedLayer.redraw();
+              this.selectedLayer.redraw?.();
             }
             this.toggleSnackbar({
               type: 'success',
@@ -1252,6 +1255,7 @@ export default {
             if (
               this.$appConfig.map.featureInfoHiddenProps.indexOf(property.name) === -1 &&
               this.formData[property.name] &&
+              translations &&
               (!translations[language] || // a form is translated for the first time
                 !translations[language][property.name] || // a previously empty field has been filled in and needs to be translated
                 (translations[language][property.name] &&
@@ -1259,7 +1263,7 @@ export default {
                   !this.formData[`${language}:${property.name}`])) // an existing translation needs to be re-translated
             ) {
               propertyFields.push(property.name);
-              propertyValues.push(this.formData[property.name]);
+              propertyValues.push(this.formData[property.name].toString());
             }
           });
 
