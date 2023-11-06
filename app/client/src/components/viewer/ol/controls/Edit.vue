@@ -1146,7 +1146,7 @@ export default {
         Object.entries(propsWithNoGeometry).filter(([key]) => !key.includes(':'))
       );
 
-      if (propsWithNoGeometry.translations.length === 0) {
+      if (propsWithNoGeometry?.translations?.length === 0) {
         propsWithNoGeometry.translations = {};
       }
 
