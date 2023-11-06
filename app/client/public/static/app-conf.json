@@ -87,15 +87,15 @@
       },
       {
         "type": "VECTOR",
-        "name": "legacy_coal_ash",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:legacy_coal_ash&outputFormat=application/json&srsname=EPSG:3857",
+        "name": "random_dots",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:random_dots&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
         "queryable": true,
         "format": "GeoJSON",
         "legendDisplayName": {
-          "en": "Many Points",
-          "es": "Muchos Puntos",
-          "pt": "Muitos Pontos"
+          "en": "Random dots",
+          "es": "Puntos aleatorios",
+          "pt": "Pontos aleatórios"
         },
         "visible": true,
         "displayInLegend": true,
@@ -482,7 +482,7 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["osm", "mississippi", "polygons", "points", "lines", "videos", "photos", "legacy_coal_ash"],
+          "layers": ["osm", "mississippi", "polygons", "points", "lines", "videos", "photos", "random_dots"],
           "center": [-87.473, 41.658],
           "resolution": 40,
           "mobileResolution": 120,
