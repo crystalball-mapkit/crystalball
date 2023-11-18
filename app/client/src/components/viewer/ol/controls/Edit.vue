@@ -909,11 +909,14 @@ export default {
 
                 const properties = feature.getProperties();
 
-                this.formData = properties;
-
                 if (properties.translations) {
-                  this.formData.translations = JSON.parse(properties.translations);
+                  properties.translations = JSON.parse(properties.translations);
+                  this.formData = {
+                    ...properties,
+                    ...(properties.translations[this.$i18n.locale] ? properties.translations[this.$i18n.locale] : {}),
+                  };
                 } else {
+                  this.formData = properties;
                   this.formData.translations = {};
                 }
 
