@@ -751,7 +751,7 @@ export default {
             // populate translated fields
             if (this.$appConfig.map.featureInfoHiddenProps.indexOf(property.name) === -1) {
               this.$i18n.availableLocales
-                .filter(l => l !== this.$i18n.locale)
+                .filter(l => l !== this.$appConfig.app.defaultLanguage)
                 .forEach(language => {
                   formSchema.properties[`${language}:${property.name}`] = {
                     type,
@@ -913,7 +913,9 @@ export default {
                   properties.translations = JSON.parse(properties.translations);
                   this.formData = {
                     ...properties,
-                    ...(properties.translations[this.$i18n.locale] ? properties.translations[this.$i18n.locale] : {}),
+                    ...(properties.translations[this.$appConfig.app.defaultLanguage]
+                      ? properties.translations[this.$appConfig.app.defaultLanguage]
+                      : {}),
                   };
                 } else {
                   this.formData = properties;
@@ -1250,7 +1252,7 @@ export default {
       const promises = [];
       const promisesParams = [];
       this.$i18n.availableLocales
-        .filter(l => l !== this.$i18n.locale)
+        .filter(l => l !== this.$appConfig.app.defaultLanguage)
         .forEach(language => {
           const propertyFields = [];
           const propertyValues = [];
