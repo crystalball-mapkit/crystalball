@@ -11,7 +11,7 @@
       "pt": "mapeamento de código aberto"
     },
     "projectWebsite": "https://wiki.timetochange.today",
-    "defaultLanguage": "es",
+    "defaultLanguage": "en",
     "color": {
       "primary": "#00000e",
       "secondary": "#7C2CA3"
@@ -304,7 +304,7 @@
         },
         "format": "MVT",
         "renderMode": "hybrid",
-        "visible": true,
+        "visible": false,
         "zIndex": 100,
         "minResolution": 1,
         "maxResolution": 20000,
