@@ -159,6 +159,7 @@
           <v-tooltip top>
             <template v-slot:activator="{on}">
               <v-btn
+                v-if="sserverConfig && !!serverConfig.isTranslationEnabled"
                 v-on="on"
                 :class="{
                   'tiptap-vuetify-editor__action-render-btn': true,

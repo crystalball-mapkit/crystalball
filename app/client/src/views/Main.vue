@@ -125,7 +125,7 @@
           $appConfig.app.tagline ||
           ''
         }}</span>
-        <v-menu offset-y>
+        <v-menu offset-y v-if="serverConfig && !!serverConfig.isTranslationEnabled">
           <template v-slot:activator="{on, attrs}">
             <v-btn v-bind="attrs" v-on="on" icon>
               {{ $i18n.locale }}
@@ -307,6 +307,9 @@ export default {
     }),
     ...mapGetters('map', {
       activeLayerGroup: 'activeLayerGroup',
+    }),
+    ...mapGetters('app', {
+      serverConfig: 'serverConfig',
     }),
     ...mapFields('app', {
       sidebarState: 'sidebarState',
