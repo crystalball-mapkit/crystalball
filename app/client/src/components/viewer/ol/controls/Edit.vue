@@ -5,7 +5,7 @@
         <v-spacer></v-spacer>
         <div v-if="!selectedLayer">
           <v-tooltip left>
-            <template v-slot:activator="{ on }">
+            <template v-slot:activator="{on}">
               <v-btn class="edit-buttons" v-on="on" @click="activateEdit" :color="color.primary" fab dark small>
                 <v-icon small>far fa-edit</v-icon>
               </v-btn>
@@ -14,18 +14,24 @@
           </v-tooltip>
         </div>
 
-        <v-menu v-if="selectedLayer" class="edit-buttons" origin="center center" offset-y :nudge-bottom="5"
-          transition="slide-y-transition">
-          <template v-slot:activator="{ on, attrs }">
+        <v-menu
+          v-if="selectedLayer"
+          class="edit-buttons"
+          origin="center center"
+          offset-y
+          :nudge-bottom="5"
+          transition="slide-y-transition"
+        >
+          <template v-slot:activator="{on, attrs}">
             <v-btn v-bind="attrs" v-on="on" class="edit-buttons" dark rounded :color="color.primary">
               <v-icon small left>far fa-edit</v-icon>
               {{
                 selectedLayer
-                ? selectedLayer.get('legendDisplayName')[$i18n.locale] ||
-                (typeof selectedLayer.get('legendDisplayName') === 'object' &&
-                  Object.values(selectedLayer.get('legendDisplayName'))[0]) ||
-                selectedLayer.get('legendDisplayName')
-                : ''
+                  ? selectedLayer.get('legendDisplayName')[$i18n.locale] ||
+                    (typeof selectedLayer.get('legendDisplayName') === 'object' &&
+                      Object.values(selectedLayer.get('legendDisplayName'))[0]) ||
+                    selectedLayer.get('legendDisplayName')
+                  : ''
               }}
             </v-btn>
           </template>
@@ -53,9 +59,16 @@
     </div>
     <div v-if="!selectedLayer">
       <v-tooltip left>
-        <template v-slot:activator="{ on }">
-          <v-btn class="edit-buttons mt-2" v-on="on" @click="togglePostEdit"
-            :color="isEditingPost ? 'error' : color.primary" fab dark small>
+        <template v-slot:activator="{on}">
+          <v-btn
+            class="edit-buttons mt-2"
+            v-on="on"
+            @click="togglePostEdit"
+            :color="isEditingPost ? 'error' : color.primary"
+            fab
+            dark
+            small
+          >
             <v-icon small>{{ isEditingPost ? 'close' : 'fas fa-map-pin' }}</v-icon>
           </v-btn>
         </template>
@@ -67,9 +80,18 @@
         <v-layout>
           <v-spacer></v-spacer>
           <v-tooltip left>
-            <template v-slot:activator="{ on }">
-              <v-btn class="edit-buttons mt-2" v-on="on" fab dark right x-small v-if="!!item.enabled"
-                :color="isEditingPost ? color.activeButton : color.primary" @click="edit(item.action)">
+            <template v-slot:activator="{on}">
+              <v-btn
+                class="edit-buttons mt-2"
+                v-on="on"
+                fab
+                dark
+                right
+                x-small
+                v-if="!!item.enabled"
+                :color="isEditingPost ? color.activeButton : color.primary"
+                @click="edit(item.action)"
+              >
                 <v-icon medium>{{ item.icon }}</v-icon>
               </v-btn>
             </template>
@@ -87,14 +109,22 @@
           <v-toolbar-title>{{ $t(`form.edit.selectLayer`) }}</v-toolbar-title>
         </v-app-bar>
 
-        <v-select class="mx-4 my-2" :items="flatLayers.filter(
-          l =>
-            ['VECTORTILE', 'VECTOR'].includes(l.get('type')) &&
-            l.get('name') &&
-            l.get('legendDisplayName') &&
-            l.get('canEdit') !== false
-        )
-          " v-model="dialogSelectedLayer" return-object item-value="values_.name" :label="$t(`general.layers`)">
+        <v-select
+          class="mx-4 my-2"
+          :items="
+            flatLayers.filter(
+              l =>
+                ['VECTORTILE', 'VECTOR'].includes(l.get('type')) &&
+                l.get('name') &&
+                l.get('legendDisplayName') &&
+                l.get('canEdit') !== false
+            )
+          "
+          v-model="dialogSelectedLayer"
+          return-object
+          item-value="values_.name"
+          :label="$t(`general.layers`)"
+        >
           <template slot="selection" slot-scope="{item}">
             {{
               item.get('legendDisplayName')[$i18n.locale] ||
@@ -112,11 +142,16 @@
         </v-select>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" text :disabled="!dialogSelectedLayer" @click.native="
-            removeInteraction();
-          selectedLayer = dialogSelectedLayer;
-          layersDialog = false;
-          ">{{ $t('general.ok') }}
+          <v-btn
+            color="primary darken-1"
+            text
+            :disabled="!dialogSelectedLayer"
+            @click.native="
+              removeInteraction();
+              selectedLayer = dialogSelectedLayer;
+              layersDialog = false;
+            "
+            >{{ $t('general.ok') }}
           </v-btn>
           <v-btn :color="color.primary" text @click.native="layersDialog = false">{{ $t('general.cancel') }}</v-btn>
         </v-card-actions>
@@ -126,8 +161,13 @@
     <!-- LIGHTBOX DIALOG -->
     <lightbox-dialog></lightbox-dialog>
     <!-- POPUP OVERLAY  -->
-    <overlay-popup v-if="!$vuetify.breakpoint.smAndDown" style="cursor: default" :title="popup.title"
-      v-show="popup.isVisible" ref="popup">
+    <overlay-popup
+      v-if="!$vuetify.breakpoint.smAndDown"
+      style="cursor: default"
+      :title="popup.title"
+      v-show="popup.isVisible"
+      ref="popup"
+    >
       <v-btn icon>
         <v-icon>close</v-icon>
       </v-btn>
@@ -146,19 +186,27 @@
               <v-flex class="d-flex flex-row justify-space-between" v-if="isTranslatable">
                 <v-checkbox class="layer-input ml-0 pt-1 py-0 my-0" dense color="purple" v-model="showAllTranslations">
                   <template v-slot:label>
-                    <span :class="{
-                      'text--darken-2 subtitle-2': true,
-                      'blue--text': false,
-                    }">
+                    <span
+                      :class="{
+                        'text--darken-2 subtitle-2': true,
+                        'blue--text': false,
+                      }"
+                    >
                       Show All Translations
                     </span>
                   </template>
                 </v-checkbox>
                 <v-tooltip top>
-                  <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" :class="{
-                      'tiptap-vuetify-editor__action-render-btn': true,
-                    }" small icon @click="translateAttributes">
+                  <template v-slot:activator="{on}">
+                    <v-btn
+                      v-on="on"
+                      :class="{
+                        'tiptap-vuetify-editor__action-render-btn': true,
+                      }"
+                      small
+                      icon
+                      @click="translateAttributes"
+                    >
                       <v-icon>translate</v-icon>
                     </v-btn>
                   </template>
@@ -169,9 +217,16 @@
                 <editor-form v-model="formData" :schema="formSchema" :options="formOptions">
                   <template slot="lightbox-append">
                     <v-tooltip left>
-                      <template v-slot:activator="{ on }">
-                        <v-btn style="cursor: pointer" v-on="on" @click="lightboxDialogState = true"
-                          class="mx-2 mb-2 lock-button elevation-1" depressed fab small>
+                      <template v-slot:activator="{on}">
+                        <v-btn
+                          style="cursor: pointer"
+                          v-on="on"
+                          @click="lightboxDialogState = true"
+                          class="mx-2 mb-2 lock-button elevation-1"
+                          depressed
+                          fab
+                          small
+                        >
                           <v-icon> fas fa-image</v-icon>
                         </v-btn>
                       </template>
@@ -188,7 +243,7 @@
         <div v-show="editType !== 'deleteFeature'">
           <div v-show="!imageUpload.errorMessage">
             <v-tooltip top>
-              <template v-slot:activator="{ on }">
+              <template v-slot:activator="{on}">
                 <v-btn v-on="on" rounded small depressed :loading="imageUpload.isSelecting" @click="openImageUpload">
                   <v-icon left> insert_photo</v-icon>
                   <span class="image-upload-btn">
@@ -209,24 +264,28 @@
 
           <div v-if="imageUpload.selectedFile">
             <v-menu class="mt-2" origin="center center" transition="scale-transition">
-              <template v-slot:activator="{ on, attrs }">
+              <template v-slot:activator="{on, attrs}">
                 <v-btn class="mt-2" rounded small depressed v-on="on" v-bind="attrs">
-                  <v-icon left>{{ imageUpload.position === 'sidebarMediaTop' ? 'picture_in_picture' :
-                    'picture_in_picture_alt' }}
+                  <v-icon left
+                    >{{ imageUpload.position === 'sidebarMediaTop' ? 'picture_in_picture' : 'picture_in_picture_alt' }}
                   </v-icon>
-                  <span>{{ $t(`general.sidebar`) }}:
-                    {{ imageUpload.position === 'sidebarMediaTop' ? $t(`general.top`) : $t(`general.bottom`) }}</span>
+                  <span
+                    >{{ $t(`general.sidebar`) }}:
+                    {{ imageUpload.position === 'sidebarMediaTop' ? $t(`general.top`) : $t(`general.bottom`) }}</span
+                  >
                 </v-btn>
               </template>
               <v-list dense>
-                <v-list-item @click="
-                  imageUpload.position === 'sidebarMediaTop'
-                    ? (imageUpload.position = 'sidebarMediaBottom')
-                    : (imageUpload.position = 'sidebarMediaTop')
-                  ">
+                <v-list-item
+                  @click="
+                    imageUpload.position === 'sidebarMediaTop'
+                      ? (imageUpload.position = 'sidebarMediaBottom')
+                      : (imageUpload.position = 'sidebarMediaTop')
+                  "
+                >
                   <v-list-item-content>
-                    <v-list-item-title>{{ imageUpload.position === 'sidebarMediaTop' ? $t(`general.bottom`) :
-                      $t(`general.top`) }}
+                    <v-list-item-title
+                      >{{ imageUpload.position === 'sidebarMediaTop' ? $t(`general.bottom`) : $t(`general.top`) }}
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
@@ -241,7 +300,8 @@
           <v-btn color="grey" text @click="popupCancel">{{ $t(`general.cancel`) }}</v-btn>
         </template>
         <template v-else-if="['addFeature', 'modifyAttributes'].includes(editType)">
-          <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text>{{ $t(`general.save`) }}
+          <v-btn color="primary darken-1" :disabled="formValid === false" @click="popupOk" text
+            >{{ $t(`general.save`) }}
           </v-btn>
 
           <v-btn color="grey" text @click="popupCancel">{{ $t(`general.cancel`) }}</v-btn>
@@ -250,7 +310,11 @@
     </overlay-popup>
 
     <!-- Mobile delete confirmation bottom sheet  -->
-    <v-bottom-sheet v-if="$vuetify.breakpoint.smAndDown && editType === 'deleteFeature'" v-model="showDeleteDialog" inset>
+    <v-bottom-sheet
+      v-if="$vuetify.breakpoint.smAndDown && editType === 'deleteFeature'"
+      v-model="showDeleteDialog"
+      inset
+    >
       <v-card>
         <v-app-bar :color="color.primary" dark dense flat>
           <v-app-bar-nav-icon>
@@ -259,7 +323,8 @@
           <v-toolbar-title class="white--text">{{ $t(`general.confirm`) }}</v-toolbar-title>
         </v-app-bar>
 
-        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0">{{ $t(`form.edit.confirmDeleteFeature`) }}
+        <v-card-text class="body-1 font-weight-medium mt-3 mb-3 pb-0"
+          >{{ $t(`form.edit.confirmDeleteFeature`) }}
         </v-card-text>
         <v-divider></v-divider>
 
@@ -277,27 +342,27 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
-import { LineString, MultiLineString, Polygon, MultiPolygon } from 'ol/geom';
-import { Modify, Draw } from 'ol/interaction';
-import { unByKey } from 'ol/Observable';
+import {LineString, MultiLineString, Polygon, MultiPolygon} from 'ol/geom';
+import {Modify, Draw} from 'ol/interaction';
+import {unByKey} from 'ol/Observable';
 import Overlay from 'ol/Overlay';
-import { mapFields } from 'vuex-map-fields';
-import { mapGetters, mapMutations } from 'vuex';
+import {mapFields} from 'vuex-map-fields';
+import {mapGetters, mapMutations} from 'vuex';
 import axios from 'axios';
 import GeoJSON from 'ol/format/GeoJSON';
 import VJsf from '@koumoul/vjsf';
-import { getFeatureHighlightStyle } from '../../../../style/OlStyleDefs';
+import {getFeatureHighlightStyle} from '../../../../style/OlStyleDefs';
 import OverlayPopup from './Overlay.vue';
-import { geojsonToFeature } from '../../../../utils/MapUtils';
-import { getNestedProperty, parseVideoUrl } from '../../../../utils/Helpers';
+import {geojsonToFeature} from '../../../../utils/MapUtils';
+import {getNestedProperty, parseVideoUrl} from '../../../../utils/Helpers';
 import PostMapMarkerLayer from '../../../../utils/PostMapMarker';
-import { Mapable } from '../../../../mixins/Mapable';
+import {Mapable} from '../../../../mixins/Mapable';
 import '@koumoul/vjsf/lib/VJsf.css';
 // load third-party dependencies (markdown-it, vuedraggable)
 // you can also load them separately based on your needs
 import '@koumoul/vjsf/lib/deps/third-party';
 import authHeader from '../../../../services/auth-header';
-import { EventBus } from '../../../../EventBus';
+import {EventBus} from '../../../../EventBus';
 
 import Lightbox from '../../../core/Lightbox.vue';
 
@@ -309,8 +374,8 @@ export default {
   },
   mixins: [Mapable],
   props: {
-    map: { type: Object, required: true },
-    color: { type: Object },
+    map: {type: Object, required: true},
+    color: {type: Object},
   },
   data: () => ({
     dialogSelectedLayer: null, // Temporary selection (not active if user doesn't press ok)
@@ -392,6 +457,9 @@ export default {
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',
     }),
+    ...mapGetters('app', {
+      serverConfig: 'serverConfig',
+    }),
     flatLayers() {
       const layers = [];
       this.map
@@ -443,10 +511,10 @@ export default {
           icon: 'translate',
           action: 'translateAllFeatures',
           tooltip: 'translateAllFeatures',
-          enabled: this.serverConfig && !!this.serverConfig.isTranslationEnabled
+          enabled: this.serverConfig && !!this.serverConfig.isTranslationEnabled,
         },
-      ]
-    }
+      ];
+    },
   },
   methods: {
     onMapBound() {
@@ -471,7 +539,7 @@ export default {
 
       // - create highligh layer
       // Create highlight layer
-      const highlightSource = new VectorSource({ wrapX: false });
+      const highlightSource = new VectorSource({wrapX: false});
       const highlightLayer = new VectorLayer({
         name: 'highlight_layer',
         isInteractive: false,
@@ -529,7 +597,7 @@ export default {
         const layerName = this.layersMetadata[this.selectedLayer.get('name')].typeName;
         this.isTranslating = true;
         axios
-          .get(`./api/translate/${layerName}`, {
+          .get(`./api/translate/${layerName}?sourceLanguage=${this.$appConfig.app.defaultLanguage}`, {
             headers: authHeader(),
           })
           .then(response => {
@@ -1176,7 +1244,7 @@ export default {
               // this.selectedLayer.getSource().clear();
               // this.selectedLayer.getSource().tileCache.clear();
               this.selectedLayer.getSource().clear();
-              this.selectedLayer.getSource().refresh({ force: true });
+              this.selectedLayer.getSource().refresh({force: true});
               this.selectedLayer.redraw?.();
             }
             this.toggleSnackbar({
@@ -1218,11 +1286,11 @@ export default {
           });
 
           if (propertyFields.length > 0) {
-            promisesParams.push({ language, propertyFields, propertyValues });
+            promisesParams.push({language, propertyFields, propertyValues});
             promises.push(
               axios.post(
                 './api/translate',
-                { content: propertyValues, targetLanguage: language },
+                {content: propertyValues, targetLanguage: language},
                 {
                   headers: authHeader(),
                 }
