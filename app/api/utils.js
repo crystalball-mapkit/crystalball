@@ -1,5 +1,7 @@
 const deepl = require('deepl-node');
+const axios = require('axios');
 const translator = new deepl.Translator(process.env.DEEPL_API_KEY);
+const sequelize = require("./db.js");
 
 const langVariants = { 
   "en": "en-US",
@@ -74,4 +76,40 @@ const translateContent = async (language, text, key, payload, column) => {
   }
 }
 
+async function refreshGeoserverFeatureType(geoserverUrl, workspace, datastore, featureType, username, password) {
+  const url = `${geoserverUrl}/rest/workspaces/${workspace}/datastores/${datastore}/featuretypes/${featureType}.json`;
+  try {
+    // Make a GET request to get the current feature type configuration
+    const response = await axios.get(url, {
+      auth: {
+        username: username,
+        password: password
+      }
+    });
+
+    // Make a PUT request to update the feature type configuration
+    await axios.put(url, response.data, {
+      auth: {
+        username: username,
+        password: password
+      },
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log('Feature type reloaded successfully');
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+}
+
+async function addColumnIfNotExists(tableName, columnName, columnDefinition) {
+  const tableDescriptions = await sequelize.getQueryInterface().describeTable(tableName);
+  if (!tableDescriptions[columnName]) {
+    await sequelize.getQueryInterface().addColumn(tableName, columnName, columnDefinition);
+  }
+}
+
 exports.translateContent = translateContent
+exports.addColumnIfNotExists = addColumnIfNotExists;
