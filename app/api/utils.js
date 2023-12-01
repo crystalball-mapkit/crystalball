@@ -76,31 +76,22 @@ const translateContent = async (language, text, key, payload, column) => {
   }
 }
 
-async function refreshGeoserverFeatureType(geoserverUrl, workspace, datastore, featureType, username, password) {
-  const url = `${geoserverUrl}/rest/workspaces/${workspace}/datastores/${datastore}/featuretypes/${featureType}.json`;
+async function refreshGeoserverCatalog(geoserverUrl, username, password) {
   try {
-    // Make a GET request to get the current feature type configuration
-    const response = await axios.get(url, {
+    const response = await axios({
+      method: 'post',
+      url: `${geoserverUrl}/rest/reload`,
       auth: {
         username: username,
         password: password
       }
     });
 
-    // Make a PUT request to update the feature type configuration
-    await axios.put(url, response.data, {
-      auth: {
-        username: username,
-        password: password
-      },
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    console.log('Feature type reloaded successfully');
+    console.log('Catalog reloaded successfully');
+    return response;
   } catch (error) {
-    console.error('An error occurred:', error);
+    console.error('Error reloading catalog:', error);
+    throw error;
   }
 }
 
@@ -108,6 +99,7 @@ async function addColumnIfNotExists(tableName, columnName, columnDefinition) {
   const tableDescriptions = await sequelize.getQueryInterface().describeTable(tableName);
   if (!tableDescriptions[columnName]) {
     await sequelize.getQueryInterface().addColumn(tableName, columnName, columnDefinition);
+    await refreshGeoserverCatalog(process.env.GEOSERVER_URL, process.env.GEOSERVER_ADMIN_USER, process.env.GEOSERVER_ADMIN_PASSWORD)
   }
 }
 
