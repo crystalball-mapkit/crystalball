@@ -291,9 +291,9 @@
         "visible": true
       },
       {
-        "type": "VECTORTILE",
+        "type": "VECTOR",
         "name": "glri_projects",
-        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:glri_projects@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:glri_projects&outputFormat=application/json&srsname=EPSG:3857",
         "group": "data",
         "queryable": true,
         "displayInLegend": true,
@@ -302,9 +302,8 @@
           "es": "Proyectos de restauro",
           "pt": "Projetos de restauração"
         },
-        "format": "MVT",
-        "renderMode": "hybrid",
-        "visible": false,
+        "format": "GEOJSON",
+        "visible": true,
         "zIndex": 100,
         "minResolution": 1,
         "maxResolution": 20000,
