@@ -100,6 +100,9 @@ services:
       - USERS_OPEN_REGISTRATION=${USERS_OPEN_REGISTRATION}
       - API_PORT=3000
       - DEEPL_API_KEY=${DEEPL_API_KEY}
+      - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
+      - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
+      - GEOSERVER_URL=https://${DOMAIN_NAME}/geoserver
     volumes:
       - /app/node_modules
       - ./app/api:/app
