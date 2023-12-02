@@ -1,8 +1,8 @@
 const deepl = require("deepl-node");
-
 const permissionController = require("../auth/permissionController");
+const Sequelize = require('sequelize')
 const sequelize = require("../../db.js");
-const { translateContent } = require("../../utils");
+const { translateContent, addColumnIfNotExists } = require("../../utils");
 const jsdom = require("jsdom");
 
 const translator = new deepl.Translator(process.env.DEEPL_API_KEY);
@@ -30,7 +30,6 @@ const nonTranslatableProperties = [
   "translations",
 ];
 
-const languages = ["es", "pt"];
 
 exports.translate = (req, res) => {
   if (langVariants[req.body.targetLanguage]) {
@@ -66,9 +65,26 @@ exports.translateAllFeatures = async (req, res) => {
   permissionController.hasPermission(req, res, "edit_layers", async () => {
     if (req.params.layer) {
       try {
+        await addColumnIfNotExists(
+          req.params.layer,
+          'translations',
+          { type: Sequelize.JSON, allowNull: true }
+        )
+
         const response = await sequelize.query(
           `SELECT * FROM ${req.params.layer} WHERE translations IS NULL OR translations::text = '{}'::text`
         );
+
+        const {sourceLanguage} = req.query
+        let  targetLanguages = Object.keys(langVariants)
+        if (sourceLanguage) {
+          targetLanguages = []
+          Object.keys(langVariants).forEach(language => {
+            if (!language.includes(sourceLanguage)) {
+              targetLanguages.push(language)
+            }
+          });
+        }
 
         if (response[0].length > 0) {
           let xmls = [];
@@ -90,7 +106,7 @@ exports.translateAllFeatures = async (req, res) => {
             ids.push(response[0][i].id);
           }
 
-          for (const lang of languages) {
+          for (const lang of targetLanguages) {
             let translations = await translator.translateText(
               keys.map((k) => k.replace(/_/g, " ")),
               null,

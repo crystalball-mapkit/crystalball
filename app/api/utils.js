@@ -1,5 +1,7 @@
 const deepl = require('deepl-node');
+const axios = require('axios');
 const translator = new deepl.Translator(process.env.DEEPL_API_KEY);
+const sequelize = require("./db.js");
 
 const langVariants = { 
   "en": "en-US",
@@ -74,4 +76,32 @@ const translateContent = async (language, text, key, payload, column) => {
   }
 }
 
+async function refreshGeoserverCatalog(geoserverUrl, username, password) {
+  try {
+    const response = await axios({
+      method: 'post',
+      url: `${geoserverUrl}/rest/reload`,
+      auth: {
+        username: username,
+        password: password
+      }
+    });
+
+    console.log('Catalog reloaded successfully');
+    return response;
+  } catch (error) {
+    console.error('Error reloading catalog:', error);
+    throw error;
+  }
+}
+
+async function addColumnIfNotExists(tableName, columnName, columnDefinition) {
+  const tableDescriptions = await sequelize.getQueryInterface().describeTable(tableName);
+  if (!tableDescriptions[columnName]) {
+    await sequelize.getQueryInterface().addColumn(tableName, columnName, columnDefinition);
+    await refreshGeoserverCatalog(process.env.GEOSERVER_URL, process.env.GEOSERVER_ADMIN_USER, process.env.GEOSERVER_ADMIN_PASSWORD)
+  }
+}
+
 exports.translateContent = translateContent
+exports.addColumnIfNotExists = addColumnIfNotExists;

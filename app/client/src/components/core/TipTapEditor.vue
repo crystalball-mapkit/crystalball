@@ -159,6 +159,7 @@
           <v-tooltip top>
             <template v-slot:activator="{on}">
               <v-btn
+                v-if="serverConfig && serverConfig.isTranslationEnabled"
                 v-on="on"
                 :class="{
                   'tiptap-vuetify-editor__action-render-btn': true,
@@ -181,6 +182,7 @@
 
 <script>
 import {mapFields} from 'vuex-map-fields';
+import {mapGetters} from 'vuex';
 import {toLonLat} from 'ol/proj';
 import axios from 'axios';
 
@@ -260,6 +262,9 @@ export default {
     ...mapFields('map', {
       htmlContent: 'htmlContent',
     }),
+    ...mapGetters('app', {
+      serverConfig: 'serverConfig',
+    }),
     currentLanguage() {
       let countryCode = this.$i18n.locale;
       if (countryCode.includes('-')) {
@@ -336,9 +341,11 @@ export default {
 .tiptap-vuetify-editor__content {
   border: 1px solid lightgray;
 }
+
 .tiptap-vuetify-editor__content img {
   width: 100%;
 }
+
 .tiptap-vuetify-editor__content p {
   margin-top: 16px !important;
   margin-bottom: 16px !important;

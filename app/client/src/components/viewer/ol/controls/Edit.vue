@@ -88,6 +88,7 @@
                 dark
                 right
                 x-small
+                v-if="!!item.enabled"
                 :color="isEditingPost ? color.activeButton : color.primary"
                 @click="edit(item.action)"
               >
@@ -378,33 +379,6 @@ export default {
   },
   data: () => ({
     dialogSelectedLayer: null, // Temporary selection (not active if user doesn't press ok)
-    editButtons: [
-      {
-        icon: 'add',
-        action: 'addFeature',
-        tooltip: 'addFeature',
-      },
-      {
-        icon: 'edit',
-        action: 'modifyFeature',
-        tooltip: 'modifyGeometry',
-      },
-      {
-        icon: 'subject',
-        action: 'modifyAttributes',
-        tooltip: 'modifyAttributes',
-      },
-      {
-        icon: 'delete',
-        action: 'deleteFeature',
-        tooltip: 'deleteFeature',
-      },
-      {
-        icon: 'translate',
-        action: 'translateAllFeatures',
-        tooltip: 'translateAllFeatures',
-      },
-    ],
     layersDialog: false,
     // INTERACTION
     currentInteraction: null,
@@ -483,6 +457,9 @@ export default {
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',
     }),
+    ...mapGetters('app', {
+      serverConfig: 'serverConfig',
+    }),
     flatLayers() {
       const layers = [];
       this.map
@@ -498,9 +475,45 @@ export default {
       return layers;
     },
     isTranslatable() {
+      const isTranslationEnabled = this.serverConfig && !!this.serverConfig.isTranslationEnabled;
+      if (!isTranslationEnabled) return false;
       const layerName = this.selectedLayer.get('name');
       const layerMetadata = this.layersMetadata[layerName];
       return layerMetadata && layerMetadata.properties.findIndex(property => property.name === 'translations') !== -1;
+    },
+    editButtons() {
+      return [
+        {
+          icon: 'add',
+          action: 'addFeature',
+          tooltip: 'addFeature',
+          enabled: true,
+        },
+        {
+          icon: 'edit',
+          action: 'modifyFeature',
+          tooltip: 'modifyGeometry',
+          enabled: true,
+        },
+        {
+          icon: 'subject',
+          action: 'modifyAttributes',
+          tooltip: 'modifyAttributes',
+          enabled: true,
+        },
+        {
+          icon: 'delete',
+          action: 'deleteFeature',
+          tooltip: 'deleteFeature',
+          enabled: true,
+        },
+        {
+          icon: 'translate',
+          action: 'translateAllFeatures',
+          tooltip: 'translateAllFeatures',
+          enabled: this.serverConfig && !!this.serverConfig.isTranslationEnabled,
+        },
+      ];
     },
   },
   methods: {
@@ -584,7 +597,7 @@ export default {
         const layerName = this.layersMetadata[this.selectedLayer.get('name')].typeName;
         this.isTranslating = true;
         axios
-          .get(`./api/translate/${layerName}`, {
+          .get(`./api/translate/${layerName}?sourceLanguage=${this.$appConfig.app.defaultLanguage}`, {
             headers: authHeader(),
           })
           .then(response => {
