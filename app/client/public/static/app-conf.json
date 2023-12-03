@@ -298,27 +298,27 @@
         "queryable": true,
         "displayInLegend": true,
         "legendDisplayName": {
-          "en": "Restoration sites",
+          "en": "Restoration projects",
           "es": "Proyectos de restauro",
-          "pt": "Projetos de restauração"
+          "pt": "Proyectos de restauro"
         },
         "format": "MVT",
         "renderMode": "hybrid",
-        "visible": false,
-        "zIndex": 100,
+        "visible": true,
+        "zIndex": 1000,
         "minResolution": 1,
-        "maxResolution": 20000,
+        "maxResolution": 64000,
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "gray",
+          "hoverBackgroundColor": "variable1",
           "type": "circle",
           "stylePropFnRef": {
-            "radius": "variable2",
-            "fillColor": "variable1"
+            "fillColor": "variable1",
+            "radius": "variable2"
           },
-          "strokeColor": "#000000",
-          "strokeWidth": 1
+          "strokeColor": "#ffffff",
+          "strokeWidth": 0.4
         }
       },
       {
