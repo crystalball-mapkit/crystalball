@@ -90,7 +90,7 @@
           </v-list>
         </v-menu>
 
-        <v-spacer></v-spacer>
+
         <template
           v-if="($appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu !== true) || !$appConfig.app.navbar"
         >
@@ -116,7 +116,6 @@
           </div>
         </template>
 
-        <v-spacer></v-spacer>
         <v-spacer></v-spacer>
 
         <span class="title pr-5">{{
