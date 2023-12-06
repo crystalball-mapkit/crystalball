@@ -90,7 +90,6 @@
           </v-list>
         </v-menu>
 
-
         <template
           v-if="($appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu !== true) || !$appConfig.app.navbar"
         >
