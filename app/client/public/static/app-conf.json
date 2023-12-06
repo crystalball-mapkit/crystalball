@@ -415,7 +415,8 @@
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.25,
-        "maxResolution": 8,
+        "maxResolution": 10,
+        "zIndex": 100,
         "opacity": 1,
         "queryable": false,
         "displayInLegend": true,
@@ -481,11 +482,11 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["osm", "mississippi", "polygons", "points", "lines", "videos", "photos", "random_dots"],
+          "layers": ["osm", "mississippi", "polygons", "ESRI-World-Imagery2", "points", "lines", "videos", "photos", "random_dots"],
           "center": [-87.473, 41.658],
-          "resolution": 40,
+          "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [-87.573, 41.736],
+          "mobileCenter": [-87.5, 41.663],
           "minResolution": 0,
           "maxResolution": 64000
         },
