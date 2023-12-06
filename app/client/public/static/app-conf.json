@@ -208,6 +208,37 @@
       },
       {
         "type": "VECTOR",
+        "name": "coal_ash",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:coal_ash&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "legendDisplayName": {
+          "en": "Coal ash",
+          "es": "Cenizas de carbón",
+          "pt": "Cenizas de carbón"
+        },
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "legendIcon": "",
+        "style": {
+          "type": "circle",
+          "radius": 6,
+          "strokeWidth": 1,
+          "strokeColor": "black",
+          "fillColor": "purple",
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "videos",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:videos&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -482,7 +513,17 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["osm", "mississippi", "polygons", "ESRI-World-Imagery2", "points", "lines", "videos", "photos", "random_dots"],
+          "layers": [
+            "osm",
+            "mississippi",
+            "polygons",
+            "ESRI-World-Imagery2",
+            "points",
+            "lines",
+            "videos",
+            "photos",
+            "random_dots"
+          ],
           "center": [-87.473, 41.658],
           "resolution": 32,
           "mobileResolution": 120,
@@ -509,7 +550,7 @@
       },
       "data": {
         "default": {
-          "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects"],
+          "layers": ["carto_dark", "ESRI-World-Imagery2", "coal_ash"],
           "center": [-84.75, 43.561],
           "resolution": 860,
           "mobileResolution": 4000,
