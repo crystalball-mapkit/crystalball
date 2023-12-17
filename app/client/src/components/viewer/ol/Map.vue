@@ -4,72 +4,46 @@
     <map-legend :color="color.primary" />
     <div style="position: absolute; left: 20px; top: 10px">
       <login-button :color="color.primary"></login-button>
-      <search-map
-        v-if="$appConfig.app.controls && $appConfig.app.controls.geocoder"
-        :color="color.primary"
-        :map="map"
-      ></search-map>
+      <search-map v-if="$appConfig.app.controls && $appConfig.app.controls.geocoder" :color="color.primary"
+        :map="map"></search-map>
       <zoom-control :color="color.primary" :map="map" />
       <full-screen :color="color.primary" />
-      <share-map
-        v-if="$appConfig.app.controls && $appConfig.app.controls.share_map"
-        :color="color.primary"
-        :map="map"
-      ></share-map>
+      <share-map v-if="$appConfig.app.controls && $appConfig.app.controls.share_map" :color="color.primary"
+        :map="map"></share-map>
       <!-- Show only on mobile -->
       <locate v-if="$appConfig.app.controls && $appConfig.app.controls.locate_me" :color="color.primary" :map="map" />
-      <route-controls
-        v-show="!isEditingPost"
-        v-if="!$vuetify.breakpoint.smAndDown"
-        :color="{
-          activeButton: color.secondary,
-          inactiveButton: color.primary,
-        }"
-      />
+      <route-controls v-show="!isEditingPost" v-if="!$vuetify.breakpoint.smAndDown" :color="{
+        activeButton: color.secondary,
+        inactiveButton: color.primary,
+      }" />
     </div>
 
     <!-- Edit Controls (Only available for logged users which aren't guests ) -->
     <div v-if="loggedUser" style="position: absolute; right: 20px; top: 10px">
-      <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
+      <edit :map="map" :color="{ primary: color.primary, activeButton: color.secondary }" />
     </div>
-    <div
-      v-if="$vuetify.breakpoint.smAndDown"
-      :style="`position:absolute;bottom:${
-        $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
-      }px;left:50%;z-index:100;transform:translateX(-50%);`"
-    >
+    <div v-if="$vuetify.breakpoint.smAndDown" :style="`position:absolute;bottom:${$vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
+      }px;left:50%;z-index:100;transform:translateX(-50%);`">
       <edit-guide :color="color.primary" :map="map"></edit-guide>
     </div>
-    <div
-      :style="`position:absolute;bottom:${
-        $vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
-      }px;left:50%;z-index:101;transform:translateX(-50%);`"
-    >
+    <div :style="`position:absolute;bottom:${$vuetify.breakpoint.smAndDown && !mobilePanelState ? 70 : 20
+      }px;left:50%;z-index:101;transform:translateX(-50%);`">
       <add-post :color="color.primary" :map="map"></add-post>
     </div>
-    <div
-      v-show="spotlightMessage === true && !$vuetify.breakpoint.smAndDown && !isEditingPost"
-      :style="`background-color: ${color.primary}`"
-      class="elevation-4 regular spotlight-message"
-      ref="spotlightControls"
-    >
+    <div v-show="spotlightMessage === true && !$vuetify.breakpoint.smAndDown && !isEditingPost"
+      :style="`background-color: ${color.primary}`" class="elevation-4 regular spotlight-message" ref="spotlightControls">
       {{ $t('tooltip.changeSpotlight') }}
     </div>
 
     <!-- Popup overlay  -->
-    <overlay-popup
-      :title="
-        popup.activeFeature
-          ? popup.activeFeature.get('category') || popup.activeFeature.get('title')
-            ? popup.activeFeature.get('category') || popup.activeFeature.get('title')
-            : popup.activeLayer
-            ? popup.activeLayer.get('name')
-            : ''
+    <overlay-popup :title="popup.activeFeature
+      ? popup.activeFeature.get('category') || popup.activeFeature.get('title')
+        ? popup.activeFeature.get('category') || popup.activeFeature.get('title')
+        : popup.activeLayer
+          ? popup.activeLayer.get('name')
           : ''
-      "
-      v-show="popup.isVisible"
-      ref="popup"
-    >
+      : ''
+      " v-show="popup.isVisible" ref="popup">
       <v-btn icon>
         <v-icon>close</v-icon>
       </v-btn>
@@ -82,41 +56,27 @@
         <vue-scroll ref="vs">
           <div style="max-height: 280px" class="pr-2">
             <div class="body-2" v-for="item in popupInfo" :key="item.property">
-              <span
-                v-if="isPopupRowVisible(item)"
-                v-html="`<strong>${mapPopupPropName(item, popup.activeLayer)}: </strong>` + item.value"
-              ></span>
+              <span v-if="isPopupRowVisible(item)"
+                v-html="`<strong>${mapPopupPropName(item, popup.activeLayer)}: </strong>` + item.value"></span>
             </div>
           </div>
         </vue-scroll>
         <div v-if="popup.activeFeature" class="mt-1">
-          <a
-            v-if="
-              popup.activeLayer &&
-              popup.activeLayer.get('showZoomToFeature') !== false &&
-              popup.activeFeature &&
-              selectedCoorpNetworkEntity === null
-            "
-            href="javascript:void(0)"
-            @click="zoomToFeature()"
-          >
+          <a v-if="popup.activeLayer &&
+            popup.activeLayer.get('showZoomToFeature') !== false &&
+            popup.activeFeature &&
+            selectedCoorpNetworkEntity === null
+            " href="javascript:void(0)" @click="zoomToFeature()">
             <strong>{{
               popup.activeFeature.getGeometry().getType() === 'Point' ? 'DIVE' : 'VIEW WHOLE FEATURE'
             }}</strong>
           </a>
-          <a
-            v-show="popup.activeLayer.get('includeInSearch') !== false"
-            v-if="
-              (popup.activeFeature.get('entity') && !selectedCoorpNetworkEntity) ||
-              (selectedCoorpNetworkEntity &&
-                popup.activeFeature.get('entity') &&
-                splittedEntities &&
-                !splittedEntities.some(substring => popup.activeFeature.get('entity').includes(substring)))
-            "
-            @click="queryCorporateNetwork"
-            href="javascript:void(0)"
-            class="ml-2"
-          >
+          <a v-show="popup.activeLayer.get('includeInSearch') !== false" v-if="(popup.activeFeature.get('entity') && !selectedCoorpNetworkEntity) ||
+            (selectedCoorpNetworkEntity &&
+              popup.activeFeature.get('entity') &&
+              splittedEntities &&
+              !splittedEntities.some(substring => popup.activeFeature.get('entity').includes(substring)))
+            " @click="queryCorporateNetwork" href="javascript:void(0)" class="ml-2">
             <strong>{{ searchLabel }}</strong>
           </a>
         </div>
@@ -126,16 +86,10 @@
     <!-- Lightbox overlay -->
     <app-lightbox ref="lightbox" :images="lightBoxImages"></app-lightbox>
     <!-- Progress loader -->
-    <progress-loader
-      :value="progressLoading.value"
-      :progressColor="progressLoading.progressColor"
-      :message="progressLoading.message"
-    ></progress-loader>
-    <progress-loader
-      :value="isTranslating"
-      :progressColor="progressLoading.progressColor"
-      :message="$t('translation.translateLoadingText')"
-    ></progress-loader>
+    <progress-loader :value="progressLoading.value" :progressColor="progressLoading.progressColor"
+      :message="progressLoading.message"></progress-loader>
+    <progress-loader :value="isTranslating" :progressColor="progressLoading.progressColor"
+      :message="$t('translation.translateLoadingText')"></progress-loader>
     <!-- Show snackbar -->
     <snackbar style="margin-top: 60px"></snackbar>
   </div>
@@ -153,29 +107,29 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorTileLayer from 'ol/layer/VectorTile';
 import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
-import {fromExtent} from 'ol/geom/Polygon';
-import {fromLonLat} from 'ol/proj';
-import {extend} from 'ol/extent';
-import {like as likeFilter, or as orFilter} from 'ol/format/filter';
+import { fromExtent } from 'ol/geom/Polygon';
+import { fromLonLat } from 'ol/proj';
+import { extend } from 'ol/extent';
+import { like as likeFilter, or as orFilter } from 'ol/format/filter';
 
 // style imports
-import {mapMutations, mapGetters, mapActions} from 'vuex';
-import {mapFields} from 'vuex-map-fields';
+import { mapMutations, mapGetters, mapActions } from 'vuex';
+import { mapFields } from 'vuex-map-fields';
 import DoubleClickZoom from 'ol/interaction/DoubleClickZoom';
-import {defaults as defaultInteractions} from 'ol/interaction';
-import {defaults as defaultControls, Attribution} from 'ol/control';
+import { defaults as defaultInteractions } from 'ol/interaction';
+import { defaults as defaultControls, Attribution } from 'ol/control';
 import axios from 'axios';
-import {popupInfoStyle, networkCorpHighlightStyle, worldOverlayFill} from '../../../style/OlStyleDefs';
+import { popupInfoStyle, networkCorpHighlightStyle, worldOverlayFill } from '../../../style/OlStyleDefs';
 
 // import the app-wide EventBus
-import {EventBus} from '../../../EventBus';
+import { EventBus } from '../../../EventBus';
 
 // utils imports
-import {LayerFactory} from '../../../factory/OlLayer';
-import {isCssColor, debounce, Timer} from '../../../utils/Helpers';
-import {extractGeoserverLayerNames, wfsRequestParser, getLayerSourceUrl} from '../../../utils/Layer';
+import { LayerFactory } from '../../../factory/OlLayer';
+import { isCssColor, debounce, Timer } from '../../../utils/Helpers';
+import { extractGeoserverLayerNames, wfsRequestParser, getLayerSourceUrl } from '../../../utils/Layer';
 import UrlUtil from '../../../utils/Url';
-import {geojsonToFeature} from '../../../utils/MapUtils';
+import { geojsonToFeature } from '../../../utils/MapUtils';
 
 // Store imports
 
@@ -203,7 +157,7 @@ import AppLightBox from '../../core/AppLightBox.vue';
 import MediaLightBox from '../../core/MediaLightBox';
 
 // Shared methods
-import {SharedMethods} from '../../../mixins/SharedMethods';
+import { SharedMethods } from '../../../mixins/SharedMethods';
 
 // Services
 import http from '../../../services/http';
@@ -426,7 +380,11 @@ export default {
       this.map.getLayers().forEach(layer => {
         const layerIndex = visibleLayers.indexOf(layer.get('name'));
         if (layerIndex === -1) return;
-        layer.setVisible(true);
+        this.$appConfig.map.layers.forEach(lConf => {
+          if (lConf.name === layer.get('name')) {
+            layer.setVisible(!!lConf.visible);
+          }
+        });
       });
     },
     createHtmlPostLayer() {
@@ -741,7 +699,7 @@ export default {
 
             if (!attr) return;
             if (layer.get('styleObj')) {
-              const {hoverTextColor, hoverBackgroundColor} = JSON.parse(layer.get('styleObj'));
+              const { hoverTextColor, hoverBackgroundColor } = JSON.parse(layer.get('styleObj'));
 
               // eslint-disable-next-line no-unused-expressions
               hoverBackgroundColor && overlayEl
@@ -822,7 +780,7 @@ export default {
       });
     },
 
-    setupMapMoveStart() {},
+    setupMapMoveStart() { },
 
     /**
      * Map click event for Module.
@@ -1119,7 +1077,7 @@ export default {
         const wfsRequest = wfsRequestParser('EPSG:3857', workspace, [geoserverLayerName], filter);
         promiseArray.push(
           http.post(`./geoserver/${workspace}/wfs`, wfsRequest, {
-            headers: {'Content-Type': 'text/xml'},
+            headers: { 'Content-Type': 'text/xml' },
             layerName: geoserverLayerName,
           })
         );
