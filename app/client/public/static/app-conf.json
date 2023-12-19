@@ -87,37 +87,6 @@
       },
       {
         "type": "VECTOR",
-        "name": "random_dots",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:random_dots&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "media",
-        "queryable": true,
-        "format": "GeoJSON",
-        "legendDisplayName": {
-          "en": "Random dots",
-          "es": "Puntos aleatorios",
-          "pt": "Pontos aleatórios"
-        },
-        "visible": true,
-        "displayInLegend": true,
-        "displaySidebarInfo": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "legendIcon": "",
-        "style": {
-          "type": "circle",
-          "radius": 6,
-          "strokeWidth": 1,
-          "strokeColor": "black",
-          "fillColor": "purple",
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
         "name": "lines",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:lines&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -322,9 +291,9 @@
         "visible": true
       },
       {
-        "type": "VECTOR",
+        "type": "VECTORTILE",
         "name": "glri_projects",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:glri_projects&outputFormat=application/json&srsname=EPSG:3857",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:glri_projects@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
         "group": "data",
         "queryable": true,
         "displayInLegend": true,
@@ -333,7 +302,8 @@
           "es": "Proyectos de restauro",
           "pt": "Proyectos de restauro"
         },
-        "format": "GEOJSON",
+        "format": "MVT",
+        "renderMode": "hybrid",
         "visible": true,
         "zIndex": 100,
         "minResolution": 1,
@@ -341,7 +311,7 @@
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "variable1",
+          "hoverBackgroundColor": "black",
           "type": "circle",
           "stylePropFnRef": {
             "fillColor": "variable1",
@@ -402,7 +372,7 @@
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "variable1",
+          "hoverBackgroundColor": "black",
           "type": "circle",
           "stylePropFnRef": {
             "fillColor": "variable1",
@@ -521,8 +491,7 @@
             "points",
             "lines",
             "videos",
-            "photos",
-            "random_dots"
+            "photos"
           ],
           "center": [-87.473, 41.658],
           "resolution": 32,
@@ -550,7 +519,7 @@
       },
       "data": {
         "default": {
-          "layers": ["carto_dark", "ESRI-World-Imagery2", "coal_ash"],
+          "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects"],
           "center": [-84.75, 43.561],
           "resolution": 860,
           "mobileResolution": 4000,
