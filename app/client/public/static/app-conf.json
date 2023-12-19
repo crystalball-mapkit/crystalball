@@ -177,15 +177,15 @@
       },
       {
         "type": "VECTOR",
-        "name": "coal_ash",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:coal_ash&outputFormat=application/json&srsname=EPSG:3857",
+        "name": "colaboradores",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:colaboradores&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
         "queryable": true,
         "format": "GeoJSON",
         "legendDisplayName": {
-          "en": "Coal ash",
-          "es": "Cenizas de carbón",
-          "pt": "Cenizas de carbón"
+          "en": "HsF",
+          "es": "HsF",
+          "pt": "HsF"
         },
         "visible": true,
         "displayInLegend": true,
@@ -500,7 +500,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": ["osm2", "Rosario"],
+          "layers": ["osm2", "Rosario", "colaboradores"],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
