@@ -414,7 +414,7 @@ export const LayerFactory = {
     if (lConf.style.cluster) {
       const clusterOptions = lConf.style.cluster.options || {};
       source = new Cluster({
-        distance: clusterOptions.distance || 50,
+        distance: clusterOptions.distance || 20,
         minDistance: clusterOptions.minDistance || 0,
         source,
       });
