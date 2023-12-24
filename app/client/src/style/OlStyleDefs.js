@@ -282,6 +282,9 @@ export function baseStyle(config) {
       // Cluster style
       if (clusterSize > 1) {
         const clusterStyles = [];
+        if (!cluster.style) {
+          cluster.style = {};
+        }
         if (!cluster.style.innerCircle) {
           cluster.style.innerCircle = {};
         }
