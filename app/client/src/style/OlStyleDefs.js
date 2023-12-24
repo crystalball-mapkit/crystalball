@@ -23,6 +23,24 @@ EventBus.$on('group-changed', () => {
   styleCache = {};
 });
 
+const clusterDefaultStyle = {
+  style: {
+    innerCircle: {
+      radius: 14,
+      fillColor: 'rgba(255, 165, 0, 0.7)',
+      text: {
+        fillColor: '#fff',
+        strokeColor: 'rgba(0, 0, 0, 0.6)',
+        strokeWidth: 3,
+      },
+    },
+    outerCircle: {
+      radius: 20,
+      fillColor: 'rgba(255, 153, 102, 0.3)',
+    },
+  },
+};
+
 export function defaultStyle(feature) {
   const geomType = feature.getGeometry().getType();
   const style = new OlStyle({
@@ -260,23 +278,33 @@ export function baseStyle(config) {
         stylePropFnRef,
         cluster,
       } = config;
+
+      // Cluster style
       if (clusterSize > 1) {
         const clusterStyles = [];
+        if (!cluster.style.innerCircle) {
+          cluster.style.innerCircle = {};
+        }
+        if (!cluster.style.innerCircle.text) {
+          cluster.style.innerCircle.text = {};
+        }
         if (cluster.style.innerCircle) {
           clusterStyles.push(
             new OlStyle({
               image: new OlCircle({
-                radius: cluster.style.innerCircle.radius,
-                fill: OlStyleFactory.createFill(cluster.style.innerCircle),
+                radius: cluster.style.innerCircle.radius || clusterDefaultStyle.style.innerCircle.radius,
+                fill: cluster.style.innerCircle.fillColor
+                  ? OlStyleFactory.createFill(cluster.style.innerCircle)
+                  : OlStyleFactory.createFill(clusterDefaultStyle.style.innerCircle),
               }),
               text: new OlText({
                 text: clusterSize.toString(),
                 fill: cluster.style.innerCircle.text.fillColor
                   ? OlStyleFactory.createFill(cluster.style.innerCircle.text)
-                  : undefined,
+                  : OlStyleFactory.createFill(clusterDefaultStyle.style.innerCircle.text),
                 stroke: cluster.style.innerCircle.text.strokeColor
                   ? OlStyleFactory.createStroke(cluster.style.innerCircle.text)
-                  : undefined,
+                  : OlStyleFactory.createStroke(clusterDefaultStyle.style.innerCircle.text),
               }),
             })
           );
@@ -284,7 +312,12 @@ export function baseStyle(config) {
         if (cluster.style.outerCircle) {
           clusterStyles.push(
             new OlStyle({
-              image: OlStyleFactory.createCircle(cluster.style.outerCircle),
+              image: new OlCircle({
+                radius: cluster.style.outerCircle.radius || clusterDefaultStyle.style.outerCircle.radius,
+                fill: cluster.style.outerCircle.fillColor
+                  ? OlStyleFactory.createFill(cluster.style.outerCircle)
+                  : OlStyleFactory.createFill(clusterDefaultStyle.style.outerCircle),
+              }),
             })
           );
         }
