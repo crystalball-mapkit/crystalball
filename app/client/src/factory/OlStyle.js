@@ -113,4 +113,20 @@ export const OlStyleFactory = {
       color: styleConf.fillColor,
     });
   },
+
+
+  /**
+   * Create an OL Circle style object due to given config.
+   * @param  {Object} styleConf Style config object
+   * @return {Circle}           OL Circle instance
+   */
+
+  createCircle(styleConf) {
+    return new CircleStyle({
+      radius: styleConf.radius || 5,
+      fill: styleConf.fillColor ? OlStyleFactory.createFill(styleConf) : null,
+      stroke: styleConf.strokeColor ? OlStyleFactory.createStroke(styleConf) : null,
+      text: styleConf.text ? OlStyleFactory.createText(styleConf) : null,
+    });
+  },
 };

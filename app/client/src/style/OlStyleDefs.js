@@ -9,6 +9,7 @@ import OlRegularShape from 'ol/style/RegularShape';
 import OlIconStyle from 'ol/style/Icon';
 import OlText from 'ol/style/Text';
 import store from '../store/modules/map';
+import {OlStyleFactory} from '../factory/OlStyle';
 
 // Resets cache when map groups is changed.
 import {EventBus} from '../EventBus';
@@ -214,15 +215,27 @@ let styleCache = {};
 export function baseStyle(config) {
   const styleFunction = (feature, resolution) => {
     // Get cache uid.
+    let clusterSize;
     let cacheId;
+    if (Array.isArray(feature.get('features'))) {
+      clusterSize = feature.get('features').length;
+    }
+    if (clusterSize === 1) {
+      feature = feature.get('features')[0];
+    }
     if (config.stylePropFnRef) {
       cacheId = `${config.layerName}-`;
-      Object.keys(config.stylePropFnRef).forEach(key => {
-        const value = feature.get(config.stylePropFnRef[key]);
-        if (value) {
-          cacheId += value;
-        }
-      });
+      if (clusterSize && clusterSize > 1) {
+        cacheId += clusterSize;
+      }
+      if (!clusterSize || clusterSize === 1) {
+        Object.keys(config.stylePropFnRef).forEach(key => {
+          const value = feature.get(config.stylePropFnRef[key]);
+          if (value) {
+            cacheId += value;
+          }
+        });
+      }
     }
 
     let _style;
@@ -245,7 +258,39 @@ export function baseStyle(config) {
         iconAnchorXUnits,
         iconAnchorYUnits,
         stylePropFnRef,
+        cluster,
       } = config;
+      if (clusterSize > 1) {
+        const clusterStyles = [];
+        if (cluster.style.innerCircle) {
+          clusterStyles.push(
+            new OlStyle({
+              image: new OlCircle({
+                radius: cluster.style.innerCircle.radius,
+                fill: OlStyleFactory.createFill(cluster.style.innerCircle),
+              }),
+              text: new OlText({
+                text: clusterSize.toString(),
+                fill: cluster.style.innerCircle.text.fillColor
+                  ? OlStyleFactory.createFill(cluster.style.innerCircle.text)
+                  : undefined,
+                stroke: cluster.style.innerCircle.text.strokeColor
+                  ? OlStyleFactory.createStroke(cluster.style.innerCircle.text)
+                  : undefined,
+              }),
+            })
+          );
+        }
+        if (cluster.style.outerCircle) {
+          clusterStyles.push(
+            new OlStyle({
+              image: OlStyleFactory.createCircle(cluster.style.outerCircle),
+            })
+          );
+        }
+        styleCache[cacheId] = clusterStyles;
+        return clusterStyles;
+      }
 
       const geometryType = feature.getGeometry().getType();
       let labelText;
