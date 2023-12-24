@@ -412,8 +412,10 @@ export const LayerFactory = {
     let source = new VectorSource(sourceConfig);
 
     if (lConf.style.cluster) {
+      const clusterOptions = lConf.style.cluster.options || {};
       source = new Cluster({
-        ...lConf.style.cluster.options,
+        distance: clusterOptions.distance || 50,
+        minDistance: clusterOptions.minDistance || 0,
         source,
       });
     }

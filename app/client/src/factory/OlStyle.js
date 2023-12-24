@@ -114,7 +114,6 @@ export const OlStyleFactory = {
     });
   },
 
-
   /**
    * Create an OL Circle style object due to given config.
    * @param  {Object} styleConf Style config object
