@@ -426,26 +426,30 @@ export default {
       }
     });
     EventBus.$on('scrollSidePanelTop', () => {
-  if (!this.preventSidebarScroll) {
-    const scrollEl = this.$refs.vs;
-    if (scrollEl && scrollEl.scrollTo) {
-      scrollEl.scrollTo({ y: 0 }, 100, 'easeInQuad');
-    }
-  }
-});
+      if (!this.preventSidebarScroll) {
+        const scrollEl = this.$refs.vs;
+        if (scrollEl && scrollEl.scrollTo) {
+          scrollEl.scrollTo({y: 0}, 100, 'easeInQuad');
+        }
+      }
+    });
   },
   mounted() {
-  document.addEventListener('click', (e) => {
-    if (e.target.closest('.map-link')) {
-      // Update the flag instead of preventing the default action
-      this.preventSidebarScroll = true;
-      // Reset the flag after a short delay to allow for normal operations afterwards
-      setTimeout(() => {
-        this.preventSidebarScroll = false;
-      }, 100); // Adjust the timeout as needed based on your application's behavior
-    }
-  }, false);
-},
+    document.addEventListener(
+      'click',
+      e => {
+        if (e.target.closest('.map-link')) {
+          // Update the flag instead of preventing the default action
+          this.preventSidebarScroll = true;
+          // Reset the flag after a short delay to allow for normal operations afterwards
+          setTimeout(() => {
+            this.preventSidebarScroll = false;
+          }, 100); // Adjust the timeout as needed based on your application's behavior
+        }
+      },
+      false
+    );
+  },
   computed: {
     isFeatureGetInfo() {
       if (!this.popup.activeFeature) {
