@@ -17,6 +17,7 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import ImageWMS from 'ol/source/ImageWMS';
 import LayerGroup from 'ol/layer/Group';
+import Cluster from 'ol/source/Cluster';
 import {Image as ImageLayer} from 'ol/layer';
 import XyzSource from 'ol/source/XYZ';
 import {OlStyleFactory} from './OlStyle';
@@ -408,6 +409,16 @@ export const LayerFactory = {
       url = lConf.url;
     }
     sourceConfig.url = url;
+    let source = new VectorSource(sourceConfig);
+
+    if (lConf.style.cluster) {
+      const clusterOptions = lConf.style.cluster.options || {};
+      source = new Cluster({
+        distance: clusterOptions.distance || 20,
+        minDistance: clusterOptions.minDistance || 0,
+        source,
+      });
+    }
 
     const vectorLayer = new VectorLayer({
       type: lConf.type,
@@ -433,7 +444,7 @@ export const LayerFactory = {
       opacity: lConf.opacity,
       zIndex: lConf.zIndex,
       group: lConf.group,
-      source: new VectorSource(sourceConfig),
+      source,
       style: this.getStyles(lConf),
       hoverable: lConf.hoverable,
       hoverAttribute: lConf.hoverAttribute,

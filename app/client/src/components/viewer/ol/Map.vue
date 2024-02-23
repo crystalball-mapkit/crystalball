@@ -155,7 +155,7 @@ import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
 import {fromExtent} from 'ol/geom/Polygon';
 import {fromLonLat} from 'ol/proj';
-import {extend} from 'ol/extent';
+import {extend, createEmpty} from 'ol/extent';
 import {like as likeFilter, or as orFilter} from 'ol/format/filter';
 
 // style imports
@@ -721,6 +721,15 @@ export default {
           );
 
           this.map.getTarget().style.cursor = feature ? 'pointer' : '';
+          // For cluster features
+          if (feature && Array.isArray(feature.get('features'))) {
+            const size = feature.get('features').length;
+            if (size === 1) {
+              feature = feature.get('features')[0];
+            } else {
+              return;
+            }
+          }
 
           if (!feature || !layer.get('hoverable')) {
             overlayEl.innerHTML = null;
@@ -861,6 +870,22 @@ export default {
             hitTolerance: 3,
           }
         );
+
+        // For cluster features
+        if (feature && Array.isArray(feature.get('features'))) {
+          const size = feature.get('features').length;
+          if (size === 1) {
+            feature = feature.get('features')[0];
+          } else {
+            const extent = createEmpty();
+            const clusterMembers = feature.get('features');
+            clusterMembers.forEach(feature => extend(extent, feature.getGeometry().getExtent()));
+            const view = me.map.getView();
+            view.fit(extent, {duration: 500, padding: [50, 50, 50, 50]});
+            return;
+          }
+        }
+
         // Check if layer is interactive
         if ((layer && layer.get('isInteractive') === false) || (layer && layer.get('queryable') === false)) return;
 
