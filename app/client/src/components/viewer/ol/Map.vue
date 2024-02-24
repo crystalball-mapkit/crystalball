@@ -881,7 +881,7 @@ export default {
             const clusterMembers = feature.get('features');
             clusterMembers.forEach(feature => extend(extent, feature.getGeometry().getExtent()));
             const view = me.map.getView();
-            view.fit(extent, {duration: 500, padding: [50, 50, 50, 50]});
+            view.fit(extent, {duration: 500, padding: [100, 100, 100, 100]});
             return;
           }
         }
