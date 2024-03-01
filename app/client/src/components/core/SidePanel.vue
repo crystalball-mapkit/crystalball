@@ -102,7 +102,7 @@
                     <!-- <p v-html="visibleGroup.sidePanel.bodyText1"></p>
                 <p v-html="visibleGroup.sidePanel.bodyText2"></p> -->
                     <v-row>
-                      <v-col>
+                      <v-col class="html-viewer">
                         <p
                           v-if="lastSelectedLayer && sidebarHtml.layers"
                           v-html="
@@ -766,4 +766,10 @@ export default {
   margin-block-start: 0.67em;
   margin-block-end: 0.67em;
 }
+
+.html-viewer >>> p:empty::before {
+  content: '';
+  display: inline-block;
+}
+
 </style>
