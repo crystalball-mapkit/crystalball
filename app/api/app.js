@@ -2,6 +2,7 @@
 const express = require("express");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
+const multer = require('multer');
 const app = express();
 
 // Require controller modules
@@ -16,6 +17,7 @@ const uploadController = require("./controllers/upload/uploadController.js");
 const assetsController = require("./controllers/gis/assetsController.js");
 const configController = require("./controllers/other/configController.js");
 const translateController = require("./controllers/other/translateController.js");
+const restoreController = require("./controllers/other/restoreController.js")
 const upload = require("./services/file-upload.js");
 
 // Use middleware
@@ -105,8 +107,10 @@ app
 
 app.route("/api/config").get(configController.config_get);
 
+
+app.route("/api/restore").post(restoreController.restore)
+
 // Run server on port
-// Run server on port
-app.listen(process.env.API_PORT || 3000, () =>
-  console.log(`API listening on port ${process.env.API_PORT || 3000}!`)
+app.listen(3000, () =>
+  console.log(`API listening on port 3000!`)
 );

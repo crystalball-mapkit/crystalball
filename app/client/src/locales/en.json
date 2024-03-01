@@ -29,7 +29,8 @@
     "replaceAndDelete": "Replace and Delete",
     "warning": "Warning",
     "map": "Map",
-    "upload": "Upload"
+    "upload": "Upload", 
+    "reset": "Reset"
   },
   "tooltip": {
     "zoomIn": "Zoom In",
@@ -189,7 +190,10 @@
     "databaseRestore": "Database Restore",
     "dataRestore": "Data Restore",
     "geoserverDataDirRestore": "Geoserver Data Directory Restore",
-    "database": "Database"
+    "database": "Database", 
+    "restore": "Restore",
+    "restoreSuccess": "Restore completed successfully!",
+    "restoreFailed": "Restore failed"
   },
   "$vuetify": {
     "close": "Close",
