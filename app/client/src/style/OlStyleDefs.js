@@ -682,6 +682,20 @@ export const layersStylePropFn = {
     fillColor: propertyValue => propertyValue,
     radius: propertyValue => getRadiusValue(propertyValue, 0.012, 2, 26),
   },
+  glri_projects2: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.012, 2, 26),
+  },
+  colaboradores: {
+    fillColor: propertyValue => propertyValue,
+  },
+  chi_test: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.012, 2, 26),
+  },
+  coal_ash: {
+    fillColor: propertyValue => propertyValue,
+  },
   burnables: {
     fillColor: propertyValue => propertyValue,
     radius: propertyValue => getRadiusValue(propertyValue, 0.2, 3, 26),
