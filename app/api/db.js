@@ -5,7 +5,7 @@ const config = {
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB_NAME,
   host: `${process.env.POSTGRES_DB_NAME}_db`,
-  port: "5432",
+  port: process.env.POSTGRES_PORT || 5432,
   dialect: "postgres",
 };
 
