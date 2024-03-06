@@ -28,9 +28,16 @@ body,
   margin-block-end: 0.67em;
 }
 
+:-webkit-any(article, aside, nav, section) p {
+  font-size: 1.1em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+}
+
 .wg-app {
   position: relative;
   width: 100%;
+  font-family: 'Baskervville';
 }
 
 .wg-app-embedded {
@@ -206,12 +213,12 @@ body,
   cursor: pointer;
   font-weight: normal;
   padding: 15px;
-  background: #e8e8e8;
+  background: rgba(103, 188, 85, 0.6);
 }
 
 .ep-accordion label:hover,
 .ep-accordion label:focus {
-  background: #d8d8d8;
+  background: rgba(103, 188, 85, 0.9);
 }
 
 .ep-accordion .handle label:before {
@@ -226,6 +233,10 @@ body,
 
 .ep-accordion > input[type='checkbox']:checked ~ .handle label:before {
   content: '\f078';
+}
+
+.v-btn large outlined raised rounded {
+  color: orange;
 }
 
 // MOBILE STYLING
@@ -269,3 +280,4 @@ body,
   box-shadow: rgb(0 0 0 / 10%) 4px -4px 3px;
   padding: 10px 16px;
 }
+
