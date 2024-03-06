@@ -7,6 +7,15 @@ import VueI18n from './i18n';
 Vue.use(Vuetify);
 
 const vuetify = new Vuetify({
+  theme: {
+    themes: {
+      light: {
+        anchor: '#67BC55',
+        black: '#000000',
+        purple: '#CF00E8',
+      },
+    },
+  },
   icons: {
     iconfont: 'md', // default - only for display purposes
   },
@@ -21,3 +30,4 @@ Vue.use(TiptapVuetifyPlugin, {
 });
 
 export default vuetify;
+
