@@ -29,21 +29,21 @@
       </template>
 
       <!-- APP BAR DESKTOP -->
-      <v-app-bar app clipped-right height="60" :color="color.primary" dark>
-        <v-toolbar-title
-          @click="$appConfig.app.projectWebsite ? openWebsite() : resetMap()"
-          flat
-          :style="`background-color:${color.primary};text-color:white;`"
-          class="logo headline font-weight-bold gray--text ml-3 dark mx-2"
-          >{{
-            $appConfig.app.title[$i18n.locale] ||
-            (typeof $appConfig.app.title === 'object' && Object.values($appConfig.app.title)[0]) ||
-            $appConfig.app.title
-          }}
-        </v-toolbar-title>
-        <v-btn small depressed fab color="gray" class="ml-0" @click="goToHome()">
-          <v-icon small>fas fa-home</v-icon>
-        </v-btn>
+      <v-app-bar app clipped-right height="60" :color="color.secondary" dark>
+        <a href="https://www.mdwfair.com/" target="_blank">
+          <v-img
+            class="pl-2 pr-4"
+            src="https://midwayfair.s3.us-east-2.amazonaws.com/assets/images/MDWfair_logo.png"
+            max-height="50px"
+            max-width="230px"
+            contain
+          >
+          </v-img>
+        </a>
+
+        <v-btn small depressed fab color="#E6C747" class="ml-0" @click="goToHome()"
+          ><v-icon small>fas fa-home</v-icon></v-btn
+        >
 
         <v-spacer></v-spacer>
         <v-menu
@@ -90,20 +90,20 @@
           </v-list>
         </v-menu>
 
-        <template
+        <!--    <template
           v-if="($appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu !== true) || !$appConfig.app.navbar"
         >
           <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
             <v-btn
-              min-width="140"
-              class="mx-16"
+              min-width="200"
+              class="mx-1"
               :dark="activeLayerGroup.navbarGroup === navbarGroup.name ? false : true"
               @click="changeNavbarGroup(navbarGroup)"
               :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
               :class="{
                 'elevation-0': activeLayerGroup.navbarGroup !== navbarGroup.name,
-                'font-weight-bold black--text': activeLayerGroup.navbarGroup === navbarGroup.name,
-                'elevation-6': activeLayerGroup.navbarGroup === navbarGroup.name,
+                'font-weight-bold purple--text': activeLayerGroup.navbarGroup === navbarGroup.name,
+                'elevation-0': activeLayerGroup.navbarGroup === navbarGroup.name,
               }"
             >
               {{
@@ -113,11 +113,11 @@
               }}
             </v-btn>
           </div>
-        </template>
+        </template> -->
 
         <v-spacer></v-spacer>
 
-        <span class="title pr-5">{{
+        <span class="title pr-5 purple--text">{{
           $appConfig.app.tagline[$i18n.locale] ||
           (typeof $appConfig.app.tagline === 'object' && Object.values($appConfig.app.tagline)[0]) ||
           $appConfig.app.tagline ||
@@ -140,7 +140,7 @@
           </v-list>
         </v-menu>
         <v-btn icon @click.stop="sidebarState = !sidebarState">
-          <v-icon medium>{{ sidebarState ? '$close' : '$menu' }}</v-icon>
+          <v-icon medium color="purple">{{ sidebarState ? '$close' : '$menu' }}</v-icon>
         </v-btn>
       </v-app-bar>
 
@@ -450,13 +450,13 @@ export default {
         // Values for larger screens
         _default = 600;
         _corporateNetworkSelected = 600;
-      } else if (winWidth < 900) {
+      } else if (winWidth < 1500) {
         // Values for small screens (mini - tables or low resolutions)
         _default = 350;
         _corporateNetworkSelected = 350;
       } else {
         // Values for normal screens (default)
-        _default = 460;
+        _default = 440;
         _corporateNetworkSelected = 600;
       }
       this.sidebarWidth = {
@@ -606,3 +606,4 @@ export default {
   transform: rotate(-180deg);
 }
 </style>
+

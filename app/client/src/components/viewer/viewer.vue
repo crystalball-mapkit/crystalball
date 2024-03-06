@@ -29,5 +29,6 @@ export default {
   right: 0;
   bottom: 0;
   overflow: hidden;
+  background-color: #f5ede0;
 }
 </style>

@@ -246,7 +246,7 @@ export default {
       queryLayersGeoserverNames: null,
       activeInteractions: [],
       getInfoResult: [],
-      radius: 160,
+      radius: 180,
       mousePosition: undefined,
       spotlightMessage: false,
       lightBoxImages: [],
@@ -1525,3 +1525,4 @@ div.ol-control button {
   z-index: 100;
 }
 </style>
+
