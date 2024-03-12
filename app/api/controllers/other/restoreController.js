@@ -2,11 +2,40 @@ const { exec, spawn } = require('child_process');
 const { Client } = require('pg');
 const multer = require("multer");
 const path = require("path");
-const fs = require('fs');
+const { promises: fs } = require("fs");
 const permissionController = require("../auth/permissionController");
+const crypto = require('crypto');
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+
 
 const upload = multer({ dest: '/tmp/' });
 const restoreFiles = upload.fields([{ name: 'geoserver', maxCount: 1 }, { name: 'postgres', maxCount: 1 }])
+
+
+async function updatePassword(newUser, newPassword) {
+    const filePathPassword = '/opt/geoserver/data_dir/security/usergroup/default/users.xml';
+    const filePathRole = '/opt/geoserver/data_dir/security/role/default/roles.xml';
+    try {
+        const dataFilePassword = await fs.readFile(filePathPassword, { encoding: 'utf8' });
+        const roleFile = await fs.readFile(filePathRole, { encoding: 'utf8' });
+        const domFilePassword = new JSDOM(dataFilePassword, { contentType: 'text/xml' });
+        const domFileRole = new JSDOM(roleFile, { contentType: 'text/xml' });
+        const user = domFilePassword.window.document.querySelector('user');
+        const userRole = domFileRole.window.document.querySelector('userRoles');
+        user.setAttribute('password', `plain:${newPassword}`);
+        user.setAttribute('name', newUser);
+        userRole.setAttribute('username', newUser);
+        const updatedXml = domFilePassword.serialize();
+        const updatedRole = domFileRole.serialize();
+        await fs.writeFile(filePathPassword, updatedXml, { encoding: 'utf8' });
+        await fs.writeFile(filePathRole, updatedRole, { encoding: 'utf8' });
+        return 'Password updated successfully';
+    } catch (err) {
+        throw new Error(`Error updating password: ${err.message}`);
+    }
+}
+
 
 function replaceInFiles(dirPath, oldString, newString) {
     fs.readdirSync(dirPath).forEach((item) => {
@@ -138,13 +167,20 @@ exports.restore = (req, res) => {
                                 console.log(`unzip process exited with code ${code}`);
                                 reject(new Error(`unzip process exited with code ${code}`));
                             } else {
-                                // Unzip successful, now move the old data_dir and copy the new one in the geoserver container
-                                exec('rm -rf /opt/geoserver/data_dir/* && cp -r /tmp/geodatadir/* /opt/geoserver/data_dir', (error, stdout, stderr) => {
+                                // Unzip successful, now move the old data_dir and copy the new one in the geoserver codntainer
+                                exec('cp -r /tmp/geodatadir/* /opt/geoserver/data_dir/', (error, stdout, stderr) => {
                                     if (error) {
                                         console.error(`exec error: ${error}`);
+                                        reject(error);
+                                        return;
+                                    }
+                                    if (stderr) {
+                                        console.error(`stderr: ${stderr}`);
+                                        reject(new Error(stderr));
                                         return;
                                     }
                                     console.log(`stdout: ${stdout}`);
+                                    resolve();
                                 });
                             }
                         });
