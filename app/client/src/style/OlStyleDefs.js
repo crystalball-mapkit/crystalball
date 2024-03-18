@@ -689,6 +689,9 @@ export const layersStylePropFn = {
   colaboradores: {
     fillColor: propertyValue => propertyValue,
   },
+  native_land: {
+    fillColor: propertyValue => propertyValue,
+  },
   chi_test: {
     fillColor: propertyValue => propertyValue,
     radius: propertyValue => getRadiusValue(propertyValue, 0.012, 2, 26),
