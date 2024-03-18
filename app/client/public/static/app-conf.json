@@ -46,32 +46,32 @@
     "maxResolution": 64000,
     "layers": [
       {
-          "type": "VECTOR",
-          "name": "native_land",
-          "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:native_land&outputFormat=application/json&srsname=EPSG:3857",
-          "group": "midway",
-          "queryable": true,
-          "format": "GeoJSON",
-          "displayInLegend": true,
-          "legendDisplayName": "Native Land",
-          "visible": false,
-          "hoverable": true,
-          "displaySidebarInfo": true,
-          "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/legend_indigenous.png",
-          "opacity": 0.6,
-          "zIndex": 10000,
-          "minResolution": 200,
-          "maxResolution": 60000,
-          "style": {
+        "type": "VECTOR",
+        "name": "native_land",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:native_land&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "midway",
+        "queryable": true,
+        "format": "GeoJSON",
+        "displayInLegend": true,
+        "legendDisplayName": "Native Land",
+        "visible": false,
+        "hoverable": true,
+        "displaySidebarInfo": true,
+        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/legend_indigenous.png",
+        "opacity": 0.6,
+        "zIndex": 10000,
+        "minResolution": 200,
+        "maxResolution": 60000,
+        "style": {
           "label": {
             "text": "name",
             "fill": {
-            "color": "black"
-              },
+              "color": "black"
+            },
             "stroke": {
               "color": "rgba( 255, 250, 240, 0.60 )",
               "width": 1.5
-              },
+            },
             "offsetX": 0,
             "offsetY": 0,
             "maxResolution": 30000,
@@ -84,17 +84,17 @@
           },
           "strokeColor": "black",
           "strokeWidth": 1,
-            "stylePropFnRef": {
-              "fillColor": "color"
-              }
-            }
+          "stylePropFnRef": {
+            "fillColor": "color"
+          }
+        }
       },
       {
         "type": "XYZ",
         "name": "osm_midway_complete",
         "group": "midway",
         "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_midway_complete@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-        "minResolution":3200,
+        "minResolution": 3200,
         "maxResolution": 60000,
         "displayInLegend": false,
         "legendDisplayName": "Midway States",
@@ -165,7 +165,7 @@
         "group": "midway",
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 48,
-        "maxResolution":3200,
+        "maxResolution": 3200,
         "displayInLegend": true,
         "legendDisplayName": "Place Names",
         "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
@@ -428,30 +428,30 @@
         "visible": true
       },
       {
-      "type": "VECTORTILE",
-      "name": "watershed_names",
-      "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:watershed_names@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-      "queryable": true,
-      "format": "MVT",
-      "displayInLegend": true,
-      "legendDisplayName": "Watershed Names",
-      "legendIcon": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/watershed_icon.png",
-      "visible": false,
-      "zIndex": 1000,
-      "minResolution": 200,
-      "maxResolution": 60000,
-      "hoverable": true,
-      "isInteractive": false,
+        "type": "VECTORTILE",
+        "name": "watershed_names",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:watershed_names@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "queryable": true,
+        "format": "MVT",
+        "displayInLegend": true,
+        "legendDisplayName": "Watershed Names",
+        "legendIcon": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/watershed_icon.png",
+        "visible": false,
+        "zIndex": 1000,
+        "minResolution": 200,
+        "maxResolution": 60000,
+        "hoverable": true,
+        "isInteractive": false,
         "style": {
           "label": {
             "text": "name",
             "fill": {
-            "color": "black"
-              },
+              "color": "black"
+            },
             "stroke": {
               "color": "rgba( 255, 250, 240, 0.60 )",
               "width": 1.5
-              },
+            },
             "offsetX": 0,
             "offsetY": 0,
             "maxResolution": 30000,
@@ -467,7 +467,7 @@
           "strokeColor": "#000000",
           "fillColor": "rgba(255,255,255,0.2",
           "strokeWidth": 1
-          }
+        }
       }
     ],
     "groups": {

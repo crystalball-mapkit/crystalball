@@ -30,4 +30,3 @@ Vue.use(TiptapVuetifyPlugin, {
 });
 
 export default vuetify;
-

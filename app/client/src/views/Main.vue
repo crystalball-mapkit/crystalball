@@ -606,4 +606,3 @@ export default {
   transform: rotate(-180deg);
 }
 </style>
-
