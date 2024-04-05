@@ -98,7 +98,7 @@ export const LayerFactory = {
     if (!stylePropFnRef) {
       stylePropFnRef = {};
     }
-    if ((styleProps && styleRef && stylePropFnRef && styleRefs[styleRef]) || label) {
+    if ((styleProps && styleRef && Object.keys(stylePropFnRef).length > 0 && styleRefs[styleRef]) || label) {
       // Get style function reference (default is baseStyle)
       const styleFn = styleRefs[styleRef];
       // Get the functions of the layer
