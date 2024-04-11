@@ -116,8 +116,8 @@ export const LayerFactory = {
         }
       });
       // Overwrite fillColor if colorMapStyle is set
-      if (stylePropFnRef.fillColorFn === "colorMapStyle") {
-        stylePropFn.fillColor = colorMapFn(layerName)
+      if (stylePropFnRef.fillColorFn === 'colorMapStyle') {
+        stylePropFn.fillColor = colorMapFn(layerName);
       }
       const props = {...styleProps, ...stylePropFn, layerName};
       return styleFn(props, layerName);
