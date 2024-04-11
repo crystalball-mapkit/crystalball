@@ -9,10 +9,10 @@ import OlRegularShape from 'ol/style/RegularShape';
 import OlIconStyle from 'ol/style/Icon';
 import OlText from 'ol/style/Text';
 import store from '../store/modules/map';
-import { OlStyleFactory } from '../factory/OlStyle';
+import {OlStyleFactory} from '../factory/OlStyle';
 
 // Resets cache when map groups is changed.
-import { EventBus } from '../EventBus';
+import {EventBus} from '../EventBus';
 
 const strokeColor = 'rgba(236, 236, 236, 0.7)';
 const fillColor = 'rgba(255,0,0, 0.2)';
@@ -349,7 +349,7 @@ export function baseStyle(config) {
           text: getText(feature.get(label.text), resolution, label.maxResolution || 1200, placement),
           offsetX: label.offsetX || 12,
           offsetY: label.offsetY || 0,
-          fill: new OlFill({ color: label.fill.color || 'black' }),
+          fill: new OlFill({color: label.fill.color || 'black'}),
           stroke: new OlStroke({
             color: label.stroke.color || 'white',
             width: label.stroke.width || 3,
@@ -604,7 +604,7 @@ function stringDivider(str, width, spaceReplacer) {
 }
 
 const getIconScaleValue = (propertyValue, multiplier, smallestScale, largestScale) => {
-  const { smallestDefaultScale, largestDefaultScale, defaultMultiplier } = defaultLimits.iconScale;
+  const {smallestDefaultScale, largestDefaultScale, defaultMultiplier} = defaultLimits.iconScale;
   const smallestValue = smallestScale || smallestDefaultScale;
   const largestValue = largestScale || largestDefaultScale;
   let scale = propertyValue / (multiplier || defaultMultiplier);
@@ -618,7 +618,7 @@ const getIconScaleValue = (propertyValue, multiplier, smallestScale, largestScal
 };
 
 const getRadiusValue = (propertyValue, multiplier, smallestRadius, largestRadius, defaultMultiplier) => {
-  const { smallestDefaultRadius, largestDefaultRadius } = defaultLimits.radius;
+  const {smallestDefaultRadius, largestDefaultRadius} = defaultLimits.radius;
   const smallestValue = smallestRadius || smallestDefaultRadius;
   const largestValue = largestRadius || largestDefaultRadius;
   let radius = Math.sqrt(propertyValue) * multiplier || defaultMultiplier;
@@ -631,7 +631,7 @@ const getRadiusValue = (propertyValue, multiplier, smallestRadius, largestRadius
   return radius;
 };
 
-export const colorMapFn = (layerName) => {
+export const colorMapFn = layerName => {
   const colorFn = propertyValue => {
     const colors = store.state.colorMapEntities[layerName];
     const entity = propertyValue;
@@ -639,9 +639,9 @@ export const colorMapFn = (layerName) => {
       return colors[entity];
     }
     return '#00c8f0';
-  }
-  return colorFn
-}
+  };
+  return colorFn;
+};
 
 export const layersStylePropFn = {
   default: {
