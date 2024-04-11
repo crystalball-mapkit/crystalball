@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { getField, updateField } from 'vuex-map-fields';
+import {getField, updateField} from 'vuex-map-fields';
 import axios from 'axios';
 import colormap from 'colormap';
-import { Group as LayerGroup } from 'ol/layer';
-import { formatPopupRows, getLayerSourceUrl, extractGeoserverLayerNames, getAllChildLayers } from '../../utils/Layer';
+import {Group as LayerGroup} from 'ol/layer';
+import {formatPopupRows, getLayerSourceUrl, extractGeoserverLayerNames} from '../../utils/Layer';
 import http from '../../services/http';
 
 const state = {
@@ -100,7 +100,7 @@ const state = {
   editType: null,
   editLayer: null,
   highlightLayer: null,
-  isTranslating: false
+  isTranslating: false,
 };
 
 const getters = {
@@ -188,20 +188,20 @@ const getters = {
 };
 
 const actions = {
-  fetchColorMapEntities({ commit, rootState }) {
+  fetchColorMapEntities({commit, rootState}) {
     // eslint-disable-next-line no-undef
     if (!rootState.map.colorMapEntities) {
       return;
     }
-    const layers = {}
+    const layers = {};
     Object.keys(rootState.map.layers).forEach(key => {
       const layer = rootState.map.layers[key];
       if (layer instanceof LayerGroup) {
         const layersArray = layer.getLayers().getArray();
         layersArray.forEach(l => {
-          console.log(l.get('name'))
+          console.log(l.get('name'));
           layers[l.get('name')] = l;
-        })
+        });
       } else {
         layers[layer.get('name')] = layer;
       }
@@ -212,7 +212,11 @@ const actions = {
       if (layer.get('styleObj')) {
         const styleObj = JSON.parse(layer.get('styleObj'));
         if (!styleObj.stylePropFnRef) return;
-        if (styleObj.stylePropFnRef.fillColorFn !== "colorMapStyle" || rootState.map.colorMapEntities[layer.get('name')]) return;
+        if (
+          styleObj.stylePropFnRef.fillColorFn !== 'colorMapStyle' ||
+          rootState.map.colorMapEntities[layer.get('name')]
+        )
+          return;
         const tableName =
           styleObj.tableName ||
           extractGeoserverLayerNames([
@@ -260,7 +264,7 @@ const actions = {
               const entity = feature.properties.entity;
               entities[entity] = colors[index];
             });
-            commit('SET_COLORMAP_VALUES', { layerName, entities });
+            commit('SET_COLORMAP_VALUES', {layerName, entities});
             const layers = state.map.getLayers().getArray();
             layers.forEach(layer => {
               if (layer.get('name') === layerName) {
