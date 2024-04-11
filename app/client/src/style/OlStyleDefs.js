@@ -9,10 +9,10 @@ import OlRegularShape from 'ol/style/RegularShape';
 import OlIconStyle from 'ol/style/Icon';
 import OlText from 'ol/style/Text';
 import store from '../store/modules/map';
-import {OlStyleFactory} from '../factory/OlStyle';
+import { OlStyleFactory } from '../factory/OlStyle';
 
 // Resets cache when map groups is changed.
-import {EventBus} from '../EventBus';
+import { EventBus } from '../EventBus';
 
 const strokeColor = 'rgba(236, 236, 236, 0.7)';
 const fillColor = 'rgba(255,0,0, 0.2)';
@@ -255,7 +255,10 @@ export function baseStyle(config) {
         });
       }
     }
-
+    // Don't build style cache if colorMap values are not loaded. Only for layers that use colorMap.
+    if (config.stylePropFnRef && config.stylePropFnRef.fillColorFn && !store.state.colorMapEntities[config.layerName]) {
+      return [];
+    }
     let _style;
     if (!styleCache[cacheId]) {
       const {
@@ -346,7 +349,7 @@ export function baseStyle(config) {
           text: getText(feature.get(label.text), resolution, label.maxResolution || 1200, placement),
           offsetX: label.offsetX || 12,
           offsetY: label.offsetY || 0,
-          fill: new OlFill({color: label.fill.color || 'black'}),
+          fill: new OlFill({ color: label.fill.color || 'black' }),
           stroke: new OlStroke({
             color: label.stroke.color || 'white',
             width: label.stroke.width || 3,
@@ -522,49 +525,6 @@ export function baseStyle(config) {
   return styleFunction;
 }
 
-export function colorMapStyle(layerName, colorField) {
-  const styleFunction = feature => {
-    const field = colorField || 'entity';
-    const entity = feature.get(field);
-    const colors = store.state.colorMapEntities[layerName];
-    if (colors && colors[entity] && entity) {
-      if (!styleCache[entity]) {
-        styleCache[entity] = new OlStyle({
-          fill: new OlFill({
-            color: colors[entity],
-          }),
-          stroke: new OlStroke({
-            color: colors[entity],
-            width: 2,
-          }),
-          image: new OlCircle({
-            radius: 4,
-            fill: new OlFill({
-              color: colors[entity],
-            }),
-          }),
-        });
-      }
-      return styleCache[entity];
-    }
-    return new OlStyle({
-      fill: new OlFill({
-        color: '#00c8f0',
-      }),
-      stroke: new OlStroke({
-        color: '#00c8f0',
-        width: 1.5,
-      }),
-      image: new OlCircle({
-        radius: 4,
-        fill: new OlFill({
-          color: '#00c8f0',
-        }),
-      }),
-    });
-  };
-  return styleFunction;
-}
 export function htmlLayerStyle() {
   const styleFunction = feature => {
     const group = feature.get('group');
@@ -587,7 +547,6 @@ export const styleRefs = {
   defaultStyle,
   popupInfoStyle,
   baseStyle,
-  colorMapStyle,
   htmlLayerStyle,
 };
 
@@ -645,7 +604,7 @@ function stringDivider(str, width, spaceReplacer) {
 }
 
 const getIconScaleValue = (propertyValue, multiplier, smallestScale, largestScale) => {
-  const {smallestDefaultScale, largestDefaultScale, defaultMultiplier} = defaultLimits.iconScale;
+  const { smallestDefaultScale, largestDefaultScale, defaultMultiplier } = defaultLimits.iconScale;
   const smallestValue = smallestScale || smallestDefaultScale;
   const largestValue = largestScale || largestDefaultScale;
   let scale = propertyValue / (multiplier || defaultMultiplier);
@@ -659,7 +618,7 @@ const getIconScaleValue = (propertyValue, multiplier, smallestScale, largestScal
 };
 
 const getRadiusValue = (propertyValue, multiplier, smallestRadius, largestRadius, defaultMultiplier) => {
-  const {smallestDefaultRadius, largestDefaultRadius} = defaultLimits.radius;
+  const { smallestDefaultRadius, largestDefaultRadius } = defaultLimits.radius;
   const smallestValue = smallestRadius || smallestDefaultRadius;
   const largestValue = largestRadius || largestDefaultRadius;
   let radius = Math.sqrt(propertyValue) * multiplier || defaultMultiplier;
@@ -671,6 +630,18 @@ const getRadiusValue = (propertyValue, multiplier, smallestRadius, largestRadius
   }
   return radius;
 };
+
+export const colorMapFn = (layerName) => {
+  const colorFn = propertyValue => {
+    const colors = store.state.colorMapEntities[layerName];
+    const entity = propertyValue;
+    if (colors && colors[entity] && entity) {
+      return colors[entity];
+    }
+    return '#00c8f0';
+  }
+  return colorFn
+}
 
 export const layersStylePropFn = {
   default: {
