@@ -771,5 +771,4 @@ export default {
   content: '';
   display: inline-block;
 }
-
 </style>
