@@ -3,7 +3,7 @@ import {getField, updateField} from 'vuex-map-fields';
 import axios from 'axios';
 import colormap from 'colormap';
 import {Group as LayerGroup} from 'ol/layer';
-import {formatPopupRows, getLayerSourceUrl, extractGeoserverLayerNames} from '../../utils/Layer';
+import {formatPopupRows, getLayerSourceUrl, extractGeoserverLayerNames, getAllChildLayers} from '../../utils/Layer';
 import http from '../../services/http';
 
 const state = {
@@ -265,7 +265,7 @@ const actions = {
               entities[entity] = colors[index];
             });
             commit('SET_COLORMAP_VALUES', {layerName, entities});
-            const layers = state.map.getLayers().getArray();
+            const layers = getAllChildLayers(state.map)
             layers.forEach(layer => {
               if (layer.get('name') === layerName) {
                 layer.changed();
