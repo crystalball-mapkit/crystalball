@@ -660,9 +660,9 @@ export const layersStylePropFn = {
   colaboradores: {
     fillColor: propertyValue => propertyValue,
   },
-  chi_test: {
+  groundwater_1990: {
     fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.012, 2, 26),
+    radius: propertyValue => getRadiusValue(propertyValue, 0.3, 3, 40),
   },
   coal_ash: {
     fillColor: propertyValue => propertyValue,
