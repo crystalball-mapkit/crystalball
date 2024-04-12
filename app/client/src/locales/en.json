@@ -29,7 +29,7 @@
     "replaceAndDelete": "Replace and Delete",
     "warning": "Warning",
     "map": "Map",
-    "upload": "Upload", 
+    "upload": "Upload",
     "reset": "Reset"
   },
   "tooltip": {
@@ -186,11 +186,11 @@
     "confirmPassword": "Confirm New Password",
     "passwordNotMatch": "Passwords must match",
     "passwordUpdatedSuccess": "Password updated successfully!",
-    "passwordUpdatedFailed": "Cannot update password", 
+    "passwordUpdatedFailed": "Cannot update password",
     "databaseRestore": "Database Restore",
     "dataRestore": "Data Restore",
     "geoserverDataDirRestore": "Geoserver Data Directory Restore",
-    "database": "Database", 
+    "database": "Database",
     "restore": "Restore",
     "restoreSuccess": "Restore completed successfully!",
     "restoreFailed": "Restore failed"

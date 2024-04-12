@@ -4,52 +4,84 @@
 
     <tip-tap-expansion-dialog ref="tiptap-expansion-dialog" @onConfirm="addCommand"></tip-tap-expansion-dialog>
 
-    <tiptap-vuetify ref="tiptap" style="line-height: 1.2" class="custom-style" :card-props="{ flat: true }"
-      v-model="htmlContent" :placeholder="$t(`form.htmlPostEditor.placeholder`)" :extensions="extensions"
-      :native-extensions="nativeExtensions" @init="onInit">
+    <tiptap-vuetify
+      ref="tiptap"
+      style="line-height: 1.2"
+      class="custom-style"
+      :card-props="{flat: true}"
+      v-model="htmlContent"
+      :placeholder="$t(`form.htmlPostEditor.placeholder`)"
+      :extensions="extensions"
+      :native-extensions="nativeExtensions"
+      @init="onInit"
+    >
       <template #toolbar-after class="pb-2">
         <div style="background-color: #f5f5f5">
           <!-- Align -->
           <template>
             <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on" :class="{
-                  'ml-4': true,
-                  'tiptap-vuetify-editor__action-render-btn': true,
-                  'v-btn--active': editor.getMarkAttrs('align').textAlign === 'left',
-                }" @click="editor.commands.align({ textAlign: 'left' })" small icon>
+              <template v-slot:activator="{on}">
+                <v-btn
+                  v-on="on"
+                  :class="{
+                    'ml-4': true,
+                    'tiptap-vuetify-editor__action-render-btn': true,
+                    'v-btn--active': editor.getMarkAttrs('align').textAlign === 'left',
+                  }"
+                  @click="editor.commands.align({textAlign: 'left'})"
+                  small
+                  icon
+                >
                   <v-icon medium>format_align_left</v-icon>
                 </v-btn>
               </template>
               {{ $t(`form.htmlPostEditor.alignLeft`) }}
             </v-tooltip>
             <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on" :class="{
-                  'tiptap-vuetify-editor__action-render-btn': true,
-                  'v-btn--active': editor.getMarkAttrs('align').textAlign === 'center',
-                }" @click="editor.commands.align({ textAlign: 'center' })" small icon>
+              <template v-slot:activator="{on}">
+                <v-btn
+                  v-on="on"
+                  :class="{
+                    'tiptap-vuetify-editor__action-render-btn': true,
+                    'v-btn--active': editor.getMarkAttrs('align').textAlign === 'center',
+                  }"
+                  @click="editor.commands.align({textAlign: 'center'})"
+                  small
+                  icon
+                >
                   <v-icon>format_align_center</v-icon>
                 </v-btn>
               </template>
               {{ $t(`form.htmlPostEditor.alignCenter`) }}
             </v-tooltip>
             <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on" :class="{
-                  'tiptap-vuetify-editor__action-render-btn': true,
-                  'v-btn--active': editor.getMarkAttrs('align').textAlign === 'right',
-                }" @click="editor.commands.align({ textAlign: 'right' })" small icon>
+              <template v-slot:activator="{on}">
+                <v-btn
+                  v-on="on"
+                  :class="{
+                    'tiptap-vuetify-editor__action-render-btn': true,
+                    'v-btn--active': editor.getMarkAttrs('align').textAlign === 'right',
+                  }"
+                  @click="editor.commands.align({textAlign: 'right'})"
+                  small
+                  icon
+                >
                   <v-icon>format_align_right</v-icon>
                 </v-btn>
               </template>
               {{ $t(`form.htmlPostEditor.alignRight`) }}
             </v-tooltip>
             <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on" :class="{
-                  'tiptap-vuetify-editor__action-render-btn': true
-                }" @click="editor.commands.hard_break()" small icon>
+              <template v-slot:activator="{on}">
+                <v-btn
+                  v-on="on"
+                  :class="{
+                    'tiptap-vuetify-editor__action-render-btn': true,
+                  }"
+                  @click="editor.commands.hard_break()"
+                  small
+                  icon
+                >
                   <v-icon>fas fa-paragraph</v-icon>
                 </v-btn>
               </template>
@@ -59,10 +91,16 @@
           <span class="mx-3" style="border-right: 1px solid grey"></span>
           <!--You can render the buttons as you wish (you can see in the source code how this is done).-->
           <v-tooltip top>
-            <template v-slot:activator="{ on }">
-              <v-btn v-on="on" :class="{
-                'tiptap-vuetify-editor__action-render-btn': true,
-              }" @click="openModal('image')" small icon>
+            <template v-slot:activator="{on}">
+              <v-btn
+                v-on="on"
+                :class="{
+                  'tiptap-vuetify-editor__action-render-btn': true,
+                }"
+                @click="openModal('image')"
+                small
+                icon
+              >
                 <v-icon>image</v-icon>
               </v-btn>
             </template>
@@ -70,40 +108,64 @@
           </v-tooltip>
 
           <v-tooltip top>
-            <template v-slot:activator="{ on }">
-              <v-btn v-on="on" :class="{
-                'tiptap-vuetify-editor__action-render-btn': true,
-              }" small icon @click="openModal('iframe')">
+            <template v-slot:activator="{on}">
+              <v-btn
+                v-on="on"
+                :class="{
+                  'tiptap-vuetify-editor__action-render-btn': true,
+                }"
+                small
+                icon
+                @click="openModal('iframe')"
+              >
                 <v-icon>video_library</v-icon>
               </v-btn>
             </template>
             <span>{{ $t(`form.htmlPostEditor.addVideo`) }}</span>
           </v-tooltip>
           <v-tooltip top>
-            <template v-slot:activator="{ on }">
-              <v-btn v-on="on" :class="{
-                'tiptap-vuetify-editor__action-render-btn': true,
-              }" small icon @click="openModal('audio')">
+            <template v-slot:activator="{on}">
+              <v-btn
+                v-on="on"
+                :class="{
+                  'tiptap-vuetify-editor__action-render-btn': true,
+                }"
+                small
+                icon
+                @click="openModal('audio')"
+              >
                 <v-icon>music_video</v-icon>
               </v-btn>
             </template>
             {{ $t(`form.htmlPostEditor.addAudio`) }}
           </v-tooltip>
           <v-tooltip top>
-            <template v-slot:activator="{ on }">
-              <v-btn v-on="on" :class="{
-                'tiptap-vuetify-editor__action-render-btn': true,
-              }" small icon @click="openModal('expansion')">
+            <template v-slot:activator="{on}">
+              <v-btn
+                v-on="on"
+                :class="{
+                  'tiptap-vuetify-editor__action-render-btn': true,
+                }"
+                small
+                icon
+                @click="openModal('expansion')"
+              >
                 <v-icon>playlist_add</v-icon>
               </v-btn>
             </template>
             {{ $t(`form.htmlPostEditor.addExpansionPanel`) }}
           </v-tooltip>
           <v-tooltip top>
-            <template v-slot:activator="{ on }">
-              <v-btn v-on="on" :class="{
-                'tiptap-vuetify-editor__action-render-btn': true,
-              }" small icon @click="addMapViewLink">
+            <template v-slot:activator="{on}">
+              <v-btn
+                v-on="on"
+                :class="{
+                  'tiptap-vuetify-editor__action-render-btn': true,
+                }"
+                small
+                icon
+                @click="addMapViewLink"
+              >
                 <v-icon>pin_drop</v-icon>
               </v-btn>
             </template>
@@ -111,10 +173,17 @@
           </v-tooltip>
           <span class="mx-3" style="border-right: 1px solid grey"></span>
           <v-tooltip top>
-            <template v-slot:activator="{ on }">
-              <v-btn v-if="serverConfig && serverConfig.isTranslationEnabled" v-on="on" :class="{
-                'tiptap-vuetify-editor__action-render-btn': true,
-              }" small icon @click="translateHtmlContent">
+            <template v-slot:activator="{on}">
+              <v-btn
+                v-if="serverConfig && serverConfig.isTranslationEnabled"
+                v-on="on"
+                :class="{
+                  'tiptap-vuetify-editor__action-render-btn': true,
+                }"
+                small
+                icon
+                @click="translateHtmlContent"
+              >
                 <v-icon>translate</v-icon>
               </v-btn>
             </template>
@@ -128,9 +197,9 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields';
-import { mapGetters } from 'vuex';
-import { toLonLat } from 'ol/proj';
+import {mapFields} from 'vuex-map-fields';
+import {mapGetters} from 'vuex';
+import {toLonLat} from 'ol/proj';
 import axios from 'axios';
 
 import {
@@ -164,9 +233,9 @@ import authHeader from '../../services/auth-header';
 
 export default {
   // specify TiptapVuetify component in "components"
-  components: { TiptapVuetify, MediaDialog, TipTapExpansionDialog },
+  components: {TiptapVuetify, MediaDialog, TipTapExpansionDialog},
   props: {
-    map: { type: Object },
+    map: {type: Object},
   },
   data: () => ({
     editor: null,
@@ -254,14 +323,14 @@ export default {
       const href = `${url}?center=${centerLonLat.toString()}&zoom=${zoom
         .toFixed(3)
         .toString()}&layers=${visibleLayers.toString()}`;
-      this.editor.commands.mapview({ href });
+      this.editor.commands.mapview({href});
     },
     translateHtmlContent() {
       const htmlContent = this.htmlContent;
       axios
         .post(
           './api/translate',
-          { content: htmlContent, targetLanguage: this.currentLanguage.code },
+          {content: htmlContent, targetLanguage: this.currentLanguage.code},
           {
             headers: authHeader(),
           }
