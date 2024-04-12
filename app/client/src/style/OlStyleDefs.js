@@ -635,7 +635,7 @@ export const colorMapFn = layerName => {
   const colorFn = propertyValue => {
     const colors = store.state.colorMapEntities[layerName];
     const entity = propertyValue;
-    if (colors && colors[entity] && entity) {
+    if (colors && colors[entity]) {
       return colors[entity];
     }
     return '#00c8f0';
