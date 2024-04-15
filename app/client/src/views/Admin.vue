@@ -111,6 +111,7 @@ export default {
         text: 'assets',
         to: {name: 'admin.assets'},
       },
+      {icon: 'mdi-database', text: 'dataRestore', to: {name: 'admin.database'}},
       {icon: 'settings', text: 'settings', to: {name: 'admin.settings'}},
     ],
     languageCodes: {

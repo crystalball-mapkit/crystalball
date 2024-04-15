@@ -17,10 +17,11 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import ImageWMS from 'ol/source/ImageWMS';
 import LayerGroup from 'ol/layer/Group';
+import Cluster from 'ol/source/Cluster';
 import {Image as ImageLayer} from 'ol/layer';
 import XyzSource from 'ol/source/XYZ';
 import {OlStyleFactory} from './OlStyle';
-import {styleRefs, layersStylePropFn} from '../style/OlStyleDefs';
+import {styleRefs, layersStylePropFn, colorMapFn} from '../style/OlStyleDefs';
 import http from '../services/http';
 
 /**
@@ -97,7 +98,7 @@ export const LayerFactory = {
     if (!stylePropFnRef) {
       stylePropFnRef = {};
     }
-    if ((styleProps && styleRef && stylePropFnRef && styleRefs[styleRef]) || label) {
+    if ((styleProps && styleRef && Object.keys(stylePropFnRef).length > 0 && styleRefs[styleRef]) || label) {
       // Get style function reference (default is baseStyle)
       const styleFn = styleRefs[styleRef];
       // Get the functions of the layer
@@ -114,17 +115,14 @@ export const LayerFactory = {
           stylePropFn[fnName] = fn;
         }
       });
+      // Overwrite fillColor if colorMapStyle is set
+      if (stylePropFnRef.fillColorFn === 'colorMapStyle') {
+        stylePropFn.fillColor = colorMapFn(layerName);
+      }
       const props = {...styleProps, ...stylePropFn, layerName};
       return styleFn(props, layerName);
     }
-    if (styleRef) {
-      // Edge case for colormap palete
-      if (styleRef === 'colorMapStyle') {
-        return styleRefs[styleRef](layerName, styleProps.colorField, styleProps.colormap);
-      }
-      return styleRefs[styleRef](layerName);
-    }
-    // Just a generic style
+
     return OlStyleFactory.getInstance(styleProps);
   },
 
@@ -408,6 +406,16 @@ export const LayerFactory = {
       url = lConf.url;
     }
     sourceConfig.url = url;
+    let source = new VectorSource(sourceConfig);
+
+    if (lConf.style.cluster) {
+      const clusterOptions = lConf.style.cluster.options || {};
+      source = new Cluster({
+        distance: clusterOptions.distance || 20,
+        minDistance: clusterOptions.minDistance || 0,
+        source,
+      });
+    }
 
     const vectorLayer = new VectorLayer({
       type: lConf.type,
@@ -433,7 +441,7 @@ export const LayerFactory = {
       opacity: lConf.opacity,
       zIndex: lConf.zIndex,
       group: lConf.group,
-      source: new VectorSource(sourceConfig),
+      source,
       style: this.getStyles(lConf),
       hoverable: lConf.hoverable,
       hoverAttribute: lConf.hoverAttribute,

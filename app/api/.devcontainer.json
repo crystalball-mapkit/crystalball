@@ -6,13 +6,7 @@
         "../../docker-compose.dev.yaml"
     ],
     // Set *default* container specific settings.json values on container create.
-    "settings": {
-        "terminal.integrated.shell.linux": "sh"
-    },
     "service": "api",
     "workspaceFolder": "/app",
-    "shutdownAction": "none",
-    "extensions": [
-        "rangav.vscode-thunder-client"
-    ]
+    "shutdownAction": "none"
 }
