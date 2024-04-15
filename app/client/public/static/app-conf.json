@@ -198,87 +198,12 @@
         "legendIcon": "",
         "style": {
           "type": "circle",
-          "radius": 8,
-          "strokeWidth": 2,
-          "stylePropFnRef": {
-            "fillColor": "variable1"
-          },
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "cluster": {
-            "options": {
-              "distance": 20,
-              "minDistance": 0
-            },
-            "style": {
-              "innerCircle": {
-                "radius": 14,
-                "fillColor": "rgba(255, 165, 0, 0.7)",
-                "text": {
-                  "fillColor": "#fff",
-                  "strokeColor": "rgba(0, 0, 0, 0.6)",
-                  "strokeWidth": 3
-                }
-              },
-              "outerCircle": {
-                "radius": 20,
-                "fillColor": "rgba(255, 153, 102, 0.3)"
-              }
-            }
-          }
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "chi_test",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:chi_test&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "media",
-        "queryable": true,
-        "format": "GeoJSON",
-        "legendDisplayName": {
-          "en": "Coal Ash",
-          "es": "Coal Ash",
-          "pt": "Coal Ash"
-        },
-        "visible": true,
-        "displayInLegend": true,
-        "displaySidebarInfo": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "style": {
-          "type": "circle",
-          "radius": 8,
+          "radius": 6,
           "strokeWidth": 1,
-          "strokeColor": "red",
-          "stylePropFnRef": {
-            "fillColor": "variable1"
-          },
+          "strokeColor": "black",
+          "fillColor": "purple",
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "cluster": {
-            "options": {
-              "distance": 20,
-              "minDistance": 0
-            },
-            "style": {
-              "innerCircle": {
-                "radius": 14,
-                "fillColor": "rgba(255, 165, 0, 0.7)",
-                "text": {
-                  "fillColor": "#fff",
-                  "strokeColor": "rgba(0, 0, 0, 0.6)",
-                  "strokeWidth": 3
-                }
-              },
-              "outerCircle": {
-                "radius": 20,
-                "fillColor": "rgba(255, 153, 102, 0.3)"
-              }
-            }
-          }
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -385,66 +310,12 @@
         "maxResolution": 64000,
         "hoverable": true,
         "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "black",
           "type": "circle",
           "stylePropFnRef": {
-            "fillColor": "variable1",
+            "fillColor": "variable2",
+            "fillColorFn": "colorMapStyle",
+            "fillColorMap": "hsv",
             "radius": "variable2"
-          },
-          "strokeColor": "#ffffff",
-          "strokeWidth": 0.4
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "glri_projects2",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:glri_projects&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "data",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": {
-          "en": "Same w/clustering",
-          "es": "Proyectos de restauro",
-          "pt": "Proyectos de restauro"
-        },
-        "format": "GeoJSON",
-        "visible": false,
-        "zIndex": 1000,
-        "minResolution": 1,
-        "maxResolution": 64000,
-        "label": false,
-        "hoverable": true,
-        "style": {
-          "type": "circle",
-          "radius": 8,
-          "strokeWidth": 2,
-          "stylePropFnRef": {
-            "fillColor": "variable1",
-            "radius": "variable2"
-          },
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "cluster": {
-            "options": {
-              "distance": 20,
-              "minDistance": 0
-            },
-            "style": {
-              "innerCircle": {
-                "radius": 14,
-                "fillColor": "rgba(255, 165, 0, 0.7)",
-                "text": {
-                  "fillColor": "#fff",
-                  "strokeColor": "rgba(0, 0, 0, 0.6)",
-                  "strokeWidth": 3
-                }
-              },
-              "outerCircle": {
-                "radius": 20,
-                "fillColor": "rgba(255, 153, 102, 0.3)"
-              }
-            }
           }
         }
       },
@@ -479,6 +350,103 @@
         }
       },
       {
+        "type": "GROUP",
+        "name": "wateruse",
+        "minResolution": 1,
+        "maxResolution": 68000,
+        "displayInLegend": true,
+        "legendDisplayName": {
+          "en": "Groundwater use",
+          "de": "Wassernutzung",
+          "es": "Uso del agua"
+        },
+        "legendIcon": "",
+        "visible": true,
+        "displaySidebarInfo": true,
+        "group": "media",
+        "attributions": "",
+        "layers": [
+          {
+            "type": "XYZ",
+            "name": "Cropscape 2006",
+            "url": "https://hidinginplainssight.org/geoserver/gwc/service/tms/1.0.0/workspace1:cdl_2006_ks@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+            "minResolution": 0.25,
+            "maxResolution": 40,
+            "opacity": 0.99,
+            "zIndex": 10,
+            "queryable": false,
+            "displayInLegend": false,
+            "legendDisplayName": {
+              "en": "Cropscape 2006",
+              "es": "Cropscape 2006"
+            },
+            "visible": true
+          },
+          {
+            "type": "VECTORTILE",
+            "name": "counties_1990",
+            "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1990@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+            "queryable": true,
+            "displayInLegend": true,
+            "legendDisplayName": {
+              "en": "counties_1990",
+              "es": "counties_1990",
+              "de": "counties_1990"
+            },
+            "format": "MVT",
+            "renderMode": "hybrid",
+            "visible": true,
+            "zIndex": 1000,
+            "opacity": 0.6,
+            "minResolution": 40,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "stylePropFnRef": {
+                "fillColor": "af_irr_1990",
+                "fillColorFn": "colorMapStyle",
+                "fillColorMap": "portland"
+                  },
+                "strokeColor": "lightgray",
+                "strokeWidth": 2
+            }
+          },
+          {
+           "type": "VECTORTILE",
+           "name": "groundwater_1990",
+           "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1990@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+           "queryable": true,
+           "displayInLegend": true,
+           "legendDisplayName": {
+             "en": "groundwater_1990",
+             "es": "groundwater_1990",
+             "de": "groundwater_1990"
+           },
+           "format": "MVT",
+           "renderMode": "hybrid",
+           "visible": true,
+           "zIndex": 100,
+           "minResolution": 0,
+           "maxResolution": 400,
+           "opacity": 0.69,
+           "hoverable": true,
+           "style": {
+             "hoverTextColor": "white",
+             "hoverBackgroundColor": "black",
+             "type": "circle",
+             "strokeColor": "white",
+             "strokeWidth": 0.5,
+             "stylePropFnRef": {
+              "radius": "variable1",
+               "fillColor": "variable1",
+               "fillColorFn": "colorMapStyle",
+               "fillColorMap": "portland"
+               }
+             }
+          }
+        ]
+      },
+      {
         "type": "VECTORTILE",
         "name": "burnables",
         "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:burnables3@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
@@ -502,8 +470,10 @@
           "hoverBackgroundColor": "black",
           "type": "circle",
           "stylePropFnRef": {
-            "fillColor": "variable1",
-            "radius": "variable2"
+            "radius": "variable2",
+            "fillColor": "variable2",
+            "fillColorFn": "colorMapStyle",
+            "fillColorMap": "jet"
           },
           "strokeColor": "#ffffff",
           "strokeWidth": 0.4
@@ -610,7 +580,17 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["osm", "mississippi", "polygons", "ESRI-World-Imagery2", "points", "lines", "videos", "photos"],
+          "layers": [
+            "osm",
+            "mississippi",
+            "polygons",
+            "ESRI-World-Imagery2",
+            "wateruse",
+            "points",
+            "lines",
+            "videos",
+            "photos"
+          ],
           "center": [-87.473, 41.658],
           "resolution": 32,
           "mobileResolution": 120,
@@ -627,7 +607,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": ["osm2", "Rosario", "colaboradores", "chi_test"],
+          "layers": ["osm2", "Rosario", "colaboradores"],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
@@ -637,7 +617,7 @@
       },
       "data": {
         "default": {
-          "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects", "glri_projects2"],
+          "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects"],
           "center": [-84.75, 43.561],
           "resolution": 860,
           "mobileResolution": 4000,

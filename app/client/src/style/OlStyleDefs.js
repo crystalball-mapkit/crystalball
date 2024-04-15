@@ -662,7 +662,7 @@ export const layersStylePropFn = {
   },
   groundwater_1990: {
     fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.3, 3, 40),
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
   },
   coal_ash: {
     fillColor: propertyValue => propertyValue,
