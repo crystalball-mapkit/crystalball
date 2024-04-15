@@ -1,11 +1,13 @@
 const deepl = require("deepl-node");
-
 const permissionController = require("../auth/permissionController");
+const Sequelize = require('sequelize')
 const sequelize = require("../../db.js");
-const { translateContent } = require("../../utils");
+const { translateContent, addColumnIfNotExists } = require("../../utils");
 const jsdom = require("jsdom");
 
-const translator = new deepl.Translator(process.env.DEEPL_API_KEY);
+const translator = new deepl.Translator(process.env.DEEPL_API_KEY, {
+  maxRetries: 5, minTimeout: 20000
+});
 
 const langVariants = {
   en: "en-US",
@@ -30,7 +32,6 @@ const nonTranslatableProperties = [
   "translations",
 ];
 
-const languages = ["es", "pt"];
 
 exports.translate = (req, res) => {
   if (langVariants[req.body.targetLanguage]) {
@@ -66,11 +67,20 @@ exports.translateAllFeatures = async (req, res) => {
   permissionController.hasPermission(req, res, "edit_layers", async () => {
     if (req.params.layer) {
       try {
+        await addColumnIfNotExists(
+          req.params.layer,
+          'translations',
+          { type: Sequelize.JSON, allowNull: true }
+        )
+
         const response = await sequelize.query(
           `SELECT * FROM ${req.params.layer} WHERE translations IS NULL OR translations::text = '{}'::text`
         );
 
+        const targetLanguages = Object.keys(langVariants)
+
         if (response[0].length > 0) {
+          let partition = 0;
           let xmls = [];
           let ids = [];
           let keys = [];
@@ -86,11 +96,17 @@ exports.translateAllFeatures = async (req, res) => {
                 xml += `<e>${response[0][i][key]}</e>`;
               }
             }
-            xmls.push(xml);
+            if (!xmls[partition]) {
+              xmls[partition] = []
+            }
+            xmls[partition].push(xml);
             ids.push(response[0][i].id);
+            if ((Buffer.byteLength(xmls[partition].toString()) / 1024) > 64) {
+              partition += 1
+            }
           }
 
-          for (const lang of languages) {
+          for (const lang of targetLanguages) {
             let translations = await translator.translateText(
               keys.map((k) => k.replace(/_/g, " ")),
               null,
@@ -107,16 +123,21 @@ exports.translateAllFeatures = async (req, res) => {
               objectKeyTranslations[keys[i]] = keyTranslations[i];
             }
 
-            translations = await translator.translateText(
-              xmls,
-              null,
-              langVariants[lang],
-              {
-                tagHandling: "xml",
-              }
+            let promises = xmls.map(xml =>
+              translator.translateText(
+                xml,
+                null,
+                langVariants[lang],
+                {
+                  tagHandling: "xml",
+                }
+              )
             );
-            for (let i = 0; i < translations.length; i++) {
-              const dom = new jsdom.JSDOM(translations[i].text);
+            let responses = await Promise.all(promises);
+            let textTranslations = [].concat(...responses);
+
+            for (let i = 0; i < textTranslations.length; i++) {
+              const dom = new jsdom.JSDOM(textTranslations[i].text);
               const elements = dom.window.document.getElementsByTagName("e");
               let item = {};
               for (let j = 0; j < elements.length; j++) {
@@ -129,15 +150,17 @@ exports.translateAllFeatures = async (req, res) => {
                 items[ids[i]] = { [lang]: item };
               }
             }
-          }
 
+          }
+          const sqlPromises = [];
           for (const id in items) {
-            await sequelize.query(
+            sqlPromises.push(sequelize.query(
               `UPDATE ${req.params.layer} SET translations = $$${JSON.stringify(
                 items[id]
               )}$$ WHERE id = $$${id}$$;`
-            );
+            ));
           }
+          await Promise.all(sqlPromises);
         }
 
         res.status(200);

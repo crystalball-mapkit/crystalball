@@ -87,37 +87,6 @@
       },
       {
         "type": "VECTOR",
-        "name": "random_dots",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:random_dots&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "media",
-        "queryable": true,
-        "format": "GeoJSON",
-        "legendDisplayName": {
-          "en": "Random dots",
-          "es": "Puntos aleatorios",
-          "pt": "Pontos aleatórios"
-        },
-        "visible": true,
-        "displayInLegend": true,
-        "displaySidebarInfo": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 64000,
-        "label": true,
-        "hoverable": true,
-        "legendIcon": "",
-        "style": {
-          "type": "circle",
-          "radius": 6,
-          "strokeWidth": 1,
-          "strokeColor": "black",
-          "fillColor": "purple",
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
         "name": "lines",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:lines&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -204,6 +173,112 @@
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "colaboradores",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:colaboradores&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "legendDisplayName": {
+          "en": "HsF",
+          "es": "HsF",
+          "pt": "HsF"
+        },
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "legendIcon": "",
+        "style": {
+          "type": "circle",
+          "radius": 8,
+          "strokeWidth": 2,
+          "stylePropFnRef": {
+            "fillColor": "variable1"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "cluster": {
+            "options": {
+              "distance": 20,
+              "minDistance": 0
+            },
+            "style": {
+              "innerCircle": {
+                "radius": 14,
+                "fillColor": "rgba(255, 165, 0, 0.7)",
+                "text": {
+                  "fillColor": "#fff",
+                  "strokeColor": "rgba(0, 0, 0, 0.6)",
+                  "strokeWidth": 3
+                }
+              },
+              "outerCircle": {
+                "radius": 20,
+                "fillColor": "rgba(255, 153, 102, 0.3)"
+              }
+            }
+          }
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "chi_test",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:chi_test&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "legendDisplayName": {
+          "en": "Coal Ash",
+          "es": "Coal Ash",
+          "pt": "Coal Ash"
+        },
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "type": "circle",
+          "radius": 8,
+          "strokeWidth": 1,
+          "strokeColor": "red",
+          "stylePropFnRef": {
+            "fillColor": "variable1"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "cluster": {
+            "options": {
+              "distance": 20,
+              "minDistance": 0
+            },
+            "style": {
+              "innerCircle": {
+                "radius": 14,
+                "fillColor": "rgba(255, 165, 0, 0.7)",
+                "text": {
+                  "fillColor": "#fff",
+                  "strokeColor": "rgba(0, 0, 0, 0.6)",
+                  "strokeWidth": 3
+                }
+              },
+              "outerCircle": {
+                "radius": 20,
+                "fillColor": "rgba(255, 153, 102, 0.3)"
+              }
+            }
+          }
         }
       },
       {
@@ -298,27 +373,79 @@
         "queryable": true,
         "displayInLegend": true,
         "legendDisplayName": {
-          "en": "Restoration sites",
+          "en": "Restoration projects",
           "es": "Proyectos de restauro",
-          "pt": "Projetos de restauração"
+          "pt": "Proyectos de restauro"
         },
         "format": "MVT",
         "renderMode": "hybrid",
-        "visible": false,
+        "visible": true,
         "zIndex": 100,
         "minResolution": 1,
-        "maxResolution": 20000,
+        "maxResolution": 64000,
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "gray",
+          "hoverBackgroundColor": "black",
           "type": "circle",
           "stylePropFnRef": {
-            "radius": "variable2",
-            "fillColor": "variable1"
+            "fillColor": "variable1",
+            "radius": "variable2"
           },
-          "strokeColor": "#000000",
-          "strokeWidth": 1
+          "strokeColor": "#ffffff",
+          "strokeWidth": 0.4
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "glri_projects2",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:glri_projects&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "data",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": {
+          "en": "Same w/clustering",
+          "es": "Proyectos de restauro",
+          "pt": "Proyectos de restauro"
+        },
+        "format": "GeoJSON",
+        "visible": false,
+        "zIndex": 1000,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "label": false,
+        "hoverable": true,
+        "style": {
+          "type": "circle",
+          "radius": 8,
+          "strokeWidth": 2,
+          "stylePropFnRef": {
+            "fillColor": "variable1",
+            "radius": "variable2"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "cluster": {
+            "options": {
+              "distance": 20,
+              "minDistance": 0
+            },
+            "style": {
+              "innerCircle": {
+                "radius": 14,
+                "fillColor": "rgba(255, 165, 0, 0.7)",
+                "text": {
+                  "fillColor": "#fff",
+                  "strokeColor": "rgba(0, 0, 0, 0.6)",
+                  "strokeWidth": 3
+                }
+              },
+              "outerCircle": {
+                "radius": 20,
+                "fillColor": "rgba(255, 153, 102, 0.3)"
+              }
+            }
+          }
         }
       },
       {
@@ -372,7 +499,7 @@
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "variable1",
+          "hoverBackgroundColor": "black",
           "type": "circle",
           "stylePropFnRef": {
             "fillColor": "variable1",
@@ -416,7 +543,8 @@
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.25,
-        "maxResolution": 8,
+        "maxResolution": 10,
+        "zIndex": 100,
         "opacity": 1,
         "queryable": false,
         "displayInLegend": true,
@@ -482,11 +610,11 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["osm", "mississippi", "polygons", "points", "lines", "videos", "photos", "random_dots"],
+          "layers": ["osm", "mississippi", "polygons", "ESRI-World-Imagery2", "points", "lines", "videos", "photos"],
           "center": [-87.473, 41.658],
-          "resolution": 40,
+          "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [-87.573, 41.736],
+          "mobileCenter": [-87.5, 41.663],
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -499,7 +627,7 @@
           "maxResolution": 64000
         },
         "global": {
-          "layers": ["osm2", "Rosario"],
+          "layers": ["osm2", "Rosario", "colaboradores", "chi_test"],
           "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
@@ -509,7 +637,7 @@
       },
       "data": {
         "default": {
-          "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects"],
+          "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects", "glri_projects2"],
           "center": [-84.75, 43.561],
           "resolution": 860,
           "mobileResolution": 4000,

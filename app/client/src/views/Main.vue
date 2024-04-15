@@ -90,7 +90,6 @@
           </v-list>
         </v-menu>
 
-        <v-spacer></v-spacer>
         <template
           v-if="($appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu !== true) || !$appConfig.app.navbar"
         >
@@ -117,7 +116,6 @@
         </template>
 
         <v-spacer></v-spacer>
-        <v-spacer></v-spacer>
 
         <span class="title pr-5">{{
           $appConfig.app.tagline[$i18n.locale] ||
@@ -125,7 +123,7 @@
           $appConfig.app.tagline ||
           ''
         }}</span>
-        <v-menu offset-y>
+        <v-menu offset-y v-if="serverConfig && !!serverConfig.isTranslationEnabled">
           <template v-slot:activator="{on, attrs}">
             <v-btn v-bind="attrs" v-on="on" icon>
               {{ $i18n.locale }}
@@ -307,6 +305,9 @@ export default {
     }),
     ...mapGetters('map', {
       activeLayerGroup: 'activeLayerGroup',
+    }),
+    ...mapGetters('app', {
+      serverConfig: 'serverConfig',
     }),
     ...mapFields('app', {
       sidebarState: 'sidebarState',
