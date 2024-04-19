@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
-import {getField, updateField} from 'vuex-map-fields';
+import { getField, updateField } from 'vuex-map-fields';
 import axios from 'axios';
 import colormap from 'colormap';
-import {Group as LayerGroup} from 'ol/layer';
-import {formatPopupRows, getLayerSourceUrl, extractGeoserverLayerNames, getAllChildLayers} from '../../utils/Layer';
+import { Group as LayerGroup } from 'ol/layer';
+import { formatPopupRows, getLayerSourceUrl, extractGeoserverLayerNames, getAllChildLayers } from '../../utils/Layer';
 import http from '../../services/http';
 
 const state = {
@@ -188,7 +188,7 @@ const getters = {
 };
 
 const actions = {
-  fetchColorMapEntities({commit, rootState}) {
+  fetchColorMapEntities({ commit, rootState }) {
     // eslint-disable-next-line no-undef
     if (!rootState.map.colorMapEntities) {
       return;
@@ -199,7 +199,6 @@ const actions = {
       if (layer instanceof LayerGroup) {
         const layersArray = layer.getLayers().getArray();
         layersArray.forEach(l => {
-          console.log(l.get('name'));
           layers[l.get('name')] = l;
         });
       } else {
@@ -235,6 +234,7 @@ const actions = {
             data: {
               layerName: layer.get('name'),
               colormap: styleObj.stylePropFnRef.fillColorMap || 'portland',
+              nshades: styleObj.stylePropFnRef.fillColorMapNshades
             },
           })
         );
@@ -251,21 +251,23 @@ const actions = {
             if (features && features.length === 0) {
               return;
             }
-            const nshades = features.length < 5 ? 5 : features.length; // 5 is the minimun of the shades
+            const nshades = configData.nshades || features.length
             const entities = {};
-            console.log(configData.colormap);
             const colors = colormap({
               colormap: configData.colormap,
               nshades,
               format: 'hex',
               alpha: 1,
             });
+
+            const ratio = Math.ceil(features.length / nshades);
             features.forEach((feature, index) => {
               const entity = feature.properties.entity;
-              entities[entity] = colors[index];
+              entities[entity] = colors[Math.floor(index / ratio)];
             });
-            commit('SET_COLORMAP_VALUES', {layerName, entities});
-            const layers = getAllChildLayers(state.map)
+
+            commit('SET_COLORMAP_VALUES', { layerName, entities });
+            const layers = getAllChildLayers(state.map);
             layers.forEach(layer => {
               if (layer.get('name') === layerName) {
                 layer.changed();
