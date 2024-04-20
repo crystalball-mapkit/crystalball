@@ -259,6 +259,7 @@ export function baseStyle(config) {
     if (config.stylePropFnRef && config.stylePropFnRef.fillColorFn && !store.state.colorMapEntities[config.layerName]) {
       return [];
     }
+
     let _style;
     if (!styleCache[cacheId]) {
       const {
