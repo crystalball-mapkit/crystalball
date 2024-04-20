@@ -664,6 +664,46 @@ export const layersStylePropFn = {
     fillColor: propertyValue => propertyValue,
     radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
   },
+  groundwater_1991: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1992: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1993: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1994: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1995: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1996: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1997: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1998: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1999: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_2000: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
   coal_ash: {
     fillColor: propertyValue => propertyValue,
   },
