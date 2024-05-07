@@ -30,7 +30,8 @@
     "warning": "Warning",
     "map": "Map",
     "upload": "Upload",
-    "reset": "Reset"
+    "reset": "Reset",
+    "all": "All"
   },
   "tooltip": {
     "zoomIn": "Zoom In",

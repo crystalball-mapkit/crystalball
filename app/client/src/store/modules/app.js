@@ -58,7 +58,7 @@ const getters = {
   icons: state => state.postIcons,
   postIcons: (state, getters, rootState, rootGetters) => {
     const activeGroup = rootGetters['map/activeLayerGroup'].navbarGroup;
-    const filteredIcons = state.postIcons.filter(i => i.group.includes(activeGroup));
+    const filteredIcons = state.postIcons.filter(i => i.group.includes(activeGroup) || i.group === 'all');
     return filteredIcons;
   },
   getField,

@@ -267,13 +267,27 @@ export default {
     }),
   },
   computed: {
+    currentLanguage() {
+      let countryCode = this.$i18n.locale;
+      if (countryCode.includes('-')) {
+        countryCode = countryCode.split('-')[0];
+      }
+      return countryCode;
+    },
     groups() {
-      const groups = [];
+      const groups = [
+        {
+          value: 'all',
+          display: this.$t('general.all'),
+        },
+      ];
       if (this.$appConfig.map.groups) {
         Object.keys(this.$appConfig.map.groups).forEach(value => {
+          const _value = this.$appConfig.map.groupTitles[value];
+          const translatedValue = _value[this.currentLanguage] || value;
           groups.push({
             value,
-            display: this.$appConfig.map.groupTitles[value] || value,
+            display: translatedValue,
           });
         });
       }
