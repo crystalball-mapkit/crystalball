@@ -28,7 +28,8 @@
     "group": "Grupo",
     "replaceAndDelete": "Substituir e Apagar",
     "warning": "Advertência",
-    "map": "Mapa"
+    "map": "Mapa",
+    "all": "Todos"
   },
   "tooltip": {
     "zoomIn": "Zoom In",
