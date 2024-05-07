@@ -275,7 +275,12 @@ export default {
       return countryCode;
     },
     groups() {
-      const groups = [];
+      const groups = [
+        {
+          value: 'all',
+          display: this.$t('general.all'),
+        },
+      ];
       if (this.$appConfig.map.groups) {
         Object.keys(this.$appConfig.map.groups).forEach(value => {
           const _value = this.$appConfig.map.groupTitles[value];
