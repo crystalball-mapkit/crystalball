@@ -95,10 +95,10 @@ export const LayerFactory = {
     if ((stylePropFnRef && !styleRef) || label) {
       styleRef = 'baseStyle';
     }
-    if (styleRef === "htmlLayerStyle") {
+    if (styleRef === 'htmlLayerStyle') {
       return styleRefs.htmlLayerStyle();
     }
-    if (styleRef === "popupInfoStyle") {
+    if (styleRef === 'popupInfoStyle') {
       return styleRefs.popupInfoStyle();
     }
     if (!stylePropFnRef) {
