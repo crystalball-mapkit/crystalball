@@ -2,7 +2,8 @@
 import {getField, updateField} from 'vuex-map-fields';
 import axios from 'axios';
 import colormap from 'colormap';
-import {formatPopupRows, getLayerSourceUrl, extractGeoserverLayerNames} from '../../utils/Layer';
+import {Group as LayerGroup} from 'ol/layer';
+import {formatPopupRows, getLayerSourceUrl, extractGeoserverLayerNames, getAllChildLayers} from '../../utils/Layer';
 import http from '../../services/http';
 
 const state = {
@@ -192,14 +193,29 @@ const actions = {
     if (!rootState.map.colorMapEntities) {
       return;
     }
-    const layers = rootState.map.layers;
+    const layers = {};
+    Object.keys(rootState.map.layers).forEach(key => {
+      const layer = rootState.map.layers[key];
+      if (layer instanceof LayerGroup) {
+        const layersArray = layer.getLayers().getArray();
+        layersArray.forEach(l => {
+          layers[l.get('name')] = l;
+        });
+      } else {
+        layers[layer.get('name')] = layer;
+      }
+    });
     const promiseArray = [];
     Object.keys(layers).forEach(key => {
       const layer = layers[key];
       if (layer.get('styleObj')) {
         const styleObj = JSON.parse(layer.get('styleObj'));
-        if (styleObj.styleRef !== 'colorMapStyle' || rootState.map.colorMapEntities[layer.get('name')]) return;
-
+        if (!styleObj.stylePropFnRef) return;
+        if (
+          styleObj.stylePropFnRef.fillColorFn !== 'colorMapStyle' ||
+          rootState.map.colorMapEntities[layer.get('name')]
+        )
+          return;
         const tableName =
           styleObj.tableName ||
           extractGeoserverLayerNames([
@@ -209,15 +225,16 @@ const actions = {
             },
           ])[rootState.map.geoserverWorkspace].names[0];
         let viewParams = `viewparams=table:${tableName}`;
-        if (styleObj.colorField) {
-          viewParams += `;field:${styleObj.colorField}`;
+        if (styleObj.stylePropFnRef.fillColor) {
+          viewParams += `;field:${styleObj.stylePropFnRef.fillColor}`;
         }
         const url = `./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=${rootState.map.geoserverWorkspace}:colormap&srsname=EPSG:4326&${viewParams}&outputFormat=json`;
         promiseArray.push(
           http.get(url, {
             data: {
               layerName: layer.get('name'),
-              colormap: styleObj.colormap || 'portland',
+              colormap: styleObj.stylePropFnRef.fillColorMap || 'portland',
+              nshades: styleObj.stylePropFnRef.fillColorMapNshades,
             },
           })
         );
@@ -234,20 +251,28 @@ const actions = {
             if (features && features.length === 0) {
               return;
             }
-            const nshades = features.length < 5 ? 5 : features.length; // 5 is the minimun of the shades
+            const nshades = configData.nshades || features.length;
             const entities = {};
-            console.log(configData.colormap);
             const colors = colormap({
               colormap: configData.colormap,
               nshades,
               format: 'hex',
               alpha: 1,
             });
+
+            const ratio = Math.ceil(features.length / nshades);
             features.forEach((feature, index) => {
               const entity = feature.properties.entity;
-              entities[entity] = colors[index];
+              entities[entity] = colors[Math.floor(index / ratio)];
             });
+
             commit('SET_COLORMAP_VALUES', {layerName, entities});
+            const layers = getAllChildLayers(state.map);
+            layers.forEach(layer => {
+              if (layer.get('name') === layerName) {
+                layer.changed();
+              }
+            });
           });
         })
         .catch(err => {

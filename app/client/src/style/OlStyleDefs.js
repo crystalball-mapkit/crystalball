@@ -255,6 +255,10 @@ export function baseStyle(config) {
         });
       }
     }
+    // Don't build style cache if colorMap values are not loaded. Only for layers that use colorMap.
+    if (config.stylePropFnRef && config.stylePropFnRef.fillColorFn && !store.state.colorMapEntities[config.layerName]) {
+      return [];
+    }
 
     let _style;
     if (!styleCache[cacheId]) {
@@ -522,49 +526,6 @@ export function baseStyle(config) {
   return styleFunction;
 }
 
-export function colorMapStyle(layerName, colorField) {
-  const styleFunction = feature => {
-    const field = colorField || 'entity';
-    const entity = feature.get(field);
-    const colors = store.state.colorMapEntities[layerName];
-    if (colors && colors[entity] && entity) {
-      if (!styleCache[entity]) {
-        styleCache[entity] = new OlStyle({
-          fill: new OlFill({
-            color: colors[entity],
-          }),
-          stroke: new OlStroke({
-            color: colors[entity],
-            width: 2,
-          }),
-          image: new OlCircle({
-            radius: 4,
-            fill: new OlFill({
-              color: colors[entity],
-            }),
-          }),
-        });
-      }
-      return styleCache[entity];
-    }
-    return new OlStyle({
-      fill: new OlFill({
-        color: '#00c8f0',
-      }),
-      stroke: new OlStroke({
-        color: '#00c8f0',
-        width: 1.5,
-      }),
-      image: new OlCircle({
-        radius: 4,
-        fill: new OlFill({
-          color: '#00c8f0',
-        }),
-      }),
-    });
-  };
-  return styleFunction;
-}
 export function htmlLayerStyle() {
   const styleFunction = feature => {
     const group = feature.get('group');
@@ -587,7 +548,6 @@ export const styleRefs = {
   defaultStyle,
   popupInfoStyle,
   baseStyle,
-  colorMapStyle,
   htmlLayerStyle,
 };
 
@@ -672,6 +632,18 @@ const getRadiusValue = (propertyValue, multiplier, smallestRadius, largestRadius
   return radius;
 };
 
+export const colorMapFn = layerName => {
+  const colorFn = propertyValue => {
+    const colors = store.state.colorMapEntities[layerName];
+    const entity = propertyValue;
+    if (colors && colors[entity]) {
+      return colors[entity];
+    }
+    return '#00c8f0';
+  };
+  return colorFn;
+};
+
 export const layersStylePropFn = {
   default: {
     iconScale: propertyValue => getIconScaleValue(propertyValue),
@@ -694,7 +666,47 @@ export const layersStylePropFn = {
   },
   chi_test: {
     fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.012, 2, 26),
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1991: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1992: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1993: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1994: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1995: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1996: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1997: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1998: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_1999: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
+  },
+  groundwater_2000: {
+    fillColor: propertyValue => propertyValue,
+    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
   },
   coal_ash: {
     fillColor: propertyValue => propertyValue,

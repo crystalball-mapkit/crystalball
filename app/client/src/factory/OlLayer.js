@@ -21,7 +21,7 @@ import Cluster from 'ol/source/Cluster';
 import {Image as ImageLayer} from 'ol/layer';
 import XyzSource from 'ol/source/XYZ';
 import {OlStyleFactory} from './OlStyle';
-import {styleRefs, layersStylePropFn} from '../style/OlStyleDefs';
+import {styleRefs, layersStylePropFn, colorMapFn} from '../style/OlStyleDefs';
 import http from '../services/http';
 
 /**
@@ -95,10 +95,16 @@ export const LayerFactory = {
     if ((stylePropFnRef && !styleRef) || label) {
       styleRef = 'baseStyle';
     }
+    if (styleRef === "htmlLayerStyle") {
+      return styleRefs.htmlLayerStyle();
+    }
+    if (styleRef === "popupInfoStyle") {
+      return styleRefs.popupInfoStyle();
+    }
     if (!stylePropFnRef) {
       stylePropFnRef = {};
     }
-    if ((styleProps && styleRef && stylePropFnRef && styleRefs[styleRef]) || label) {
+    if ((styleProps && styleRef && Object.keys(stylePropFnRef).length > 0 && styleRefs[styleRef]) || label) {
       // Get style function reference (default is baseStyle)
       const styleFn = styleRefs[styleRef];
       // Get the functions of the layer
@@ -115,17 +121,14 @@ export const LayerFactory = {
           stylePropFn[fnName] = fn;
         }
       });
+      // Overwrite fillColor if colorMapStyle is set
+      if (stylePropFnRef.fillColorFn === 'colorMapStyle') {
+        stylePropFn.fillColor = colorMapFn(layerName);
+      }
       const props = {...styleProps, ...stylePropFn, layerName};
       return styleFn(props, layerName);
     }
-    if (styleRef) {
-      // Edge case for colormap palete
-      if (styleRef === 'colorMapStyle') {
-        return styleRefs[styleRef](layerName, styleProps.colorField, styleProps.colormap);
-      }
-      return styleRefs[styleRef](layerName);
-    }
-    // Just a generic style
+
     return OlStyleFactory.getInstance(styleProps);
   },
 
