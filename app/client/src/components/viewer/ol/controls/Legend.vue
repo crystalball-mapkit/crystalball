@@ -102,7 +102,12 @@
               <v-row
                 align="center"
                 justify="center"
-                v-if="item.get('displaySeries') && item.getVisible() && item.getLayers().getArray().length >= 2"
+                v-if="
+                  item.get('displaySeries') &&
+                  item.getVisible() &&
+                  item.getLayers().getArray().length >= 2 &&
+                  item.get('largeSlider') !== true
+                "
                 :key="'time-series' + index"
                 class="fill-height ma-0 pa-0"
               >

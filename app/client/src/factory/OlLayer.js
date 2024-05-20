@@ -592,6 +592,9 @@ export const LayerFactory = {
       zIndex: lConf.zIndex,
       group: lConf.group,
       displaySeries: lConf.displaySeries,
+      playInterval: lConf.playInterval,
+      largeSlider: lConf.largeSlider,
+      isPlayDisabled: lConf.isPlayDisabled,
       defaultSeriesLayerIndex: lConf.defaultSeriesLayerIndex,
       activeLayerIndex: lConf.defaultSeriesLayerIndex || 0, // Used for layer series title in legend which is updated on layer change
       layers,
