@@ -2,6 +2,7 @@
   <div id="ol-map-container" @click="$event => resetAfterSlide()" @mousemove="resetAfterSlide()">
     <!-- Map Controls -->
     <map-legend :color="color.primary" />
+    <time-slider :color="color.primary" />
     <div style="position: absolute; left: 20px; top: 10px">
       <login-button :color="color.primary"></login-button>
       <search-map
@@ -187,6 +188,7 @@ import Locate from './controls/Locate.vue';
 import Search from './controls/Search.vue';
 import RouteControls from './controls/RouteControls.vue';
 import Legend from './controls/Legend.vue';
+import TimeSlider from './controls/TimeSlider.vue'
 import Login from './controls/Login.vue';
 import Edit from './controls/Edit.vue';
 import ShareMap from './controls/ShareMap.vue';
@@ -217,6 +219,7 @@ export default {
     'add-post': AddPost,
     'overlay-popup': OverlayPopup,
     'map-legend': Legend,
+    'time-slider': TimeSlider,
     'login-button': Login,
     'zoom-control': ZoomControl,
     'full-screen': FullScreen,
