@@ -3,14 +3,14 @@
     v-if="!$vuetify.breakpoint.smAndDown && !!timeSeriesLayer && timeSeriesLayer.getVisible()"
     :style="`position:absolute;left:50%;bottom:80px;opacity:90%;z-index:1000;width:450px;`"
   >
-    <v-card class="mx-auto py-2 mx-4" max-width="600">
+    <v-card class="mx-auto py-1 mx-4" max-width="600">
       <!-- Current Layer Name -->
       <v-row class="my-1" justify="center">
         <span class="black--text text--darken-2 subtitle-2 font-weight-bold">
           {{ getSeriesActiveLayerTitle(timeSeriesLayer) }}
         </span>
       </v-row>
-      <v-card-text>
+      <v-card-text class="py-0 pb-1">
         <v-slider
           :color="color"
           :step="1"
