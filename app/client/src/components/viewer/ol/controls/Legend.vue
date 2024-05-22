@@ -306,7 +306,11 @@ export default {
     getSeriesActiveLayerTitle(layerGroup) {
       const layers = layerGroup.getLayers().getArray();
       const activeLayerIndex = layerGroup.get('activeLayerIndex') || 0;
-      const title = layers[activeLayerIndex].get('seriesDisplayName') || layers[activeLayerIndex].get('name');
+      const title =
+        layers[activeLayerIndex].get('legendDisplayName') &&
+        layers[activeLayerIndex].get('legendDisplayName')[this.$i18n.locale]
+          ? layers[activeLayerIndex].get('legendDisplayName')[this.$i18n.locale]
+          : layers[activeLayerIndex].get('name');
       return title;
     },
     isSliderVisible(layer) {

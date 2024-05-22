@@ -3,11 +3,11 @@
     v-if="!$vuetify.breakpoint.smAndDown && !!timeSeriesLayer && timeSeriesLayer.getVisible()"
     :style="`position:absolute;left:50%;bottom:80px;opacity:90%;z-index:1000;width:450px;`"
   >
-  <v-card class="mx-auto py-2 mx-4" max-width="600">
+    <v-card class="mx-auto py-2 mx-4" max-width="600">
       <!-- Current Layer Name -->
       <v-row class="my-1" justify="center">
         <span class="black--text text--darken-2 subtitle-2 font-weight-bold">
-          {{ timeSeriesLayer.getLayers().getArray()[timeSeriesLayer.get('activeLayerIndex')].get('name') }}
+          {{ getSeriesActiveLayerTitle(timeSeriesLayer) }}
         </span>
       </v-row>
       <v-card-text>
@@ -129,6 +129,16 @@ export default {
       this.stop();
       const index = this.timeSeriesLayer.get('activeLayerIndex');
       this.activateTimeSeriesLayer(index + 1, this.timeSeriesLayer);
+    },
+    getSeriesActiveLayerTitle(layerGroup) {
+      const layers = layerGroup.getLayers().getArray();
+      const activeLayerIndex = layerGroup.get('activeLayerIndex') || 0;
+      const title =
+        layers[activeLayerIndex].get('legendDisplayName') &&
+        layers[activeLayerIndex].get('legendDisplayName')[this.$i18n.locale]
+          ? layers[activeLayerIndex].get('legendDisplayName')[this.$i18n.locale]
+          : layers[activeLayerIndex].get('name');
+      return title;
     },
   },
   computed: {
