@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="!$vuetify.breakpoint.smAndDown && !!timeSeriesLayer && timeSeriesLayer.getVisible()"
-    :style="`position:absolute;left:calc(50% + 112px);transform:translateX(-50%);bottom:80px;opacity:90%;z-index:1000;minWidth:350px;width:calc(75% - 225px);`"
+    :style="`position:absolute;left:calc(50% + 112px);transform:translateX(-50%);bottom:80px;opacity:90%;z-index:1;minWidth:350px;width:calc(75% - 225px);`"
   >
     <v-card class="mx-auto py-1 mx-4">
       <!-- Current Layer Name -->
