@@ -1,9 +1,9 @@
 <template>
   <div
     v-if="!$vuetify.breakpoint.smAndDown && !!timeSeriesLayer && timeSeriesLayer.getVisible()"
-    :style="`position:absolute;left:50%;bottom:80px;opacity:90%;z-index:1000;width:450px;`"
+    :style="`position:absolute;left:calc(50% + 112px);transform:translateX(-50%);bottom:80px;opacity:90%;z-index:1000;minWidth:350px;width:calc(75% - 225px);`"
   >
-    <v-card class="mx-auto py-1 mx-4" max-width="600">
+    <v-card class="mx-auto py-1 mx-4">
       <!-- Current Layer Name -->
       <v-row class="my-1" justify="center">
         <span class="black--text text--darken-2 subtitle-2 font-weight-bold">
