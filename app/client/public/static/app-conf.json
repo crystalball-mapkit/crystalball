@@ -394,9 +394,9 @@
                 "fillColor": "af_irr_1990",
                 "fillColorFn": "colorMapStyle",
                 "fillColorMap": "portland"
-                  },
-                "strokeColor": "lightgray",
-                "strokeWidth": 2
+              },
+              "strokeColor": "lightgray",
+              "strokeWidth": 2
             }
           },
           {
@@ -423,9 +423,9 @@
                 "fillColor": "af_irr_1991",
                 "fillColorFn": "colorMapStyle",
                 "fillColorMap": "portland"
-                  },
-                "strokeColor": "lightgray",
-                "strokeWidth": 2
+              },
+              "strokeColor": "lightgray",
+              "strokeWidth": 2
             }
           },
           {
@@ -452,9 +452,9 @@
                 "fillColor": "af_irr_1992",
                 "fillColorFn": "colorMapStyle",
                 "fillColorMap": "portland"
-                  },
-                "strokeColor": "lightgray",
-                "strokeWidth": 2
+              },
+              "strokeColor": "lightgray",
+              "strokeWidth": 2
             }
           },
           {
@@ -481,9 +481,9 @@
                 "fillColor": "af_irr_1993",
                 "fillColorFn": "colorMapStyle",
                 "fillColorMap": "portland"
-                  },
-                "strokeColor": "lightgray",
-                "strokeWidth": 2
+              },
+              "strokeColor": "lightgray",
+              "strokeWidth": 2
             }
           },
           {
@@ -510,9 +510,9 @@
                 "fillColor": "af_irr_1994",
                 "fillColorFn": "colorMapStyle",
                 "fillColorMap": "portland"
-                  },
-                "strokeColor": "lightgray",
-                "strokeWidth": 2
+              },
+              "strokeColor": "lightgray",
+              "strokeWidth": 2
             }
           },
           {
@@ -539,9 +539,9 @@
                 "fillColor": "af_irr_1995",
                 "fillColorFn": "colorMapStyle",
                 "fillColorMap": "portland"
-                  },
-                "strokeColor": "lightgray",
-                "strokeWidth": 2
+              },
+              "strokeColor": "lightgray",
+              "strokeWidth": 2
             }
           },
           {
@@ -568,9 +568,9 @@
                 "fillColor": "af_irr_1996",
                 "fillColorFn": "colorMapStyle",
                 "fillColorMap": "portland"
-                  },
-                "strokeColor": "lightgray",
-                "strokeWidth": 2
+              },
+              "strokeColor": "lightgray",
+              "strokeWidth": 2
             }
           },
           {
@@ -597,9 +597,9 @@
                 "fillColor": "af_irr_1997",
                 "fillColorFn": "colorMapStyle",
                 "fillColorMap": "portland"
-                  },
-                "strokeColor": "lightgray",
-                "strokeWidth": 2
+              },
+              "strokeColor": "lightgray",
+              "strokeWidth": 2
             }
           },
           {
@@ -626,9 +626,9 @@
                 "fillColor": "af_irr_1998",
                 "fillColorFn": "colorMapStyle",
                 "fillColorMap": "portland"
-                  },
-                "strokeColor": "lightgray",
-                "strokeWidth": 2
+              },
+              "strokeColor": "lightgray",
+              "strokeWidth": 2
             }
           },
           {
@@ -655,9 +655,9 @@
                 "fillColor": "af_irr_1999",
                 "fillColorFn": "colorMapStyle",
                 "fillColorMap": "portland"
-                  },
-                "strokeColor": "lightgray",
-                "strokeWidth": 2
+              },
+              "strokeColor": "lightgray",
+              "strokeWidth": 2
             }
           }
         ]
