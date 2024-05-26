@@ -260,7 +260,7 @@
         "type": "XYZ",
         "name": "osm",
         "group": "media",
-        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png",
         "minResolution": 0.25,
         "maxResolution": 64000,
         "queryable": false,
@@ -365,23 +365,11 @@
         "displaySidebarInfo": true,
         "group": "media",
         "attributions": "",
+        "displaySeries": true,
+        "largeSlider": true,
+        "defaultSeriesLayerIndex": 0,
+        "playInterval": "2000",
         "layers": [
-          {
-            "type": "XYZ",
-            "name": "Cropscape 2006",
-            "url": "https://hidinginplainssight.org/geoserver/gwc/service/tms/1.0.0/workspace1:cdl_2006_ks@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-            "minResolution": 0.25,
-            "maxResolution": 40,
-            "opacity": 0.99,
-            "zIndex": 10,
-            "queryable": false,
-            "displayInLegend": false,
-            "legendDisplayName": {
-              "en": "Cropscape 2006",
-              "es": "Cropscape 2006"
-            },
-            "visible": true
-          },
           {
             "type": "VECTORTILE",
             "name": "counties_1990",
@@ -389,16 +377,16 @@
             "queryable": true,
             "displayInLegend": true,
             "legendDisplayName": {
-              "en": "counties_1990",
-              "es": "counties_1990",
-              "de": "counties_1990"
+              "en": "Water use 1990",
+              "es": "Water use 1990",
+              "de": "Water use 1990"
             },
             "format": "MVT",
             "renderMode": "hybrid",
             "visible": true,
             "zIndex": 1000,
-            "opacity": 0.6,
-            "minResolution": 40,
+            "opacity": 0.7,
+            "minResolution": 80,
             "maxResolution": 64000,
             "hoverable": true,
             "style": {
@@ -412,37 +400,265 @@
             }
           },
           {
-           "type": "VECTORTILE",
-           "name": "groundwater_1990",
-           "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1990@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-           "queryable": true,
-           "displayInLegend": true,
-           "legendDisplayName": {
-             "en": "groundwater_1990",
-             "es": "groundwater_1990",
-             "de": "groundwater_1990"
-           },
-           "format": "MVT",
-           "renderMode": "hybrid",
-           "visible": true,
-           "zIndex": 100,
-           "minResolution": 0,
-           "maxResolution": 400,
-           "opacity": 0.69,
-           "hoverable": true,
-           "style": {
-             "hoverTextColor": "white",
-             "hoverBackgroundColor": "black",
-             "type": "circle",
-             "strokeColor": "white",
-             "strokeWidth": 0.5,
-             "stylePropFnRef": {
-              "radius": "variable1",
-               "fillColor": "variable1",
-               "fillColorFn": "colorMapStyle",
-               "fillColorMap": "portland"
-               }
-             }
+            "type": "VECTORTILE",
+            "name": "counties_1991",
+            "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1991@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+            "queryable": true,
+            "displayInLegend": true,
+            "legendDisplayName": {
+              "en": "Water use 1991",
+              "es": "Water use 1991",
+              "de": "Water use 1991"
+            },
+            "format": "MVT",
+            "renderMode": "hybrid",
+            "visible": true,
+            "zIndex": 1000,
+            "opacity": 0.7,
+            "minResolution": 80,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "stylePropFnRef": {
+                "fillColor": "af_irr_1991",
+                "fillColorFn": "colorMapStyle",
+                "fillColorMap": "portland"
+                  },
+                "strokeColor": "lightgray",
+                "strokeWidth": 2
+            }
+          },
+          {
+            "type": "VECTORTILE",
+            "name": "counties_1992",
+            "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1992@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+            "queryable": true,
+            "displayInLegend": true,
+            "legendDisplayName": {
+              "en": "Water use 1992",
+              "es": "Water use 1992",
+              "de": "Water use 1992"
+            },
+            "format": "MVT",
+            "renderMode": "hybrid",
+            "visible": true,
+            "zIndex": 1000,
+            "opacity": 0.7,
+            "minResolution": 80,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "stylePropFnRef": {
+                "fillColor": "af_irr_1992",
+                "fillColorFn": "colorMapStyle",
+                "fillColorMap": "portland"
+                  },
+                "strokeColor": "lightgray",
+                "strokeWidth": 2
+            }
+          },
+          {
+            "type": "VECTORTILE",
+            "name": "counties_1993",
+            "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1993@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+            "queryable": true,
+            "displayInLegend": true,
+            "legendDisplayName": {
+              "en": "Water use 1993",
+              "es": "Water use 1993",
+              "de": "Water use 1993"
+            },
+            "format": "MVT",
+            "renderMode": "hybrid",
+            "visible": true,
+            "zIndex": 1000,
+            "opacity": 0.7,
+            "minResolution": 80,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "stylePropFnRef": {
+                "fillColor": "af_irr_1993",
+                "fillColorFn": "colorMapStyle",
+                "fillColorMap": "portland"
+                  },
+                "strokeColor": "lightgray",
+                "strokeWidth": 2
+            }
+          },
+          {
+            "type": "VECTORTILE",
+            "name": "counties_1994",
+            "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1994@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+            "queryable": true,
+            "displayInLegend": true,
+            "legendDisplayName": {
+              "en": "Water use 1994",
+              "es": "Water use 1994",
+              "de": "Water use 1994"
+            },
+            "format": "MVT",
+            "renderMode": "hybrid",
+            "visible": true,
+            "zIndex": 1000,
+            "opacity": 0.7,
+            "minResolution": 80,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "stylePropFnRef": {
+                "fillColor": "af_irr_1994",
+                "fillColorFn": "colorMapStyle",
+                "fillColorMap": "portland"
+                  },
+                "strokeColor": "lightgray",
+                "strokeWidth": 2
+            }
+          },
+          {
+            "type": "VECTORTILE",
+            "name": "counties_1995",
+            "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1995@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+            "queryable": true,
+            "displayInLegend": true,
+            "legendDisplayName": {
+              "en": "Water use 1995",
+              "es": "Water use 1995",
+              "de": "Water use 1995"
+            },
+            "format": "MVT",
+            "renderMode": "hybrid",
+            "visible": true,
+            "zIndex": 1000,
+            "opacity": 0.7,
+            "minResolution": 80,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "stylePropFnRef": {
+                "fillColor": "af_irr_1995",
+                "fillColorFn": "colorMapStyle",
+                "fillColorMap": "portland"
+                  },
+                "strokeColor": "lightgray",
+                "strokeWidth": 2
+            }
+          },
+          {
+            "type": "VECTORTILE",
+            "name": "counties_1996",
+            "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1996@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+            "queryable": true,
+            "displayInLegend": true,
+            "legendDisplayName": {
+              "en": "Water use 1996",
+              "es": "Water use 1996",
+              "de": "Water use 1996"
+            },
+            "format": "MVT",
+            "renderMode": "hybrid",
+            "visible": true,
+            "zIndex": 1000,
+            "opacity": 0.7,
+            "minResolution": 80,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "stylePropFnRef": {
+                "fillColor": "af_irr_1996",
+                "fillColorFn": "colorMapStyle",
+                "fillColorMap": "portland"
+                  },
+                "strokeColor": "lightgray",
+                "strokeWidth": 2
+            }
+          },
+          {
+            "type": "VECTORTILE",
+            "name": "counties_1997",
+            "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1997@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+            "queryable": true,
+            "displayInLegend": true,
+            "legendDisplayName": {
+              "en": "Water use 1997",
+              "es": "Water use 1997",
+              "de": "Water use 1997"
+            },
+            "format": "MVT",
+            "renderMode": "hybrid",
+            "visible": true,
+            "zIndex": 1000,
+            "opacity": 0.7,
+            "minResolution": 80,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "stylePropFnRef": {
+                "fillColor": "af_irr_1997",
+                "fillColorFn": "colorMapStyle",
+                "fillColorMap": "portland"
+                  },
+                "strokeColor": "lightgray",
+                "strokeWidth": 2
+            }
+          },
+          {
+            "type": "VECTORTILE",
+            "name": "counties_1998",
+            "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1998@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+            "queryable": true,
+            "displayInLegend": true,
+            "legendDisplayName": {
+              "en": "Water use 1998",
+              "es": "Water use 1998",
+              "de": "Water use 1998"
+            },
+            "format": "MVT",
+            "renderMode": "hybrid",
+            "visible": true,
+            "zIndex": 1000,
+            "opacity": 0.7,
+            "minResolution": 80,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "stylePropFnRef": {
+                "fillColor": "af_irr_1998",
+                "fillColorFn": "colorMapStyle",
+                "fillColorMap": "portland"
+                  },
+                "strokeColor": "lightgray",
+                "strokeWidth": 2
+            }
+          },
+          {
+            "type": "VECTORTILE",
+            "name": "counties_1999",
+            "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1999@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+            "queryable": true,
+            "displayInLegend": true,
+            "legendDisplayName": {
+              "en": "Water use 1999",
+              "es": "Water use 1999",
+              "de": "Water use 1999"
+            },
+            "format": "MVT",
+            "renderMode": "hybrid",
+            "visible": true,
+            "zIndex": 1000,
+            "opacity": 0.7,
+            "minResolution": 80,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "stylePropFnRef": {
+                "fillColor": "af_irr_1999",
+                "fillColorFn": "colorMapStyle",
+                "fillColorMap": "portland"
+                  },
+                "strokeColor": "lightgray",
+                "strokeWidth": 2
+            }
           }
         ]
       },
