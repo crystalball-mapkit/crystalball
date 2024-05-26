@@ -87,18 +87,7 @@ export function getLayerByLid(lid, olMap) {
  * @return {ol.layer.Base[]} Array of all map layers
  */
 export function getAllChildLayers(olMap) {
-  const allLayers = [];
-  olMap
-    .getLayers()
-    .getArray()
-    .forEach(layer => {
-      if (layer instanceof LayerGroup) {
-        const layers = layer.getLayers().getArray();
-        allLayers.push(...layers);
-      } else {
-        allLayers.push(layer);
-      }
-    });
+  const allLayers = olMap.getAllLayers();
   return allLayers;
 }
 
