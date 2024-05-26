@@ -199,7 +199,14 @@ const actions = {
       if (layer instanceof LayerGroup) {
         const layersArray = layer.getLayers().getArray();
         layersArray.forEach(l => {
-          layers[l.get('name')] = l;
+          if (l instanceof LayerGroup) {
+            const subLayers = l.getLayers().getArray();
+            subLayers.forEach(subLayer => {
+              layers[subLayer.get('name')] = subLayer;
+            });
+          } else {
+            layers[l.get('name')] = l;
+          }
         });
       } else {
         layers[layer.get('name')] = layer;

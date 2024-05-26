@@ -1162,17 +1162,8 @@ export default {
       this.popup.highlightLayer.getSource().clear();
       this.popup.worldExtentLayer.getSource().clear();
       this.popup.selectedCorpNetworkLayer.getSource().clear();
-      const mapLayers = [];
-      this.map
-        .getLayers()
-        .getArray()
-        .forEach(layer => {
-          if (layer.get('type') === 'GROUP') {
-            mapLayers.push(...layer.getLayers().getArray());
-          } else {
-            mapLayers.push(layer);
-          }
-        });
+      const mapLayers = this.map.getAllLayers();
+
       axios
         .all(promiseArray)
         .then(results => {
