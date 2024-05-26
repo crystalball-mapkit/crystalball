@@ -188,7 +188,7 @@ import Locate from './controls/Locate.vue';
 import Search from './controls/Search.vue';
 import RouteControls from './controls/RouteControls.vue';
 import Legend from './controls/Legend.vue';
-import TimeSlider from './controls/TimeSlider.vue'
+import TimeSlider from './controls/TimeSlider.vue';
 import Login from './controls/Login.vue';
 import Edit from './controls/Edit.vue';
 import ShareMap from './controls/ShareMap.vue';
@@ -1162,17 +1162,8 @@ export default {
       this.popup.highlightLayer.getSource().clear();
       this.popup.worldExtentLayer.getSource().clear();
       this.popup.selectedCorpNetworkLayer.getSource().clear();
-      const mapLayers = [];
-      this.map
-        .getLayers()
-        .getArray()
-        .forEach(layer => {
-          if (layer.get('type') === 'GROUP') {
-            mapLayers.push(...layer.getLayers().getArray());
-          } else {
-            mapLayers.push(layer);
-          }
-        });
+      const mapLayers = this.map.getAllLayers();
+
       axios
         .all(promiseArray)
         .then(results => {

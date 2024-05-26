@@ -461,17 +461,7 @@ export default {
       serverConfig: 'serverConfig',
     }),
     flatLayers() {
-      const layers = [];
-      this.map
-        .getLayers()
-        .getArray()
-        .forEach(layer => {
-          if (layer.get('type') === 'GROUP') {
-            layers.push(...layer.getLayers().getArray());
-          } else {
-            layers.push(layer);
-          }
-        });
+      const layers = this.map.getAllLayers();
       return layers;
     },
     isTranslatable() {

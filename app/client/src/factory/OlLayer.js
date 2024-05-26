@@ -95,10 +95,10 @@ export const LayerFactory = {
     if ((stylePropFnRef && !styleRef) || label) {
       styleRef = 'baseStyle';
     }
-    if (styleRef === "htmlLayerStyle") {
+    if (styleRef === 'htmlLayerStyle') {
       return styleRefs.htmlLayerStyle();
     }
-    if (styleRef === "popupInfoStyle") {
+    if (styleRef === 'popupInfoStyle') {
       return styleRefs.popupInfoStyle();
     }
     if (!stylePropFnRef) {
@@ -560,9 +560,16 @@ export const LayerFactory = {
     const layersConfig = lConf.layers;
     if (Array.isArray(layersConfig)) {
       layersConfig.forEach((layerConfig, index) => {
-        const layer = this.getInstance(layerConfig);
-        if (zIndex) {
-          layer.setZIndex(zIndex + index);
+        let layer;
+        if (Array.isArray(layerConfig.layers)) {
+          // If the layerConfig has layers, it's a group - create a nested group
+          layer = this.createGroupLayer(layerConfig, zIndex);
+        } else {
+          // It's a single layer
+          layer = this.getInstance(layerConfig);
+          if (zIndex) {
+            layer.setZIndex(zIndex + index);
+          }
         }
         layers.push(layer);
         if (lConf.displaySeries) {

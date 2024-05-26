@@ -102,12 +102,7 @@
               <v-row
                 align="center"
                 justify="center"
-                v-if="
-                  item.get('displaySeries') &&
-                  item.getVisible() &&
-                  item.getLayers().getArray().length >= 2 &&
-                  item.get('largeSlider') !== true
-                "
+                v-if="isSliderVisible(item)"
                 :key="'time-series' + index"
                 class="fill-height ma-0 pa-0"
               >
@@ -311,8 +306,28 @@ export default {
     getSeriesActiveLayerTitle(layerGroup) {
       const layers = layerGroup.getLayers().getArray();
       const activeLayerIndex = layerGroup.get('activeLayerIndex') || 0;
-      const title = layers[activeLayerIndex].get('seriesDisplayName') || layers[activeLayerIndex].get('name');
+      const title =
+        layers[activeLayerIndex].get('legendDisplayName') &&
+        layers[activeLayerIndex].get('legendDisplayName')[this.$i18n.locale]
+          ? layers[activeLayerIndex].get('legendDisplayName')[this.$i18n.locale]
+          : layers[activeLayerIndex].get('name');
       return title;
+    },
+    isSliderVisible(layer) {
+      if (!layer.get('displaySeries')) {
+        return false;
+      }
+      if (this.$vuetify.breakpoint.smAndDown && layer.getVisible() && layer.getLayers().getArray().length >= 2) {
+        return true;
+      }
+      if (
+        !this.$vuetify.breakpoint.smAndDown &&
+        layer.getVisible() &&
+        layer.getLayers().getArray().length >= 2 &&
+        layer.get('largeSlider')
+      ) {
+        return false;
+      }
     },
   },
   mounted() {
