@@ -45,30 +45,10 @@
     "zoom": 1,
     "geoserverWorkspace": "workspace1",
     "resolutions": [
-      156543.03,
-      78271.52,
-      39135.76,
-      19567.88,
-      9783.94,
-      4891.97,
-      2445.98,
-      1222.99,
-      611.5,
-      305.75,
-      152.87,
-      76.437,
-      38.219,
-      19.109,
-      9.5546,
-      4.7773,
-      2.3887,
-      1.1943,
-      0.5972
+      156543.03, 78271.52, 39135.76, 19567.88, 9783.94, 4891.97, 2445.98, 1222.99, 611.5, 305.75, 152.87, 76.437,
+      38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
     ],
-    "center": [
-      0,
-      0
-    ],
+    "center": [0, 0],
     "minResolution": 0.25,
     "maxResolution": 64000,
     "layers": [
@@ -1219,42 +1199,24 @@
             "videos",
             "photos"
           ],
-          "center": [
-            -87.473,
-            41.658
-          ],
+          "center": [-87.473, 41.658],
           "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [
-            -87.5,
-            41.663
-          ],
+          "mobileCenter": [-87.5, 41.663],
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
-          "layers": [
-            "ESRI-World-Imagery"
-          ],
-          "center": [
-            -88.179,
-            41.837
-          ],
+          "layers": ["ESRI-World-Imagery"],
+          "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
           "minResolution": 0,
           "maxResolution": 64000
         },
         "global": {
-          "layers": [
-            "osm2",
-            "Rosario",
-            "colaboradores"
-          ],
-          "center": [
-            -12.42,
-            29.84
-          ],
+          "layers": ["osm2", "Rosario", "colaboradores"],
+          "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
           "minResolution": 0,
@@ -1263,48 +1225,25 @@
       },
       "data": {
         "default": {
-          "layers": [
-            "carto_dark",
-            "ESRI-World-Imagery2",
-            "glri_projects"
-          ],
-          "center": [
-            -84.75,
-            43.561
-          ],
+          "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects"],
+          "center": [-84.75, 43.561],
           "resolution": 860,
           "mobileResolution": 4000,
-          "mobileCenter": [
-            26.041,
-            -4.828
-          ],
+          "mobileCenter": [26.041, -4.828],
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
-          "layers": [
-            "osm",
-            "burnables"
-          ],
-          "center": [
-            -88.179,
-            41.837
-          ],
+          "layers": ["osm", "burnables"],
+          "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
           "minResolution": 0,
           "maxResolution": 64000
         },
         "global": {
-          "layers": [
-            "carto_dark",
-            "ESRI-World-Imagery2",
-            "burnables"
-          ],
-          "center": [
-            -12.42,
-            29.84
-          ],
+          "layers": ["carto_dark", "ESRI-World-Imagery2", "burnables"],
+          "center": [-12.42, 29.84],
           "resolution": 68000,
           "mobileResolution": 80000,
           "minResolution": 0,
@@ -1315,9 +1254,7 @@
     "flyToSlideshow": {
       "delayInSecondsForInitialStart": 9000000,
       "delayInSecondsBetweenFrames": 120000,
-      "maplinks": [
-        ""
-      ]
+      "maplinks": [""]
     },
     "defaultActiveGroup": "media",
     "groupTitles": {
