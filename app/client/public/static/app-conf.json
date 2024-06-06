@@ -87,6 +87,35 @@
       },
       {
         "type": "VECTOR",
+        "name": "puntos_wewac",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:puntos_wewac&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "legendDisplayName": {
+          "en": "Points Wewac",
+          "es": "Puntos Wewac",
+          "pt": "Pontos Wewac"
+        },
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "legendIcon": "",
+        "style": {
+          "type": "circle",
+          "radius": 5,
+          "strokeWidth": 1,
+          "strokeColor": "#000000",
+          "fillColor": "red"
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "lines",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:lines&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -361,7 +390,7 @@
           "es": "Uso del agua"
         },
         "legendIcon": "",
-        "visible": true,
+        "visible": false,
         "displaySidebarInfo": true,
         "group": "media",
         "attributions": "",
@@ -1197,7 +1226,8 @@
             "points",
             "lines",
             "videos",
-            "photos"
+            "photos",
+            "puntos_wewac"
           ],
           "center": [-87.473, 41.658],
           "resolution": 32,
