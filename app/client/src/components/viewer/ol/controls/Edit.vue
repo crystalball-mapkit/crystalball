@@ -1135,6 +1135,8 @@ export default {
         geometry,
         // eslint-disable-next-line no-unused-vars
         geom,
+        // eslint-disable-next-line no-unused-vars
+        keys,
         ...propsWithNoGeometry
       } = this.selectedFeature.getProperties();
 
