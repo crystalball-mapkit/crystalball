@@ -854,6 +854,11 @@ export default {
         if (me.isEditingLayer) {
           return;
         }
+
+        if (me.lastSelectedLayer) {
+          me.lastSelectedLayer = undefined;
+        }
+
         let feature;
         let layer;
         this.map.forEachFeatureAtPixel(
@@ -1362,6 +1367,7 @@ export default {
       layersWithEntityField: 'layersWithEntityField',
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       currentResolution: 'currentResolution',
+      lastSelectedLayer: 'lastSelectedLayer',
     }),
     hiddenProps() {
       const hiddenProps = this.$appConfig.map.featureInfoHiddenProps;
