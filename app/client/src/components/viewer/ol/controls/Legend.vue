@@ -61,9 +61,7 @@
                     <template v-slot:activator="{on}">
                       <v-flex
                         v-on="on"
-                        @click="
-                          lastSelectedLayer = lastSelectedLayer === item.get('name') ? undefined : item.get('name')
-                        "
+                        @click="handleMoreInfoClick(item)"
                         style="cursor: pointer"
                         xs1
                       >
@@ -232,6 +230,12 @@ export default {
         }
       }
     },
+    handleMoreInfoClick(item) {
+      this.lastSelectedLayer = this.lastSelectedLayer === item.get('name') ? undefined : item.get('name');
+      if (!this.sidebarState) {
+        this.sidebarState = true;
+      }
+    },
     toggleLayerVisibility(item) {
       this.lastSelectedLayer = null;
 
@@ -354,6 +358,9 @@ export default {
     ...mapFields('map', {
       lastSelectedLayer: 'lastSelectedLayer',
       mobilePanelState: 'mobilePanelState',
+    }),
+    ...mapFields('app', {
+      sidebarState: 'sidebarState',
     }),
   },
   watch: {

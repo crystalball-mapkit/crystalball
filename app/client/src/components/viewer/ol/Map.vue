@@ -711,7 +711,7 @@ export default {
           this.map.forEachFeatureAtPixel(
             evt.pixel,
             (f, l) => {
-              // Order of features is based is based on zIndex.
+              // Order of features is based is based on zIndex.x
               // First feature is on top, last feature is on bottom.
               if (!feature && l.get('isInteractive') !== false) {
                 feature = f;
@@ -879,6 +879,10 @@ export default {
             hitTolerance: 3,
           }
         );
+
+        if (feature && me.sidebarState === false) {
+          me.sidebarState = true;
+        }
 
         // For cluster features
         if (feature && Array.isArray(feature.get('features'))) {
