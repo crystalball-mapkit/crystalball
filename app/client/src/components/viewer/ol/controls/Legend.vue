@@ -59,12 +59,7 @@
                 <template v-if="item.get('displaySidebarInfo')">
                   <v-tooltip right>
                     <template v-slot:activator="{on}">
-                      <v-flex
-                        v-on="on"
-                        @click="handleMoreInfoClick(item)"
-                        style="cursor: pointer"
-                        xs1
-                      >
+                      <v-flex v-on="on" @click="handleMoreInfoClick(item)" style="cursor: pointer" xs1>
                         <span v-html="getGraphic(item)"></span>
                       </v-flex>
                     </template>
