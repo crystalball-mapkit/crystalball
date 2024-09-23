@@ -776,9 +776,10 @@ export default {
             ) {
               return;
             }
-
-            overlayEl.innerHTML = attr;
-            this.overlay.setPosition(evt.coordinate);
+            if (attr && attr !== ' ') {
+              overlayEl.innerHTML = attr;
+              this.overlay.setPosition(evt.coordinate);
+            }
           }
         }
         this.mousePosition = this.map.getEventPixel(evt.originalEvent);
