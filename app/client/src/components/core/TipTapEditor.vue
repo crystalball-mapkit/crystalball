@@ -243,7 +243,11 @@ export default {
     extensions: [
       History,
       Blockquote,
-      Link,
+      [Link, {
+          options: {
+            target: '_blank',
+          }
+      }],
       Underline,
       Strike,
       Italic,
