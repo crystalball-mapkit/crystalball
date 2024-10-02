@@ -160,9 +160,9 @@
         "displaySidebarInfo": true,
         "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/polygon.png",
         "legendDisplayName": {
-          "en": "Polygons",
-          "es": "Polígonos",
-          "pt": "Polígonos"
+          "en": "experimental",
+          "es": "experimental",
+          "pt": "experimental"
         },
         "zIndex": 1000,
         "minResolution": 1,
