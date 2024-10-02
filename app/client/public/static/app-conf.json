@@ -515,7 +515,17 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["osm", "mississippi", "polygons", "experimental", "ESRI-World-Imagery2", "points", "lines", "videos", "photos"],
+          "layers": [
+            "osm",
+            "mississippi",
+            "polygons",
+            "experimental",
+            "ESRI-World-Imagery2",
+            "points",
+            "lines",
+            "videos",
+            "photos"
+          ],
           "center": [-87.473, 41.658],
           "resolution": 32,
           "mobileResolution": 120,
