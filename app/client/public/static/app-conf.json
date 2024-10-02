@@ -150,6 +150,38 @@
       },
       {
         "type": "VECTOR",
+        "name": "experimental",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:experimental&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/polygon.png",
+        "legendDisplayName": {
+          "en": "Polygons",
+          "es": "Polígonos",
+          "pt": "Polígonos"
+        },
+        "zIndex": 1000,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "opacity": 1,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "stylePropFnRef": {
+            "strokeColor": "strokeColor",
+            "fillColor": "fillColor"
+          },
+          "strokeWidth": 3
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "photos",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:photos&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -483,7 +515,7 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["osm", "mississippi", "polygons", "ESRI-World-Imagery2", "points", "lines", "videos", "photos"],
+          "layers": ["osm", "mississippi", "polygons", "experimental", "ESRI-World-Imagery2", "points", "lines", "videos", "photos"],
           "center": [-87.473, 41.658],
           "resolution": 32,
           "mobileResolution": 120,
