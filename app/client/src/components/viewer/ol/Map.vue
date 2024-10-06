@@ -173,7 +173,7 @@ import {EventBus} from '../../../EventBus';
 
 // utils imports
 import {LayerFactory} from '../../../factory/OlLayer';
-import {isCssColor, debounce, Timer} from '../../../utils/Helpers';
+import {isCssColor, debounce, Timer, deepMerge} from '../../../utils/Helpers';
 import {extractGeoserverLayerNames, wfsRequestParser, getLayerSourceUrl} from '../../../utils/Layer';
 import UrlUtil from '../../../utils/Url';
 import {geojsonToFeature} from '../../../utils/MapUtils';
@@ -251,7 +251,7 @@ export default {
       getInfoResult: [],
       radius: 160,
       mousePosition: undefined,
-      spotlightMessage: false,
+      spotlightMessage: this.$appConfig?.spotlightMessage?.isVisible || false,
       lightBoxImages: [],
       progressLoading: {
         message: 'Fetching Corporate Network',
@@ -437,7 +437,10 @@ export default {
       });
     },
     createHtmlPostLayer() {
-      const layer = LayerFactory.getInstance(this.htmlPostLayerConf);
+      const configSettings = this.visibleGroup?.htmlPostLayerConf || this.$appConfig.app.htmlPostLayerConf;
+      const defaultSettings = this.htmlPostLayerConf;
+      const config = deepMerge(defaultSettings, configSettings);
+      const layer = LayerFactory.getInstance(config);
       this.setPersistentLayer(layer);
     },
     /**
