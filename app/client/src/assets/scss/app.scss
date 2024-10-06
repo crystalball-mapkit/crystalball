@@ -270,11 +270,10 @@ body,
   padding: 10px 16px;
 }
 
-
 .map-link {
   color: var(--map-link-text-color, #1976d2) !important;
 }
 
-a[href^="http"] {
+a[href^='http'] {
   color: var(--link-text-color, #2196f3) !important;
 }

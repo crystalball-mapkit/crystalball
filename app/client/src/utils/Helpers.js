@@ -180,7 +180,6 @@ export function getHtml(content, defaultLanguage, currentLanguage) {
   return html;
 }
 
-
 export function deepMerge(obj1, obj2) {
   for (const key in obj2) {
     if (obj2.hasOwnProperty(key)) {
