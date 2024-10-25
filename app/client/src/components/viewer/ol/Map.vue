@@ -173,7 +173,7 @@ import {EventBus} from '../../../EventBus';
 
 // utils imports
 import {LayerFactory} from '../../../factory/OlLayer';
-import {isCssColor, debounce, Timer} from '../../../utils/Helpers';
+import {isCssColor, debounce, Timer, deepMerge} from '../../../utils/Helpers';
 import {extractGeoserverLayerNames, wfsRequestParser, getLayerSourceUrl} from '../../../utils/Layer';
 import UrlUtil from '../../../utils/Url';
 import {geojsonToFeature} from '../../../utils/MapUtils';
@@ -251,7 +251,7 @@ export default {
       getInfoResult: [],
       radius: 160,
       mousePosition: undefined,
-      spotlightMessage: false,
+      spotlightMessage: this.$appConfig?.spotlightMessage?.isVisible || false,
       lightBoxImages: [],
       progressLoading: {
         message: 'Fetching Corporate Network',
@@ -437,7 +437,10 @@ export default {
       });
     },
     createHtmlPostLayer() {
-      const layer = LayerFactory.getInstance(this.htmlPostLayerConf);
+      const configSettings = this.visibleGroup?.htmlPostLayerConf || this.$appConfig.app.htmlPostLayerConf;
+      const defaultSettings = this.htmlPostLayerConf;
+      const config = deepMerge(defaultSettings, configSettings);
+      const layer = LayerFactory.getInstance(config);
       this.setPersistentLayer(layer);
     },
     /**
@@ -711,7 +714,7 @@ export default {
           this.map.forEachFeatureAtPixel(
             evt.pixel,
             (f, l) => {
-              // Order of features is based is based on zIndex.
+              // Order of features is based is based on zIndex.x
               // First feature is on top, last feature is on bottom.
               if (!feature && l.get('isInteractive') !== false) {
                 feature = f;
@@ -776,9 +779,10 @@ export default {
             ) {
               return;
             }
-
-            overlayEl.innerHTML = attr;
-            this.overlay.setPosition(evt.coordinate);
+            if (attr && attr !== ' ') {
+              overlayEl.innerHTML = attr;
+              this.overlay.setPosition(evt.coordinate);
+            }
           }
         }
         this.mousePosition = this.map.getEventPixel(evt.originalEvent);
@@ -854,6 +858,11 @@ export default {
         if (me.isEditingLayer) {
           return;
         }
+
+        if (me.lastSelectedLayer) {
+          me.lastSelectedLayer = undefined;
+        }
+
         let feature;
         let layer;
         this.map.forEachFeatureAtPixel(
@@ -873,6 +882,10 @@ export default {
             hitTolerance: 3,
           }
         );
+
+        if (feature && me.sidebarState === false) {
+          me.sidebarState = true;
+        }
 
         // For cluster features
         if (feature && Array.isArray(feature.get('features'))) {
@@ -1362,6 +1375,7 @@ export default {
       layersWithEntityField: 'layersWithEntityField',
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       currentResolution: 'currentResolution',
+      lastSelectedLayer: 'lastSelectedLayer',
     }),
     hiddenProps() {
       const hiddenProps = this.$appConfig.map.featureInfoHiddenProps;

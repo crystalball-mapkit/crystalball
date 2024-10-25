@@ -5,7 +5,8 @@ const sequelize = require("./db.js");
 
 const langVariants = { 
   "en": "en-US",
-  "pt": "pt-BR"
+  "pt": "pt-BR",
+  "de": "de"
 };
 const translateContent = async (language, text, key, payload, column) => {
   /**

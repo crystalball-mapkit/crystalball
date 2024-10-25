@@ -716,6 +716,10 @@ export const layersStylePropFn = {
     strokeColor: propertyValue => propertyValue,
     fillColor: propertyValue => propertyValue,
   },
+  experimental: {
+    strokeColor: propertyValue => propertyValue,
+    fillColor: propertyValue => propertyValue,
+  },
   points: {
     strokeColor: propertyValue => propertyValue,
     fillColor: propertyValue => propertyValue,
