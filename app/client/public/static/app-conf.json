@@ -116,6 +116,29 @@
       },
       {
         "type": "VECTOR",
+        "name": "venues_co_pro",
+        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_co_pro&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "midway",
+        "queryable": true,
+        "displayInLegend": false,
+        "legendDisplayName": "Venues: Co-Pro",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 13001,
+        "label": null,
+        "hoverable": true,
+        "isInteractive": true,
+        "style": {
+          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/8.png",
+          "scale": 1.1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "lines",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:lines&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -1227,10 +1250,11 @@
             "lines",
             "videos",
             "photos",
-            "puntos_wewac"
+            "puntos_wewac",
+            "venues_co_pro"
           ],
-          "center": [-87.473, 41.658],
-          "resolution": 32,
+          "center": [-87.473, 41.74],
+          "resolution": 60,
           "mobileResolution": 120,
           "mobileCenter": [-87.5, 41.663],
           "minResolution": 0,
