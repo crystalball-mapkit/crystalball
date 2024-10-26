@@ -402,7 +402,7 @@ export const LayerFactory = {
       attributions: lConf.attributions,
     };
     // Check if url is a WFS service
-    if (lConf.url.includes('wfs?service=WFS&')) {
+    if (lConf.url && lConf.url.includes('wfs?service=WFS&')) {
       // eslint-disable-next-line func-names
       url = function (extent) {
         return `${lConf.url}&bbox=${extent.join(',')},EPSG:3857`;

@@ -173,7 +173,7 @@ import {EventBus} from '../../../EventBus';
 
 // utils imports
 import {LayerFactory} from '../../../factory/OlLayer';
-import {isCssColor, debounce, Timer, deepMerge} from '../../../utils/Helpers';
+import {isCssColor, debounce, Timer} from '../../../utils/Helpers';
 import {extractGeoserverLayerNames, wfsRequestParser, getLayerSourceUrl} from '../../../utils/Layer';
 import UrlUtil from '../../../utils/Url';
 import {geojsonToFeature} from '../../../utils/MapUtils';
@@ -368,7 +368,6 @@ export default {
     // Create layers from config and add them to map
     me.resetMap();
     me.createLayers();
-    me.createHtmlPostLayer();
     // Event bus setup for managing interactions
     EventBus.$on('ol-interaction-activated', startedInteraction => {
       me.activeInteractions.push(startedInteraction);
@@ -400,7 +399,7 @@ export default {
       // World Overlay Layer and selected features layer for corporate network
       me.createWorldExtentOverlayLayer();
       me.createSelectedCorpNetworkLayer();
-
+      // Create layers from config
       this.$appConfig.map.layers.forEach(lConf => {
         const layerIndex = visibleLayers.indexOf(lConf.name);
         if (layerIndex === -1) return;
@@ -435,13 +434,6 @@ export default {
           }
         });
       });
-    },
-    createHtmlPostLayer() {
-      const configSettings = this.visibleGroup?.htmlPostLayerConf || this.$appConfig.app.htmlPostLayerConf;
-      const defaultSettings = this.htmlPostLayerConf;
-      const config = deepMerge(defaultSettings, configSettings);
-      const layer = LayerFactory.getInstance(config);
-      this.setPersistentLayer(layer);
     },
     /**
      * Creates a layer to visualize selected GetInfo features.
@@ -1350,9 +1342,7 @@ export default {
       activeLayerGroup: 'activeLayerGroup',
       popupInfo: 'popupInfo',
       splittedEntities: 'splittedEntities',
-      htmlPostLayerConf: 'htmlPostLayerConf',
       geoserverWorkspace: 'geoserverWorkspace',
-      persistentLayers: 'persistentLayers',
       mobilePanelState: 'mobilePanelState',
       visibleGroup: 'visibleGroup',
       isTranslating: 'isTranslating',
@@ -1446,9 +1436,6 @@ export default {
       EventBus.$emit('group-changed');
       EventBus.$emit('clearEditHtml');
 
-      if (this.persistentLayers.html_posts) {
-        this.persistentLayers.html_posts.getSource().refresh();
-      }
       // Reset fromEvent to false
       setTimeout(() => {
         this.$route.meta.fromEvent = false;

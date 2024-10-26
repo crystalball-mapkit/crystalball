@@ -245,7 +245,10 @@ export default {
               state: true,
             });
           }, 50);
-          this.persistentLayers.html_posts.getSource().refresh();
+          const htmlPostLayer = this.layers.html_posts;
+          if (htmlPostLayer) {
+            htmlPostLayer.getSource().refresh();
+          }
         });
     },
     transactHtml(type) {
@@ -332,7 +335,7 @@ export default {
       lastSelectedLayer: 'lastSelectedLayer',
     }),
     ...mapGetters('map', {
-      persistentLayers: 'persistentLayers',
+      layers: 'layers',
       activeLayerGroup: 'activeLayerGroup',
       groupName: 'groupName',
     }),
