@@ -57,7 +57,7 @@
         </v-menu>
       </v-layout>
     </div>
-    <div v-if="!selectedLayer">
+    <div v-if="!selectedLayer && visibleGroup.layers && visibleGroup.layers.includes('html_posts')">
       <v-tooltip left>
         <template v-slot:activator="{on}">
           <v-btn
@@ -453,6 +453,7 @@ export default {
     ...mapGetters('map', {
       layersMetadata: 'layersMetadata',
       imageUploadButtonText: 'imageUploadButtonText',
+      visibleGroup: 'visibleGroup',
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',
