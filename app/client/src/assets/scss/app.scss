@@ -277,3 +277,13 @@ body,
 a[href^='http'] {
   color: var(--link-text-color, #2196f3) !important;
 }
+
+.fullscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  background-color: var(--viewer-background-color, #ffffff);
+}

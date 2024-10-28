@@ -422,6 +422,8 @@ export default {
           me.setLayer(layer);
         }
       });
+      const backgroundColor = this.visibleGroup?.backgroundColor || "#ffffff";
+      document.documentElement.style.setProperty('--viewer-background-color', backgroundColor);
     },
     resetLayersVisibility() {
       const visibleLayers = this.visibleGroup.layers;
