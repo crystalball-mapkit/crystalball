@@ -4,7 +4,7 @@ services:
   tms:
   wms:
     #srs sets the coordinate reference systems as which you want to make your data available. MapProxy reprojects the source data very well to these projections.
-    srs: ['EPSG:3857']
+    srs: ['EPSG:4326', 'EPSG:3857']
     image_formats: ['image/jpeg', 'image/png']
     md:
       # metadata used in capabilities documents
@@ -18,29 +18,31 @@ services:
 
 layers:
   #sets up which layers you want to make available using the services above.
-  - name: racial_dot
-    title: Racial Dot
-    sources: [racial_dot_cache] #this layer should use the racial_dot_cache (defined below) as it's source.
-    
+  - name: glri_projects
+    title: GLRI Projects
+    sources: [glri_projects_cache] # This layer should use the glri_projects_cache (defined below) as its source.
+
 caches:
-  #setup the cache for the tiles. This cache is used by the layer above.
-  racial_dot_cache:
-    sources: [racial_dot_tiles] #here you set what source data (defined below) you want to cache
-    format: image/png
-  
+    #sets up how to cache the source data
+  glri_projects_cache:
+    grids: [osm_grid]
+    sources: [glri_projects_source] # Here you set what source data (defined below) you want to cache
+
 sources:
-   racial_dot_tiles:
-     #the osm_tiles source refers to the openstreetmap.org tiles. These will be downloaded upon request (if not already cached) and served by MapProxy
-     type: tile
-     url: http://tileserver/styles/racial_dot/%(z)s/%(x)s/%(y)s.png
-     grid: osm_grid #the grid to use for the osm tiles. This is really important. It is specified below.
+   glri_projects_source:
+      type: wms
+      supported_formats: [png]
+      supported_srs: ['EPSG:3857', 'CRS:84']
+      req:
+        url: http://crystalball.timetochange.today/geoserver/workspace1/ows
+        layers: glri_projects
+
 
 grids:
   osm_grid:
-    #this srs and origin specify a grid that can be used elsewhere in the configuration. In this example it is used for the osm_tiles source. These settings are correct for openstreetmap.org tiles.
-    #The google mercator srs is used (also called EPSG:900913), and the origin of the tiles is north-west). If you get this wrong, you might very well get an all-blue world.
-    srs: EPSG:900913
-    origin: nw
+    base: GLOBAL_MERCATOR
+    srs: 'EPSG:3857'
+    origin: nw 
 
 globals:
   #next are some global configuration options for MapProxy. They mostly explain themselves, or can be looked-up in the MapProxy docs.

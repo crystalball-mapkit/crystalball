@@ -194,3 +194,20 @@ services:
       db:
         condition: service_healthy
     restart: on-failure
+
+  mapproxy:
+    image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:mapproxy-${PROJECT_VERSION}
+    build: ./app/mapproxy
+    container_name: ${COMPOSE_PROJECT_NAME}_mapproxy
+    hostname: ${COMPOSE_PROJECT_NAME}_mapproxy
+    ports: 
+      - 8082:8080
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/mapproxy`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.entrypoints=web"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}_mapproxy.loadBalancer.server.port=8080"
+    networks:
+      - proxy_dev
+    volumes:
+      - ./app/mapproxy:/mapproxy
