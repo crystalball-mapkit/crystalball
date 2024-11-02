@@ -14,7 +14,9 @@
     "defaultLanguage": "en",
     "color": {
       "primary": "#00000e",
-      "secondary": "#7C2CA3"
+      "secondary": "#7C2CA3",
+      "link": "#ff0000",
+      "mapLink": "#7C2CA3"
     },
     "font": {
       "url": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
@@ -36,7 +38,21 @@
     "navbar": {
       "dropdownMenu": false
     },
-    "customNavigationScheme": "1"
+    "customNavigationScheme": "1",
+    "spotlightMessage": {
+      "isVisible": true
+    },
+    "htmlPostLayerConf": {
+      "displayInLegend": true,
+      "legendDisplayName": "Posts",
+      "minResolution": 0.5,
+      "maxResolution": 64000,
+      "hoverable": true,
+      "style": {
+        "hoverTextColor": "red",
+        "hoverBackgroundColor": "#000000"
+      }
+    }
   },
   "map": {
     "projectionCode": "EPSG:3857",
@@ -515,6 +531,17 @@
     "groups": {
       "media": {
         "default": {
+          "htmlPostLayerConf": {
+            "displayInLegend": true,
+            "legendDisplayName": "Posts",
+            "minResolution": 0.5,
+            "maxResolution": 64000,
+            "hoverable": true,
+            "style": {
+              "hoverTextColor": "blue",
+              "hoverBackgroundColor": "#000000"
+            }
+          },
           "layers": [
             "osm",
             "mississippi",
@@ -526,8 +553,8 @@
             "videos",
             "photos"
           ],
-          "center": [-87.473, 41.658],
-          "resolution": 32,
+          "center": [-87.473, 41.74],
+          "resolution": 60,
           "mobileResolution": 120,
           "mobileCenter": [-87.5, 41.663],
           "minResolution": 0,
