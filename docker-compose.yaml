@@ -158,3 +158,19 @@ services:
       db:
         condition: service_healthy
     restart: on-failure
+
+  mapproxy:
+    image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:mapproxy-${PROJECT_VERSION}
+    build: ./app/mapproxy
+    container_name: ${COMPOSE_PROJECT_NAME}_mapproxy
+    hostname: ${COMPOSE_PROJECT_NAME}_mapproxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}_mapproxy.loadBalancer.server.port=8080"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/mapproxy`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.entrypoints=websecure"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.tls.certresolver=myhttpchallenge"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.tls=true"
+    depends_on:
+      - geoserver
+    restart: on-failure
