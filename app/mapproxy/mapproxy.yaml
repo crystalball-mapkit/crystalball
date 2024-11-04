@@ -22,11 +22,20 @@ layers:
     title: GLRI Projects
     sources: [glri_projects_cache] # This layer should use the glri_projects_cache (defined below) as its source.
 
+  - name: osm
+    title: OpenStreetMap Layer
+    sources: [osm_cache] # This layer uses the osm_cache defined below.
+
 caches:
     #sets up how to cache the source data
   glri_projects_cache:
     grids: [osm_grid]
     sources: [glri_projects_source] # Here you set what source data (defined below) you want to cache
+
+  osm_cache:
+    grids: [osm_grid]
+    sources: [osm_source] # Here you set what source data (defined below) you want to cache
+    format: image/png
 
 sources:
    glri_projects_source:
@@ -37,6 +46,10 @@ sources:
         url: http://crystalball.timetochange.today/geoserver/workspace1/ows
         layers: glri_projects
 
+   osm_source:
+      type: tile
+      url: https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png
+      grid: osm_grid
 
 grids:
   osm_grid:
@@ -52,8 +65,18 @@ globals:
     # where to store lockfiles
     lock_dir: './cache_data/locks'
 
-
   # image/transformation options
   image:
       resampling_method: bilinear
       jpeg_quality: 90
+
+docker-compose:
+  version: '3.8'
+  services:
+    mapproxy:
+      image: crystalballmapkit/crystalball:mapproxy-1.2
+      ports:
+        - "8080:8080" # Maps container port 8080 to host port 8080
+      volumes:
+        - ./mapproxy:/mapproxy
+      restart: unless-stopped
