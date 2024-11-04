@@ -73,10 +73,10 @@ globals:
 docker-compose:
   version: '3.8'
   services:
-    mapproxy:
-      image: crystalballmapkit/crystalball:mapproxy-1.2
-      ports:
-        - "8080:8080" # Maps container port 8080 to host port 8080
-      volumes:
-        - ./mapproxy:/mapproxy
-      restart: unless-stopped
+  mapproxy:
+    image: crystalballmapkit/crystalball:mapproxy-1.2
+    ports:
+      - "8080:8080"
+    volumes:
+      - /home/crystalball/app/mapproxy:/mapproxy
+    restart: unless-stopped
