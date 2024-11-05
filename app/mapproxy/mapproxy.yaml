@@ -1,82 +1,71 @@
 services:
-  #sets up how to make the source data available
-  demo:
-  tms:
-  wms:
-    #srs sets the coordinate reference systems as which you want to make your data available. MapProxy reprojects the source data very well to these projections.
-    srs: ['EPSG:4326', 'EPSG:3857']
-    image_formats: ['image/jpeg', 'image/png']
-    md:
-      # metadata used in capabilities documents
-      title: MapProxy WMS Proxy
-      abstract: This is the fantastic MapProxy.
-      online_resource: http://mapproxy.org/
-      contact:
-        person: Majk Shkurti
-        position: GIS Developer
-        city: Munich
 
-layers:
-  #sets up which layers you want to make available using the services above.
-  - name: glri_projects
-    title: GLRI Projects
-    sources: [glri_projects_cache] # This layer should use the glri_projects_cache (defined below) as its source.
+ #sets up how to make the source data available
 
-  - name: osm
-    title: OpenStreetMap Layer
-    sources: [osm_cache] # This layer uses the osm_cache defined below.
+ demo:
 
-caches:
-    #sets up how to cache the source data
-  glri_projects_cache:
-    grids: [osm_grid]
-    sources: [glri_projects_source] # Here you set what source data (defined below) you want to cache
+ tms:
 
-  osm_cache:
-    grids: [osm_grid]
-    sources: [osm_source] # Here you set what source data (defined below) you want to cache
-    format: image/png
+ wms:
 
-sources:
-   glri_projects_source:
-      type: wms
-      supported_formats: [png]
-      supported_srs: ['EPSG:3857', 'CRS:84']
-      req:
-        url: http://crystalball.timetochange.today/geoserver/workspace1/ows
-        layers: glri_projects
+   #srs sets the coordinate reference systems as which you want to make your data available. MapProxy reprojects the source data very well to these projections.
 
-   osm_source:
-      type: tile
-      url: https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png
-      grid: osm_grid
+   srs: ['EPSG:4326', 'EPSG:3857']
+
+   image_formats: ['image/jpeg', 'image/png']
+
+
+       transparent: true
+
+
+  osm_source:
+
+     type: tile
+
+     url: https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_bright@EPSG:900913@png/%(z)s/%(x)s/%(y)s.png
+
+     grid: osm_grid_reverse
+
 
 grids:
-  osm_grid:
-    base: GLOBAL_MERCATOR
-    srs: 'EPSG:3857'
-    origin: nw 
+
+ osm_grid:
+
+   base: GLOBAL_MERCATOR
+
+   srs: 'EPSG:3857'
+
+   origin: nw
+
+
+ osm_grid_reverse:
+
+   base: GLOBAL_MERCATOR
+
+   srs: 'EPSG:3857'
+
+   origin: sw
+
 
 globals:
-  #next are some global configuration options for MapProxy. They mostly explain themselves, or can be looked-up in the MapProxy docs.
-  cache:
-    # where to store the cached images
-    base_dir: './cache_data'
-    # where to store lockfiles
-    lock_dir: './cache_data/locks'
 
-  # image/transformation options
-  image:
-      resampling_method: bilinear
-      jpeg_quality: 90
+ #next are some global configuration options for MapProxy. They mostly explain themselves, or can be looked-up in the MapProxy docs.
 
-docker-compose:
-  version: '3.8'
-  services:
-  mapproxy:
-    image: crystalballmapkit/crystalball:mapproxy-1.2
-    ports:
-      - "8080:8080"
-    volumes:
-      - /home/crystalball/app/mapproxy:/mapproxy
-    restart: unless-stopped
+ cache:
+
+   # where to store the cached images
+
+   base_dir: './cache_data'
+
+   # where to store lockfiles
+
+   lock_dir: './cache_data/locks'
+
+
+ # image/transformation options
+
+ image:
+
+     resampling_method: bilinear
+
+     jpeg_quality: 90 
