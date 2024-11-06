@@ -322,7 +322,7 @@
         "type": "XYZ",
         "name": "osm",
         "group": "media",
-        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "url": "https://mapproxy.crystalball.timetochange.today/wmts/osm_bright/webmercator/{z}/{x}/{y}.png",
         "minResolution": 0.25,
         "maxResolution": 64000,
         "queryable": false,

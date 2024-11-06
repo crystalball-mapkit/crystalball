@@ -18,18 +18,18 @@ services:
        transparent: true
 
 
-  osm_source:
+  osm_bright_source:
 
      type: tile
 
      url: https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_bright@EPSG:900913@png/%(z)s/%(x)s/%(y)s.png
 
-     grid: osm_grid_reverse
+     grid: osm_bright_grid_reverse
 
 
 grids:
 
- osm_grid:
+ osm_bright_grid:
 
    base: GLOBAL_MERCATOR
 
@@ -38,7 +38,7 @@ grids:
    origin: nw
 
 
- osm_grid_reverse:
+ osm_bright_grid_reverse:
 
    base: GLOBAL_MERCATOR
 
