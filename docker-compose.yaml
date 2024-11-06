@@ -167,7 +167,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}_mapproxy.loadBalancer.server.port=8080"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/mapproxy`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.rule=Host(`mapproxy.${DOMAIN_NAME}`)"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.entrypoints=websecure"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.tls.certresolver=myhttpchallenge"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.tls=true"
