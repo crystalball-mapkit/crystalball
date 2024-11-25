@@ -1,3 +1,5 @@
+
+
 services:
 
  #sets up how to make the source data available
@@ -5,6 +7,8 @@ services:
  demo:
 
  tms:
+
+ wmts:
 
  wms:
 
@@ -14,6 +18,61 @@ services:
 
    image_formats: ['image/jpeg', 'image/png']
 
+
+layers:
+
+ #sets up which layers you want to make available using the services above.
+
+ - name: glri_projects
+
+   title: GLRI Projects
+
+   sources: [glri_projects_cache] # This layer should use the glri_projects_cache (defined below) as its source.
+
+
+
+ - name: osm_bright
+
+   title: OpenStreetMap Bright Layer
+
+   sources: [osm_bright_cache] # This layer uses the osm_bright_cache defined below.
+
+
+caches:
+
+   #sets up how to cache the source data
+
+ glri_projects_cache:
+
+   grids: [osm_bright_grid]
+
+   sources: [glri_projects_source] # Here you set what source data (defined below) you want to cache
+
+
+ osm_bright_cache:
+
+   grids: [osm_bright_grid]
+
+   sources: [osm_bright_source] # Here you set what source data (defined below) you want to cache
+
+   format: image/png
+
+
+sources:
+
+  glri_projects_source:
+
+     type: wms
+
+     supported_formats: [png]
+
+     supported_srs: ['EPSG:3857', 'CRS:84']
+
+     req:
+
+       url: http://crystalball.timetochange.today/geoserver/workspace1/ows
+
+       layers: glri_projects
 
        transparent: true
 
@@ -68,5 +127,4 @@ globals:
 
      resampling_method: bilinear
 
-     jpeg_quality: 90 
-
+     jpeg_quality: 90
