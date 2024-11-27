@@ -173,4 +173,6 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.tls=true"
     depends_on:
       - geoserver
+    volumes:
+      - ./app/mapproxy:/mapproxy
     restart: on-failure
