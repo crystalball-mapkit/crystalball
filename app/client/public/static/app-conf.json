@@ -337,6 +337,24 @@
       },
       {
         "type": "XYZ",
+        "name": "luftbild",
+        "group": "media",
+        "url": "https://mapproxy.crystalball.timetochange.today/wmts/luftbild/osm_bright_grid/{z}/{x}/{y}.png",
+        "minResolution": 0.25,
+        "maxResolution": 64000,
+        "opacity": 0.99,
+        "queryable": false,
+        "displayInLegend": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/osm.png",
+        "legendDisplayName": {
+          "en": "luftbild",
+          "es": "luftbild",
+          "pt": "luftbild"
+        },
+        "visible": true
+      },
+      {
+        "type": "XYZ",
         "name": "osm2",
         "group": "media",
         "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png",
@@ -555,7 +573,8 @@
             "lines",
             "videos",
             "photos",
-            "html_posts"
+            "html_posts",
+            "luftbild"
           ],
           "center": [-87.473, 41.74],
           "resolution": 60,

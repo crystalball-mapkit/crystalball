@@ -62,6 +62,8 @@ caches:
 
    sources: [luftbild_source]
 
+   format: image/png
+
 
  osm_bright_cache:
 
