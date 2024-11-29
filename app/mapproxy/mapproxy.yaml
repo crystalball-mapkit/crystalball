@@ -60,7 +60,7 @@ caches:
 
    grids: [osm_bright_grid]
 
-   sources: luftbild_source]
+   sources: [luftbild_source]
 
 
  osm_bright_cache:
