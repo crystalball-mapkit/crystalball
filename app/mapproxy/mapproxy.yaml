@@ -103,6 +103,7 @@ sources:
        transparent: true
      coverage:
        geojson: /mapproxy/masks/stuttgart_mask.geojson
+       srs: 'EPSG:3857'
 
 
 
