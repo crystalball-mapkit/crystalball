@@ -101,6 +101,9 @@ sources:
        url: https://geoserver.stuttgart.de/geoserver/Base/wms
        layers: Base:A62_Luftbild_aktuell_EPSG25832
        transparent: true
+     coverage:
+       geojson: /mapproxy/masks/stuttgart_mask.geojson
+
 
 
   osm_bright_source:
