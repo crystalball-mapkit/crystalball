@@ -74,7 +74,7 @@ sources:
 
        layers: A62_Luftbild_2023_EPSG25832
 
-       transparent: true
+       transparent: false
 
 
   osm_bright_source:
