@@ -32,7 +32,7 @@ layers:
 
  - name: luftbild
 
-   title: Luftbild
+   title: ktuelle Luftbild
 
    sources: [luftbild_cache]
 
@@ -92,19 +92,13 @@ sources:
 
   luftbild_source:
 
-       type: wms
-
-       supported_formats: [png]
-
-       supported_srs: ['EPSG:3857', 'CRS:84']
-
-       req:
-
-         url: https://geoserver.stuttgart.de/geoserver/ows?SERVICE=WMS&
-
-         layers: luftbild
-
-         transparent: false
+     type: wms
+     supported_formats: [png, jpeg]  # Include JPEG for better performance with aerial imagery
+     supported_srs: ['EPSG:3857', 'EPSG:4326', 'EPSG:25832']  # Include EPSG:25832 since it's the native projection
+     req:
+       url: https://geoserver.stuttgart.de/geoserver/Base/wms
+       layers: Base:A62_Luftbild_aktuell_EPSG25832
+       transparent: false  # Set false for non-transparent imagery
 
 
   osm_bright_source:
