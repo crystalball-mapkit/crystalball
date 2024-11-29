@@ -56,6 +56,13 @@ caches:
    sources: [glri_projects_source] # Here you set what source data (defined below) you want to cache
 
 
+ luftbild_cache:
+
+   grids: [osm_bright_grid]
+
+   sources: luftbild_source]
+
+
  osm_bright_cache:
 
    grids: [osm_bright_grid]
