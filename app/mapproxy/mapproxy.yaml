@@ -30,6 +30,13 @@ layers:
    sources: [glri_projects_cache] # This layer should use the glri_projects_cache (defined below) as its source.
 
 
+ - name: luftbild
+
+   title: Luftbild
+
+   sources: [luftbild_cache]
+
+
 
  - name: osm_bright
 
@@ -75,6 +82,22 @@ sources:
        layers: glri_projects
 
        transparent: true
+
+  luftbild_source:
+
+       type: wms
+
+       supported_formats: [png]
+
+       supported_srs: ['EPSG:3857', 'CRS:84']
+
+       req:
+
+         url: https://geoserver.stuttgart.de/geoserver/ows?SERVICE=WMS&
+
+         layers: luftbild
+
+         transparent: false
 
 
   osm_bright_source:
