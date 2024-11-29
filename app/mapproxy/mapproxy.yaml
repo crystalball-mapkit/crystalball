@@ -23,12 +23,11 @@ layers:
 
  #sets up which layers you want to make available using the services above.
 
- - name: glri_projects
+ - name: luftbild_aktuell
 
-   title: GLRI Projects
+   title: luftbild aktuell
 
-   sources: [glri_projects_cache] # This layer should use the glri_projects_cache (defined below) as its source.
-
+   sources: [luftbild_aktuell_cache] # This layer should use the glri_projects_cache (defined below) as its source.
 
 
  - name: osm_bright
@@ -42,11 +41,11 @@ caches:
 
    #sets up how to cache the source data
 
- glri_projects_cache:
+ luftbild_aktuell_cache:
 
    grids: [osm_bright_grid]
 
-   sources: [glri_projects_source] # Here you set what source data (defined below) you want to cache
+   sources: [luftbild_aktuell_source] # Here you set what source data (defined below) you want to cache
 
 
  osm_bright_cache:
@@ -58,9 +57,10 @@ caches:
    format: image/png
 
 
+
 sources:
 
-  glri_projects_source:
+  luftbild_aktuell_source:
 
      type: wms
 
@@ -70,9 +70,9 @@ sources:
 
      req:
 
-       url: http://crystalball.timetochange.today/geoserver/workspace1/ows
+       url: https://geoserver.stuttgart.de/geoserver/workspace1/wms
 
-       layers: glri_projects
+       layers: A62_Luftbild_2023_EPSG25832
 
        transparent: true
 
@@ -84,7 +84,7 @@ sources:
      url: https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_bright@EPSG:900913@png/%(z)s/%(x)s/%(y)s.png
 
      grid: osm_bright_grid_reverse
-
+     
 
 grids:
 
