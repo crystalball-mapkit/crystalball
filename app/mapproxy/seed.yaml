@@ -1,6 +1,9 @@
 seeds:
-  racial_dot_seed:
-    caches: [racial_dot_cache]
-    levels:
-      from: 5
-      to: 10
+  luftbild_seed:
+    caches: [luftbild_cache]
+    grids: [osm_bright_grid]
+    coverages:
+      full_extent:
+        bbox: [9.20741548563305, 48.75054038456195, 9.266308128682422, 48.84671133605059]
+        srs: 'EPSG:4326'
+    levels: [19,20]
