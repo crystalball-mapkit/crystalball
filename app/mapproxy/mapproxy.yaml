@@ -32,7 +32,7 @@ layers:
 
  - name: luftbild
 
-   title: ktuelle Luftbild
+   title: Aktuelle Luftbild
 
    sources: [luftbild_cache]
 
@@ -63,8 +63,6 @@ caches:
    sources: [luftbild_source]
 
    format: image/png
-    min_res: 0.30   # Minimum resolution (for zoom 19)
-    max_res: 0.075  # Maximum resolution (for zoom 20)
 
 
  osm_bright_cache:
