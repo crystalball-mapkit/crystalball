@@ -63,6 +63,8 @@ caches:
    sources: [luftbild_source]
 
    format: image/png
+    min_res: 0.30   # Minimum resolution (for zoom 19)
+    max_res: 0.075  # Maximum resolution (for zoom 20)
 
 
  osm_bright_cache:
