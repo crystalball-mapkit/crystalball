@@ -30,12 +30,11 @@ layers:
    sources: [glri_projects_cache] # This layer should use the glri_projects_cache (defined below) as its source.
 
 
- - name: luftbild
+ - name: rivertiles
 
-   title: Aktuelle Luftbild
+   title: River Tiles
 
-   sources: [luftbild_cache]
-
+   sources: [rivertiles_cache]
 
 
  - name: osm_bright
@@ -44,11 +43,12 @@ layers:
 
    sources: [osm_bright_cache]
 
- - name: rivertiles
 
-   title: River Tiles
+ - name: luftbild
 
-   sources: [rivertiles_cache]
+   title: Aktuelle Luftbild
+
+   sources: [luftbild_cache]
 
 
 
@@ -79,14 +79,15 @@ caches:
    sources: [osm_bright_source] # Here you set what source data (defined below) you want to cache
 
    format: image/png
+   
 
-  rivertiles_cache:
+ rivertiles_cache:
 
-    grids: [osm_bright_grid]
+   grids: [osm_bright_grid]
 
-    sources: [rivertiles_source]
+   sources: [rivertiles_source]
 
-    format: image/png
+   format: image/png
 
 
 sources:
@@ -130,12 +131,13 @@ sources:
 
      grid: osm_bright_grid_reverse
 
+
   rivertiles_source:
 
     type: tile
 
     url: https://neckarinsel.s3.eu-north-1.amazonaws.com/assets/tiles/rivertiles/{z}/{x}/{y}.png
-    
+
     grid: osm_bright_grid
 
 grids:
