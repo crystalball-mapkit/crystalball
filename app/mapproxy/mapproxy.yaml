@@ -1,184 +1,89 @@
-
-
 services:
-
- #sets up how to make the source data available
-
- demo:
-
- tms:
-
- wmts:
-
- wms:
-
-   #srs sets the coordinate reference systems as which you want to make your data available. MapProxy reprojects the source data very well to these projections.
-
-   srs: ['EPSG:4326', 'EPSG:3857']
-
-   image_formats: ['image/jpeg', 'image/png']
-
+  # Sets up how to make the source data available
+  demo: {}
+  tms: {}
+  wmts: {}
+  wms:
+    # SRS sets the coordinate reference systems to make data available
+    srs: ['EPSG:4326', 'EPSG:3857']
+    image_formats: ['image/jpeg', 'image/png']
 
 layers:
+  # Sets up which layers you want to make available using the services above
+  - name: glri_projects
+    title: GLRI Projects
+    sources: [glri_projects_cache]
+    
+  - name: osm_bright
+    title: OpenStreetMap Bright Layer
+    sources: [osm_bright_cache]
 
- #sets up which layers you want to make available using the services above.
-
- - name: glri_projects
-
-   title: GLRI Projects
-
-   sources: [glri_projects_cache] # This layer should use the glri_projects_cache (defined below) as its source.
-
-
- - name: rivertiles
-
-   title: River Tiles
-
-   sources: [rivertiles_cache]
-
-
- - name: osm_bright
-
-   title: OpenStreetMap Bright Layer
-
-   sources: [osm_bright_cache]
-
-
- - name: luftbild
-
-   title: Aktuelle Luftbild
-
-   sources: [luftbild_cache]
-
-
+  - name: luftbild
+    title: Aktuelle Luftbild
+    sources: [luftbild_cache]
 
 caches:
+  # Sets up how to cache the source data
+  glri_projects_cache:
+    grids: [osm_bright_grid]
+    sources: [glri_projects_source]
 
-   #sets up how to cache the source data
+  luftbild_cache:
+    grids: [osm_bright_grid]
+    sources: [luftbild_source]
+    format: image/png
 
- glri_projects_cache:
-
-   grids: [osm_bright_grid]
-
-   sources: [glri_projects_source] # Here you set what source data (defined below) you want to cache
-
-
- luftbild_cache:
-
-   grids: [osm_bright_grid]
-
-   sources: [luftbild_source]
-
-   format: image/png
-
-
- osm_bright_cache:
-
-   grids: [osm_bright_grid]
-
-   sources: [osm_bright_source] # Here you set what source data (defined below) you want to cache
-
-   format: image/png
-   
-
- rivertiles_cache:
-
-   grids: [osm_bright_grid]
-
-   sources: [rivertiles_source]
-
-   format: image/png
+  osm_bright_cache:
+    grids: [osm_bright_grid]
+    sources: [osm_bright_source]
+    format: image/png
 
 
 sources:
-
   glri_projects_source:
-
-     type: wms
-
-     supported_formats: [png]
-
-     supported_srs: ['EPSG:3857', 'CRS:84']
-
-     req:
-
-       url: http://crystalball.timetochange.today/geoserver/workspace1/ows
-
-       layers: glri_projects
-
-       transparent: true
+    type: wms
+    supported_formats: [png]
+    supported_srs: ['EPSG:3857', 'CRS:84']
+    req:
+      url: http://crystalball.timetochange.today/geoserver/workspace1/ows
+      layers: glri_projects
+      transparent: true
 
   luftbild_source:
-
-     type: wms
-     supported_formats: [png, jpeg]  # Include JPEG for better performance with aerial imagery
-     supported_srs: ['EPSG:3857', 'EPSG:4326', 'EPSG:25832']  # Include EPSG:25832 since it's the native projection
-     req:
-       url: https://geoserver.stuttgart.de/geoserver/Base/wms
-       layers: Base:A62_Luftbild_aktuell_EPSG25832
-       transparent: true
-     coverage:
-       geojson: /mapproxy/masks/stuttgart_mask.geojson
-       srs: 'EPSG:3857'
-
-
+    type: wms
+    supported_formats: [png, jpeg]
+    supported_srs: ['EPSG:3857', 'EPSG:4326', 'EPSG:25832']
+    req:
+      url: https://geoserver.stuttgart.de/geoserver/Base/wms
+      layers: Base:A62_Luftbild_aktuell_EPSG25832
+      transparent: true
 
   osm_bright_source:
-
-     type: tile
-
-     url: https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_bright@EPSG:900913@png/%(z)s/%(x)s/%(y)s.png
-
-     grid: osm_bright_grid_reverse
-
-
-  rivertiles_source:
-
     type: tile
-
-    url: https://neckarinsel.s3.eu-north-1.amazonaws.com/assets/tiles/rivertiles/{z}/{x}/{y}.png
-
-    grid: osm_bright_grid
+    url: https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_bright@EPSG:900913@png/%(z)s/%(x)s/%(y)s.png
+    grid: osm_bright_grid_reverse
 
 grids:
+  osm_bright_grid:
+    base: GLOBAL_MERCATOR
+    srs: 'EPSG:3857'
+    origin: nw
 
- osm_bright_grid:
-
-   base: GLOBAL_MERCATOR
-
-   srs: 'EPSG:3857'
-
-   origin: nw
-
-
- osm_bright_grid_reverse:
-
-   base: GLOBAL_MERCATOR
-
-   srs: 'EPSG:3857'
-
-   origin: sw
-
+  osm_bright_grid_reverse:
+    base: GLOBAL_MERCATOR
+    srs: 'EPSG:3857'
+    origin: sw
 
 globals:
 
- #next are some global configuration options for MapProxy. They mostly explain themselves, or can be looked-up in the MapProxy docs.
+  cache:
+    # Where to store the cached images
+    base_dir: './cache_data'
+    # Where to store lockfiles
+    lock_dir: './cache_data/locks'
 
- cache:
+  image:
+    # Image/transformation options
+    resampling_method: bilinear
+    jpeg_quality: 90
 
-   # where to store the cached images
-
-   base_dir: './cache_data'
-
-   # where to store lockfiles
-
-   lock_dir: './cache_data/locks'
-
-
- # image/transformation options
-
- image:
-
-     resampling_method: bilinear
-
-     jpeg_quality: 90
