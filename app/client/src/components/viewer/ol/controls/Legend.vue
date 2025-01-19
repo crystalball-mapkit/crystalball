@@ -320,20 +320,17 @@ export default {
       return title;
     },
     isSliderVisible(layer) {
-      if (!layer.get('displaySeries')) {
-        return false;
+      const hasDisplaySeries = layer?.get('displaySeries');
+      const isVisible = layer?.getVisible();
+      const hasMultipleLayers = layer?.getLayers?.().getArray().length >= 2;
+
+      if (hasDisplaySeries && isVisible && hasMultipleLayers) {
+        if (this.$vuetify.breakpoint.smAndDown || !layer.get('largeSlider')) {
+          return true;
+        }
       }
-      if (this.$vuetify.breakpoint.smAndDown && layer.getVisible() && layer.getLayers().getArray().length >= 2) {
-        return true;
-      }
-      if (
-        !this.$vuetify.breakpoint.smAndDown &&
-        layer.getVisible() &&
-        layer.getLayers().getArray().length >= 2 &&
-        layer.get('largeSlider')
-      ) {
-        return false;
-      }
+
+      return false;
     },
   },
   mounted() {
