@@ -63,6 +63,7 @@
 </template>
 <script>
 import {mapGetters} from 'vuex';
+import {mapFields} from 'vuex-map-fields';
 import {Mapable} from '../../../../mixins/Mapable';
 
 export default {
@@ -145,16 +146,24 @@ export default {
     ...mapGetters('map', {
       layers: 'layers',
     }),
-    timeSeriesLayer() {
+    ...mapFields('map', {
+      lastSelectedLayer: 'lastSelectedLayer',
+    }),
+timeSeriesLayer() {
       if (!this.layers) {
         return null;
+      }
+      if (this.lastSelectedLayer) {
+        const selectedLayer = this.layers[this.lastSelectedLayer];
+        if (selectedLayer && selectedLayer.get('displaySeries') && selectedLayer.get('largeSlider')) {
+          return selectedLayer;
+        }
       }
       for (const layer of Object.values(this.layers)) {
         if (layer.get('displaySeries') && layer.get('largeSlider')) {
           return layer;
         }
       }
-
       return null;
     },
   },
