@@ -15,14 +15,14 @@
           :color="color"
           :step="1"
           ticks
-          :value="timeSeriesLayer.get('activeLayerIndex') || timeSeriesLayer.get('defaultSeriesLayerIndex') || 0"
+          :value="timeSeriesLayer.get('activeLayerIndex') ?? timeSeriesLayer.get('defaultSeriesLayerIndex') ?? 0"
           track-color="grey"
           :max="timeSeriesLayer.getLayers().getArray().length - 1"
           @change="activateTimeSeriesLayer($event, timeSeriesLayer)"
           hide-details
           center-affix
         >
-          <template v-slot:prepend>
+          <template v-slot:prepend v-if="timeSeriesLayer.get('playButton') !== false">
             <v-btn
               v-if="!timeSeriesLayer.get('isPlayDisabled')"
               :color="color"
@@ -33,7 +33,7 @@
               icon
               @click="isPlaying ? stop() : play()"
             >
-              <v-icon>{{ isPlaying ? 'mdi-pause' : 'mdi-play' }}</v-icon>
+              <v-icon>{{ isPlaying ? 'mdi-pause' : 'fas fa-play-circle' }}</v-icon>
             </v-btn>
           </template>
           <template v-slot:append>

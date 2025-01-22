@@ -603,6 +603,7 @@ export const LayerFactory = {
       largeSlider: lConf.largeSlider,
       isPlayDisabled: lConf.isPlayDisabled,
       defaultSeriesLayerIndex: lConf.defaultSeriesLayerIndex,
+      playButton: lConf.playButton,
       activeLayerIndex: lConf.defaultSeriesLayerIndex || 0, // Used for layer series title in legend which is updated on layer change
       layers,
     });
