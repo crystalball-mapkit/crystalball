@@ -149,7 +149,7 @@ export default {
     ...mapFields('map', {
       lastSelectedLayer: 'lastSelectedLayer',
     }),
-timeSeriesLayer() {
+    timeSeriesLayer() {
       if (!this.layers) {
         return null;
       }
