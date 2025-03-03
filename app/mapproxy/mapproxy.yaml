@@ -51,6 +51,7 @@ sources:
   toner_source:
     type: tile
     url: https://tileserver.ecotopia.today/styles/toner/%(z)s/%(x)s/%(y)s.png
+    grid: osm_bright_grid
 
   glri_projects_source:
     type: wms
