@@ -50,7 +50,7 @@ caches:
 sources:
   toner_source:
     type: tile
-    url: https://tileserver.ecotopia.today/styles/toner/{z}/{x}/{y}.png
+    url: https://tileserver.ecotopia.today/styles/toner/%(z)s/%(x)s/%(y)s.png
 
   glri_projects_source:
     type: wms
