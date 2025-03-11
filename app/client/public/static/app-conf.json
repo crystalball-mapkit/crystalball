@@ -322,7 +322,7 @@
         "type": "XYZ",
         "name": "osm",
         "group": "media",
-        "url": "https://mapproxy.crystalball.timetochange.today/wmts/osm_bright/osm_bright_grid/{z}/{x}/{y}.png",
+        "url": "https://mapproxy.crystalball.timetochange.today/wmts/toner/osm_bright_grid/{z}/{x}/{y}.png",
         "minResolution": 0.25,
         "maxResolution": 64000,
         "queryable": false,

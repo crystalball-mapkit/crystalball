@@ -10,6 +10,10 @@ services:
 
 layers:
   # Sets up which layers you want to make available using the services above
+  - name: toner
+    title: Toner
+    sources: [toner_cache]
+  
   - name: glri_projects
     title: GLRI Projects
     sources: [glri_projects_cache]
@@ -24,6 +28,10 @@ layers:
 
 caches:
   # Sets up how to cache the source data
+  toner_cache:
+    grids: [osm_bright_grid]
+    sources: [toner_source]
+
   glri_projects_cache:
     grids: [osm_bright_grid]
     sources: [glri_projects_source]
@@ -40,6 +48,11 @@ caches:
 
 
 sources:
+  toner_source:
+    type: tile
+    url: https://tileserver.ecotopia.today/styles/toner/%(z)s/%(x)s/%(y)s.png
+    grid: osm_bright_grid
+
   glri_projects_source:
     type: wms
     supported_formats: [png]
