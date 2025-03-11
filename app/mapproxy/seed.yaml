@@ -1,9 +1,13 @@
+coverages:
+  stuttgartbox:
+    bbox: [10.57, 55.12, 24.2, 69.07]
+    srs: 'EPSG:4326'
+  chicagobox:
+    bbox: [-89.10, 40.90, -86.50, 42.90]
+    srs: 'EPSG:4326'
+
 seeds:
-  luftbild_seed:
-    caches: [luftbild_cache]
-    grids: [osm_bright_grid]
-    coverages:
-      full_extent:
-        bbox: [9.20741548563305, 48.75054038456195, 9.266308128682422, 48.84671133605059]
-        srs: 'EPSG:4326'
-    levels: [19,20]
+  basic_seed:
+    caches: [basic_cache]
+    coverages: [chicagobox]
+    levels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
