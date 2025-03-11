@@ -20,6 +20,7 @@ import LayerGroup from 'ol/layer/Group';
 import Cluster from 'ol/source/Cluster';
 import {Image as ImageLayer} from 'ol/layer';
 import XyzSource from 'ol/source/XYZ';
+import {applyStyle} from 'ol-mapbox-style';
 import {OlStyleFactory} from './OlStyle';
 import {styleRefs, layersStylePropFn, colorMapFn} from '../style/OlStyleDefs';
 import http from '../services/http';
@@ -175,6 +176,9 @@ export const LayerFactory = {
     if (lConf.type === 'ESRI') {
       return this.createESRIFeatureService(lConf);
     }
+    if (lConf.type === 'OLMS') {
+      return this.createMapboxStyleLayer(lConf);
+    }
     if (lConf.type === 'GROUP') {
       return this.createGroupLayer(lConf, zIndex);
     }
@@ -288,6 +292,35 @@ export const LayerFactory = {
     });
 
     return xyzLayer;
+  },
+
+  /** Returns an ol-mapbox-style layer instance
+   * @param {Object} lConf Layer config object
+   * @return {ol.layer.Tile} OL Mapbox Style layer instance
+   */
+
+  createMapboxStyleLayer(lConf) {
+    const layer = new VectorTileLayer({
+      name: lConf.name,
+      title: lConf.title,
+      lid: lConf.lid,
+      visible: lConf.visible,
+      opacity: lConf.opacity,
+      group: lConf.group,
+      displayInLegend: lConf.displayInLegend,
+      displaySidebarInfo: lConf.displaySidebarInfo,
+      sidebarDefaultMedia: lConf.sidebarDefaultMedia,
+      legendIcon: lConf.legendIcon,
+      legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
+      hoverable: false,
+      isInteractive: false,
+      declutter: true,
+    });
+    applyStyle(layer, lConf.url, {
+      accessToken: lConf.accessToken,
+    });
+    return layer;
   },
 
   /**
