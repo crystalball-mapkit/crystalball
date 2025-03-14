@@ -15,7 +15,7 @@
     "color": {
       "primary": "#00000e",
       "secondary": "#7C2CA3",
-      "link": "#727def",
+      "link": "#429823",
       "mapLink": "#7C2CA3"
     },
     "font": {
@@ -23,7 +23,7 @@
       "family": "Open+Sans"
     },
     "legend": {
-      "isVisible": false
+      "isVisible": true
     },
     "controls": {
       "locate_me": true,
@@ -32,8 +32,8 @@
     },
     "sideBar": {
       "isVisible": true,
-      "backgroundColor": "#080b36",
-      "textColor": "white"
+      "backgroundColor": "#3f2398",
+      "textColor": "#f1f2f3"
     },
     "navbar": {
       "dropdownMenu": false
@@ -50,10 +50,30 @@
     "zoom": 1,
     "geoserverWorkspace": "workspace1",
     "resolutions": [
-      156543.03, 78271.52, 39135.76, 19567.88, 9783.94, 4891.97, 2445.98, 1222.99, 611.5, 305.75, 152.87, 76.437,
-      38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
+      156543.03,
+      78271.52,
+      39135.76,
+      19567.88,
+      9783.94,
+      4891.97,
+      2445.98,
+      1222.99,
+      611.5,
+      305.75,
+      152.87,
+      76.437,
+      38.219,
+      19.109,
+      9.5546,
+      4.7773,
+      2.3887,
+      1.1943,
+      0.5972
     ],
-    "center": [0, 0],
+    "center": [
+      0,
+      0
+    ],
     "minResolution": 0.25,
     "maxResolution": 64000,
     "layers": [
@@ -188,13 +208,13 @@
         "queryable": true,
         "format": "GeoJSON",
         "legendDisplayName": {
-          "en": "HsF",
-          "es": "HsF",
-          "pt": "HsF"
+          "en": "Wetlands w/o Borders",
+          "es": "Humedales sin froteras",
+          "pt": "Humedales sin froteras"
         },
         "visible": true,
         "displayInLegend": true,
-        "displaySidebarInfo": true,
+        "displaySidebarInfo": false,
         "zIndex": 1000,
         "minResolution": 0,
         "maxResolution": 64000,
@@ -535,7 +555,7 @@
         "maxResolution": 64000,
         "opacity": 1,
         "queryable": false,
-        "visible": false,
+        "visible": true,
         "displayInLegend": true,
         "legendDisplayName": {
           "en": "OSM-Toner",
@@ -565,7 +585,6 @@
       "media": {
         "default": {
           "layers": [
-            "basemap1",
             "basemap2",
             "basemap3",
             "polygons",
@@ -574,70 +593,117 @@
             "lines",
             "videos",
             "photos",
-            "html_posts"
+            "html_posts",
+            "remada",
+            "remada2",
+            "organizaciones"
           ],
-          "center": [-87.483, 41.807],
-          "resolution": 110,
-          "mobileResolution": 120,
-          "mobileCenter": [-87.5, 41.663],
+          "center": [
+            -87.534,
+            41.680
+          ],
+          "resolution": 30,
+          "mobileResolution": 60,
+          "mobileCenter": [
+            -87.5,
+            41.663
+          ],
           "minResolution": 0,
           "maxResolution": 64000,
-          "backgroundColor": "#f2f3f4"
+          "backgroundColor": "#f1f2f3"
         },
         "local": {
-          "layers": ["ESRI-World-Imagery"],
-          "center": [-88.179, 41.837],
+          "layers": [
+            "ESRI-World-Imagery"
+          ],
+          "center": [
+            -88.179,
+            41.837
+          ],
           "resolution": 2000,
           "mobileResolution": 16000,
           "minResolution": 0,
           "maxResolution": 64000,
-          "backgroundColor": "f2f3f4"
+          "backgroundColor": "#f1f2f3"
         },
         "global": {
-          "layers": ["osm2", "Rosario", "colaboradores"],
-          "center": [-12.42, 29.84],
+          "layers": [
+            "basemap2",
+            "Rosario",
+            "colaboradores"
+          ],
+          "center": [
+            -12.42,
+            29.84
+          ],
           "resolution": 68000,
           "mobileResolution": 80000,
           "minResolution": 0,
           "maxResolution": 64000,
-          "backgroundColor": "f2f3f4"
+          "backgroundColor": "#f1f2f3"
         }
       },
       "data": {
         "default": {
-          "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects"],
-          "center": [-84.75, 43.561],
+          "layers": [
+            "carto_dark",
+            "ESRI-World-Imagery2",
+            "glri_projects"
+          ],
+          "center": [
+            -84.75,
+            43.561
+          ],
           "resolution": 860,
           "mobileResolution": 4000,
-          "mobileCenter": [26.041, -4.828],
+          "mobileCenter": [
+            26.041,
+            -4.828
+          ],
           "minResolution": 0,
           "maxResolution": 64000,
-          "backgroundColor": "f2f3f4"
+          "backgroundColor": "#f1f2f3"
         },
         "local": {
-          "layers": ["osm", "burnables"],
-          "center": [-88.179, 41.837],
+          "layers": [
+            "basemap1",
+            "ESRI-World-Imagery2",
+            "burnables"
+          ],
+          "center": [
+            -88.179,
+            41.837
+          ],
           "resolution": 2000,
           "mobileResolution": 16000,
           "minResolution": 0,
           "maxResolution": 64000,
-          "backgroundColor": "f2f3f4"
+          "backgroundColor": "#f1f2f3"
         },
         "global": {
-          "layers": ["carto_dark", "ESRI-World-Imagery2", "burnables"],
-          "center": [-12.42, 29.84],
+          "layers": [
+            "carto_dark",
+            "ESRI-World-Imagery2",
+            "burnables"
+          ],
+          "center": [
+            -12.42,
+            29.84
+          ],
           "resolution": 68000,
           "mobileResolution": 80000,
           "minResolution": 0,
           "maxResolution": 64000,
-          "backgroundColor": "f2f3f4"
+          "backgroundColor": "#f1f2f3"
         }
       }
     },
     "flyToSlideshow": {
       "delayInSecondsForInitialStart": 9000000,
       "delayInSecondsBetweenFrames": 120000,
-      "maplinks": [""]
+      "maplinks": [
+        ""
+      ]
     },
     "defaultActiveGroup": "media",
     "groupTitles": {
