@@ -552,7 +552,7 @@
         "maxResolution": 64000,
         "opacity": 1,
         "queryable": false,
-        "visible": false,
+        "visible": true,
         "displayInLegend": true,
         "legendDisplayName": {
           "en": "OSM-Bright",
@@ -566,7 +566,6 @@
         "default": {
           "layers": [
             "basemap2",
-            "basemap3",
             "polygons",
             "ESRI-World-Imagery2",
             "points",
@@ -609,7 +608,7 @@
         "default": {
           "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects"],
           "center": [-84.75, 43.561],
-          "resolution": 860,
+          "resolution": 1800,
           "mobileResolution": 4000,
           "mobileCenter": [26.041, -4.828],
           "minResolution": 0,
@@ -617,7 +616,7 @@
           "backgroundColor": "#f1f2f3"
         },
         "local": {
-          "layers": ["basemap1", "ESRI-World-Imagery2", "burnables"],
+          "layers": ["basemap3", "burnables"],
           "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
