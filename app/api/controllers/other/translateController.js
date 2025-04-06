@@ -81,6 +81,7 @@ exports.translateAllFeatures = async (req, res) => {
         );
 
         const targetLanguages = Object.keys(langVariants)
+          .filter((lang) => lang != req.query.sourceLanguage);
 
         if (response[0].length > 0) {
           let partition = 0;
