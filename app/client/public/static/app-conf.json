@@ -40,7 +40,7 @@
     },
     "customNavigationScheme": "1",
     "spotlightMessage": {
-      "isVisible": true
+      "isVisible": false
     }
   },
   "map": {
@@ -54,7 +54,7 @@
       38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
     ],
     "center": [0, 0],
-    "minResolution": 0.25,
+    "minResolution": 0.12,
     "maxResolution": 64000,
     "layers": [
       {
@@ -310,7 +310,7 @@
         "format": "MVT",
         "renderMode": "hybrid",
         "visible": true,
-        "zIndex": 100,
+        "zIndex": 100000,
         "minResolution": 1,
         "maxResolution": 64000,
         "hoverable": true,
@@ -513,12 +513,12 @@
         "type": "OLMS",
         "name": "basemap1",
         "group": "data",
-        "url": "https://tileserver.ecotopia.today/styles/basic/style.json",
+        "url": "https://tileserver.ecotopia.today/styles/basic-transparent/style.json",
         "minResolution": 0.25,
         "maxResolution": 64000,
         "opacity": 1,
         "queryable": false,
-        "visible": true,
+        "visible": false,
         "displayInLegend": true,
         "legendDisplayName": {
           "en": "OSM-Maptiler",
@@ -548,6 +548,23 @@
         "name": "basemap3",
         "group": "data",
         "url": "https://tileserver.ecotopia.today/styles/osm-bright/style.json",
+        "minResolution": 0.12,
+        "maxResolution": 64000,
+        "opacity": 1,
+        "queryable": false,
+        "visible": true,
+        "displayInLegend": true,
+        "legendDisplayName": {
+          "en": "OSM-Bright",
+          "es": "OSM-Bright",
+          "pt": "OSM-Bright"
+        }
+      },
+      {
+        "type": "OLMS",
+        "name": "basemap4",
+        "group": "data",
+        "url": "https://tileserver.ecotopia.today/styles/dark-matter/style.json",
         "minResolution": 0.25,
         "maxResolution": 64000,
         "opacity": 1,
@@ -558,6 +575,60 @@
           "en": "OSM-Bright",
           "es": "OSM-Bright",
           "pt": "OSM-Bright"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "remada",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:remada&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "remar",
+        "queryable": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": false,
+        "legendDisplayName": {
+          "en": "Row Downriver",
+          "es": "La Remada",
+          "pt": "A Remada"
+        },
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 10000,
+        "minResolution": 0.5,
+        "maxResolution": 64000,
+        "label": false,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://hidrovia.s3.us-east-2.amazonaws.com/assets/icons/naranja.png",
+          "scale": 0.9,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "organizaciones",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:organizaciones&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "remar",
+        "queryable": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": false,
+        "legendDisplayName": {
+          "en": "Organizaciones",
+          "es": "Organizations",
+          "pt": "Organizações"
+        },
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 10000,
+        "minResolution": 0.5,
+        "maxResolution": 64000,
+        "label": false,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://hidrovia.s3.us-east-2.amazonaws.com/assets/icons/naranja.png",
+          "scale": 0.9,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
       }
     ],
@@ -572,10 +643,8 @@
             "lines",
             "videos",
             "photos",
-            "html_posts",
             "remada",
-            "remada2",
-            "organizaciones"
+            "html_posts"
           ],
           "center": [-87.534, 41.68],
           "resolution": 30,
@@ -586,7 +655,7 @@
           "backgroundColor": "#f1f2f3"
         },
         "local": {
-          "layers": ["ESRI-World-Imagery"],
+          "layers": ["ESRI-World-Imagery", "basemap1"],
           "center": [-88.179, 41.837],
           "resolution": 2000,
           "mobileResolution": 16000,
@@ -606,14 +675,14 @@
       },
       "data": {
         "default": {
-          "layers": ["carto_dark", "ESRI-World-Imagery2", "glri_projects"],
+          "layers": ["basemap4", "ESRI-World-Imagery2", "glri_projects"],
           "center": [-84.75, 43.561],
           "resolution": 1800,
           "mobileResolution": 4000,
           "mobileCenter": [26.041, -4.828],
           "minResolution": 0,
           "maxResolution": 64000,
-          "backgroundColor": "#f1f2f3"
+          "backgroundColor": "#000000"
         },
         "local": {
           "layers": ["basemap3", "burnables"],

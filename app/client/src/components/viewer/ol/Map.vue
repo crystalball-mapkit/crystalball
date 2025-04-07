@@ -249,7 +249,7 @@ export default {
       queryLayersGeoserverNames: null,
       activeInteractions: [],
       getInfoResult: [],
-      radius: 160,
+      radius: 140,
       mousePosition: undefined,
       spotlightMessage: this.$appConfig?.spotlightMessage?.isVisible || false,
       lightBoxImages: [],
@@ -828,7 +828,7 @@ export default {
       // for using the spotlights should be shown based on zoom level.
       this.map.on('moveend', () => {
         const resolutionLevel = this.map.getView().getResolution();
-        if (resolutionLevel <= 2) {
+        if (resolutionLevel <= 4) {
           this.spotlightMessage = true;
         } else {
           this.spotlightMessage = false;
