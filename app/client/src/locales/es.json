@@ -44,7 +44,11 @@
     "deleteFeature": "Borrar rasgo",
     "addPost": "Añadir puesto",
     "changeSpotlight": "pulsa ↑ o ↓ para cambiar el tamaño del foco",
-    "translateAllFeatures": "Traducir todos los datos"
+    "translateAllFeatures": "Traducir todos los datos",
+    "analyzePolygon": "Analizar área",
+    "drawSquare": "Dibujar cuadrado",
+    "drawPolygon": "Dibujar polígono",
+    "selectFromLayer": "Seleccionar de la capa"
   },
   "form": {
     "user": {

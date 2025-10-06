@@ -13,9 +13,10 @@
       <template>
         <v-expand-transition>
           <v-navigation-drawer
+            ref="drawer"
             v-model="sidebarState"
-            :width="!selectedCoorpNetworkEntity ? sidebarWidth.default : sidebarWidth.corporateNetworkSelected"
-            class="elevation-6"
+            :width="computedDrawerWidth"
+            class="elevation-6 resizable-drawer"
             :color="$appConfig.app.sideBar.backgroundColor"
             stateless
             app
@@ -26,6 +27,7 @@
             <side-panel></side-panel>
           </v-navigation-drawer>
         </v-expand-transition>
+        <div v-show="resizeOverlayVisible" class="resize-overlay"></div>
       </template>
 
       <!-- APP BAR DESKTOP -->
@@ -296,6 +298,7 @@ export default {
       isEditingHtml: 'isEditingHtml',
       postEditType: 'postEditType',
       postFeature: 'postFeature',
+      analysisIframeUrl: 'analysisIframeUrl',
       popup: 'popup',
       mobilePanelState: 'mobilePanelState',
       navbarGroups: 'navbarGroups',
@@ -312,6 +315,12 @@ export default {
     ...mapFields('app', {
       sidebarState: 'sidebarState',
     }),
+    computedDrawerWidth() {
+      if (this.analysisIframeUrl) {
+        return this.drawerWidthDynamic; // will be 50% by default
+      }
+      return !this.selectedCoorpNetworkEntity ? this.sidebarWidth.default : this.sidebarWidth.corporateNetworkSelected;
+    },
     regionLength() {
       const activeNavbarGroup = this.activeLayerGroup.navbarGroup;
       const regions = this.$appConfig.map.groups[activeNavbarGroup];
@@ -383,12 +392,14 @@ export default {
   data() {
     return {
       color: this.$appConfig.app.color,
+      resizeOverlayVisible: false,
       navDrawer: false,
       sidebarWidth: {
         default: 460,
         corporateNetworkSelected: 600,
       },
       dropdownMenu: false,
+      drawerWidthDynamic: 0, // Will store live width in px when resizable
       languageCodes: {
         en: 'English',
         de: 'Deutsch',
@@ -402,6 +413,53 @@ export default {
     };
   },
   methods: {
+    makeDrawerResizable() {
+      const drawer = this.$refs.drawer && this.$refs.drawer.$el;
+      if (!drawer) return;
+
+      const drawerBorder = drawer.querySelector('.v-navigation-drawer__border');
+      if (!drawerBorder) return;
+
+      if (!this.analysisIframeUrl) {
+        // remove styling/events if previously added
+        drawerBorder.style.width = '0';
+        drawerBorder.style.cursor = 'default';
+        drawerBorder.style.backgroundColor = 'transparent';
+        drawerBorder.onmousedown = null;
+        return;
+      }
+
+      drawerBorder.style.width = '4px';
+      drawerBorder.style.cursor = 'ew-resize';
+      drawerBorder.style.backgroundColor = 'transparent';
+
+      const direction = drawer.classList.contains('v-navigation-drawer--right') ? 'right' : 'left';
+
+      const onMouseMove = e => {
+        document.body.style.cursor = 'ew-resize';
+        const fullWidth = document.body.scrollWidth;
+        const newWidth = direction === 'right' ? fullWidth - e.clientX : e.clientX;
+        this.drawerWidthDynamic = Math.max(300, Math.min(newWidth, fullWidth * 0.9));
+      };
+
+      const onMouseDown = e => {
+        if (e.offsetX < 10) {
+          this.resizeOverlayVisible = true; // 🛡 show overlay
+          drawer.style.transition = 'none';
+          document.addEventListener('mousemove', onMouseMove);
+        }
+      };
+
+      const onMouseUp = () => {
+        drawer.style.transition = '';
+        document.body.style.cursor = '';
+        document.removeEventListener('mousemove', onMouseMove);
+        this.resizeOverlayVisible = false; // ✅ remove overlay after done
+      };
+
+      drawerBorder.addEventListener('mousedown', onMouseDown);
+      document.addEventListener('mouseup', onMouseUp);
+    },
     changeNavbarGroup(navbarGroup) {
       let region = this.activeLayerGroup.region;
       if (['3', '1'].includes(this.$appConfig.app.customNavigationScheme)) {
@@ -548,6 +606,19 @@ export default {
     this.setSidebarInitialState(this.$appConfig.app.sideBar.isVisible);
   },
   watch: {
+    analysisIframeUrl: {
+      handler(newVal) {
+        if (newVal) {
+          this.drawerWidthDynamic = window.innerWidth * 0.5;
+        } else {
+          this.drawerWidthDynamic = !this.selectedCoorpNetworkEntity
+            ? this.sidebarWidth.default
+            : this.sidebarWidth.corporateNetworkSelected;
+        }
+        this.$nextTick(() => this.makeDrawerResizable());
+      },
+      immediate: true,
+    },
     $route(newValue, oldValue) {
       if (oldValue.path === newValue.path) {
         return;
@@ -589,11 +660,22 @@ export default {
     },
   },
   mounted() {
-    // inform registered cmps that the app is mounted and the dynamic
-    // components are available
     EventBus.$emit('app-mounted');
     this.onResize();
     window.addEventListener('resize', this.onResize, {passive: true});
+
+    // Initialize drawer width and resizable capability
+    if (this.analysisIframeUrl) {
+      this.drawerWidthDynamic = window.innerWidth * 0.5; // 50%
+    } else {
+      this.drawerWidthDynamic = !this.selectedCoorpNetworkEntity
+        ? this.sidebarWidth.default
+        : this.sidebarWidth.corporateNetworkSelected;
+    }
+
+    this.$nextTick(() => {
+      this.makeDrawerResizable();
+    });
   },
   beforeDestroy() {
     if (typeof window === 'undefined') return;
@@ -604,5 +686,19 @@ export default {
 <style lang="scss" scoped>
 .v-btn.active .v-icon {
   transform: rotate(-180deg);
+}
+.resizable-drawer .v-navigation-drawer__border {
+  background-color: rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s;
+}
+.resizable-drawer .v-navigation-drawer__border:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+.resize-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: transparent;
+  cursor: ew-resize;
 }
 </style>

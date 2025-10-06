@@ -5,6 +5,7 @@
         !selectedCoorpNetworkEntity &&
         !isEditingPost &&
         !isEditingHtml &&
+        !analysisIframeUrl &&
         !editType &&
         (!highlightLayer || !highlightLayer.getSource().getFeatures().length > 0)
       "
@@ -355,7 +356,7 @@
     <!-- ADD OR EDIT POST-->
     <v-layout
       :style="`overflow:${$vuetify.breakpoint.smAndDown ? 'hidden' : 'unset'};`"
-      v-show="(isEditingPost && postEditLayer && postEditLayer.getSource().getFeatures().length > 0) || isEditingHtml"
+      v-show="(isEditingPost && postEditLayer && postEditLayer.getSource().getFeatures().length > 0) || isEditingHtml && !analysisIframeUrl"
       fill-height
     >
       <v-row align="start" justify="center" class="mx-0" style="width: 100%">
@@ -368,6 +369,21 @@
       ></v-row>
     </v-layout>
 
+    <!-- ANALYSIS IFRAME URL  -->
+    <v-layout v-if="analysisIframeUrl" class="my-3"></v-layout>
+      <v-row align="start" justify="center" class="mx-0" style="width: 100%">
+        <v-layout align-center class="elevation-0 mb-1" style="width: 100%">
+          <iframe
+            style="overflow: hidden; position: absolute; border: none; margin-left: 11px"
+            height="100%"
+            width="100%"
+            :src="analysisIframeUrl"
+          >
+          </iframe>
+        </v-layout>
+      </v-row>
+
+
     <!-- EDIT LAYER MOBILE -->
 
     <v-layout
@@ -375,6 +391,7 @@
       v-if="
         ['addFeature', 'modifyAttributes'].includes(editType) &&
         selectedLayer &&
+        !analysisIframeUrl &&
         highlightLayer.getSource().getFeatures().length > 0 &&
         $vuetify.breakpoint.smAndDown
       "
@@ -553,6 +570,7 @@ export default {
       layers: 'layers',
       editType: 'editType',
       selectedLayer: 'selectedLayer',
+      analysisIframeUrl: 'analysisIframeUrl',
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',

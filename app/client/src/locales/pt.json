@@ -44,7 +44,11 @@
     "deleteFeature": "Apagar Característica",
     "addPost": "Adicionar Post",
     "changeSpotlight": "pressione ↑ ou ↓ para mudar o tamanho dos holofotes",
-    "translateAllFeatures": "Traduzir todos os recursos"
+    "translateAllFeatures": "Traduzir todos os recursos",
+    "analyzePolygon": "Analisar área",
+    "drawSquare": "Desenhar quadrado",
+    "drawPolygon": "Desenhar polígono",
+    "selectFromLayer": "Selecionar da camada"
   },
   "form": {
     "user": {
