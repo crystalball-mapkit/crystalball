@@ -20,7 +20,7 @@
       <!-- Show only on mobile -->
       <locate v-if="$appConfig.app.controls && $appConfig.app.controls.locate_me" :color="color.primary" :map="map" />
     </div>
-    <div style="position: absolute; left: 50%; bottom: 10px; z-index: 10;">
+    <div style="position: absolute; left: 50%; bottom: 10px; z-index: 10">
       <route-controls
         v-show="!isEditingPost"
         v-if="!$vuetify.breakpoint.smAndDown"
@@ -851,7 +851,6 @@ export default {
         if (me.activeInteractions.length > 0 || me.analysisEditType || me.isEditingLayer) {
           return;
         }
-
 
         if (me.lastSelectedLayer) {
           me.lastSelectedLayer = undefined;
