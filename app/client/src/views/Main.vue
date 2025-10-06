@@ -421,7 +421,6 @@ export default {
       if (!drawerBorder) return;
 
       if (!this.analysisIframeUrl) {
-        // remove styling/events if previously added
         drawerBorder.style.width = '0';
         drawerBorder.style.cursor = 'default';
         drawerBorder.style.backgroundColor = 'transparent';
@@ -444,7 +443,7 @@ export default {
 
       const onMouseDown = e => {
         if (e.offsetX < 10) {
-          this.resizeOverlayVisible = true; // 🛡 show overlay
+          this.resizeOverlayVisible = true;
           drawer.style.transition = 'none';
           document.addEventListener('mousemove', onMouseMove);
         }
@@ -454,7 +453,7 @@ export default {
         drawer.style.transition = '';
         document.body.style.cursor = '';
         document.removeEventListener('mousemove', onMouseMove);
-        this.resizeOverlayVisible = false; // ✅ remove overlay after done
+        this.resizeOverlayVisible = false;
       };
 
       drawerBorder.addEventListener('mousedown', onMouseDown);
