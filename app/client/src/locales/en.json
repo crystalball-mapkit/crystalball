@@ -46,7 +46,11 @@
     "deleteFeature": "Delete Feature",
     "addPost": "Add Post",
     "changeSpotlight": "press ↑ or ↓ to change spotlight size",
-    "translateAllFeatures": "Translate All Features"
+    "translateAllFeatures": "Translate All Features",
+    "analyzePolygon": "Analyze Area",
+    "drawSquare": "Draw Square",
+    "drawPolygon": "Draw Polygon",
+    "selectFromLayer": "Select from Layer"
   },
   "form": {
     "user": {

@@ -51,6 +51,8 @@ const state = {
   postEditLayer: null, // user for
   postFeature: null,
   postEditType: null,
+  analysisEditType: null,
+  analysisIframeUrl: null,
   lastSelectedLayer: null, // triggered from layer or group change
   currentResolution: null,
   mobilePanelState: true,

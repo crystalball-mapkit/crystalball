@@ -75,6 +75,59 @@
         <span>{{ isEditingPost ? $t('general.close') : $t('tooltip.addPost') }}</span>
       </v-tooltip>
     </div>
+
+    <!-- ANALYSIS SPEED DIAL -->
+    <div v-if="!selectedLayer && !isEditingPost && $appConfig.app.analysis && $appConfig.app.analysis.rShinyServerUrl">
+      <v-speed-dial
+        :value="analysisSpeedDialOpen"
+        @input="analysisSpeedDialOpen = $event"
+        direction="left"
+        transition="slide-x-transition"
+        class="edit-buttons mt-2"
+      >
+        <template v-slot:activator>
+          <v-tooltip bottom>
+            <template v-slot:activator="{on}">
+              <v-btn
+                :color="analysisEditType ? 'error' : color.primary"
+                dark
+                fab
+                small
+                v-on="on"
+                @click.stop="!!analysisEditType ? stopAnalysis() : (analysisSpeedDialOpen = !analysisSpeedDialOpen)"
+              >
+                <v-icon v-if="analysisSpeedDialOpen || analysisEditType">mdi-close</v-icon>
+                <v-icon v-else>mdi-chart-areaspline</v-icon>
+              </v-btn>
+            </template>
+            <span>{{
+              !!analysisEditType || analysisSpeedDialOpen ? $t('general.close') : $t('tooltip.analyzePolygon')
+            }}</span>
+          </v-tooltip>
+        </template>
+
+        <!-- Draw Square Option -->
+        <v-tooltip bottom>
+          <template v-slot:activator="{on}">
+            <v-btn fab dark small color="secondary" v-on="on" @click.stop="startAnalysis('square')">
+              <v-icon>mdi-vector-square</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t('tooltip.drawSquare') }}</span>
+        </v-tooltip>
+
+        <!-- Draw Polygon Option -->
+        <v-tooltip bottom>
+          <template v-slot:activator="{on}">
+            <v-btn fab dark small color="secondary" v-on="on" @click.stop="startAnalysis('polygon')">
+              <v-icon>mdi-vector-polygon</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t('tooltip.drawPolygon') }}</span>
+        </v-tooltip>
+      </v-speed-dial>
+    </div>
+
     <div v-if="selectedLayer">
       <div v-for="(item, index) in editButtons" :key="index">
         <v-layout>
@@ -344,6 +397,8 @@ import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
 import {LineString, MultiLineString, Polygon, MultiPolygon} from 'ol/geom';
 import {Modify, Draw} from 'ol/interaction';
+import {createBox} from 'ol/interaction/Draw';
+
 import {unByKey} from 'ol/Observable';
 import Overlay from 'ol/Overlay';
 import {mapFields} from 'vuex-map-fields';
@@ -378,6 +433,11 @@ export default {
     color: {type: Object},
   },
   data: () => ({
+    // Analysis mode
+    analysisSpeedDialOpen: false,
+    analysisDrawInteraction: null,
+
+    //
     dialogSelectedLayer: null, // Temporary selection (not active if user doesn't press ok)
     layersDialog: false,
     // INTERACTION
@@ -437,6 +497,8 @@ export default {
       selectedLayer: 'selectedLayer',
       postFeature: 'postFeature',
       postEditType: 'postEditType',
+      analysisEditType: 'analysisEditType',
+      analysisIframeUrl: 'analysisIframeUrl',
       formValid: 'formValid',
       formSchema: 'formSchema',
       // formSchemaCache: 'formSchemaCache',
@@ -720,6 +782,84 @@ export default {
       // this.formSchema = this.formSchemaCache[layerName];
       // }
       this.formSchema = formSchema;
+    },
+
+    startAnalysis(mode) {
+      this.analysisSpeedDialOpen = false;
+      this.analysisEditType = mode;
+
+      // close other editing modes
+      if (this.isEditingLayer) this.removeInteraction();
+      if (this.isEditingPost) this.isEditingPost = false;
+
+      this.setupDrawAnalysis();
+    },
+
+    stopAnalysis() {
+      this.analysisEditType = null;
+      this.analysisSpeedDialOpen = false;
+
+      if (this.analysisDrawInteraction) {
+        this.map.removeInteraction(this.analysisDrawInteraction);
+        this.analysisDrawInteraction = null;
+      }
+
+      this.removeInteraction();
+      this.editLayer.getSource().clear();
+      this.highlightLayer.getSource().clear();
+      this.analysisIframeUrl = null;
+    },
+
+    // Setup drawing interactions for analysis (using editLayer)
+    setupDrawAnalysis() {
+      this.editLayer.getSource().clear();
+      this.highlightLayer.getSource().clear();
+
+      const drawOptions = {
+        source: this.editLayer.getSource(),
+        type: this.analysisEditType === 'square' ? 'Circle' : 'Polygon',
+      };
+      if (this.analysisEditType === 'square') {
+        drawOptions.geometryFunction = createBox(4);
+      }
+
+      this.analysisDrawInteraction = new Draw(drawOptions);
+
+      // Clear previous geometry BEFORE new draw starts
+      this.analysisDrawInteraction.on('drawstart', () => {
+        this.editLayer.getSource().clear();
+        this.highlightLayer.getSource().clear();
+      });
+
+      this.analysisDrawInteraction.on('drawend', this.onAnalysisDrawEnd);
+      this.map.addInteraction(this.analysisDrawInteraction);
+    },
+
+    onAnalysisDrawEnd(evt) {
+      // Clear previous highlight/source, but not before Draw finishes!
+      this.highlightLayer.getSource().clear();
+      const feature = evt.feature;
+      // Convert to WGS84 and build GeoJSON
+      const geom = feature.getGeometry().clone();
+      geom.transform('EPSG:3857', 'EPSG:4326');
+      const geojson = new GeoJSON().writeGeometryObject(geom);
+      const encoded = encodeURIComponent(JSON.stringify(geojson));
+      const ts = Date.now();
+      // Build URL
+      let baseUrl = this.$appConfig.app.analysis.rShinyServerUrl;
+      if (!baseUrl.endsWith('/')) {
+        baseUrl += '/';
+      }
+      const url = `${baseUrl}?geojson=${encoded}&_ts=${ts}`;
+      console.log('Generated Analysis URL:', url);
+      // Store / open
+      this.analysisIframeUrl = url;
+      // Highlight (use clone to avoid same instance)
+      this.highlightLayer.getSource().addFeature(feature.clone());
+
+      // Optional: stop drawing
+      this.map.removeInteraction(this.analysisDrawInteraction);
+      this.analysisDrawInteraction = null;
     },
 
     createSchemaWithTranslations() {
@@ -1058,11 +1198,17 @@ export default {
       if (this.isEditingPost) {
         this.isEditingPost = false;
       }
+      if (this.analysisEditType) {
+        this.stopAnalysis();
+      }
     },
     togglePostEdit() {
       this.isEditingPost = !this.isEditingPost;
       if (this.isEditingLayer) {
         this.closeEdit();
+      }
+      if (this.analysisEditType) {
+        this.stopAnalysis();
       }
     },
     changeLayer() {

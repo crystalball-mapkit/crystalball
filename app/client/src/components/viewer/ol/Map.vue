@@ -19,6 +19,8 @@
       ></share-map>
       <!-- Show only on mobile -->
       <locate v-if="$appConfig.app.controls && $appConfig.app.controls.locate_me" :color="color.primary" :map="map" />
+    </div>
+    <div style="position: absolute; left: 50%; bottom: 10px; z-index: 10">
       <route-controls
         v-show="!isEditingPost"
         v-if="!$vuetify.breakpoint.smAndDown"
@@ -704,7 +706,7 @@ export default {
         }
         let feature;
         let layer;
-        if (this.isEditingLayer === false && this.isEditingPost === false) {
+        if (this.isEditingLayer === false && this.isEditingPost === false && !this.analysisEditType) {
           this.map.forEachFeatureAtPixel(
             evt.pixel,
             (f, l) => {
@@ -846,10 +848,7 @@ export default {
       const map = me.map;
 
       me.mapClickListenerKey = map.on('click', async evt => {
-        if (me.activeInteractions.length > 0) {
-          return;
-        }
-        if (me.isEditingLayer) {
+        if (me.activeInteractions.length > 0 || me.analysisEditType || me.isEditingLayer) {
           return;
         }
 
@@ -1368,6 +1367,7 @@ export default {
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       currentResolution: 'currentResolution',
       lastSelectedLayer: 'lastSelectedLayer',
+      analysisEditType: 'analysisEditType',
     }),
     hiddenProps() {
       const hiddenProps = this.$appConfig.map.featureInfoHiddenProps;
