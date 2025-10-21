@@ -50,6 +50,7 @@
     "analyzePolygon": "Analyze Area",
     "drawSquare": "Draw Square",
     "drawPolygon": "Draw Polygon",
+    "selectPresetsFromLayer": "Select Presets from Layer",
     "selectFromLayer": "Select from Layer"
   },
   "form": {
@@ -76,6 +77,11 @@
     "legend": {
       "selectAll": "Select All",
       "clearAll": "Clear All"
+    },
+    "analysis": { 
+      "selectLayerPresets": "Select Layer Presets",
+      "selectFeatureInstruction": "Please select a feature on the map to analyze.",
+      "noFeatureFoundAtLocation": "No feature found at selected location"
     },
     "edit": {
       "selectLayerToEdit": "Select layer to edit",

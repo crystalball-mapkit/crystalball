@@ -62,6 +62,37 @@
     "layers": [
       {
         "type": "VECTOR",
+        "name": "ks_counties",
+        "url": "http://localhost:1024/static/ks_counties.json",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "visible": true,
+        "presetLayer": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/polygon.png",
+        "legendDisplayName": {
+          "en": "KS Counties",
+          "es": "Condados de KS",
+          "pt": "Condados de KS"
+        },
+        "zIndex": 1000,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "opacity": 1,
+        "label": null,
+        "hoverable": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "fillColor": "#ffcc00",
+          "strokeColor": "#333333",
+          "strokeWidth": 2
+        }
+      },
+      {
+        "type": "VECTOR",
         "name": "points",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:points&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -640,6 +671,7 @@
         "default": {
           "layers": [
             "basemap2",
+            "ks_counties",
             "polygons",
             "ESRI-World-Imagery2",
             "points",

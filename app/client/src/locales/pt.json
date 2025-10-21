@@ -48,6 +48,7 @@
     "analyzePolygon": "Analisar área",
     "drawSquare": "Desenhar quadrado",
     "drawPolygon": "Desenhar polígono",
+    "selectPresetsFromLayer": "Selecionar predefinições da camada",
     "selectFromLayer": "Selecionar da camada"
   },
   "form": {
@@ -74,6 +75,11 @@
     "legend": {
       "selectAll": "Seleccionar tudo",
       "clearAll": "Limpar tudo"
+    },
+    "analysis": { 
+      "selectLayerPresets": "Selecionar predefinições de camada",
+      "selectFeatureInstruction": "Por favor, selecione um recurso no mapa para analisar.",
+      "noFeatureFoundAtLocation": "Nenhum recurso encontrado na localização selecionada."
     },
     "edit": {
       "selectLayerToEdit": "Seleccionar camada para editar",
