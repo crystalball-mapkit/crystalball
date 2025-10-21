@@ -883,19 +883,19 @@ export default {
       this.analysisSpeedDialOpen = false;
       this.analysisLayersDialog = false;
       this.analysisDialogSelectedLayer = null;
-      
+
       // Remove feature select interaction
       if (this.analysisFeatureSelectInteraction) {
         unByKey(this.analysisFeatureSelectInteraction);
         this.analysisFeatureSelectInteraction = null;
       }
-      
+
       // Remove draw interaction
       if (this.analysisDrawInteraction) {
         this.map.removeInteraction(this.analysisDrawInteraction);
         this.analysisDrawInteraction = null;
       }
-      
+
       this.map.getTarget().style.cursor = '';
       this.removeInteraction();
       this.editLayer.getSource().clear();
@@ -935,7 +935,6 @@ export default {
         const feature = features[0];
         this.processAnalysisFeature(feature);
       } else {
-
         this.toggleSnackbar({
           type: 'warning',
           message: this.$t('form.analysis.noFeatureFoundAtLocation'),
@@ -1431,14 +1430,14 @@ export default {
       const width = extent[2] - extent[0];
       const height = extent[3] - extent[1];
       const paddedExtent = [
-        extent[0] - (width * padding),
-        extent[1] - (height * padding),
-        extent[2] + (width * padding),
-        extent[3] + (height * padding)
+        extent[0] - width * padding,
+        extent[1] - height * padding,
+        extent[2] + width * padding,
+        extent[3] + height * padding,
       ];
       this.map.getView().fit(paddedExtent, {
         duration: 500,
-        padding: [20, 20, 20, 20] // Additional padding in pixels
+        padding: [20, 20, 20, 20], // Additional padding in pixels
       });
     },
 

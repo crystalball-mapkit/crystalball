@@ -76,7 +76,7 @@
       "selectAll": "Seleccionar tudo",
       "clearAll": "Limpar tudo"
     },
-    "analysis": { 
+    "analysis": {
       "selectLayerPresets": "Selecionar predefinições de camada",
       "selectFeatureInstruction": "Por favor, selecione um recurso no mapa para analisar.",
       "noFeatureFoundAtLocation": "Nenhum recurso encontrado na localização selecionada."
