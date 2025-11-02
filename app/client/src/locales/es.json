@@ -48,6 +48,7 @@
     "analyzePolygon": "Analizar área",
     "drawSquare": "Dibujar cuadrado",
     "drawPolygon": "Dibujar polígono",
+    "selectPresetsFromLayer": "Seleccionar preajustes de la capa",
     "selectFromLayer": "Seleccionar de la capa"
   },
   "form": {
@@ -74,6 +75,11 @@
     "legend": {
       "selectAll": "Activar todo",
       "clearAll": "Borrar todo"
+    },
+    "analysis": {
+      "selectLayerPresets": "Seleccionar preajustes de capa",
+      "selectFeatureInstruction": "Por favor, seleccione un rasgo en el mapa para analizar.",
+      "noFeatureFoundAtLocation": "No se ha encontrado ningún rasgo en la ubicación seleccionada."
     },
     "edit": {
       "selectLayerToEdit": "Seleccionar capa a editar",

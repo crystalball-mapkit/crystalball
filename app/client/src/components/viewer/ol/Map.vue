@@ -704,6 +704,7 @@ export default {
         if (evt.dragging || this.activeInteractions.length > 0) {
           return;
         }
+
         let feature;
         let layer;
         if (this.isEditingLayer === false && this.isEditingPost === false && !this.analysisEditType) {

@@ -125,6 +125,16 @@
           </template>
           <span>{{ $t('tooltip.drawPolygon') }}</span>
         </v-tooltip>
+
+        <!-- Select Feature from Layer Option -->
+        <v-tooltip bottom>
+          <template v-slot:activator="{on}">
+            <v-btn fab dark small color="secondary" v-on="on" @click.stop="startAnalysis('feature')">
+              <v-icon>mdi-layers</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t('tooltip.selectPresetsFromLayer') }}</span>
+        </v-tooltip>
       </v-speed-dial>
     </div>
 
@@ -153,6 +163,53 @@
         </v-layout>
       </div>
     </div>
+
+    <!-- ANALYSIS LAYER SELECTION DIALOG -->
+    <v-dialog v-model="analysisLayersDialog" max-width="350" @keydown.esc="analysisLayersDialog = false">
+      <v-card>
+        <v-app-bar flat :color="color.primary" height="50" dark>
+          <v-icon class="mr-3">layers</v-icon>
+          <v-toolbar-title>{{ $t('form.analysis.selectLayerPresets') }}</v-toolbar-title>
+        </v-app-bar>
+        <v-select
+          class="mx-4 my-2"
+          :items="analysisLayers"
+          v-model="analysisDialogSelectedLayer"
+          return-object
+          item-value="values_.name"
+          :label="$t('general.layers')"
+        >
+          <template slot="selection" slot-scope="{item}">
+            {{
+              item.get('legendDisplayName')[$i18n.locale] ||
+              (typeof item.get('legendDisplayName') === 'object' && Object.values(item.get('legendDisplayName'))[0]) ||
+              item.get('legendDisplayName')
+            }}
+          </template>
+          <template slot="item" slot-scope="{item}">
+            {{
+              item.get('legendDisplayName')[$i18n.locale] ||
+              (typeof item.get('legendDisplayName') === 'object' && Object.values(item.get('legendDisplayName'))[0]) ||
+              item.get('legendDisplayName')
+            }}
+          </template>
+        </v-select>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary darken-1"
+            text
+            :disabled="!analysisDialogSelectedLayer"
+            @click.native="selectAnalysisLayer"
+          >
+            {{ $t('general.ok') }}
+          </v-btn>
+          <v-btn :color="color.primary" text @click.native="analysisLayersDialog = false">
+            {{ $t('general.cancel') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <!-- SELECT LAYER DIALOG -->
     <v-dialog v-model="layersDialog" max-width="350" @keydown.esc="layersDialog = false">
@@ -436,6 +493,9 @@ export default {
     // Analysis mode
     analysisSpeedDialOpen: false,
     analysisDrawInteraction: null,
+    analysisLayersDialog: false,
+    analysisDialogSelectedLayer: null,
+    analysisFeatureSelectInteraction: null,
 
     //
     dialogSelectedLayer: null, // Temporary selection (not active if user doesn't press ok)
@@ -567,6 +627,16 @@ export default {
           enabled: this.serverConfig && !!this.serverConfig.isTranslationEnabled,
         },
       ];
+    },
+    analysisLayers() {
+      return this.flatLayers.filter(
+        l =>
+          ['VECTORTILE', 'VECTOR'].includes(l.get('type')) &&
+          l.get('name') &&
+          l.get('legendDisplayName') &&
+          l.get('queryable') !== false &&
+          l.get('presetLayer') === true // Only include layers with presetLayer: true
+      );
     },
   },
   methods: {
@@ -784,10 +854,23 @@ export default {
       this.formSchema = formSchema;
     },
 
+    selectAnalysisLayer() {
+      this.analysisLayersDialog = false;
+      this.analysisEditType = 'feature';
+      if (!this.analysisDialogSelectedLayer.getVisible()) {
+        this.analysisDialogSelectedLayer.setVisible(true);
+      }
+      this.setupFeatureSelectAnalysis();
+    },
+
     startAnalysis(mode) {
       this.analysisSpeedDialOpen = false;
-      this.analysisEditType = mode;
+      if (mode === 'feature') {
+        this.analysisLayersDialog = true;
+        return;
+      }
 
+      this.analysisEditType = mode;
       // close other editing modes
       if (this.isEditingLayer) this.removeInteraction();
       if (this.isEditingPost) this.isEditingPost = false;
@@ -798,16 +881,86 @@ export default {
     stopAnalysis() {
       this.analysisEditType = null;
       this.analysisSpeedDialOpen = false;
+      this.analysisLayersDialog = false;
+      this.analysisDialogSelectedLayer = null;
 
+      // Remove feature select interaction
+      if (this.analysisFeatureSelectInteraction) {
+        unByKey(this.analysisFeatureSelectInteraction);
+        this.analysisFeatureSelectInteraction = null;
+      }
+
+      // Remove draw interaction
       if (this.analysisDrawInteraction) {
         this.map.removeInteraction(this.analysisDrawInteraction);
         this.analysisDrawInteraction = null;
       }
 
+      this.map.getTarget().style.cursor = '';
       this.removeInteraction();
       this.editLayer.getSource().clear();
       this.highlightLayer.getSource().clear();
       this.analysisIframeUrl = null;
+    },
+
+    setupFeatureSelectAnalysis() {
+      this.editLayer.getSource().clear();
+      this.highlightLayer.getSource().clear();
+      if (this.analysisFeatureSelectInteraction) {
+        unByKey(this.analysisFeatureSelectInteraction);
+        this.analysisFeatureSelectInteraction = null;
+      }
+      this.analysisFeatureSelectInteraction = this.map.on('click', this.onAnalysisFeatureSelect);
+
+      this.map.getTarget().style.cursor = 'pointer';
+
+      // Show guidance to user
+      this.toggleSnackbar({
+        type: 'info',
+        message: this.$t('form.analysis.selectFeatureInstruction'),
+        timeout: 3000,
+        state: true,
+      });
+    },
+
+    onAnalysisFeatureSelect(evt) {
+      const selectedLayer = this.analysisDialogSelectedLayer;
+      if (!selectedLayer) return;
+      const features = this.map.getFeaturesAtPixel(evt.pixel, {
+        layerFilter: layerCandidate => layerCandidate.get('name') === selectedLayer.get('name'),
+        hitTolerance: 3,
+      });
+
+      if (features.length > 0) {
+        const feature = features[0];
+        this.processAnalysisFeature(feature);
+      } else {
+        this.toggleSnackbar({
+          type: 'warning',
+          message: this.$t('form.analysis.noFeatureFoundAtLocation'),
+          timeout: 3000,
+          state: true,
+        });
+      }
+    },
+
+    processAnalysisFeature(feature) {
+      this.highlightLayer.getSource().clear();
+      this.editLayer.getSource().clear();
+      this.highlightLayer.getSource().addFeature(feature.clone());
+      this.zoomToFeature(feature);
+      const geom = feature.getGeometry().clone();
+      geom.transform('EPSG:3857', 'EPSG:4326');
+      const geojson = new GeoJSON().writeGeometryObject(geom);
+      const encoded = encodeURIComponent(JSON.stringify(geojson));
+      const ts = Date.now();
+      let baseUrl = this.$appConfig.app.analysis.rShinyServerUrl;
+      if (!baseUrl.endsWith('/')) {
+        baseUrl += '/';
+      }
+      const url = `${baseUrl}?geojson=${encoded}&_ts=${ts}`;
+      console.log('Generated Analysis URL from feature:', url);
+      this.analysisIframeUrl = url;
     },
 
     // Setup drawing interactions for analysis (using editLayer)
@@ -1267,6 +1420,25 @@ export default {
       if (this.pointerMoveKey) {
         unByKey(this.pointerMoveKey);
       }
+    },
+
+    zoomToFeature(feature) {
+      const geometry = feature.getGeometry();
+      if (!geometry) return;
+      const extent = geometry.getExtent();
+      const padding = 0.1;
+      const width = extent[2] - extent[0];
+      const height = extent[3] - extent[1];
+      const paddedExtent = [
+        extent[0] - width * padding,
+        extent[1] - height * padding,
+        extent[2] + width * padding,
+        extent[3] + height * padding,
+      ];
+      this.map.getView().fit(paddedExtent, {
+        duration: 500,
+        padding: [20, 20, 20, 20], // Additional padding in pixels
+      });
     },
 
     /**
