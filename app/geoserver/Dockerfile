@@ -1,1 +1,1 @@
-FROM kartoza/geoserver:2.18.2
+FROM kartoza/geoserver:2.26.1
