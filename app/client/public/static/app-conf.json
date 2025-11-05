@@ -86,9 +86,9 @@
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
-          "fillColor": "#ffcc00",
+          "fillColor": "rgba(255,204,0,0.1)",
           "strokeColor": "#333333",
-          "strokeWidth": 2
+          "strokeWidth": 3
         }
       },
       {
