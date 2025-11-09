@@ -944,36 +944,35 @@ export default {
       }
     },
 
-  processAnalysisFeature(feature) {
-    this.highlightLayer.getSource().clear();
-    this.editLayer.getSource().clear();
-    this.highlightLayer.getSource().addFeature(feature.clone());
-    if (this.$appConfig.app.analysis.zoomToFeatureOnSelect) {
-      this.zoomToFeature(feature);
-    }
-    let queryParam;
-    if (this.analysisDialogSelectedLayer && this.analysisDialogSelectedLayer.get("presetLayerName")) {
-      // send "preset=NAME:VALUE"
-      const presetName = this.analysisDialogSelectedLayer.get("presetLayerName");
-      const value = feature.getId() || feature.get('id') || feature.get('row_id');
-      queryParam = `preset=${presetName}:${value}`;
-    } else {
-      // send geometry as geojson
-      const geom = feature.getGeometry().clone();
-      geom.transform('EPSG:3857', 'EPSG:4326');
-      const geojson = new GeoJSON().writeGeometryObject(geom);
-      queryParam = `geojson=${encodeURIComponent(JSON.stringify(geojson))}`;
-    }
-    const ts = Date.now();
-    let baseUrl = this.$appConfig.app.analysis.rShinyServerUrl;
-    if (!baseUrl.endsWith('/')) {
-      baseUrl += '/';
-    }
-    const url = `${baseUrl}?${queryParam}&_ts=${ts}`;
-    console.log('Generated Analysis URL:', url);
-    this.analysisIframeUrl = url;
-  },
-
+    processAnalysisFeature(feature) {
+      this.highlightLayer.getSource().clear();
+      this.editLayer.getSource().clear();
+      this.highlightLayer.getSource().addFeature(feature.clone());
+      if (this.$appConfig.app.analysis.zoomToFeatureOnSelect) {
+        this.zoomToFeature(feature);
+      }
+      let queryParam;
+      if (this.analysisDialogSelectedLayer && this.analysisDialogSelectedLayer.get('presetLayerName')) {
+        // send "preset=NAME:VALUE"
+        const presetName = this.analysisDialogSelectedLayer.get('presetLayerName');
+        const value = feature.getId() || feature.get('id') || feature.get('row_id');
+        queryParam = `preset=${presetName}:${value}`;
+      } else {
+        // send geometry as geojson
+        const geom = feature.getGeometry().clone();
+        geom.transform('EPSG:3857', 'EPSG:4326');
+        const geojson = new GeoJSON().writeGeometryObject(geom);
+        queryParam = `geojson=${encodeURIComponent(JSON.stringify(geojson))}`;
+      }
+      const ts = Date.now();
+      let baseUrl = this.$appConfig.app.analysis.rShinyServerUrl;
+      if (!baseUrl.endsWith('/')) {
+        baseUrl += '/';
+      }
+      const url = `${baseUrl}?${queryParam}&_ts=${ts}`;
+      console.log('Generated Analysis URL:', url);
+      this.analysisIframeUrl = url;
+    },
 
     // Setup drawing interactions for analysis (using editLayer)
     setupDrawAnalysis() {
