@@ -43,7 +43,8 @@
       "isVisible": false
     },
     "analysis": {
-      "rShinyServerUrl": "https://flows.rivertoday.org/aquifer"
+      "rShinyServerUrl": "https://flows.rivertoday.org/aquifer",
+      "zoomToFeatureOnSelect": false
     }
   },
   "map": {
@@ -68,7 +69,6 @@
         "queryable": true,
         "format": "GeoJSON",
         "visible": true,
-        "presetLayer": true,
         "displayInLegend": true,
         "displaySidebarInfo": true,
         "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/polygon.png",
@@ -89,7 +89,9 @@
           "fillColor": "rgba(255,204,0,0.1)",
           "strokeColor": "#333333",
           "strokeWidth": 3
-        }
+        },
+        "presetLayer": true,
+        "presetLayerName": "COUNTY"
       },
       {
         "type": "VECTOR",
