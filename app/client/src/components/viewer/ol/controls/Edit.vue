@@ -955,7 +955,7 @@ export default {
       if (this.analysisDialogSelectedLayer && this.analysisDialogSelectedLayer.get('presetLayerName')) {
         // send "preset=NAME:VALUE"
         const presetName = this.analysisDialogSelectedLayer.get('presetLayerName');
-        const value = feature.getId() || feature.get('id') || feature.get('row_id');
+        const value = feature.get('row_id') || feature.get('id') || feature.get('gid') || feature.get('ID');
         queryParam = `preset=${presetName}:${value}`;
       } else {
         // send geometry as geojson
