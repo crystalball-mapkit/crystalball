@@ -1,10 +1,10 @@
 services:
   demo: ~
+  tms: {}          # enables XYZ
+  wmts: {}
   wms:
     srs: ['EPSG:3857']
-    image_formats: ['image/jpeg']
-  tms: {}       # XYZ compatibility
-  wmts: {}
+    image_formats: ['image/jpeg', 'image/png']
 
 layers:
   - name: naip2021
@@ -13,20 +13,20 @@ layers:
 
 sources:
   naip_source:
-    type: arcgis
+    type: tile
     req:
-      url: https://services.kansasgis.org/arcgis7/rest/services/IMAGERY_STATEWIDE/FSA_NAIP_2021_Color/ImageServer/exportImage
-      layers: ''     # ArcGIS ImageServer ignores this
-      format: jpeg
+      url: https://services.kansasgis.org/arcgis7/rest/services/IMAGERY_STATEWIDE/FSA_NAIP_2021_Color/ImageServer/exportImage?bbox=%(bbox)s&bboxSR=3857&imageSR=3857&size=256,256&format=jpg&f=image
+      param:
+        transparent: false
+    supported_srs: ['EPSG:3857']
     coverage:
       srs: 'EPSG:3857'
-    supported_srs: ['EPSG:3857']
+      bbox: [-11300000, 3900000, -8800000, 5200000]   # Kansas approximate extent in EPSG:3857
 
 caches:
   naip_cache:
     grids: [webmercator]
     sources: [naip_source]
-    format: image/jpeg
     cache:
       type: file
 
