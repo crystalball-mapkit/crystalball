@@ -1,36 +1,39 @@
 services:
   demo: ~
   wms:
-    srs: ['EPSG:3857', 'EPSG:4326']
-    image_formats: ['image/jpeg', 'image/png']
-  tms: {}     # enables XYZ compatibility
-  wmts: {}    # optional but useful
+    srs: ['EPSG:3857']
+    image_formats: ['image/jpeg']
+  tms: {}       # XYZ compatibility
+  wmts: {}
 
 layers:
   - name: naip2021
-    title: NAIP 2021 Imagery
+    title: NAIP 2021 Imagery (Kansas)
     sources: [naip_cache]
 
 sources:
   naip_source:
-    type: wms
+    type: arcgis
     req:
-      url: https://services.kansasgis.org/arcgis7/services/IMAGERY_STATEWIDE/FSA_NAIP_2021_Color/ImageServer/WMSServer
-      layers: 0
-      transparent: false
-    supported_srs: ['EPSG:3857', 'EPSG:4326']
+      url: https://services.kansasgis.org/arcgis7/rest/services/IMAGERY_STATEWIDE/FSA_NAIP_2021_Color/ImageServer/exportImage
+      layers: ''     # ArcGIS ImageServer ignores this
+      format: jpeg
+    coverage:
+      srs: 'EPSG:3857'
+    supported_srs: ['EPSG:3857']
 
 caches:
   naip_cache:
     grids: [webmercator]
     sources: [naip_source]
+    format: image/jpeg
     cache:
       type: file
 
 grids:
   webmercator:
     base: GLOBAL_WEBMERCATOR
-    origin: nw   # important for XYZ
+    origin: nw
 
 globals:
   cache:

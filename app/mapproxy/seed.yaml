@@ -1,6 +1,10 @@
+coverages:
+  kansas:
+    bbox: [-104, 36, -94, 41]   # bounding box of Kansas
+    srs: 'EPSG:4326'
+
 seeds:
   naip_seed:
     caches: [naip_cache]
+    coverages: [kansas]
     levels: [13]
-
-coverages: {}
