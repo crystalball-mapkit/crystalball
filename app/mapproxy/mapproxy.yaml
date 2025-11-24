@@ -1,108 +1,16 @@
 services:
-  # Sets up how to make the source data available
-  demo: {}
-  tms: {}
-  wmts: {}
-  wms:
-    # SRS sets the coordinate reference systems to make data available
-    srs: ['EPSG:4326', 'EPSG:3857']
-    image_formats: ['image/jpeg', 'image/png']
+  demo: ~
 
-layers:
-  # Sets up which layers you want to make available using the services above
-  - name: toner
-    title: OSM Toner
-    sources: [toner_cache]
-    
-  - name: positron
-    title: OSM Positron
-    sources: [positron_cache]
+layers: []
 
-  - name: dark_matter
-    title: OSM Toner
-    sources: [dark_matter_cache]
-  
-  - name: basic
-    title: Maptiler basic
-    sources: [basic_cache]
-  
-  - name: osm_bright
-    title: OSM Bright
-    sources: [osm_bright_cache]
+sources: {}
 
-caches:
-  # Sets up how to cache the source data
-  toner_cache:
-    grids: [osm_bright_grid]
-    sources: [toner_source]
-
-  positron_cache:
-    grids: [osm_bright_grid]
-    sources: [positron_source]
-    
-  basic_cache:
-    grids: [osm_bright_grid]
-    sources: [basic_source]
-    bulk_meta_tiles: true
-    cache:
-      type: sqlite
-      
-  dark_matter_cache:
-    grids: [osm_bright_grid]
-    sources: [dark_matter_source]
-    
-  osm_bright_cache:
-    grids: [osm_bright_grid]
-    sources: [osm_bright_source]
-
-
-sources:
-  toner_source:
-    type: tile
-    url: https://tileserver.ecotopia.today/styles/toner/%(z)s/%(x)s/%(y)s.png
-    grid: osm_bright_grid
-
-  basic_source:
-    type: tile
-    url: https://tileserver.ecotopia.today/styles/basic/%(z)s/%(x)s/%(y)s.png
-    grid: osm_bright_grid
-    
-  positron_source:
-    type: tile
-    url: https://tileserver.ecotopia.today/styles/positron/%(z)s/%(x)s/%(y)s.png
-    grid: osm_bright_grid
-     
-  dark_matter_source:
-    type: tile
-    url: https://tileserver.ecotopia.today/styles/dark-matter/%(z)s/%(x)s/%(y)s.png
-    grid: osm_bright_grid
-
-  osm_bright_source:
-    type: tile
-    url: https://tileserver.ecotopia.today/styles/osm-bright/%(z)s/%(x)s/%(y)s.png
-    grid: osm_bright_grid
+caches: {}
 
 grids:
-  osm_bright_grid:
+  webmercator:
     base: GLOBAL_MERCATOR
     srs: 'EPSG:3857'
     origin: nw
 
-  osm_bright_grid_reverse:
-    base: GLOBAL_MERCATOR
-    srs: 'EPSG:3857'
-    origin: sw
-
-globals:
-
-  cache:
-    # Where to store the cached images
-    base_dir: './cache_data'
-    # Where to store lockfiles
-    lock_dir: './cache_data/locks'
-
-  image:
-    # Image/transformation options
-    resampling_method: bilinear
-    jpeg_quality: 90
-
+globals: {}
