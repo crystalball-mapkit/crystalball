@@ -1,16 +1,26 @@
 services:
   demo: ~
 
-layers: []
+layers:
+  - name: test
+    title: Test Layer
+    sources: [test_cache]
 
-sources: {}
+sources:
+  test_source:
+    type: tile
+    url: https://a.tile.openstreetmap.org/%(z)s/%(x)s/%(y)s.png
 
-caches: {}
+caches:
+  test_cache:
+    sources: [test_source]
+    grids: [webmercator]
 
 grids:
   webmercator:
-    base: GLOBAL_MERCATOR
-    srs: 'EPSG:3857'
-    origin: nw
+    base: GLOBAL_WEBMERCATOR
 
-globals: {}
+globals:
+  cache:
+    base_dir: './cache_data'
+    lock_dir: './cache_data/locks'
