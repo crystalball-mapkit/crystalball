@@ -1,10 +1,6 @@
-coverages:
-  kansas:
-    bbox: [-102.05, 36.99, -94.59, 40.00]
-    srs: 'EPSG:4326'
-
 seeds:
-  naip2021_level13:
-    caches: [naip2021_cache]
-    coverages: [kansas]
+  naip_seed:
+    caches: [naip_cache]
     levels: [13]
+
+coverages: {}
