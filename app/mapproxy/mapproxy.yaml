@@ -2,21 +2,47 @@ services:
   demo: ~
 
 layers:
+  # Existing test layer (kept exactly as-is)
   - name: test
     title: Test Layer
     sources: [test_cache]
 
+  # New Kansas NAIP 2021 imagery layer
+  - name: naip2021
+    title: Kansas NAIP 2021 RGB
+    sources: [naip2021_cache]
+
 sources:
+  # Existing test source (unchanged)
   test_source:
     type: tile
     url: https://a.tile.openstreetmap.org/%(z)s/%(x)s/%(y)s.png
 
+  # New NAIP 2021 WMS source
+  naip2021_wms:
+    type: wms
+    req:
+      url: https://services.kansasgis.org/arcgis7/services/IMAGERY_STATEWIDE/FSA_NAIP_2021_Color/ImageServer/WMSServer?
+      layers: 0
+      transparent: false
+    supported_srs: ['EPSG:3857']
+
 caches:
+  # Existing cache
   test_cache:
     sources: [test_source]
     grids: [webmercator]
 
+  # NAIP cache → JPEG tiles, stored locally
+  naip2021_cache:
+    sources: [naip2021_wms]
+    grids: [webmercator]
+    format: image/jpeg
+    cache:
+      type: sqlite
+
 grids:
+  # Your working grid — preserved exactly
   webmercator:
     base: GLOBAL_WEBMERCATOR
 
