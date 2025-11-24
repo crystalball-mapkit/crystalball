@@ -171,7 +171,6 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.entrypoints=websecure"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.tls.certresolver=myhttpchallenge"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.tls=true"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.middlewares=cache-headers"
     depends_on:
       - geoserver
     volumes:
