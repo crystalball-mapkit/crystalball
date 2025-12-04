@@ -38,7 +38,9 @@
         <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
       </div>
       <!-- Analysis Control (Always visible unless editing) -->
-      <div v-if="!selectedLayer && !isEditingPost && $appConfig.app.analysis && $appConfig.app.analysis.rShinyServerUrl">
+      <div
+        v-if="!selectedLayer && !isEditingPost && $appConfig.app.analysis && $appConfig.app.analysis.rShinyServerUrl"
+      >
         <analysis :map="map" :color="color.primary" />
       </div>
     </div>

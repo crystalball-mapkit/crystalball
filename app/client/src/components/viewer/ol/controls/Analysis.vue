@@ -359,7 +359,7 @@ export default {
       // Optional: stop drawing
       this.map.removeInteraction(this.analysisDrawInteraction);
       this.analysisDrawInteraction = null;
-      
+
       if (this.$vuetify.breakpoint.smAndDown) {
         this.mobilePanelState = true;
       }
