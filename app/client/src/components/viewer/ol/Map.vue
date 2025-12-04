@@ -31,9 +31,16 @@
       />
     </div>
 
-    <!-- Edit Controls (Only available for logged users which aren't guests ) -->
-    <div v-if="loggedUser" style="position: absolute; right: 20px; top: 10px">
-      <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
+    <!-- Edit & Analysis Controls -->
+    <div style="position: absolute; right: 20px; top: 10px">
+      <!-- Edit Controls (Only available for logged users which aren't guests ) -->
+      <div v-if="loggedUser">
+        <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
+      </div>
+      <!-- Analysis Control (Always visible unless editing) -->
+      <div v-if="!selectedLayer && !isEditingPost && $appConfig.app.analysis && $appConfig.app.analysis.rShinyServerUrl">
+        <analysis :map="map" :color="color.primary" />
+      </div>
     </div>
     <div
       v-if="$vuetify.breakpoint.smAndDown"
@@ -196,6 +203,7 @@ import Edit from './controls/Edit.vue';
 import ShareMap from './controls/ShareMap.vue';
 import AddPost from './controls/AddPost.vue';
 import EditGuide from './controls/EditGuide.vue';
+import Analysis from './controls/Analysis.vue';
 // Interactions
 
 // Ol controls
@@ -233,6 +241,7 @@ export default {
     'progress-loader': ProgressLoader,
     edit: Edit,
     'edit-guide': EditGuide, // mobile bottom info alerts
+    analysis: Analysis,
     Snackbar,
   },
   name: 'app-ol-map',

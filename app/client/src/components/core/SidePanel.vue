@@ -374,12 +374,12 @@
 
     <!-- ANALYSIS IFRAME URL  -->
     <v-layout v-if="analysisIframeUrl" class="my-3"></v-layout>
-    <v-row align="start" justify="center" class="mx-0" style="width: 100%">
-      <v-layout align-center class="elevation-0 mb-1" style="width: 100%">
+    <v-row v-if="analysisIframeUrl" align="start" justify="center" class="mx-0" style="width: 100%; height: 100%">
+      <v-layout align-center class="elevation-0 mb-1" style="width: 100%; height: 100%; position: relative">
         <iframe
-          style="overflow: hidden; position: absolute; border: none; margin-left: 11px"
-          height="100%"
-          width="100%"
+          :style="$vuetify.breakpoint.smAndDown 
+            ? 'overflow: hidden; position: relative; border: none; width: 100%; height: 100%; min-height: 500px;' 
+            : 'overflow: hidden; position: absolute; border: none; margin-left: 11px; width: 100%; height: 100%;'"
           :src="analysisIframeUrl"
         >
         </iframe>
