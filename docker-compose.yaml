@@ -46,6 +46,8 @@ services:
       - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
       - COMMUNITY_EXTENSIONS=backup-restore-plugin
+      - HTTP_PROXY_NAME=${DOMAIN_NAME}
+      - HTTP_SCHEME=https
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}_geoserver.loadBalancer.server.port=8080"
