@@ -56,9 +56,7 @@ export default class Expansion extends Node {
         'section',
         {class: 'ep-accordion', 'data-expansion-uid': node.attrs.uid},
         ['input', {type: 'checkbox', name: 'collapse', id: node.attrs.uid}],
-        ['h2', {class: 'handle'},
-          ['label', {for: node.attrs.uid}, node.attrs.title],
-        ],
+        ['h2', {class: 'handle'}, ['label', {for: node.attrs.uid}, node.attrs.title]],
         ['div', {class: 'content'}, 0],
       ],
     };
@@ -83,19 +81,21 @@ export default class Expansion extends Node {
         return true;
       },
 
-      updateExpansionTitle: ({uid, title}) => (state, dispatch) => {
-        let found = false;
-        state.doc.descendants((node, pos) => {
-          if (node.type === type && node.attrs.uid === uid) {
-            if (dispatch) {
-              dispatch(state.tr.setNodeMarkup(pos, null, {...node.attrs, title}));
+      updateExpansionTitle:
+        ({uid, title}) =>
+        (state, dispatch) => {
+          let found = false;
+          state.doc.descendants((node, pos) => {
+            if (node.type === type && node.attrs.uid === uid) {
+              if (dispatch) {
+                dispatch(state.tr.setNodeMarkup(pos, null, {...node.attrs, title}));
+              }
+              found = true;
+              return false;
             }
-            found = true;
-            return false;
-          }
-        });
-        return found;
-      },
+          });
+          return found;
+        },
     };
   }
 

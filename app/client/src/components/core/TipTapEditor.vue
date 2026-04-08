@@ -381,17 +381,12 @@ export default {
       if (!accordions.length) return {};
 
       const payload = accordions
-        .map(
-          (accordion, index) => `<p data-wg-title-index="${index}">${accordion.title || ''}</p>`
-        )
+        .map((accordion, index) => `<p data-wg-title-index="${index}">${accordion.title || ''}</p>`)
         .join('');
 
       const translatedHtml = await this.translateApiContent(payload, targetLanguage);
       const parser = new DOMParser();
-      const doc = parser.parseFromString(
-        `<div id="wg-title-batch-root">${translatedHtml}</div>`,
-        'text/html'
-      );
+      const doc = parser.parseFromString(`<div id="wg-title-batch-root">${translatedHtml}</div>`, 'text/html');
       const root = doc.querySelector('#wg-title-batch-root');
       const translatedTitles = {};
 
@@ -414,18 +409,12 @@ export default {
       if (!accordions.length) return {};
 
       const payload = accordions
-        .map(
-          (accordion, index) =>
-            `<div data-wg-content-index="${index}">${accordion.contentHtml || ''}</div>`
-        )
+        .map((accordion, index) => `<div data-wg-content-index="${index}">${accordion.contentHtml || ''}</div>`)
         .join('');
 
       const translatedHtml = await this.translateApiContent(payload, targetLanguage);
       const parser = new DOMParser();
-      const doc = parser.parseFromString(
-        `<div id="wg-content-batch-root">${translatedHtml}</div>`,
-        'text/html'
-      );
+      const doc = parser.parseFromString(`<div id="wg-content-batch-root">${translatedHtml}</div>`, 'text/html');
       const root = doc.querySelector('#wg-content-batch-root');
       const translatedBodies = {};
 
@@ -450,10 +439,7 @@ export default {
 
       try {
         const parser = new DOMParser();
-        const workingDoc = parser.parseFromString(
-          `<div id="wg-root">${originalHtml}</div>`,
-          'text/html'
-        );
+        const workingDoc = parser.parseFromString(`<div id="wg-root">${originalHtml}</div>`, 'text/html');
         const root = workingDoc.querySelector('#wg-root');
 
         if (!root) return;
@@ -485,15 +471,9 @@ export default {
 
         const translatedOuterHtml = await this.translateApiContent(root.innerHTML, targetLanguage);
 
-        const translatedTitles = await this.batchTranslateAccordionTitles(
-          accordions,
-          targetLanguage
-        );
+        const translatedTitles = await this.batchTranslateAccordionTitles(accordions, targetLanguage);
 
-        const translatedBodies = await this.batchTranslateAccordionBodies(
-          accordions,
-          targetLanguage
-        );
+        const translatedBodies = await this.batchTranslateAccordionBodies(accordions, targetLanguage);
 
         const translatedDoc = parser.parseFromString(
           `<div id="wg-translated-root">${translatedOuterHtml}</div>`,
@@ -504,9 +484,7 @@ export default {
         if (!translatedRoot) return;
 
         accordions.forEach(accordion => {
-          const placeholder = translatedRoot.querySelector(
-            `[data-expansion-placeholder="${accordion.token}"]`
-          );
+          const placeholder = translatedRoot.querySelector(`[data-expansion-placeholder="${accordion.token}"]`);
 
           if (!placeholder) return;
 
