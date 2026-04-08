@@ -75,7 +75,6 @@
         <span>{{ isEditingPost ? $t('general.close') : $t('tooltip.addPost') }}</span>
       </v-tooltip>
     </div>
-
     <div v-if="selectedLayer">
       <div v-for="(item, index) in editButtons" :key="index">
         <v-layout>
@@ -593,7 +592,7 @@ export default {
         const layerName = this.layersMetadata[this.selectedLayer.get('name')].typeName;
         this.isTranslating = true;
         axios
-          .get(`./api/translate/${layerName}?sourceLanguage=${this.$appConfig.app.defaultLanguage}`, {
+          .get(`./api/translate/${layerName}?sourceLanguage=${this.$appConfig.app.defaultLanguage}&force=true`, {
             headers: authHeader(),
           })
           .then(response => {

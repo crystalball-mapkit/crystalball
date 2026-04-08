@@ -31,6 +31,8 @@ body,
 .wg-app {
   position: relative;
   width: 100%;
+  //  "Change 'Roboto' to your font name
+  font-family: 'Roboto';
 }
 
 .wg-app-embedded {
@@ -60,9 +62,11 @@ body,
 .wg-footer-left {
   padding-left: 5px;
 }
+
 .wg-footer-right {
   padding-right: 5px;
 }
+
 .wg-footer-left a,
 .wg-footer-right a {
   color: inherit;
@@ -91,6 +95,7 @@ body,
   left: -50px;
   min-width: 280px;
 }
+
 .ol-popup:after,
 .ol-popup:before {
   top: 100%;
@@ -101,12 +106,14 @@ body,
   position: absolute;
   pointer-events: none;
 }
+
 .ol-popup:after {
   border-top-color: white;
   border-width: 10px;
   left: 48px;
   margin-left: -10px;
 }
+
 .ol-popup:before {
   border-top-color: #cccccc;
   border-width: 11px;
@@ -190,7 +197,7 @@ body,
   height: auto;
   overflow: visible;
   padding: 15px;
-  border: 1px solid #e8e8e8;
+  border: 2px solid #0066ac;
   border-top: 0;
 }
 
@@ -200,18 +207,40 @@ body,
   line-height: 1.2em;
 }
 
+// Edit button — only visible inside the TipTap editor, never in the viewer
+.ep-accordion .ep-edit-btn {
+  display: none;
+}
+.ProseMirror .ep-accordion .ep-edit-btn {
+  display: none;
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  padding: 0 6px;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 0.85em;
+  line-height: 1.6;
+  vertical-align: middle;
+}
+.ProseMirror .ep-accordion:hover .ep-edit-btn {
+  display: inline-block;
+}
+
 .ep-accordion label {
   display: block;
-  color: #333;
+  color: #fff;
   cursor: pointer;
   font-weight: normal;
   padding: 15px;
-  background: #e8e8e8;
+  background: #0066ac;
 }
 
 .ep-accordion label:hover,
 .ep-accordion label:focus {
   background: #d8d8d8;
+  color: #333;
 }
 
 .ep-accordion .handle label:before {
