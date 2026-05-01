@@ -64,7 +64,7 @@
       {
         "type": "VECTOR",
         "name": "ks_counties",
-        "url": "http://localhost:1024/static/ks_counties.json",
+        "url": "/static/ks_counties.json",
         "group": "media",
         "queryable": true,
         "format": "GeoJSON",
