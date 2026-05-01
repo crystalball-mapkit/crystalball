@@ -13,6 +13,16 @@ const vuetify = new Vuetify({
   lang: {
     t: (key, ...params) => VueI18n.t(key, params),
   },
+  breakpoint: {
+    // Mobile cutover at 820px (was 960). Revert by removing this breakpoint block.
+    thresholds: {
+      xs: 600,
+      sm: 820,
+      md: 1280,
+      lg: 1920,
+    },
+    scrollBarWidth: 16,
+  },
 });
 
 Vue.use(TiptapVuetifyPlugin, {

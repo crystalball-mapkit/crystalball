@@ -504,15 +504,13 @@ export default {
       let _default;
       let _corporateNetworkSelected;
       if (winWidth > 2000) {
-        // Values for larger screens
         _default = 600;
         _corporateNetworkSelected = 600;
-      } else if (winWidth < 900) {
-        // Values for small screens (mini - tables or low resolutions)
-        _default = 350;
-        _corporateNetworkSelected = 350;
+      } else if (winWidth < 1440) {
+        // 820–1440px: 20% narrower than default — revert by removing this branch
+        _default = 368;
+        _corporateNetworkSelected = 480;
       } else {
-        // Values for normal screens (default)
         _default = 460;
         _corporateNetworkSelected = 600;
       }
@@ -605,6 +603,10 @@ export default {
     this.setSidebarInitialState(this.$appConfig.app.sideBar.isVisible);
   },
   watch: {
+    '$vuetify.breakpoint.smAndDown'() {
+      // Reload on any mobile/desktop transition to reinitialize the map
+      window.location.reload();
+    },
     analysisIframeUrl: {
       handler(newVal) {
         if (newVal) {
