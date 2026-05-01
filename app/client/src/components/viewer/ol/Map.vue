@@ -1,5 +1,55 @@
 <template>
-  <div id="ol-map-container" @click="$event => resetAfterSlide()" @mousemove="resetAfterSlide()">
+  <div id="ol-map-container" @click="$event => resetAfterSlide()">
+    <!-- Slideshow video overlay -->
+    <div v-if="slideshow.videoSrc" class="slideshow-video-overlay" @mousemove="resetAfterSlide()">
+      <video
+        v-if="slideshow.videoIsDirect"
+        :key="slideshow.videoSrc"
+        :src="slideshow.videoSrc"
+        autoplay
+        :muted.prop="true"
+        playsinline
+        class="slideshow-video-direct"
+        @error="onVideoError"
+      ></video>
+      <iframe
+        v-else
+        :src="slideshow.videoSrc"
+        frameborder="0"
+        allow="autoplay; encrypted-media; fullscreen"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <!-- Instructional panel overlay — shown on top of any slide type, pointer-events off so cursor events reach the layer below -->
+    <div v-if="slideshow.overlayUrl" class="slideshow-panel-overlay">
+      <img :src="slideshow.overlayUrl" class="slideshow-panel-img" />
+    </div>
+    <!-- Slideshow photo overlay -->
+    <div v-if="slideshow.photoSlide" class="slideshow-photo-overlay" @mousemove="resetAfterSlide()">
+      <div class="slideshow-photo-content">
+        <img :src="slideshow.photoSlide.url" :alt="slideshow.photoSlide.caption" />
+        <p v-if="slideshow.photoSlide.caption" class="slideshow-photo-caption">
+          {{ slideshow.photoSlide.caption }}
+        </p>
+      </div>
+    </div>
+    <!-- Slideshow toggle button — visible whenever slideshow is configured -->
+    <v-tooltip
+      v-if="
+        $appConfig.map.flyToSlideshow &&
+        $appConfig.map.flyToSlideshow.maplinks &&
+        $appConfig.map.flyToSlideshow.maplinks.length > 0
+      "
+      left
+    >
+      <template v-slot:activator="{on, attrs}">
+        <div class="slideshow-toggle-btn" v-bind="attrs" v-on="on" @click.stop="toggleSlideshow()">
+          <span v-if="!slideshow.userStopped" class="slideshow-toggle-dot"></span>
+        </div>
+      </template>
+      <span>{{ slideshow.userStopped ? $t('general.slideshowRestart') : $t('general.slideshowStop') }}</span>
+    </v-tooltip>
+
     <!-- Map Controls -->
     <map-legend :color="color.primary" />
     <time-slider :color="color.primary" />
@@ -182,6 +232,11 @@ import {popupInfoStyle, networkCorpHighlightStyle, worldOverlayFill} from '../..
 // import the app-wide EventBus
 import {EventBus} from '../../../EventBus';
 
+// Persists across route-triggered remounts so slideshow always resets to the original startup route
+let _slideshowHomeHash = null;
+let _slideshowPendingOverlay = undefined; // carries overlay URL across map-slide remounts
+let _slideshowHasNavigated = false; // carries hasNavigated flag across map-slide remounts
+
 // utils imports
 import {LayerFactory} from '../../../factory/OlLayer';
 import {isCssColor, debounce, Timer} from '../../../utils/Helpers';
@@ -283,6 +338,15 @@ export default {
         isFlying: false, // Use to check if pointdrap or movend is triggered from the flyToFn
         timer: null, // timer between frames
         timeout: null, // timer for initial start.
+        videoSrc: null, // non-null while a video slide is displayed
+        videoIsDirect: false, // true when videoSrc is a direct file URL (mp4/webm) vs an embed
+        photoSlide: null, // non-null while a photo slide is displayed: { url, caption }
+        videoTimeout: null, // timeout handle for video/photo auto-advance
+        isRunning: false,
+        hasNavigated: false,
+        homeHash: null,
+        overlayUrl: null, // non-null while an instructional panel image is shown
+        userStopped: false, // true when user explicitly stopped the slideshow via the button
       },
     };
   },
@@ -396,8 +460,74 @@ export default {
       if (this.slideshow.isRunning) {
         this.slideshow.isRunning = false;
         this.stopSlideshow();
-        this.sidebarState = true;
+        if (this.slideshow.videoTimeout) {
+          clearTimeout(this.slideshow.videoTimeout);
+          this.slideshow.videoTimeout = null;
+        }
+        this.slideshow.videoSrc = null;
+        this.slideshow.videoIsDirect = false;
+        this.slideshow.photoSlide = null;
+        this.slideshow.overlayUrl = null;
+        _slideshowPendingOverlay = undefined;
+        this.slideshow.currentIndex = 0;
+        if (this.slideshow.hasNavigated) {
+          this.slideshow.hasNavigated = false;
+          _slideshowHasNavigated = false;
+          // Close feature popup and html layer sidebars
+          this.popup.activeFeature = null;
+          this.popup.showInSidePanel = false;
+          this.lastSelectedLayer = null;
+          // Reset layer visibility to app-conf defaults
+          this.map
+            .getLayers()
+            .getArray()
+            .forEach(layer => {
+              const name = layer.get('name');
+              if (!name) return;
+              const conf = this.$appConfig.map.layers.find(l => l.name === name);
+              if (conf !== undefined) layer.setVisible(!!conf.visible);
+            });
+          // Reset view to home group defaults (parse from homeHash, not current active group)
+          const homeNavbarGroup = this.slideshow.homeHash?.split('/')[1];
+          const groupConf = this.$appConfig.map.groups?.[homeNavbarGroup];
+          if (groupConf?.center) this.map.getView().setCenter(fromLonLat(groupConf.center));
+          if (groupConf?.resolution) this.map.getView().setResolution(groupConf.resolution);
+          // Navigate to home route (clears slideshow URL params)
+          if (this.slideshow.homeHash) window.location.hash = this.slideshow.homeHash;
+        }
         this.initMapFly();
+      }
+    },
+    toggleSlideshow() {
+      if (this.slideshow.userStopped) {
+        this.slideshow.userStopped = false;
+        this.initMapFly();
+      } else {
+        this.slideshow.userStopped = true;
+        this.stopSlideshow();
+        if (this.slideshow.videoTimeout) {
+          clearTimeout(this.slideshow.videoTimeout);
+          this.slideshow.videoTimeout = null;
+        }
+        this.slideshow.videoSrc = null;
+        this.slideshow.videoIsDirect = false;
+        this.slideshow.photoSlide = null;
+        this.slideshow.overlayUrl = null;
+        this.slideshow.isRunning = false;
+        _slideshowPendingOverlay = undefined;
+      }
+    },
+    onVideoError() {
+      if (this.slideshow.videoTimeout) {
+        clearTimeout(this.slideshow.videoTimeout);
+        this.slideshow.videoTimeout = null;
+      }
+      this.slideshow.videoSrc = null;
+      this.slideshow.videoIsDirect = false;
+      if (this.slideshow.isRunning) {
+        const delay = (this.$appConfig.map.flyToSlideshow?.delayInSecondsBetweenFrames || 3) * 1000;
+        this.slideshow.timer = new Timer(this.mapFlyToFn, delay);
+        this.mapFlyToFn();
       }
     },
     /**
@@ -421,15 +551,6 @@ export default {
         // Restore the previous layer visibility state if exists.
         if (layer.get('name') in this.layerVisibilityState) {
           layer.setVisible(this.layerVisibilityState[layer.get('name')]);
-        }
-        // Enable spotlight for ESRI Imagery
-        if (layer.get('name') === 'ESRI-World-Imagery2' || layer.get('name') === 'ESRI-World-Imagery3') {
-          layer.on('prerender', e => {
-            this.spotlight(e);
-          });
-          layer.on('postrender', e => {
-            e.context.restore();
-          });
         }
         if (layer.get('name')) {
           me.setLayer(layer);
@@ -608,7 +729,7 @@ export default {
      */
     showPopup(clickCoord) {
       // Clear highligh feature (Don't clear if a corporate network entity is selected)
-      if (!this.selectedCoorpNetworkEntity) {
+      if (this.selectedCoorpNetworkEntity) {
         this.popup.highlightLayer.getSource().clear();
       }
 
@@ -1033,15 +1154,57 @@ export default {
     Slideshow map position every x seconds:
      */
     setupMapFlyToSlideshow() {
-      this.initMapFly();
-      this.map.on(['pointerdrag', 'moveend'], () => {
-        // Event is triggered from user interaction (stop and start init timer)
-        if (this.slideshow.isFlying === false) {
-          this.initMapFly();
+      const flyToSlideshow = this.$appConfig.map.flyToSlideshow;
+      const maplinks = flyToSlideshow?.maplinks;
+      const fileRef = maplinks?.length === 1 && !maplinks[0].startsWith('#') ? maplinks[0] : null;
+
+      const init = () => {
+        // Derive home hash from app-conf defaultActiveGroup, NOT from window.location.hash,
+        // so it stays correct even when Map.vue remounts mid-slideshow at a non-home route.
+        const defaultGroup = this.$appConfig.map.defaultActiveGroup;
+        if (defaultGroup) {
+          const mode = window.location.hash.split('?')[0].split('/')[2] || 'extractivista';
+          _slideshowHomeHash = `#/${defaultGroup}/${mode}`;
+        } else if (!_slideshowHomeHash) {
+          _slideshowHomeHash = window.location.hash.split('?')[0];
         }
-      });
+        this.slideshow.homeHash = _slideshowHomeHash;
+        // Restore overlay carried across a map-slide navigation/remount
+        if (_slideshowHasNavigated) this.slideshow.hasNavigated = true;
+        if (_slideshowPendingOverlay !== undefined) {
+          this.slideshow.overlayUrl = _slideshowPendingOverlay;
+          _slideshowPendingOverlay = undefined;
+        }
+        this.initMapFly();
+        this.map.on(['pointerdrag', 'moveend'], () => {
+          if (this.slideshow.isFlying === false) {
+            this.initMapFly();
+          }
+        });
+        // pointermove only fires for actual pointer movement over the map canvas,
+        // not for control overlays (timeslider, legend) or programmatic view changes
+        this.map.on('pointermove', () => {
+          if (!this.slideshow.isFlying) this.resetAfterSlide();
+        });
+      };
+
+      if (fileRef) {
+        fetch(`./static/${fileRef}.json`)
+          .then(r => r.json())
+          .then(links => {
+            // Filter out comment/documentation objects (keep strings, video, photo, and map objects)
+            flyToSlideshow.maplinks = links.filter(
+              l => typeof l === 'string' || (typeof l === 'object' && l !== null && (l.video || l.photo || l.map))
+            );
+            init();
+          })
+          .catch(() => init());
+      } else {
+        init();
+      }
     },
     initMapFly() {
+      if (this.slideshow.userStopped) return;
       this.stopSlideshow();
       // Timeout for initial start.
       this.slideshow.timeout = setTimeout(() => {
@@ -1065,31 +1228,94 @@ export default {
       }
     },
     mapFlyToFn() {
-      if (
-        this.popup.activeFeature ||
-        this.isEditingLayer ||
-        this.isEditingPost ||
-        this.isEditingHtml ||
-        this.selectedLayer
-      ) {
+      if (this.isEditingLayer || this.isEditingPost || this.isEditingHtml || this.selectedLayer) {
         this.initMapFly();
         return;
       }
       const flyToSlideshow = this.$appConfig.map.flyToSlideshow;
       if (flyToSlideshow) {
-        this.slideshow.isFlying = true;
-        // Start from beginning if index is greater then positions array.
         if (this.slideshow.currentIndex > flyToSlideshow.maplinks.length - 1) {
           this.slideshow.currentIndex = 0;
         }
-        // Zoom to position
         const position = flyToSlideshow.maplinks[this.slideshow.currentIndex];
-        window.location.href = position;
-        // Increase or init the index
         this.slideshow.currentIndex += 1;
-        setTimeout(() => {
-          this.slideshow.isFlying = false;
-        }, 50);
+        this.slideshow.hasNavigated = true;
+        _slideshowHasNavigated = true;
+        // Clear any feature the previous slide opened before advancing
+        this.popup.activeFeature = null;
+        this.popup.showInSidePanel = false;
+
+        // Optional instructional panel image shown on top of any slide type
+        this.slideshow.overlayUrl =
+          position && typeof position === 'object' && position.overlay ? position.overlay : null;
+
+        if (position && typeof position === 'object' && position.video) {
+          // Video slide — stop the interval timer and show the overlay.
+          // Direct file URLs (mp4/webm) use <video autoplay muted> — no CAPTCHA, no iframe.
+          // Embed URLs (YouTube/Vimeo) use <iframe>; mute=1 is appended automatically so the
+          // browser's autoplay policy always allows it (muted autoplay needs no user gesture).
+          const src = position.video;
+          const isDirect = /\.(mp4|webm|ogg|mov)(\?|$)/i.test(src);
+          this.slideshow.videoIsDirect = isDirect;
+          this.slideshow.videoSrc =
+            isDirect || src.includes('mute=1') ? src : src + (src.includes('?') ? '&' : '?') + 'mute=1';
+          this.stopSlideshow();
+          const duration = (position.duration || flyToSlideshow.delayInSecondsBetweenFrames) * 1000;
+          this.slideshow.videoTimeout = setTimeout(() => {
+            this.slideshow.videoSrc = null;
+            this.slideshow.videoTimeout = null;
+            if (this.slideshow.isRunning) {
+              // Re-arm the interval timer for slides after next, then advance immediately.
+              // If the next slide is also a video/photo, mapFlyToFn() will stop this timer.
+              this.slideshow.timer = new Timer(this.mapFlyToFn, flyToSlideshow.delayInSecondsBetweenFrames * 1000);
+              this.mapFlyToFn();
+            }
+          }, duration);
+        } else if (position && typeof position === 'object' && position.photo) {
+          // Photo slide — fetch the feature from GeoServer WFS, extract the lightbox URL.
+          // Format: { "photo": "fotos_bioculturales.5", "photoIndex": 0, "duration": 12 }
+          // The feature's "lightbox" property is a JSON array of { imageUrl, caption } objects.
+          const [layerName] = position.photo.split('.');
+          const wfsUrl =
+            `./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature` +
+            `&typename=workspace1:${layerName}&featureID=${position.photo}&outputFormat=application/json`;
+          this.stopSlideshow();
+          const duration = (position.duration || flyToSlideshow.delayInSecondsBetweenFrames) * 1000;
+          const advanceAfterPhoto = () => {
+            this.slideshow.photoSlide = null;
+            this.slideshow.videoTimeout = null;
+            if (this.slideshow.isRunning) {
+              this.slideshow.timer = new Timer(this.mapFlyToFn, flyToSlideshow.delayInSecondsBetweenFrames * 1000);
+              this.mapFlyToFn();
+            }
+          };
+          fetch(wfsUrl)
+            .then(r => r.json())
+            .then(data => {
+              if (!this.slideshow.isRunning) return;
+              const props = data.features?.[0]?.properties;
+              if (!props) return advanceAfterPhoto();
+              let lightbox = props.lightbox;
+              if (typeof lightbox === 'string') lightbox = JSON.parse(lightbox);
+              const photo = Array.isArray(lightbox) ? lightbox[position.photoIndex || 0] : null;
+              if (!photo?.imageUrl) return advanceAfterPhoto();
+              this.slideshow.photoSlide = {url: photo.imageUrl, caption: photo.caption || ''};
+              this.slideshow.videoTimeout = setTimeout(advanceAfterPhoto, duration);
+            })
+            .catch(() => {
+              if (this.slideshow.isRunning) advanceAfterPhoto();
+            });
+        } else {
+          // Map URL slide — plain string "#/..." or object { map: "#/...", overlay: "..." }
+          const hash = typeof position === 'object' ? position.map : position;
+          // Store overlay so init() can restore it after Map.vue remounts on navigation
+          _slideshowPendingOverlay = typeof position === 'object' && position.overlay ? position.overlay : null;
+          this.slideshow.isFlying = true;
+          window.location.href = hash;
+          setTimeout(() => {
+            this.slideshow.isFlying = false;
+          }, 50);
+        }
       }
     },
     spotlight(e) {
@@ -1128,12 +1354,13 @@ export default {
       if (!entity) return;
       this.selectedCoorpNetworkEntity = entity;
       if (!this.layersWithEntityField || !this.splittedEntities) return;
+      const visibleLayers = Array.isArray(this.visibleGroup?.layers) ? this.visibleGroup.layers : [];
       /// ////////////////////
       if (!this.queryLayersGeoserverNames) {
         const queryableLayers = [];
         const flatLayers = [];
         this.$appConfig.map.layers.forEach(layer => {
-          if (this.activeLayerGroupConf.layers.includes(layer.name)) {
+          if (visibleLayers.includes(layer.name)) {
             if (layer.type === 'GROUP') {
               layer.layers.forEach(subLayer => {
                 flatLayers.push(subLayer);
@@ -1220,7 +1447,7 @@ export default {
             });
             setTimeout(() => {
               this.map.getView().fit(extent, {
-                padding: [30, 80, 80, 80],
+                padding: [50, 90, 90, 90],
                 duration: 800,
               });
             }, 500);
@@ -1532,5 +1759,101 @@ div.ol-control button {
   padding: 5px;
   border-radius: 5px;
   z-index: 100;
+}
+
+.slideshow-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.slideshow-video-overlay iframe {
+  width: 80%;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
+
+.slideshow-video-direct {
+  width: 80%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.slideshow-toggle-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 36px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid white;
+  cursor: pointer;
+  z-index: 230;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.slideshow-toggle-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+  display: block;
+}
+
+.slideshow-panel-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 210;
+  pointer-events: none;
+}
+
+.slideshow-panel-img {
+  max-width: 80%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.slideshow-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.slideshow-photo-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 85%;
+  max-height: 90%;
+}
+
+.slideshow-photo-content img {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+}
+
+.slideshow-photo-caption {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 12px;
+  max-width: 680px;
+  line-height: 1.4;
 }
 </style>

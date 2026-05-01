@@ -1,0 +1,27 @@
+[
+  {
+    "_comment": [
+      "Each entry is a map link (string), a video slide, or a photo/overlay slide (objects).",
+      "Clicking or moving the cursor over the map canvas dismisses any slide early.",
+      "",
+      "MAP LINK: a hash URL copied from the ShareMap button, with the origin stripped.",
+      "  Example: '#/underground/local?center=38.983,-95.235&zoom=5.000&layers=...'",
+      "",
+      "MAP LINK WITH OVERLAY: same but wrapped in an object so an image floats on top.",
+      "  Example: { 'map': '#/...', 'overlay': 'https://...image.png' }",
+      "",
+      "VIDEO SLIDE: { 'video': '...', 'duration': 45 }",
+      "  DIRECT FILE (recommended): S3 URL ending in .mp4 or .webm.",
+      "    Plays via native video player — no CAPTCHA, no platform restrictions.",
+      "    If playback is slow to start: ffmpeg -i input.mp4 -c copy -movflags faststart output.mp4",
+      "  EMBED URL: YouTube (/embed/ form) or Vimeo (player.vimeo.com/video/) URL.",
+      "    mute=1 is appended automatically. YouTube may show CAPTCHA in kiosk contexts.",
+      "    For Vimeo add ?autoplay=1&muted=1.",
+      "",
+      "PHOTO SLIDE: { 'photo': 'layer_name.5', 'photoIndex': 0, 'duration': 5 }",
+      "  'photo'      — GeoServer feature ID: table name + '.' + row number.",
+      "  'photoIndex' — which image from the feature's lightbox array (default 0 = first).",
+      "  'duration'   — seconds to display before auto-advancing."
+    ]
+  }
+]

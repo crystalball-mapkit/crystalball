@@ -12,6 +12,7 @@
       </v-row>
       <v-card-text class="py-0 pb-1">
         <v-slider
+          class="time-slider-slider"
           :color="color"
           :step="1"
           ticks
@@ -109,6 +110,7 @@ export default {
     },
     play() {
       this.isPlaying = true;
+      this.isSeriesPlaying = true;
       this.playInterval = setInterval(() => {
         if (this.timeSeriesLayer.get('activeLayerIndex') === this.timeSeriesLayer.getLayers().getArray().length - 1) {
           this.activateTimeSeriesLayer(0, this.timeSeriesLayer);
@@ -119,6 +121,7 @@ export default {
     },
     stop() {
       this.isPlaying = false;
+      this.isSeriesPlaying = false;
       clearInterval(this.playInterval);
     },
     previous() {
@@ -148,29 +151,86 @@ export default {
     }),
     ...mapFields('map', {
       lastSelectedLayer: 'lastSelectedLayer',
+      isSeriesPlaying: 'isSeriesPlaying',
     }),
     timeSeriesLayer() {
-      if (!this.layers) {
-        return null;
-      }
+      if (!this.layers) return null;
+
+      // 1) If lastSelectedLayer is a time-series slider layer, use it
       if (this.lastSelectedLayer) {
         const selectedLayer = this.layers[this.lastSelectedLayer];
         if (selectedLayer && selectedLayer.get('displaySeries') && selectedLayer.get('largeSlider')) {
           return selectedLayer;
         }
       }
+
+      // 2) Otherwise, keep the slider for whichever series layer is CURRENTLY VISIBLE
+      for (const layer of Object.values(this.layers)) {
+        if (layer.get('displaySeries') && layer.get('largeSlider') && layer.getVisible && layer.getVisible()) {
+          return layer;
+        }
+      }
+
+      // 3) Last fallback: any series layer (even if hidden)
       for (const layer of Object.values(this.layers)) {
         if (layer.get('displaySeries') && layer.get('largeSlider')) {
           return layer;
         }
       }
+
       return null;
+    },
+  },
+  watch: {
+    isSeriesPlaying(val) {
+      if (val && !this.isPlaying && this.timeSeriesLayer) {
+        this.play();
+      }
     },
   },
 };
 </script>
-<style lang="css" scoped>
-.v-input {
+<style scoped>
+/* Title: move it down a bit (tune) */
+.v-row {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 8px !important;
+  /* tune */
+  padding-bottom: 0 !important;
+}
+
+/* The bar that contains the slider: this defines the vertical centering box */
+.time-slider-bar {
+  height: 14px;
+  /* keep your chosen height */
+  display: flex;
   align-items: center;
+}
+
+/* Put the entire slider on the same cross-axis baseline */
+::v-deep .time-slider-slider .v-input__slot {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Prepend/append wrappers: match bar height + center buttons */
+::v-deep .time-slider-slider .v-input__prepend-outer,
+::v-deep .time-slider-slider .v-input__append-outer {
+  display: flex !important;
+  align-items: center !important;
+  height: 34px !important;
+  /* MUST match .time-slider-bar height */
+  margin: 0 !important;
+  padding: 0 !important;
+
+  /* FINAL micro-align: lift buttons to match slider bar */
+  transform: translateY(-1px) !important;
+}
+
+/* Keep buttons tight */
+::v-deep .time-slider-slider .v-input__prepend-outer .v-btn,
+::v-deep .time-slider-slider .v-input__append-outer .v-btn {
+  margin: 0 !important;
 }
 </style>
