@@ -477,6 +477,9 @@ export default {
           this.popup.activeFeature = null;
           this.popup.showInSidePanel = false;
           this.lastSelectedLayer = null;
+          // Clear analysis polygon on slideshow exit
+          if (this.editLayer) this.editLayer.getSource().clear();
+          if (this.highlightLayer) this.highlightLayer.getSource().clear();
           // Reset layer visibility to app-conf defaults
           this.map
             .getLayers()
@@ -1607,6 +1610,8 @@ export default {
       currentResolution: 'currentResolution',
       lastSelectedLayer: 'lastSelectedLayer',
       analysisEditType: 'analysisEditType',
+      editLayer: 'editLayer',
+      highlightLayer: 'highlightLayer',
     }),
     hiddenProps() {
       const hiddenProps = this.$appConfig.map.featureInfoHiddenProps;

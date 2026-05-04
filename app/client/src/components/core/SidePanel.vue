@@ -6,8 +6,7 @@
         !isEditingPost &&
         !isEditingHtml &&
         !analysisIframeUrl &&
-        !editType &&
-        (!highlightLayer || !highlightLayer.getSource().getFeatures().length > 0)
+        !editType
       "
     >
       <vue-scroll ref="vs">

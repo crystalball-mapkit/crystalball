@@ -193,14 +193,59 @@ export default {
           try {
             const geomObj = JSON.parse(decodeURIComponent(geojsonMatch[1]));
             const format = new GeoJSON();
-            this.pendingAnalysisFeature = format.readFeature(
+            const feature = format.readFeature(
               {type: 'Feature', geometry: geomObj},
               {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'}
             );
+            if (this.editLayer && this.highlightLayer) {
+              this.editLayer.getSource().clear();
+              this.editLayer.getSource().addFeature(feature.clone());
+              this.highlightLayer.getSource().clear();
+              this.highlightLayer.getSource().addFeature(feature.clone());
+            } else {
+              this.pendingAnalysisFeature = feature;
+            }
           } catch (e) {
             // ignore malformed geojson
           }
         }
+        const presetMatch = decoded.match(/[?&]preset=([^&]+)/);
+        if (presetMatch) {
+          const parts = presetMatch[1].split(':');
+          if (parts.length >= 2) {
+            this.restoreAnalysisPresetHighlight(parts[0], parts.slice(1).join(':'));
+          }
+        }
+      } else {
+        this.analysisIframeUrl = null;
+      }
+    },
+    restoreAnalysisPresetHighlight(presetName, presetValue) {
+      const allLayers = this.map.getLayers().getArray();
+      const targetLayer = allLayers.find(l => l.get('presetLayerName') === presetName);
+      if (!targetLayer) return;
+      let source = targetLayer.getSource?.();
+      if (!source) return;
+      if (typeof source.getSource === 'function') source = source.getSource();
+      if (typeof source.getFeatures !== 'function') return;
+      const addHighlight = () => {
+        const feature = source.getFeatures().find(f => {
+          const id = f.get('row_id') || f.get('id') || f.get('gid') || f.get('ID');
+          return String(id).toLowerCase() === String(presetValue).toLowerCase();
+        });
+        if (!feature) return false;
+        if (this.editLayer) {
+          this.editLayer.getSource().clear();
+          this.editLayer.getSource().addFeature(feature.clone());
+        }
+        if (this.highlightLayer) {
+          this.highlightLayer.getSource().clear();
+          this.highlightLayer.getSource().addFeature(feature.clone());
+        }
+        return true;
+      };
+      if (!addHighlight()) {
+        source.once('featuresloadend', addHighlight);
       }
     },
     findLayerByName(name, layers) {

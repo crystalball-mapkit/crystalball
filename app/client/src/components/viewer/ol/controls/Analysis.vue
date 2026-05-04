@@ -12,19 +12,19 @@
         <v-tooltip bottom>
           <template v-slot:activator="{on}">
             <v-btn
-              :color="analysisEditType ? 'error' : color"
+              :color="(analysisEditType || analysisIframeUrl) ? 'error' : color"
               dark
               fab
               small
               v-on="on"
-              @click.stop="!!analysisEditType ? stopAnalysis() : (analysisSpeedDialOpen = !analysisSpeedDialOpen)"
+              @click.stop="(!!analysisEditType || !!analysisIframeUrl) ? stopAnalysis() : (analysisSpeedDialOpen = !analysisSpeedDialOpen)"
             >
-              <v-icon v-if="analysisSpeedDialOpen || analysisEditType">mdi-close</v-icon>
+              <v-icon v-if="analysisSpeedDialOpen || analysisEditType || analysisIframeUrl">mdi-close</v-icon>
               <v-icon v-else>mdi-chart-areaspline</v-icon>
             </v-btn>
           </template>
           <span>{{
-            !!analysisEditType || analysisSpeedDialOpen ? $t('general.close') : $t('tooltip.analyzePolygon')
+            !!analysisEditType || !!analysisIframeUrl || analysisSpeedDialOpen ? $t('general.close') : $t('tooltip.analyzePolygon')
           }}</span>
         </v-tooltip>
       </template>
