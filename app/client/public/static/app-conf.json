@@ -742,9 +742,9 @@
       }
     },
     "flyToSlideshow": {
-      "delayInSecondsForInitialStart": 5,
-      "delayInSecondsBetweenFrames": 6,
-      "maplinks": ["slideshowLinks"]
+      "delayInSecondsForInitialStart": 9000000,
+      "delayInSecondsBetweenFrames": 60000,
+      "maplinks": [ ]
     },
     "defaultActiveGroup": "media",
     "groupTitles": {

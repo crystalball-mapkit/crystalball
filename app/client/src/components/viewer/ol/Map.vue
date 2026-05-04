@@ -85,9 +85,9 @@
     <div style="position: absolute; right: 20px; top: 10px">
       <!-- Edit Controls (UI hidden for non-logged users, but layers always created) -->
       <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
-      <!-- Analysis Control (Always visible unless editing) -->
+      <!-- Analysis Control (only in groups that contain a presetLayer) -->
       <div
-        v-if="!selectedLayer && !isEditingPost && $appConfig.app.analysis && $appConfig.app.analysis.rShinyServerUrl"
+        v-if="currentGroupHasPresetLayer && !selectedLayer && !isEditingPost && $appConfig.app.analysis && $appConfig.app.analysis.rShinyServerUrl"
       >
         <analysis :map="map" :color="color.primary" />
       </div>
@@ -1622,6 +1622,12 @@ export default {
     activeLayerGroupConf() {
       const group = this.$appConfig.map.groups[this.activeLayerGroup.navbarGroup][this.activeLayerGroup.region];
       return group;
+    },
+    currentGroupHasPresetLayer() {
+      const group = this.$appConfig.map.groups?.[this.activeLayerGroup.navbarGroup]?.[this.activeLayerGroup.region];
+      if (!group?.layers) return false;
+      const groupLayerSet = new Set(group.layers);
+      return (this.$appConfig.map.layers || []).some(l => l.presetLayer && groupLayerSet.has(l.name));
     },
     searchLabel() {
       const searchLabel = this.popup.activeLayer.get('searchLabel');
