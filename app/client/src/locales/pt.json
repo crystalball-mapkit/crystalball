@@ -141,7 +141,8 @@
       "fileUpload": "Ficheiro carregado. Clique para o inserir!",
       "clickToUpload": "Clique para carregar",
       "addPostSnackbar": "Faça zoom para adicionar o seu posto.",
-      "addPostWarning": "Tem alterações não guardadas! Tem a certeza de querer continuar?"
+      "addPostWarning": "Tem alterações não guardadas! Tem a certeza de querer continuar?",
+      "imageDragDropWarning": "As imagens devem ser carregadas usando o botão de imagem na barra de ferramentas."
     }
   },
   "dashboard": {

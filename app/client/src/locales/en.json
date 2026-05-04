@@ -144,7 +144,8 @@
       "clickToUpload": "Click to upload",
       "addPostSnackbar": "Zoom in close to add your post.",
       "addPostWarning": "You have unsaved changes! Are you sure you want to continue?",
-      "hardBreak": "Hard Break"
+      "hardBreak": "Hard Break",
+      "imageDragDropWarning": "Images must be uploaded using the image button in the toolbar."
     }
   },
   "dashboard": {

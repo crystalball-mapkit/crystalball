@@ -207,7 +207,7 @@
 
 <script>
 import {mapFields} from 'vuex-map-fields';
-import {mapGetters} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import {toLonLat} from 'ol/proj';
 import axios from 'axios';
 
@@ -248,6 +248,8 @@ export default {
     editor: null,
     _editorDom: null,
     _onEditorDoubleClick: null,
+    _onEditorDrop: null,
+    _onEditorPaste: null,
     extensions: [
       History,
       Blockquote,
@@ -308,6 +310,10 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('map', {
+      toggleSnackbar: 'TOGGLE_SNACKBAR',
+    }),
+
     openModal(command) {
       if (this.editor) {
         if (command === 'expansion') {
@@ -515,6 +521,38 @@ export default {
       }
     },
 
+    onEditorDrop(e) {
+      const files = e.dataTransfer && e.dataTransfer.files;
+      if (files && Array.from(files).some(f => f.type.startsWith('image/'))) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.toggleSnackbar({
+          type: 'warning',
+          message: this.$t('form.htmlPostEditor.imageDragDropWarning'),
+          timeout: 4000,
+          state: true,
+        });
+      }
+    },
+
+    onEditorPaste(e) {
+      const cd = e.clipboardData;
+      if (!cd) return;
+      const hasImageFile =
+        (cd.files && Array.from(cd.files).some(f => f.type.startsWith('image/'))) ||
+        (cd.items && Array.from(cd.items).some(i => i.kind === 'file' && i.type.startsWith('image/')));
+      if (hasImageFile) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.toggleSnackbar({
+          type: 'warning',
+          message: this.$t('form.htmlPostEditor.imageDragDropWarning'),
+          timeout: 4000,
+          state: true,
+        });
+      }
+    },
+
     onEditorDoubleClick(e) {
       const label = e.target.closest('.ep-accordion .handle label');
       if (!label) return;
@@ -538,12 +576,26 @@ export default {
 
       this._onEditorDoubleClick = e => this.onEditorDoubleClick(e);
       dom.addEventListener('dblclick', this._onEditorDoubleClick);
+
+      this._onEditorDrop = e => this.onEditorDrop(e);
+      dom.addEventListener('drop', this._onEditorDrop);
+
+      this._onEditorPaste = e => this.onEditorPaste(e);
+      dom.addEventListener('paste', this._onEditorPaste);
     },
   },
 
   beforeDestroy() {
-    if (this._editorDom && this._onEditorDoubleClick) {
-      this._editorDom.removeEventListener('dblclick', this._onEditorDoubleClick);
+    if (this._editorDom) {
+      if (this._onEditorDoubleClick) {
+        this._editorDom.removeEventListener('dblclick', this._onEditorDoubleClick);
+      }
+      if (this._onEditorDrop) {
+        this._editorDom.removeEventListener('drop', this._onEditorDrop);
+      }
+      if (this._onEditorPaste) {
+        this._editorDom.removeEventListener('paste', this._onEditorPaste);
+      }
     }
   },
 };

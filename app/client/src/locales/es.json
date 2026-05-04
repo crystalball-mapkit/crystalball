@@ -141,7 +141,8 @@
       "fileUpload": "Archivo subido. Haga clic en aplicar para insertarlo",
       "clickToUpload": "Haga clic para cargar",
       "addPostSnackbar": "Acércate para añadir tu entrada",
-      "addPostWarning": "Tienes cambios sin guardar! Seguro que quieres continuar?"
+      "addPostWarning": "Tienes cambios sin guardar! Seguro que quieres continuar?",
+      "imageDragDropWarning": "Las imágenes deben cargarse mediante el botón de imagen de la barra de herramientas."
     }
   },
   "dashboard": {
