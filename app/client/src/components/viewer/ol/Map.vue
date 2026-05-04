@@ -87,7 +87,13 @@
       <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
       <!-- Analysis Control (only in groups that contain a presetLayer) -->
       <div
-        v-if="currentGroupHasPresetLayer && !selectedLayer && !isEditingPost && $appConfig.app.analysis && $appConfig.app.analysis.rShinyServerUrl"
+        v-if="
+          currentGroupHasPresetLayer &&
+          !selectedLayer &&
+          !isEditingPost &&
+          $appConfig.app.analysis &&
+          $appConfig.app.analysis.rShinyServerUrl
+        "
       >
         <analysis :map="map" :color="color.primary" />
       </div>
