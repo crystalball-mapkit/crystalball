@@ -744,7 +744,7 @@
     "flyToSlideshow": {
       "delayInSecondsForInitialStart": 5,
       "delayInSecondsBetweenFrames": 6,
-      "maplinks": [ "slideshowLinks"]
+      "maplinks": ["slideshowLinks"]
     },
     "defaultActiveGroup": "media",
     "groupTitles": {

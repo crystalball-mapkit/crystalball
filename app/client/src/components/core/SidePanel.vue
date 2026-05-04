@@ -1,14 +1,6 @@
 <template>
   <v-layout class=".sidebar-content" justify-space-between column fill-height>
-    <template
-      v-if="
-        !selectedCoorpNetworkEntity &&
-        !isEditingPost &&
-        !isEditingHtml &&
-        !analysisIframeUrl &&
-        !editType
-      "
-    >
+    <template v-if="!selectedCoorpNetworkEntity && !isEditingPost && !isEditingHtml && !analysisIframeUrl && !editType">
       <vue-scroll ref="vs">
         <v-row class="mx-0 px-0">
           <v-col class="mt-0 pt-0">
