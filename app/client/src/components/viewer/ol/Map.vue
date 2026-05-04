@@ -1254,6 +1254,8 @@ export default {
         // Clear any feature the previous slide opened before advancing
         this.popup.activeFeature = null;
         this.popup.showInSidePanel = false;
+        if (this.popup.highlightLayer) this.popup.highlightLayer.getSource().clear();
+        if (this.popup.highlightVectorTileLayer) this.map.removeLayer(this.popup.highlightVectorTileLayer);
 
         // Optional instructional panel image shown on top of any slide type
         this.slideshow.overlayUrl =
