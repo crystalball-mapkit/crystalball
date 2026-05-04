@@ -37,6 +37,7 @@ export default {
       popup: 'popup',
       lastSelectedLayer: 'lastSelectedLayer',
       isSeriesPlaying: 'isSeriesPlaying',
+      slideshowUserStopped: 'slideshowUserStopped',
       analysisIframeUrl: 'analysisIframeUrl',
       editLayer: 'editLayer',
       highlightLayer: 'highlightLayer',
@@ -87,6 +88,9 @@ export default {
       }
       if (this.isSeriesPlaying) {
         link += `&playing=1`;
+      }
+      if (this.slideshowUserStopped) {
+        link += `&slideshowStopped=1`;
       }
       if (this.analysisIframeUrl) {
         link += `&analysis=${encodeURIComponent(this.analysisIframeUrl)}`;
@@ -182,6 +186,9 @@ export default {
       }
       if (this.$route.query.playing) {
         this.isSeriesPlaying = true;
+      }
+      if (this.$route.query.slideshowStopped) {
+        this.slideshowUserStopped = true;
       }
       if (this.$route.query.analysis) {
         const decoded = decodeURIComponent(this.$route.query.analysis);

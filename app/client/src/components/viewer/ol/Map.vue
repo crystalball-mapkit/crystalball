@@ -83,10 +83,8 @@
 
     <!-- Edit & Analysis Controls -->
     <div style="position: absolute; right: 20px; top: 10px">
-      <!-- Edit Controls (Only available for logged users which aren't guests ) -->
-      <div v-if="loggedUser">
-        <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
-      </div>
+      <!-- Edit Controls (UI hidden for non-logged users, but layers always created) -->
+      <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
       <!-- Analysis Control (Always visible unless editing) -->
       <div
         v-if="!selectedLayer && !isEditingPost && $appConfig.app.analysis && $appConfig.app.analysis.rShinyServerUrl"
@@ -504,9 +502,11 @@ export default {
     toggleSlideshow() {
       if (this.slideshow.userStopped) {
         this.slideshow.userStopped = false;
+        this.slideshowUserStopped = false;
         this.initMapFly();
       } else {
         this.slideshow.userStopped = true;
+        this.slideshowUserStopped = true;
         this.stopSlideshow();
         if (this.slideshow.videoTimeout) {
           clearTimeout(this.slideshow.videoTimeout);
@@ -1178,6 +1178,7 @@ export default {
           this.slideshow.overlayUrl = _slideshowPendingOverlay;
           _slideshowPendingOverlay = undefined;
         }
+        if (this.slideshowUserStopped) this.slideshow.userStopped = true;
         this.initMapFly();
         this.map.on(['pointerdrag', 'moveend'], () => {
           if (this.slideshow.isFlying === false) {
@@ -1612,6 +1613,7 @@ export default {
       analysisEditType: 'analysisEditType',
       editLayer: 'editLayer',
       highlightLayer: 'highlightLayer',
+      slideshowUserStopped: 'slideshowUserStopped',
     }),
     hiddenProps() {
       const hiddenProps = this.$appConfig.map.featureInfoHiddenProps;

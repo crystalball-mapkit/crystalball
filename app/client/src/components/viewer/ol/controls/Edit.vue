@@ -1,6 +1,6 @@
 <template>
   <div class="mt-4 mb-2">
-    <div v-if="Array.isArray(loggedUser.roles) && !loggedUser.roles.includes('guest_user')">
+    <div v-if="loggedUser && Array.isArray(loggedUser.roles) && !loggedUser.roles.includes('guest_user')">
       <v-layout>
         <v-spacer></v-spacer>
         <div v-if="!selectedLayer">

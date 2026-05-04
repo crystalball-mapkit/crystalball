@@ -55,6 +55,7 @@ const state = {
   analysisIframeUrl: null,
   lastSelectedLayer: null, // triggered from layer or group change
   isSeriesPlaying: false,
+  slideshowUserStopped: false,
   currentResolution: null,
   mobilePanelState: true,
   lightboxDialogState: false,
