@@ -32,12 +32,11 @@ export function parseVideoUrl(url) {
   }
   // FORMAT YOUTUBE VIDEO URL
   if (url.includes('https://www.youtube.com/watch?v=')) {
-    let videoId = url.split('https://www.youtube.com/watch?v=')[1];
-    const ampersandPosition = videoId.indexOf('&');
-    if (ampersandPosition != -1) {
-      videoId = videoId.substring(0, ampersandPosition);
-    }
-    formattedUrl = `https://www.youtube-nocookie.com/embed/${videoId}`;
+    const urlObj = new URL(url);
+    const videoId = urlObj.searchParams.get('v');
+    urlObj.searchParams.delete('v');
+    const extraParams = urlObj.searchParams.toString();
+    formattedUrl = `https://www.youtube-nocookie.com/embed/${videoId}${extraParams ? '?' + extraParams : ''}`;
   }
   return formattedUrl;
 }
