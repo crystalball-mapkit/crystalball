@@ -298,6 +298,10 @@ export default {
             this.popup.activeFeature = feature;
             this.popup.showInSidePanel = true;
             this.sidebarState = true;
+            if (this.popup.highlightLayer) {
+              this.popup.highlightLayer.getSource().clear();
+              this.popup.highlightLayer.getSource().addFeature(feature.clone());
+            }
           });
         return;
       }
@@ -318,6 +322,10 @@ export default {
         this.popup.activeFeature = cloned;
         this.popup.showInSidePanel = true;
         this.sidebarState = true;
+        if (this.popup.highlightLayer) {
+          this.popup.highlightLayer.getSource().clear();
+          this.popup.highlightLayer.getSource().addFeature(cloned.clone());
+        }
       };
 
       const findAndActivate = () => {

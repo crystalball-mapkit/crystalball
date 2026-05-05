@@ -36,7 +36,7 @@ export function parseVideoUrl(url) {
     const videoId = urlObj.searchParams.get('v');
     urlObj.searchParams.delete('v');
     const extraParams = urlObj.searchParams.toString();
-    formattedUrl = `https://www.youtube-nocookie.com/embed/${videoId}${extraParams ? '?' + extraParams : ''}`;
+    formattedUrl = `https://www.youtube-nocookie.com/embed/${videoId}${extraParams ? `?${extraParams}` : ''}`;
   }
   return formattedUrl;
 }
