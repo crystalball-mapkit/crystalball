@@ -18,7 +18,10 @@ export function getRoutes(config) {
     redirectPath = `/${defaultActiveGroup}/${config.map.defaultActiveButton}`;
   }
   if (!config.app.customNavigationScheme || config.app.customNavigationScheme !== '2') {
-    const defaultRegion = config.map.defaultActiveRegion || Object.keys(groups[defaultActiveGroup])[0];
+    const regionKeys = Object.keys(groups[defaultActiveGroup]).filter(key =>
+      Array.isArray(groups[defaultActiveGroup][key]?.layers)
+    );
+    const defaultRegion = config.map.defaultActiveRegion || regionKeys[0];
     redirectPath = `/${defaultActiveGroup}/${defaultRegion}`;
   }
 
@@ -34,7 +37,7 @@ export function getRoutes(config) {
     if (config.app.customNavigationScheme && config.app.customNavigationScheme === '2') {
       regionNames = Object.keys(config.map.buttons);
     } else {
-      regionNames = Object.keys(regions);
+      regionNames = Object.keys(regions).filter(key => Array.isArray(regions[key]?.layers));
     }
     regionNames.forEach(regionName => {
       routes.push({

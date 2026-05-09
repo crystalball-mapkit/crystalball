@@ -202,8 +202,7 @@ export default {
 
 /* The bar that contains the slider: this defines the vertical centering box */
 .time-slider-bar {
-  height: 14px;
-  /* keep your chosen height */
+  height: 34px; /* keep your chosen height */
   display: flex;
   align-items: center;
 }
@@ -219,8 +218,7 @@ export default {
 ::v-deep .time-slider-slider .v-input__append-outer {
   display: flex !important;
   align-items: center !important;
-  height: 34px !important;
-  /* MUST match .time-slider-bar height */
+  height: 34px !important; /* MUST match .time-slider-bar height */
   margin: 0 !important;
   padding: 0 !important;
 

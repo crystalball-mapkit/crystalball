@@ -53,8 +53,8 @@ const state = {
   postEditType: null,
   analysisEditType: null,
   analysisIframeUrl: null,
-  lastSelectedLayer: null, // triggered from layer or group change
   isSeriesPlaying: false,
+  lastSelectedLayer: null, // triggered from layer or group change
   slideshowUserStopped: false,
   currentResolution: null,
   mobilePanelState: true,

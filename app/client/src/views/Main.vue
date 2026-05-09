@@ -461,13 +461,13 @@ export default {
     },
     changeNavbarGroup(navbarGroup) {
       let region = this.activeLayerGroup.region;
-      if (['3', '1'].includes(this.$appConfig.app.customNavigationScheme)) {
+      if (['1', '3', '4'].includes(this.$appConfig.app.customNavigationScheme)) {
         region = 'default';
       }
       this.$router.push({
         path: `/${navbarGroup.name}/${region}`,
       });
-      if (this.$appConfig.app.customNavigationScheme === 2) {
+      if (['2', '4'].includes(this.$appConfig.app.customNavigationScheme)) {
         EventBus.$emit('noMapReset');
       } else {
         EventBus.$emit('resetMap');
@@ -480,7 +480,7 @@ export default {
       const defaultActiveGroup = this.$appConfig.map.defaultActiveGroup;
       const navbarGroupName = groupNames.indexOf(defaultActiveGroup) !== -1 ? defaultActiveGroup : groupNames[0];
       let region = this.activeLayerGroup.region;
-      if (['3', '1'].includes(this.$appConfig.app.customNavigationScheme)) {
+      if (['1', '3', '4'].includes(this.$appConfig.app.customNavigationScheme)) {
         region = 'default';
       }
       this.$router.push({

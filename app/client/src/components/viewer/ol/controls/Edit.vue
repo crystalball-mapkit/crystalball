@@ -352,7 +352,7 @@ import {mapGetters, mapMutations} from 'vuex';
 import axios from 'axios';
 import GeoJSON from 'ol/format/GeoJSON';
 import VJsf from '@koumoul/vjsf';
-import {getFeatureHighlightStyle} from '../../../../style/OlStyleDefs';
+import {getFeatureHighlightStyle, analysisDrawStyle} from '../../../../style/OlStyleDefs';
 import OverlayPopup from './Overlay.vue';
 import {geojsonToFeature} from '../../../../utils/MapUtils';
 import {getNestedProperty, parseVideoUrl} from '../../../../utils/Helpers';
@@ -527,6 +527,7 @@ export default {
         queryable: false,
         zIndex: 2000,
         source: editLayerSource,
+        style: analysisDrawStyle(),
       };
       const editLayer = new VectorLayer(options);
       this.map.addLayer(editLayer);

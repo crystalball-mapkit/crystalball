@@ -86,15 +86,7 @@
       <!-- Edit Controls (UI hidden for non-logged users, but layers always created) -->
       <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
       <!-- Analysis Control (only in groups that contain a presetLayer) -->
-      <div
-        v-if="
-          currentGroupHasPresetLayer &&
-          !selectedLayer &&
-          !isEditingPost &&
-          $appConfig.app.analysis &&
-          $appConfig.app.analysis.rShinyServerUrl
-        "
-      >
+      <div v-if="!selectedLayer && !isEditingPost && activeAnalysisConfig && activeAnalysisConfig.rShinyServerUrl">
         <analysis :map="map" :color="color.primary" />
       </div>
     </div>
@@ -539,6 +531,32 @@ export default {
         this.mapFlyToFn();
       }
     },
+    bindSpotlightRecursive(layer) {
+      if (!layer || !layer.get) return;
+
+      const name = layer.get('name');
+
+      if (
+        name === 'ESRI-World-Imagery2' ||
+        name === 'aerial2001' ||
+        name === 'aerial2005' ||
+        name === 'aerial2010' ||
+        name === 'aerial2015' ||
+        name === 'aerial2020' ||
+        name === 'aerial2025' ||
+        name === 'spotlight'
+      ) {
+        if (!layer.get('_spotlightBound')) {
+          layer.set('_spotlightBound', true);
+          layer.on('prerender', e => this.spotlight(e));
+          layer.on('postrender', e => e.context.restore());
+        }
+      }
+
+      if (layer.getLayers && layer.getLayers()) {
+        layer.getLayers().forEach(child => this.bindSpotlightRecursive(child));
+      }
+    },
     /**
      * Creates the OL layers due to the map "layers" array in app config.
      * @return {ol.layer.Base[]} Array of OL layer instances
@@ -556,7 +574,7 @@ export default {
         const layerIndex = visibleLayers.indexOf(lConf.name);
         if (layerIndex === -1) return;
         const layer = LayerFactory.getInstance(lConf, layerIndex);
-        layer.setZIndex(layerIndex);
+        layer.setZIndex(lConf.zIndex !== undefined ? lConf.zIndex : layerIndex);
         // Restore the previous layer visibility state if exists.
         if (layer.get('name') in this.layerVisibilityState) {
           layer.setVisible(this.layerVisibilityState[layer.get('name')]);
@@ -564,6 +582,7 @@ export default {
         if (layer.get('name')) {
           me.setLayer(layer);
         }
+        this.bindSpotlightRecursive(layer);
       });
       const backgroundColor = this.visibleGroup?.backgroundColor || '#ffffff';
       document.documentElement.style.setProperty('--viewer-background-color', backgroundColor);
@@ -848,7 +867,12 @@ export default {
 
         let feature;
         let layer;
-        if (this.isEditingLayer === false && this.isEditingPost === false && !this.analysisEditType) {
+        if (
+          this.isEditingLayer === false &&
+          this.isEditingPost === false &&
+          this.analysisEditType !== 'square' &&
+          this.analysisEditType !== 'polygon'
+        ) {
           this.map.forEachFeatureAtPixel(
             evt.pixel,
             (f, l) => {
@@ -875,52 +899,69 @@ export default {
             }
           }
 
-          if (!feature || !layer.get('hoverable')) {
+          if (!feature || !layer || !layer.get('hoverable')) {
             overlayEl.innerHTML = null;
             this.overlay.setPosition(undefined);
-          } else {
-            if (!feature) return;
-            if (this.popup.activeFeature && this.popup.activeFeature.getId() === `clone.${feature.getId()}`) return;
+            return;
+          }
 
-            let attr = '';
-            if (feature.get('translations')) {
-              const translations = JSON.parse(feature.get('translations'));
-              if (translations[this.$i18n.locale]) {
-                attr = translations[this.$i18n.locale].title;
-              } else {
-                attr =
-                  feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
-              }
+          let attr = '';
+
+          const props = feature.getProperties ? feature.getProperties() : {};
+          const afUsedIrrKey = Object.keys(props).find(key => /^af_used_irr_\d{4}$/i.test(key));
+          const afUsedIrrRawValue = afUsedIrrKey ? feature.get(afUsedIrrKey) : null;
+          const afUsedIrrValue =
+            afUsedIrrRawValue !== null && afUsedIrrRawValue !== undefined && afUsedIrrRawValue !== ''
+              ? `${Number(afUsedIrrRawValue).toLocaleString()} acre-feet`
+              : null;
+
+          if (feature.get('translations')) {
+            const translations = JSON.parse(feature.get('translations'));
+
+            if (translations[this.$i18n.locale]) {
+              attr = translations[this.$i18n.locale].title;
             } else {
               attr =
-                feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
+                feature.get('hoverAttribute') ||
+                feature.get('title') ||
+                feature.get('entity') ||
+                feature.get('NAME') ||
+                afUsedIrrValue ||
+                feature.get('county');
             }
+          } else {
+            attr =
+              feature.get('hoverAttribute') ||
+              feature.get('title') ||
+              feature.get('entity') ||
+              feature.get('NAME') ||
+              afUsedIrrValue ||
+              feature.get('county');
+          }
+          if (!attr) return;
+          if (layer.get('styleObj')) {
+            const {hoverTextColor, hoverBackgroundColor} = JSON.parse(layer.get('styleObj'));
 
-            if (!attr) return;
-            if (layer.get('styleObj')) {
-              const {hoverTextColor, hoverBackgroundColor} = JSON.parse(layer.get('styleObj'));
+            // eslint-disable-next-line no-unused-expressions
+            hoverBackgroundColor && overlayEl
+              ? (overlayEl.style.backgroundColor = hoverBackgroundColor)
+              : (overlayEl.style.backgroundColor = '');
 
-              // eslint-disable-next-line no-unused-expressions
-              hoverBackgroundColor && overlayEl
-                ? (overlayEl.style.backgroundColor = hoverBackgroundColor)
-                : (overlayEl.style.backgroundColor = '');
-
-              // eslint-disable-next-line no-unused-expressions
-              hoverTextColor && overlayEl ? (overlayEl.style.color = hoverTextColor) : (overlayEl.style.color = '');
-            }
-            if (
-              (!feature.get('entity') && this.selectedCoorpNetworkEntity) ||
-              (feature.get('entity') &&
-                this.selectedCoorpNetworkEntity &&
-                this.splittedEntities &&
-                !this.splittedEntities.some(substring => feature.get('entity').includes(substring)))
-            ) {
-              return;
-            }
-            if (attr && attr !== ' ') {
-              overlayEl.innerHTML = attr;
-              this.overlay.setPosition(evt.coordinate);
-            }
+            // eslint-disable-next-line no-unused-expressions
+            hoverTextColor && overlayEl ? (overlayEl.style.color = hoverTextColor) : (overlayEl.style.color = '');
+          }
+          if (
+            (!feature.get('entity') && this.selectedCoorpNetworkEntity) ||
+            (feature.get('entity') &&
+              this.selectedCoorpNetworkEntity &&
+              this.splittedEntities &&
+              !this.splittedEntities.some(substring => feature.get('entity').includes(substring)))
+          ) {
+            return;
+          }
+          if (attr && attr !== ' ') {
+            overlayEl.innerHTML = attr;
+            this.overlay.setPosition(evt.coordinate);
           }
         }
         this.mousePosition = this.map.getEventPixel(evt.originalEvent);
@@ -1575,7 +1616,10 @@ export default {
       // }
       this.closePopup();
 
-      if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme == '1') {
+      if (
+        this.$appConfig.app.customNavigationScheme &&
+        ['1', '4'].includes(this.$appConfig.app.customNavigationScheme)
+      ) {
         this.resetLayersVisibility();
       }
     },
@@ -1630,6 +1674,10 @@ export default {
     activeLayerGroupConf() {
       const group = this.$appConfig.map.groups[this.activeLayerGroup.navbarGroup][this.activeLayerGroup.region];
       return group;
+    },
+    activeAnalysisConfig() {
+      const group = this.activeLayerGroup?.navbarGroup;
+      return this.$appConfig.map?.groups?.[group]?.analysis || this.$appConfig.app?.analysis || null;
     },
     currentGroupHasPresetLayer() {
       const group = this.$appConfig.map.groups?.[this.activeLayerGroup.navbarGroup]?.[this.activeLayerGroup.region];
@@ -1686,7 +1734,7 @@ export default {
         this.queryLayersGeoserverNames = null;
         this.createLayers();
         this.fetchColorMapEntities();
-        if (['3', '1'].includes(this.$appConfig.app.customNavigationScheme)) {
+        if (['1', '3'].includes(this.$appConfig.app.customNavigationScheme)) {
           this.resetMap();
         }
       } else {

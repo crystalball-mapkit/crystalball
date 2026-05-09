@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$appConfig.app.analysis && $appConfig.app.analysis.rShinyServerUrl" class="mt-4 mb-2">
+  <div v-if="activeAnalysisConfig && activeAnalysisConfig.rShinyServerUrl" class="mt-4 mb-2">
     <!-- ANALYSIS SPEED DIAL -->
     <v-speed-dial
       :value="analysisSpeedDialOpen"
@@ -121,7 +121,7 @@ import {createBox} from 'ol/interaction/Draw';
 import {unByKey} from 'ol/Observable';
 import GeoJSON from 'ol/format/GeoJSON';
 import {mapFields} from 'vuex-map-fields';
-import {mapMutations} from 'vuex';
+import {mapMutations, mapGetters} from 'vuex';
 import {Mapable} from '../../../../mixins/Mapable';
 import {EventBus} from '../../../../EventBus';
 
@@ -138,6 +138,7 @@ export default {
     analysisLayersDialog: false,
     analysisDialogSelectedLayer: null,
     analysisFeatureSelectInteraction: null,
+    analysisLayerWasHidden: false,
   }),
   computed: {
     ...mapFields('map', {
@@ -149,6 +150,13 @@ export default {
       isEditingPost: 'isEditingPost',
       mobilePanelState: 'mobilePanelState',
     }),
+    ...mapGetters('map', {
+      activeLayerGroup: 'activeLayerGroup',
+    }),
+    activeAnalysisConfig() {
+      const group = this.activeLayerGroup?.navbarGroup;
+      return this.$appConfig.map?.groups?.[group]?.analysis || this.$appConfig.app?.analysis || null;
+    },
     flatLayers() {
       return this.map.getAllLayers();
     },
@@ -167,7 +175,8 @@ export default {
     selectAnalysisLayer() {
       this.analysisLayersDialog = false;
       this.analysisEditType = 'feature';
-      if (!this.analysisDialogSelectedLayer.getVisible()) {
+      this.analysisLayerWasHidden = !this.analysisDialogSelectedLayer.getVisible();
+      if (this.analysisLayerWasHidden) {
         this.analysisDialogSelectedLayer.setVisible(true);
       }
       this.setupFeatureSelectAnalysis();
@@ -196,6 +205,10 @@ export default {
       this.analysisEditType = null;
       this.analysisSpeedDialOpen = false;
       this.analysisLayersDialog = false;
+      if (this.analysisLayerWasHidden && this.analysisDialogSelectedLayer) {
+        this.analysisDialogSelectedLayer.setVisible(false);
+        this.analysisLayerWasHidden = false;
+      }
       this.analysisDialogSelectedLayer = null;
 
       // Remove feature select interaction
@@ -275,7 +288,7 @@ export default {
       if (this.highlightLayer) {
         this.highlightLayer.getSource().addFeature(feature.clone());
       }
-      if (this.$appConfig.app.analysis.zoomToFeatureOnSelect) {
+      if (this.activeAnalysisConfig.zoomToFeatureOnSelect) {
         this.zoomToFeature(feature);
       }
       let queryParam;
@@ -292,7 +305,7 @@ export default {
         queryParam = `geojson=${encodeURIComponent(JSON.stringify(geojson))}`;
       }
       const ts = Date.now();
-      let baseUrl = this.$appConfig.app.analysis.rShinyServerUrl;
+      let baseUrl = this.activeAnalysisConfig.rShinyServerUrl;
       if (!baseUrl.endsWith('/')) {
         baseUrl += '/';
       }
@@ -349,7 +362,7 @@ export default {
       const encoded = encodeURIComponent(JSON.stringify(geojson));
       const ts = Date.now();
       // Build URL
-      let baseUrl = this.$appConfig.app.analysis.rShinyServerUrl;
+      let baseUrl = this.activeAnalysisConfig.rShinyServerUrl;
       if (!baseUrl.endsWith('/')) {
         baseUrl += '/';
       }

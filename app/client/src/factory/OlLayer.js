@@ -604,8 +604,14 @@ export const LayerFactory = {
         } else {
           // It's a single layer
           layer = this.getInstance(layerConfig);
-          if (zIndex) {
-            layer.setZIndex(zIndex + index);
+          let effectiveZIndex;
+          if (layerConfig.zIndex !== undefined) {
+            effectiveZIndex = layerConfig.zIndex;
+          } else if (zIndex) {
+            effectiveZIndex = zIndex + index;
+          }
+          if (effectiveZIndex !== undefined) {
+            layer.setZIndex(effectiveZIndex);
           }
         }
         layers.push(layer);
