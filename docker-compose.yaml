@@ -32,6 +32,7 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_client.entrypoints=websecure"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_client.tls.certresolver=myhttpchallenge"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_client.tls=true"
+    restart: on-failure
 
   geoserver:
     image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:geoserver-${PROJECT_VERSION}
