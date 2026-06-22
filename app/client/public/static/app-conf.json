@@ -146,21 +146,6 @@
       },
       {
         "type": "XYZ",
-        "name": "streetmap",
-        "group": "background",
-        "url": "https://api.mapbox.com/styles/v1/bkholmes/cknyrpfv51m8d18o580evho4m/tiles/256/{z}/{x}/{y}?access_token=REMOVED",
-        "minResolution": 0.5,
-        "maxResolution": 8800,
-        "zIndex": 1000,
-        "displayInLegend": true,
-        "legendDisplayName": "Street Map",
-        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
-        "visible": true,
-        "opacity": 0.99,
-        "queryable": false
-      },
-      {
-        "type": "XYZ",
         "name": "ESRI-World-Reference2",
         "group": "midway",
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
@@ -608,7 +593,6 @@
             "ESRI-World-Topo",
             "ESRI-World-Image",
             "native_land",
-            "watershed_names",
             "spiral",
             "venues_big_car",
             "venues_confluence",
@@ -673,6 +657,3 @@
     }
   }
 }
-
-
-
