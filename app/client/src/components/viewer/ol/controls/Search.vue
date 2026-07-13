@@ -28,6 +28,7 @@
       :label="`${$t(`general.search`)}...`"
       :search-input.sync="search"
       item-text="display_name"
+      item-disabled="disabled"
       append-icon=""
       clear-icon="close"
       @click:clear="clearSearch"
@@ -47,7 +48,14 @@
         <v-icon v-show="!search" v-on:click.stop.prevent="closeSearch" left>chevron_left</v-icon>
       </template>
       <template v-slot:item="data">
-        <template v-if="typeof data.item !== 'object'">
+        <template v-if="data.item.header">
+          <v-list-item-content>
+            <v-list-item-title class="text-caption text--secondary font-weight-bold text-uppercase">
+              {{ data.item.header }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </template>
+        <template v-else-if="typeof data.item !== 'object'">
           <v-list-item-content v-text="data.item"></v-list-item-content>
         </template>
         <template v-else>
@@ -100,13 +108,23 @@ export default {
   methods: {
     zoomToLocation() {
       if (!this.search || !this.model) return;
+      this.highlightLayer.getSource().clear();
+
+      if (this.model._type === 'feature') {
+        const [lon, lat] = this.model._coords;
+        const coord = fromLonLat([lon, lat]);
+        this.highlightLayer.getSource().addFeature(new Feature(new Point(coord)));
+        this.map.getView().animate({center: coord, zoom: 14, duration: 1000});
+        return;
+      }
+
+      // Nominatim place
       const x1 = parseFloat(this.model.boundingbox[2]);
       const y1 = parseFloat(this.model.boundingbox[0]);
       const x2 = parseFloat(this.model.boundingbox[3]);
       const y2 = parseFloat(this.model.boundingbox[1]);
       const extent = boundingExtent([fromLonLat([x1, y1]), fromLonLat([x2, y2])]);
       const feature = new Feature(new Point(fromLonLat([parseFloat(this.model.lon), parseFloat(this.model.lat)])));
-      this.highlightLayer.getSource().clear();
       this.highlightLayer.getSource().addFeature(feature);
       if (this.model.geojson) {
         const olFeatures = geojsonToFeature(this.model.geojson, {
@@ -126,7 +144,6 @@ export default {
     },
     clearSearch() {
       this.entries = [];
-      this.count = 0;
       this.highlightLayer.getSource().clear();
     },
     closeSearch() {
@@ -136,12 +153,27 @@ export default {
   },
   computed: {
     items() {
-      return this.entries.map(entry => {
-        const subtitle = [];
-        if (entry.class) subtitle.push(entry.class);
-        if (entry.type) subtitle.push(entry.type);
-        return {...entry, subtitle: subtitle.join(' - ')};
-      });
+      const places = this.entries
+        .filter(e => e._type === 'place')
+        .map(entry => {
+          const subtitle = [];
+          if (entry.class) subtitle.push(entry.class);
+          if (entry.type) subtitle.push(entry.type);
+          return {...entry, subtitle: subtitle.join(' - ')};
+        });
+
+      const features = this.entries.filter(e => e._type === 'feature');
+
+      const result = [];
+      if (places.length) {
+        result.push({header: 'Places', disabled: true});
+        result.push(...places);
+      }
+      if (features.length) {
+        result.push({header: 'Features', disabled: true});
+        result.push(...features);
+      }
+      return result;
     },
   },
   watch: {
@@ -150,21 +182,67 @@ export default {
         this.clearSearch();
         return;
       }
-      // Items have already been requested
       if (this.isLoading) return;
       this.isLoading = true;
-      axios
-        .get(
-          `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${this.search}&polygon_geojson=1&bounded=0&limit=10`
-        )
-        .then(response => {
-          this.count = response.data.length;
-          this.entries = response.data;
-          this.isLoading = false;
-        })
-        .catch(() => {
-          this.isLoading = false;
+
+      const term = this.search;
+
+      const searchableLayers = (this.$appConfig.map.layers || []).filter(
+        l => l.searchableColumns && l.searchableColumns.length && l.url
+      );
+
+      const nominatimReq = axios.get(
+        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(term)}&polygon_geojson=1&bounded=0&limit=10`
+      );
+
+      const wfsRequests = searchableLayers.map(layer => {
+        // VECTORTILE layers point at a GWC/TMS tile template (no querystring); WFS
+        // is served from the same GeoServer instance at a sibling `/wfs` endpoint.
+        const gwcMatch = layer.url.match(/^(.*?)\/gwc\/service\/tms\/[^/]+\/([^@]+)@/);
+        let base;
+        let typeName;
+        if (gwcMatch) {
+          const [, geoserverRoot, gwcTypeName] = gwcMatch;
+          base = `${geoserverRoot}/wfs`;
+          typeName = gwcTypeName;
+        } else {
+          [base] = layer.url.split('?');
+          const params = new URLSearchParams(layer.url.split('?')[1]);
+          typeName = params.get('typename') || params.get('typeName');
+        }
+        const cql = layer.searchableColumns.map(col => `(${col} ILIKE '%${term}%')`).join(' OR ');
+        return axios.get(
+          `${base}?service=WFS&version=1.1.0&request=GetFeature&typename=${typeName}&outputFormat=application/json&srsname=EPSG:4326&CQL_FILTER=${encodeURIComponent(cql)}&maxFeatures=5`
+        );
+      });
+
+      Promise.allSettled([nominatimReq, ...wfsRequests]).then(([nominatimResult, ...wfsResults]) => {
+        const places = nominatimResult.status === 'fulfilled'
+          ? nominatimResult.value.data.map(item => ({...item, _type: 'place'}))
+          : [];
+
+        const features = [];
+        wfsResults.forEach((result, i) => {
+          if (result.status !== 'fulfilled') return;
+          const layer = searchableLayers[i];
+          const layerLabel =
+            typeof layer.legendDisplayName === 'object'
+              ? layer.legendDisplayName[this.$i18n.locale] || layer.legendDisplayName.en || layer.name
+              : layer.legendDisplayName || layer.name;
+          (result.value.data.features || []).forEach(f => {
+            if (!f.geometry || !f.geometry.coordinates) return;
+            features.push({
+              display_name: f.properties.title,
+              _type: 'feature',
+              _coords: f.geometry.coordinates,
+              subtitle: layerLabel,
+            });
+          });
         });
+
+        this.entries = [...places, ...features];
+        this.isLoading = false;
+      });
     }, 500),
   },
   created() {

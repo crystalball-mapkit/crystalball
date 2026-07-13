@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx eslint *)",
+      "Bash(echo \"exit code: $?\")",
+      "Bash(xargs -I{} sh -c 'echo ==={}===; cat {}')",
+      "Bash(grep -rn 'SET_ACTIVE_LAYERGROUP\\\\|setActiveLayerGroup\\\\|watch:\\\\|$route' /media/brian/Gitdisk/git_crystalball/crystalball/app/client/src/store/modules/map.js /media/brian/Gitdisk/git_crystalball/crystalball/app/client/src/views/Main.vue)",
+      "Bash(git -C /media/brian/Gitdisk/git_crystalball/crystalball status --porcelain .claude/)",
+      "Bash(git -C /media/brian/Gitdisk/git_crystalball/crystalball log --oneline -- .claude/settings.json)",
+      "Bash(git -C /media/brian/Gitdisk/git_crystalball/crystalball ls-files .claude/)"
+    ]
+  }
+}

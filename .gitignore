@@ -20,3 +20,4 @@ cache_data
 .env
 _volume_*
 .pnpm-debug.log
+.claude/settings.local.json

@@ -346,10 +346,11 @@
         "format": "MVT",
         "renderMode": "hybrid",
         "visible": true,
-        "zIndex": 100000,
+        "zIndex": 10000000,
         "minResolution": 1,
         "maxResolution": 64000,
         "hoverable": true,
+        "searchableColumns": ["title"],
         "style": {
           "type": "circle",
           "stylePropFnRef": {
@@ -409,6 +410,7 @@
         "minResolution": 1,
         "maxResolution": 64000,
         "hoverable": true,
+        "searchableColumns": ["title"],
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "black",
