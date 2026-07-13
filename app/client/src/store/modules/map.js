@@ -288,7 +288,7 @@ const mutations = {
     const layers = [...state.map.getLayers().getArray()];
     layers.forEach(layer => {
       // Doesn't remove edit layer but clears it instead. .
-      if (!['edit_layer', 'highlight_layer', 'post_edit_layer'].includes(layer.get('name'))) {
+      if (!['edit_layer', 'highlight_layer', 'post_edit_layer', 'search_highlight_layer'].includes(layer.get('name'))) {
         state.map.removeLayer(layer);
       } else if (layer.getSource().clear) {
         layer.getSource().clear();

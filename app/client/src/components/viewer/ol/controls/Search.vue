@@ -35,7 +35,7 @@
       @change="zoomToLocation"
       autofocus
       clearable
-      item-value="osm_id"
+      item-value="_key"
       hide-details
       hide-no-data
       no-filter
@@ -84,9 +84,11 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
+import {mapGetters} from 'vuex';
 import {getSearchHighlightStyle} from '../../../../style/OlStyleDefs';
 import {geojsonToFeature} from '../../../../utils/MapUtils';
 import {debounce} from '../../../../utils/Helpers';
+import {EventBus} from '../../../../EventBus';
 
 export default {
   props: {
@@ -106,18 +108,65 @@ export default {
   },
   name: 'search',
   methods: {
+    // Every {group, region} route whose configured layers include layerName.
+    findOwningRegions(layerName) {
+      const groups = this.$appConfig.map.groups || {};
+      const owners = [];
+      Object.keys(groups).forEach(group => {
+        Object.keys(groups[group]).forEach(region => {
+          if ((groups[group][region].layers || []).includes(layerName)) {
+            owners.push({group, region});
+          }
+        });
+      });
+      return owners;
+    },
+    groupRegionLabel(group, region) {
+      const groupTitle = this.$appConfig.map.groupTitles?.[group];
+      const regionTitle = this.$appConfig.map.regionTitles?.[region];
+      const g = typeof groupTitle === 'object' ? groupTitle[this.$i18n.locale] || groupTitle.en : groupTitle;
+      const r = typeof regionTitle === 'object' ? regionTitle[this.$i18n.locale] || regionTitle.en : regionTitle;
+      return [g, r].filter(Boolean).join(' / ');
+    },
+    highlightFeature() {
+      this.highlightLayer.getSource().clear();
+      const [lon, lat] = this.model._coords;
+      const coord = fromLonLat([lon, lat]);
+      this.highlightLayer.getSource().addFeature(new Feature(new Point(coord)));
+      this.map.getView().animate({center: coord, zoom: 14, duration: 1000});
+    },
     zoomToLocation() {
       if (!this.search || !this.model) return;
-      this.highlightLayer.getSource().clear();
 
       if (this.model._type === 'feature') {
-        const [lon, lat] = this.model._coords;
-        const coord = fromLonLat([lon, lat]);
-        this.highlightLayer.getSource().addFeature(new Feature(new Point(coord)));
-        this.map.getView().animate({center: coord, zoom: 14, duration: 1000});
+        const {_group: targetGroup, _region: targetRegion} = this.model;
+        const needsNavigation =
+          targetGroup &&
+          targetRegion &&
+          (targetGroup !== this.activeLayerGroup?.navbarGroup || targetRegion !== this.activeLayerGroup?.region);
+
+        if (needsNavigation) {
+          const [lon, lat] = this.model._coords;
+          // ShareMap.vue's own $route watcher re-applies ?center=&zoom= on every navigation;
+          // a bare path push drops those params, so it races to recapture a stale position
+          // and can snap the view away right after we zoom. Feed it the right answer instead
+          // (same "lat,lon" format ShareMap itself writes) so there's nothing to race.
+          this.$router
+            .push({
+              path: `/${targetGroup}/${targetRegion}`,
+              query: {center: `${lat.toFixed(3)},${lon.toFixed(3)}`, zoom: '14.000'},
+            })
+            .catch(() => {});
+          // Map.vue rebuilds the layer stack asynchronously after the route change;
+          // it signals completion with this event.
+          EventBus.$once('group-changed', () => this.highlightFeature());
+          return;
+        }
+        this.highlightFeature();
         return;
       }
 
+      this.highlightLayer.getSource().clear();
       // Nominatim place
       const x1 = parseFloat(this.model.boundingbox[2]);
       const y1 = parseFloat(this.model.boundingbox[0]);
@@ -152,6 +201,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters('map', {
+      activeLayerGroup: 'activeLayerGroup',
+    }),
     items() {
       const places = this.entries
         .filter(e => e._type === 'place')
@@ -186,6 +238,7 @@ export default {
       this.isLoading = true;
 
       const term = this.search;
+      const termLower = term.toLowerCase();
 
       const searchableLayers = (this.$appConfig.map.layers || []).filter(
         l => l.searchableColumns && l.searchableColumns.length && l.url
@@ -213,17 +266,20 @@ export default {
           typeName = params.get('typename') || params.get('typeName');
         }
         const cql = layer.searchableColumns.map(col => `(${col} ILIKE '%${term}%')`).join(' OR ');
+        // Without sortBy, GeoServer returns an arbitrary slice of matches before maxFeatures
+        // cuts it off - sorting by the primary searchable column makes that slice consistent
+        // across requests instead of changing with every unrelated query.
         return axios.get(
-          `${base}?service=WFS&version=1.1.0&request=GetFeature&typename=${typeName}&outputFormat=application/json&srsname=EPSG:4326&CQL_FILTER=${encodeURIComponent(
-            cql
-          )}&maxFeatures=5`
+          `${base}?service=WFS&version=1.1.0&request=GetFeature&typename=${typeName}&outputFormat=application/json&srsname=EPSG:4326&sortBy=${
+            layer.searchableColumns[0]
+          }&CQL_FILTER=${encodeURIComponent(cql)}&maxFeatures=50`
         );
       });
 
       Promise.allSettled([nominatimReq, ...wfsRequests]).then(([nominatimResult, ...wfsResults]) => {
         const places =
           nominatimResult.status === 'fulfilled'
-            ? nominatimResult.value.data.map(item => ({...item, _type: 'place'}))
+            ? nominatimResult.value.data.map(item => ({...item, _type: 'place', _key: `place-${item.place_id}`}))
             : [];
 
         const features = [];
@@ -234,13 +290,37 @@ export default {
             typeof layer.legendDisplayName === 'object'
               ? layer.legendDisplayName[this.$i18n.locale] || layer.legendDisplayName.en || layer.name
               : layer.legendDisplayName || layer.name;
-          (result.value.data.features || []).forEach(f => {
+          // A layer can be configured into more than one page (group/region). Rather than
+          // guessing which one the user means, list the feature once per owning page so
+          // they can pick - selecting an entry navigates there if it isn't the current page.
+          const owners = this.findOwningRegions(layer.name);
+          const targets = owners.length ? owners : [null];
+          // Rank by which searchableColumns entry matched - a hit on the first (title)
+          // outranks a hit that only matched via a later column.
+          const matchRank = f => {
+            const index = layer.searchableColumns.findIndex(col =>
+              String(f.properties[col] || '')
+                .toLowerCase()
+                .includes(termLower)
+            );
+            return index === -1 ? layer.searchableColumns.length : index;
+          };
+          const rankedFeatures = [...(result.value.data.features || [])].sort((a, b) => matchRank(a) - matchRank(b));
+          rankedFeatures.forEach(f => {
             if (!f.geometry || !f.geometry.coordinates) return;
-            features.push({
-              display_name: f.properties.title,
-              _type: 'feature',
-              _coords: f.geometry.coordinates,
-              subtitle: layerLabel,
+            targets.forEach(owner => {
+              features.push({
+                display_name: f.properties.title,
+                _type: 'feature',
+                _coords: f.geometry.coordinates,
+                _group: owner?.group,
+                _region: owner?.region,
+                _key: `feature-${layer.name}-${owner ? `${owner.group}-${owner.region}` : 'x'}-${
+                  f.id || JSON.stringify(f.geometry.coordinates)
+                }`,
+                subtitle:
+                  owners.length > 1 ? `${layerLabel} · ${this.groupRegionLabel(owner.group, owner.region)}` : layerLabel,
+              });
             });
           });
         });
@@ -252,6 +332,7 @@ export default {
   },
   created() {
     this.highlightLayer = new VectorLayer({
+      name: 'search_highlight_layer',
       zIndex: 100,
       source: new VectorSource(),
       style: getSearchHighlightStyle,

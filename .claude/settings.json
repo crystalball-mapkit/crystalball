@@ -7,7 +7,18 @@
       "Bash(grep -rn 'SET_ACTIVE_LAYERGROUP\\\\|setActiveLayerGroup\\\\|watch:\\\\|$route' /media/brian/Gitdisk/git_crystalball/crystalball/app/client/src/store/modules/map.js /media/brian/Gitdisk/git_crystalball/crystalball/app/client/src/views/Main.vue)",
       "Bash(git -C /media/brian/Gitdisk/git_crystalball/crystalball status --porcelain .claude/)",
       "Bash(git -C /media/brian/Gitdisk/git_crystalball/crystalball log --oneline -- .claude/settings.json)",
-      "Bash(git -C /media/brian/Gitdisk/git_crystalball/crystalball ls-files .claude/)"
+      "Bash(git -C /media/brian/Gitdisk/git_crystalball/crystalball ls-files .claude/)",
+      "Bash(grep -n 'changeNavbarGroup\\\\|changeRegion\\\\|$route\\\\|watch:\\\\|activeLayerGroup\\\\|setActiveLayerGroup' -n app/client/src/views/Main.vue)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:1024/)",
+      "Bash(grep -n '$route\\\\b' /media/brian/Gitdisk/git_crystalball/crystalball/app/client/src/components/viewer/ol/Map.vue)",
+      "Bash(grep -rn 'query.center\\\\|query\\\\.zoom\\\\|$route\\\\.query\\\\|replaceQueryParams\\\\|updateUrlParams\\\\|history.replaceState\\\\|router.replace' /media/brian/Gitdisk/git_crystalball/crystalball/app/client/src/components/viewer/ol/Map.vue /media/brian/Gitdisk/git_crystalball/crystalball/app/client/src/views/Main.vue)",
+      "Bash(grep -n 'center\\\\|zoom\\\\|$route\\\\|history\\\\|moveend\\\\|view\\\\.' /media/brian/Gitdisk/git_crystalball/crystalball/app/client/src/components/viewer/ol/controls/ShareMap.vue)",
+      "Bash(curl -s -G https://crystalball.timetochange.today/geoserver/wfs --data-urlencode service=WFS --data-urlencode version=1.1.0 --data-urlencode request=GetFeature --data-urlencode typename=workspace1:glri_projects --data-urlencode outputFormat=application/json --data-urlencode srsname=EPSG:4326 --data-urlencode 'CQL_FILTER=\\(title ILIKE '\\\\''%invasive%'\\\\''\\)' --data-urlencode maxFeatures=1000)",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s -G https://crystalball.timetochange.today/geoserver/wfs --data-urlencode service=WFS --data-urlencode version=1.1.0 --data-urlencode request=GetFeature --data-urlencode typename=workspace1:glri_projects --data-urlencode outputFormat=application/json --data-urlencode srsname=EPSG:4326 --data-urlencode 'CQL_FILTER=\\(title ILIKE '\\\\''%invasives%'\\\\''\\)' --data-urlencode maxFeatures=1000)",
+      "Bash(grep -n '$t\\(`\\\\|{[a-zA-Z]*}\"' /media/brian/Gitdisk/git_crystalball/crystalball/app/client/src/locales/en.json)",
+      "Bash(echo \"lint exit: $?\")"
     ]
   }
 }
