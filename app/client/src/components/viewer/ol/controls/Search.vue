@@ -192,7 +192,9 @@ export default {
       );
 
       const nominatimReq = axios.get(
-        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(term)}&polygon_geojson=1&bounded=0&limit=10`
+        `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(
+          term
+        )}&polygon_geojson=1&bounded=0&limit=10`
       );
 
       const wfsRequests = searchableLayers.map(layer => {
@@ -212,14 +214,17 @@ export default {
         }
         const cql = layer.searchableColumns.map(col => `(${col} ILIKE '%${term}%')`).join(' OR ');
         return axios.get(
-          `${base}?service=WFS&version=1.1.0&request=GetFeature&typename=${typeName}&outputFormat=application/json&srsname=EPSG:4326&CQL_FILTER=${encodeURIComponent(cql)}&maxFeatures=5`
+          `${base}?service=WFS&version=1.1.0&request=GetFeature&typename=${typeName}&outputFormat=application/json&srsname=EPSG:4326&CQL_FILTER=${encodeURIComponent(
+            cql
+          )}&maxFeatures=5`
         );
       });
 
       Promise.allSettled([nominatimReq, ...wfsRequests]).then(([nominatimResult, ...wfsResults]) => {
-        const places = nominatimResult.status === 'fulfilled'
-          ? nominatimResult.value.data.map(item => ({...item, _type: 'place'}))
-          : [];
+        const places =
+          nominatimResult.status === 'fulfilled'
+            ? nominatimResult.value.data.map(item => ({...item, _type: 'place'}))
+            : [];
 
         const features = [];
         wfsResults.forEach((result, i) => {
