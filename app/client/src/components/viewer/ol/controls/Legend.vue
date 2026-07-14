@@ -59,7 +59,7 @@
                 <template v-if="item.get('displaySidebarInfo')">
                   <v-tooltip right>
                     <template v-slot:activator="{on}">
-                      <v-flex v-on="on" @click="lastSelectedLayer = item.get('name')" style="cursor: pointer" xs1>
+                      <v-flex v-on="on" @click="handleMoreInfoClick(item)" style="cursor: pointer" xs1>
                         <span v-html="getGraphic(item)"></span>
                       </v-flex>
                     </template>
@@ -102,7 +102,7 @@
               <v-row
                 align="center"
                 justify="center"
-                v-if="item.get('displaySeries') && item.getVisible() && item.getLayers().getArray().length >= 2"
+                v-if="isSliderVisible(item)"
                 :key="'time-series' + index"
                 class="fill-height ma-0 pa-0"
               >
@@ -225,6 +225,12 @@ export default {
         }
       }
     },
+    handleMoreInfoClick(item) {
+      this.lastSelectedLayer = this.lastSelectedLayer === item.get('name') ? undefined : item.get('name');
+      if (!this.sidebarState) {
+        this.sidebarState = true;
+      }
+    },
     toggleLayerVisibility(item) {
       this.lastSelectedLayer = null;
 
@@ -306,8 +312,25 @@ export default {
     getSeriesActiveLayerTitle(layerGroup) {
       const layers = layerGroup.getLayers().getArray();
       const activeLayerIndex = layerGroup.get('activeLayerIndex') || 0;
-      const title = layers[activeLayerIndex].get('seriesDisplayName') || layers[activeLayerIndex].get('name');
+      const title =
+        layers[activeLayerIndex].get('legendDisplayName') &&
+        layers[activeLayerIndex].get('legendDisplayName')[this.$i18n.locale]
+          ? layers[activeLayerIndex].get('legendDisplayName')[this.$i18n.locale]
+          : layers[activeLayerIndex].get('name');
       return title;
+    },
+    isSliderVisible(layer) {
+      const hasDisplaySeries = layer?.get('displaySeries');
+      const isVisible = layer?.getVisible();
+      const hasMultipleLayers = layer?.getLayers?.().getArray().length >= 2;
+
+      if (hasDisplaySeries && isVisible && hasMultipleLayers) {
+        if (this.$vuetify.breakpoint.smAndDown || !layer.get('largeSlider')) {
+          return true;
+        }
+      }
+
+      return false;
     },
   },
   mounted() {
@@ -327,6 +350,9 @@ export default {
     ...mapFields('map', {
       lastSelectedLayer: 'lastSelectedLayer',
       mobilePanelState: 'mobilePanelState',
+    }),
+    ...mapFields('app', {
+      sidebarState: 'sidebarState',
     }),
   },
   watch: {

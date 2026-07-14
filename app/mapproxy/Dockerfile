@@ -1,0 +1,1 @@
+FROM kartoza/mapproxy:latest

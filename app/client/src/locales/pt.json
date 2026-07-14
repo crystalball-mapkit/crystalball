@@ -12,6 +12,9 @@
     "register": "Registe-se",
     "search": "Pesquisa",
     "copy": "Cópia",
+    "copied": "Copiado!",
+    "slideshowStop": "Parar apresentação",
+    "slideshowRestart": "Reiniciar apresentação",
     "layers": "Camadas",
     "sidebar": "Sidebar",
     "top": "Início",
@@ -44,7 +47,12 @@
     "deleteFeature": "Apagar Característica",
     "addPost": "Adicionar Post",
     "changeSpotlight": "pressione ↑ ou ↓ para mudar o tamanho dos holofotes",
-    "translateAllFeatures": "Traduzir todos os recursos"
+    "translateAllFeatures": "Traduzir todos os recursos",
+    "analyzePolygon": "Analisar área",
+    "drawSquare": "Desenhar quadrado",
+    "drawPolygon": "Desenhar polígono",
+    "selectPresetsFromLayer": "Selecionar predefinições da camada",
+    "selectFromLayer": "Selecionar da camada"
   },
   "form": {
     "user": {
@@ -70,6 +78,11 @@
     "legend": {
       "selectAll": "Seleccionar tudo",
       "clearAll": "Limpar tudo"
+    },
+    "analysis": {
+      "selectLayerPresets": "Selecionar predefinições de camada",
+      "selectFeatureInstruction": "Por favor, selecione um recurso no mapa para analisar.",
+      "noFeatureFoundAtLocation": "Nenhum recurso encontrado na localização selecionada."
     },
     "edit": {
       "selectLayerToEdit": "Seleccionar camada para editar",
@@ -108,7 +121,7 @@
       "delete": "Publicação eliminada com sucesso!",
       "deletePost": "Eliminar Posto",
       "editPost": "Editar Posto",
-      "corporateNetwork": "Rede de Empresas",
+      "corporateNetwork": "Rede agroecológica",
       "placeholder": "Escrever qualquer coisa",
       "alignLeft": "Alinhar Esquerda",
       "alignCenter": "Centro de Alinhamento",
@@ -120,13 +133,16 @@
       "addMapViewLink": "Acrescentar ligação ao mapa actual",
       "translateContent": "Traduzir Conteúdo em",
       "expansionTitle": "Título de Expansão",
+      "expansionInputLabel": "Título",
+      "translateError": "A tradução falhou. Por favor, tente novamente.",
       "imageInsert": "Inserir imagem",
       "videoInsert": "Inserir vídeo",
       "audioInsert": "Inserir Áudio",
       "fileUpload": "Ficheiro carregado. Clique para o inserir!",
       "clickToUpload": "Clique para carregar",
       "addPostSnackbar": "Faça zoom para adicionar o seu posto.",
-      "addPostWarning": "Tem alterações não guardadas! Tem a certeza de querer continuar?"
+      "addPostWarning": "Tem alterações não guardadas! Tem a certeza de querer continuar?",
+      "imageDragDropWarning": "As imagens devem ser carregadas usando o botão de imagem na barra de ferramentas."
     }
   },
   "dashboard": {

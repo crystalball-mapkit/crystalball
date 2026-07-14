@@ -191,7 +191,7 @@ exports.icons_patch = (req, res) => {
     )
       .then(() => {
         // Update all html posts containing the previous icon
-        let sql = `UPDATE html_posts SET icon = $$${req.body.iconUrl}$$, title = $$${req.body.title}$$, "group" = $$${req.body.group}$$ WHERE icon = $$${req.body.previousIconUrl}$$;`;
+        let sql = `UPDATE html_posts SET icon = $$${req.body.iconUrl}$$, title = $$${req.body.title}$$ WHERE icon = $$${req.body.previousIconUrl}$$;`;
         sequelize
           .query(sql)
           .then(() => {

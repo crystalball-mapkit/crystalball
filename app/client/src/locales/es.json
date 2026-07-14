@@ -12,6 +12,9 @@
     "register": "Regístrese",
     "search": "Buscar",
     "copy": "Copiar",
+    "copied": "¡Copiado!",
+    "slideshowStop": "Detener presentación",
+    "slideshowRestart": "Reiniciar presentación",
     "layers": "Capas",
     "sidebar": "Barra lateral",
     "top": "Arriba",
@@ -44,7 +47,12 @@
     "deleteFeature": "Borrar rasgo",
     "addPost": "Añadir puesto",
     "changeSpotlight": "pulsa ↑ o ↓ para cambiar el tamaño del foco",
-    "translateAllFeatures": "Traducir todos los datos"
+    "translateAllFeatures": "Traducir todos los datos",
+    "analyzePolygon": "Analizar área",
+    "drawSquare": "Dibujar cuadrado",
+    "drawPolygon": "Dibujar polígono",
+    "selectPresetsFromLayer": "Seleccionar preajustes de la capa",
+    "selectFromLayer": "Seleccionar de la capa"
   },
   "form": {
     "user": {
@@ -70,6 +78,11 @@
     "legend": {
       "selectAll": "Activar todo",
       "clearAll": "Borrar todo"
+    },
+    "analysis": {
+      "selectLayerPresets": "Seleccionar preajustes de capa",
+      "selectFeatureInstruction": "Por favor, seleccione un rasgo en el mapa para analizar.",
+      "noFeatureFoundAtLocation": "No se ha encontrado ningún rasgo en la ubicación seleccionada."
     },
     "edit": {
       "selectLayerToEdit": "Seleccionar capa a editar",
@@ -108,7 +121,7 @@
       "delete": "Puesto borrado",
       "deletePost": "Borrar puesto",
       "editPost": "Editar puesto",
-      "corporateNetwork": "Red corporativa",
+      "corporateNetwork": "Red agroecológica",
       "placeholder": "Escribe algo",
       "alignLeft": "Alinear a la izquierda",
       "alignCenter": "Centrar",
@@ -120,13 +133,16 @@
       "addMapViewLink": "Añadir enlace al mapa actual",
       "translateContent": "Traducir contenido en ",
       "expansionTitle": "Ampliación Título",
+      "expansionInputLabel": "Título",
+      "translateError": "La traducción falló. Por favor, inténtelo de nuevo.",
       "imageInsert": "Insertar imagen",
       "videoInsert": "Insertar vídeo",
       "audioInsert": "Insertar audio",
       "fileUpload": "Archivo subido. Haga clic en aplicar para insertarlo",
       "clickToUpload": "Haga clic para cargar",
       "addPostSnackbar": "Acércate para añadir tu entrada",
-      "addPostWarning": "Tienes cambios sin guardar! Seguro que quieres continuar?"
+      "addPostWarning": "Tienes cambios sin guardar! Seguro que quieres continuar?",
+      "imageDragDropWarning": "Las imágenes deben cargarse mediante el botón de imagen de la barra de herramientas."
     }
   },
   "dashboard": {

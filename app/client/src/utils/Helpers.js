@@ -32,12 +32,11 @@ export function parseVideoUrl(url) {
   }
   // FORMAT YOUTUBE VIDEO URL
   if (url.includes('https://www.youtube.com/watch?v=')) {
-    let videoId = url.split('https://www.youtube.com/watch?v=')[1];
-    const ampersandPosition = videoId.indexOf('&');
-    if (ampersandPosition != -1) {
-      videoId = videoId.substring(0, ampersandPosition);
-    }
-    formattedUrl = `https://www.youtube-nocookie.com/embed/${videoId}`;
+    const urlObj = new URL(url);
+    const videoId = urlObj.searchParams.get('v');
+    urlObj.searchParams.delete('v');
+    const extraParams = urlObj.searchParams.toString();
+    formattedUrl = `https://www.youtube-nocookie.com/embed/${videoId}${extraParams ? `?${extraParams}` : ''}`;
   }
   return formattedUrl;
 }
@@ -178,4 +177,17 @@ export function getHtml(content, defaultLanguage, currentLanguage) {
     html = htmlTranslations[currentLanguage];
   }
   return html;
+}
+
+export function deepMerge(obj1, obj2) {
+  for (const key in obj2) {
+    if (obj2.hasOwnProperty(key)) {
+      if (obj2[key] instanceof Object && obj1[key] instanceof Object) {
+        obj1[key] = deepMerge(obj1[key], obj2[key]);
+      } else {
+        obj1[key] = obj2[key];
+      }
+    }
+  }
+  return obj1;
 }

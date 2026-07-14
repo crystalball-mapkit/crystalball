@@ -15,7 +15,7 @@ import {OlStyleFactory} from '../factory/OlStyle';
 import {EventBus} from '../EventBus';
 
 const strokeColor = 'rgba(236, 236, 236, 0.7)';
-const fillColor = 'rgba(255,0,0, 0.2)';
+const fillColor = 'rgba(255,0,0, 0.1)';
 const imageColor = 'blue';
 const radiusHighlightColor = 'rgba(232,223,181,0.3)';
 const zIndex = 100;
@@ -59,6 +59,18 @@ export function defaultStyle(feature) {
     }),
   });
   return [style];
+}
+
+export function analysisDrawStyle() {
+  return new OlStyle({
+    fill: new OlFill({
+      color: 'rgba(255, 165, 0, 0.15)',
+    }),
+    stroke: new OlStroke({
+      color: '#FF8C00',
+      width: 2,
+    }),
+  });
 }
 
 export function getFeatureHighlightStyle() {
@@ -216,7 +228,7 @@ export function worldOverlayFill() {
     styles.push(
       new OlStyle({
         fill: new OlFill({
-          color: 'rgba(236, 236, 236, 0.75)',
+          color: 'rgba(40, 40, 40, 0.35)',
         }),
         zIndex: 300,
       })
@@ -632,6 +644,14 @@ const getRadiusValue = (propertyValue, multiplier, smallestRadius, largestRadius
   return radius;
 };
 
+// Lets app-conf "hoverTextColor"/"hoverBackgroundColor" name a feature column
+// (e.g. "variable1") instead of a literal CSS color, so colors can vary per feature.
+export const resolveHoverColor = (feature, value) => {
+  if (!value) return value;
+  const propertyValue = feature.get(value);
+  return propertyValue !== undefined && propertyValue !== null ? propertyValue : value;
+};
+
 export const colorMapFn = layerName => {
   const colorFn = propertyValue => {
     const colors = store.state.colorMapEntities[layerName];
@@ -716,6 +736,10 @@ export const layersStylePropFn = {
     radius: propertyValue => getRadiusValue(propertyValue, 0.2, 3, 26),
   },
   polygons: {
+    strokeColor: propertyValue => propertyValue,
+    fillColor: propertyValue => propertyValue,
+  },
+  experimental: {
     strokeColor: propertyValue => propertyValue,
     fillColor: propertyValue => propertyValue,
   },

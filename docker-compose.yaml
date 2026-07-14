@@ -32,6 +32,7 @@ services:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_client.entrypoints=websecure"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_client.tls.certresolver=myhttpchallenge"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_client.tls=true"
+    restart: on-failure
 
   geoserver:
     image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:geoserver-${PROJECT_VERSION}
@@ -46,6 +47,8 @@ services:
       - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
       - COMMUNITY_EXTENSIONS=backup-restore-plugin
+      - HTTP_PROXY_NAME=${DOMAIN_NAME}
+      - HTTP_SCHEME=https
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}_geoserver.loadBalancer.server.port=8080"
@@ -157,4 +160,22 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: on-failure
+
+  mapproxy:
+    image: ${DOCKER_ID}/${COMPOSE_PROJECT_NAME}:mapproxy-${PROJECT_VERSION}
+    build: ./app/mapproxy
+    container_name: ${COMPOSE_PROJECT_NAME}_mapproxy
+    hostname: ${COMPOSE_PROJECT_NAME}_mapproxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}_mapproxy.loadBalancer.server.port=8080"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.rule=Host(`mapproxy.${DOMAIN_NAME}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.entrypoints=websecure"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.tls.certresolver=myhttpchallenge"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_mapproxy.tls=true"
+    depends_on:
+      - geoserver
+    volumes:
+      - ./app/mapproxy:/mapproxy
     restart: on-failure

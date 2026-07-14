@@ -42,7 +42,7 @@
       38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
     ],
     "center": [0, 0],
-    "minResolution": 0.25,
+    "minResolution": 0.12,
     "maxResolution": 64000,
     "layers": [
       {
@@ -108,55 +108,30 @@
         "name": "drift",
         "group": "midway",
         "url": "https://midwayfair.s3.us-east-2.amazonaws.com/tiles/drift/{z}/{x}/{y}.png",
-        "minResolution": 200,
+        "minResolution": 76.437,
         "maxResolution": 60000,
         "displayInLegend": true,
         "legendDisplayName": "Mississippi Basin",
         "legendIcon": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/miss_icon.png",
         "displaySidebarInfo": false,
         "visible": true,
-        "opacity": 0.79,
+        "opacity": 0.89,
         "updatewhileanimating": true
-      },
-      {
-        "type": "VECTOR",
-        "name": "osm_midway_states",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:osm_midway_states&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": false,
-        "displayInLegend": true,
-        "legendDisplayName": "Midway states",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 200,
-        "maxResolution": 14000,
-        "opacity": 0.8,
-        "label": null,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "stylePropFnRef": {
-            "fillColor": "variable1"
-          },
-          "strokeColor": "gray",
-          "strokeWidth": 0.5,
-          "opacity": 0.6
-        }
       },
       {
         "type": "XYZ",
         "name": "ESRI-World-Reference2",
         "group": "midway",
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 3200,
+        "minResolution": 390,
         "maxResolution": 6400,
         "displayInLegend": false,
         "legendDisplayName": "",
         "legendIcon": "",
         "queryable": false,
         "visible": true,
-        "opacity": 0.79
+        "opacity": 0.99,
+        "zIndex": 1000
       },
       {
         "type": "XYZ",
@@ -164,13 +139,14 @@
         "group": "midway",
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 48,
-        "maxResolution": 3200,
+        "maxResolution": 305.75,
         "displayInLegend": true,
         "legendDisplayName": "Place Names",
         "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/streetmap.png",
         "queryable": false,
-        "visible": true,
-        "opacity": 0.99
+        "visible": false,
+        "opacity": 0.99,
+        "zIndex": 1000
       },
       {
         "type": "VECTOR",
@@ -215,7 +191,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/9.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -238,7 +214,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/5.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -261,7 +237,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/3.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -284,7 +260,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/8.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -307,7 +283,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/6.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -330,7 +306,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/3.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -353,7 +329,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/4.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -376,7 +352,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/4.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -399,7 +375,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/5.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -422,7 +398,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/8.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -445,7 +421,7 @@
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/6.png",
           "scale": 1.1,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "#D200E3"
         }
       },
       {
@@ -454,13 +430,13 @@
         "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:artist_spaces_chi&outputFormat=application/json&srsname=EPSG:3857",
         "group": "midway",
         "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Artist Run Spaces",
+        "displayInLegend": true,
+        "legendDisplayName": "Early Chicago research",
         "format": "GeoJSON",
-        "visible": true,
+        "visible": false,
         "zIndex": 1000,
         "minResolution": 0,
-        "maxResolution": 2000,
+        "maxResolution": 1000,
         "label": null,
         "hoverable": true,
         "isInteractive": true,
@@ -476,8 +452,9 @@
         "name": "ESRI-World-Image",
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 0.5,
+        "minResolution": 0.12,
+        "maxResolution": 2.3887,
+        "zIndex": 10,
         "queryable": false,
         "visible": true
       },
@@ -509,12 +486,44 @@
         "opacity": 0.99
       },
       {
+        "type": "OLMS",
+        "name": "basemap1",
+        "group": "midway",
+        "url": "https://tileserver.ecotopia.today/styles/basic/style.json",
+        "minResolution": 2.38,
+        "maxResolution": 440,
+        "opacity": 0.8,
+        "zIndex": 10,
+        "queryable": false,
+        "visible": true,
+        "displayInLegend": true,
+        "legendDisplayName": {
+          "en": "OSM-Maptiler",
+          "es": "OSM-Maptiler",
+          "pt": "OSM-Maptiler"
+        }
+      },
+      {
         "type": "XYZ",
-        "name": "shaded_relief",
+        "name": "oceans",
         "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 60000,
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 3000,
+        "maxResolution": 64000,
+        "zIndex": 1,
+        "opacity": 0.2,
+        "queryable": false,
+        "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "oceans2",
+        "group": "backgroundLayers",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 460,
+        "maxResolution": 3000,
+        "opacity": 0.4,
+        "zIndex": 1,
         "queryable": false,
         "visible": true
       },
@@ -540,29 +549,54 @@
         }
       },
       {
-        "type": "VECTORTILE",
-        "name": "watershed_names",
-        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:watershed_names@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+        "type": "VECTOR",
+        "name": "html_posts",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:html_posts&outputFormat=application/json&srsname=EPSG:3857",
         "queryable": true,
-        "format": "MVT",
+        "displayInLegend": true,
+        "legendDisplayName": {
+          "en": "User posts",
+          "es": "Publicaciones",
+          "pt": "Publicações"
+        },
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 1002,
+        "minResolution": 0.5,
+        "maxResolution": 48,
+        "label": null,
+        "hoverable": true,
+        "canEdit": false,
+        "searchableColumns": ["title", "html"],
+        "style": {
+          "styleRef": "htmlLayerStyle",
+          "hoverBackgroundColor": "hover"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "watershed_names",
+        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:watershed_names&outputFormat=application/json&srsname=EPSG:3857",
+        "queryable": true,
+        "format": "GeoJSON",
         "displayInLegend": true,
         "legendDisplayName": "Watershed Names",
         "legendIcon": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/watershed_icon.png",
         "visible": false,
         "zIndex": 1000,
         "minResolution": 200,
-        "maxResolution": 60000,
+        "maxResolution": 2000,
         "hoverable": true,
         "isInteractive": false,
         "style": {
           "label": {
             "text": "name",
             "fill": {
-              "color": "black"
+              "color": "#416bdf"
             },
             "stroke": {
-              "color": "rgba( 255, 250, 240, 0.60 )",
-              "width": 1.5
+              "color": "rgba( 255, 250, 240, 0.50 )",
+              "width": 2.5
             },
             "offsetX": 0,
             "offsetY": 0,
@@ -570,7 +604,7 @@
             "placement": "point",
             "textAlign": "center",
             "textWrap": "normal",
-            "fontType": "Avenir",
+            "fontType": "Baskervville",
             "fontSize": "16px",
             "fontWeight": "bold"
           },
@@ -586,12 +620,15 @@
       "midway": {
         "default": {
           "layers": [
+            "oceans",
+            "oceans2",
             "ESRI-World-Reference2",
-            "drift",
             "ESRI-World-Reference",
             "world_polygons",
-            "ESRI-World-Topo",
             "ESRI-World-Image",
+            "basemap1",
+            "drift",
+            "watershed_names",
             "native_land",
             "spiral",
             "venues_big_car",
@@ -605,21 +642,18 @@
             "venues_par_projects",
             "venues_manoomin_arts",
             "venues_school_for_rural",
-            "venues_racing_magpie"
+            "venues_racing_magpie",
+            "html_posts"
           ],
           "center": [-94.653, 41.6],
           "resolution": 4800,
           "mobileResolution": 12500,
           "mobileCenter": [-92.3, 42.097],
           "minResolution": 0,
-          "maxResolution": 64000
+          "maxResolution": 64000,
+          "backgroundColor": "#e3e0d4"
         }
       }
-    },
-    "flyToSlideshow": {
-      "delayInSecondsForInitialStart": 9000000,
-      "delayInSecondsBetweenFrames": 120000,
-      "maplinks": [""]
     },
     "defaultActiveGroup": "midway",
     "groupTitles": {

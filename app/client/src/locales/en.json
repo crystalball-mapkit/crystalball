@@ -12,6 +12,9 @@
     "register": "Register",
     "search": "Search",
     "copy": "Copy",
+    "copied": "Copied!",
+    "slideshowStop": "Stop slideshow",
+    "slideshowRestart": "Restart slideshow",
     "layers": "Layers",
     "sidebar": "Sidebar",
     "top": "Top",
@@ -46,7 +49,12 @@
     "deleteFeature": "Delete Feature",
     "addPost": "Add Post",
     "changeSpotlight": "press ↑ or ↓ to change spotlight size",
-    "translateAllFeatures": "Translate All Features"
+    "translateAllFeatures": "Translate All Features",
+    "analyzePolygon": "Analyze Area",
+    "drawSquare": "Draw Square",
+    "drawPolygon": "Draw Polygon",
+    "selectPresetsFromLayer": "Select Presets from Layer",
+    "selectFromLayer": "Select from Layer"
   },
   "form": {
     "user": {
@@ -72,6 +80,11 @@
     "legend": {
       "selectAll": "Select All",
       "clearAll": "Clear All"
+    },
+    "analysis": {
+      "selectLayerPresets": "Select Layer Presets",
+      "selectFeatureInstruction": "Please select a feature on the map to analyze.",
+      "noFeatureFoundAtLocation": "No feature found at selected location"
     },
     "edit": {
       "selectLayerToEdit": "Select layer to edit",
@@ -110,7 +123,7 @@
       "delete": "Post deleted successfully!",
       "deletePost": "Delete Post",
       "editPost": "Edit Post",
-      "corporateNetwork": "Corporate Network",
+      "corporateNetwork": "Agroecological Network",
       "placeholder": "Write Something",
       "alignLeft": "Align Left",
       "alignCenter": "Align Center",
@@ -122,6 +135,8 @@
       "addMapViewLink": "Add Current Map Link",
       "translateContent": "Translate Content in ",
       "expansionTitle": "Expansion Title",
+      "expansionInputLabel": "Title",
+      "translateError": "Translation failed. Please try again.",
       "imageInsert": "Insert Image",
       "videoInsert": "Insert Video",
       "audioInsert": "Insert Audio",
@@ -129,7 +144,8 @@
       "clickToUpload": "Click to upload",
       "addPostSnackbar": "Zoom in close to add your post.",
       "addPostWarning": "You have unsaved changes! Are you sure you want to continue?",
-      "hardBreak": "Hard Break"
+      "hardBreak": "Hard Break",
+      "imageDragDropWarning": "Images must be uploaded using the image button in the toolbar."
     }
   },
   "dashboard": {

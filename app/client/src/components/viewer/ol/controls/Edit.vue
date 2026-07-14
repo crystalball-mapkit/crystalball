@@ -1,6 +1,6 @@
 <template>
   <div class="mt-4 mb-2">
-    <div v-if="Array.isArray(loggedUser.roles) && !loggedUser.roles.includes('guest_user')">
+    <div v-if="loggedUser && Array.isArray(loggedUser.roles) && !loggedUser.roles.includes('guest_user')">
       <v-layout>
         <v-spacer></v-spacer>
         <div v-if="!selectedLayer">
@@ -57,7 +57,7 @@
         </v-menu>
       </v-layout>
     </div>
-    <div v-if="!selectedLayer">
+    <div v-if="!selectedLayer && visibleGroup.layers && visibleGroup.layers.includes('html_posts')">
       <v-tooltip left>
         <template v-slot:activator="{on}">
           <v-btn
@@ -344,6 +344,7 @@ import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
 import {LineString, MultiLineString, Polygon, MultiPolygon} from 'ol/geom';
 import {Modify, Draw} from 'ol/interaction';
+
 import {unByKey} from 'ol/Observable';
 import Overlay from 'ol/Overlay';
 import {mapFields} from 'vuex-map-fields';
@@ -351,7 +352,7 @@ import {mapGetters, mapMutations} from 'vuex';
 import axios from 'axios';
 import GeoJSON from 'ol/format/GeoJSON';
 import VJsf from '@koumoul/vjsf';
-import {getFeatureHighlightStyle} from '../../../../style/OlStyleDefs';
+import {getFeatureHighlightStyle, analysisDrawStyle} from '../../../../style/OlStyleDefs';
 import OverlayPopup from './Overlay.vue';
 import {geojsonToFeature} from '../../../../utils/MapUtils';
 import {getNestedProperty, parseVideoUrl} from '../../../../utils/Helpers';
@@ -378,6 +379,7 @@ export default {
     color: {type: Object},
   },
   data: () => ({
+    //
     dialogSelectedLayer: null, // Temporary selection (not active if user doesn't press ok)
     layersDialog: false,
     // INTERACTION
@@ -437,6 +439,8 @@ export default {
       selectedLayer: 'selectedLayer',
       postFeature: 'postFeature',
       postEditType: 'postEditType',
+      analysisEditType: 'analysisEditType',
+      analysisIframeUrl: 'analysisIframeUrl',
       formValid: 'formValid',
       formSchema: 'formSchema',
       // formSchemaCache: 'formSchemaCache',
@@ -453,6 +457,7 @@ export default {
     ...mapGetters('map', {
       layersMetadata: 'layersMetadata',
       imageUploadButtonText: 'imageUploadButtonText',
+      visibleGroup: 'visibleGroup',
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',
@@ -461,17 +466,7 @@ export default {
       serverConfig: 'serverConfig',
     }),
     flatLayers() {
-      const layers = [];
-      this.map
-        .getLayers()
-        .getArray()
-        .forEach(layer => {
-          if (layer.get('type') === 'GROUP') {
-            layers.push(...layer.getLayers().getArray());
-          } else {
-            layers.push(layer);
-          }
-        });
+      const layers = this.map.getAllLayers();
       return layers;
     },
     isTranslatable() {
@@ -532,6 +527,7 @@ export default {
         queryable: false,
         zIndex: 2000,
         source: editLayerSource,
+        style: analysisDrawStyle(),
       };
       const editLayer = new VectorLayer(options);
       this.map.addLayer(editLayer);
@@ -597,7 +593,7 @@ export default {
         const layerName = this.layersMetadata[this.selectedLayer.get('name')].typeName;
         this.isTranslating = true;
         axios
-          .get(`./api/translate/${layerName}?sourceLanguage=${this.$appConfig.app.defaultLanguage}`, {
+          .get(`./api/translate/${layerName}?sourceLanguage=${this.$appConfig.app.defaultLanguage}&force=true`, {
             headers: authHeader(),
           })
           .then(response => {
@@ -1132,6 +1128,25 @@ export default {
       }
     },
 
+    zoomToFeature(feature) {
+      const geometry = feature.getGeometry();
+      if (!geometry) return;
+      const extent = geometry.getExtent();
+      const padding = 0.1;
+      const width = extent[2] - extent[0];
+      const height = extent[3] - extent[1];
+      const paddedExtent = [
+        extent[0] - width * padding,
+        extent[1] - height * padding,
+        extent[2] + width * padding,
+        extent[3] + height * padding,
+      ];
+      this.map.getView().fit(paddedExtent, {
+        duration: 500,
+        padding: [20, 20, 20, 20], // Additional padding in pixels
+      });
+    },
+
     /**
      * TRANSACT METHOD
      */
@@ -1145,6 +1160,8 @@ export default {
         geometry,
         // eslint-disable-next-line no-unused-vars
         geom,
+        // eslint-disable-next-line no-unused-vars
+        keys,
         ...propsWithNoGeometry
       } = this.selectedFeature.getProperties();
 

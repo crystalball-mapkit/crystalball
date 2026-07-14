@@ -16,7 +16,7 @@ exports.validate = [
     .isEmail()
     .withMessage("Username must be a valid email address")
     .trim()
-    .normalizeEmail()
+    .normalizeEmail({gmail_remove_dots:false})
     .custom((value) => {
       return Logins.findOne({ where: { userName: value } }).then((user) => {
         if (user) {

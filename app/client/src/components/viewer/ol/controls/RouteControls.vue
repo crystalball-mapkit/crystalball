@@ -79,9 +79,7 @@ export default {
 </script>
 <style lang="css" scoped>
 .region-control {
-  position: fixed;
-  right: calc(45% - 50px);
   bottom: 20px;
-  z-index: 1;
+  z-index: 10;
 }
 </style>

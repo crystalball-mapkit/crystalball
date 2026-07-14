@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="show" persistent max-width="500px">
-    <v-card v-if="command">
+    <v-card v-if="command || editUid">
       <v-app-bar flat :color="color" height="50" dark>
         <v-icon class="mr-3">playlist_add</v-icon>
         <v-toolbar-title>{{ $t(`form.htmlPostEditor.expansionTitle`) }}</v-toolbar-title>
@@ -8,7 +8,7 @@
       </v-app-bar>
       <v-divider></v-divider>
       <v-card-text>
-        <v-text-field class="mt-4" v-model="title" label="Title" />
+        <v-text-field class="mt-4" v-model="title" :label="$t('form.htmlPostEditor.expansionInputLabel')" />
       </v-card-text>
 
       <v-divider></v-divider>
@@ -26,31 +26,42 @@ export default {
     return {
       title: '',
       command: null,
+      editUid: null,
       show: false,
       color: this.$appConfig.app.color.primary,
     };
   },
   methods: {
     showModal(command) {
-      // Add the sent command
       this.clear();
       this.command = command;
       this.show = true;
     },
+    showEditModal(uid, currentTitle) {
+      this.clear();
+      this.editUid = uid;
+      this.title = currentTitle;
+      this.show = true;
+    },
     insert() {
-      const data = {
-        command: this.command,
-        data: {
-          title: this.title,
-          uid: (Date.now() + Math.random()).toString(),
-        },
-      };
-
-      this.$emit('onConfirm', data);
+      if (this.editUid) {
+        this.$emit('onEditConfirm', {uid: this.editUid, title: this.title});
+      } else {
+        const data = {
+          command: this.command,
+          data: {
+            title: this.title,
+            uid: `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
+          },
+        };
+        this.$emit('onConfirm', data);
+      }
       this.show = false;
     },
     clear() {
       this.title = '';
+      this.editUid = null;
+      this.command = null;
     },
   },
 };

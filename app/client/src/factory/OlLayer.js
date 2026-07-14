@@ -20,6 +20,7 @@ import LayerGroup from 'ol/layer/Group';
 import Cluster from 'ol/source/Cluster';
 import {Image as ImageLayer} from 'ol/layer';
 import XyzSource from 'ol/source/XYZ';
+import {applyStyle} from 'ol-mapbox-style';
 import {OlStyleFactory} from './OlStyle';
 import {styleRefs, layersStylePropFn, colorMapFn} from '../style/OlStyleDefs';
 import http from '../services/http';
@@ -175,6 +176,9 @@ export const LayerFactory = {
     if (lConf.type === 'ESRI') {
       return this.createESRIFeatureService(lConf);
     }
+    if (lConf.type === 'OLMS') {
+      return this.createMapboxStyleLayer(lConf);
+    }
     if (lConf.type === 'GROUP') {
       return this.createGroupLayer(lConf, zIndex);
     }
@@ -198,12 +202,15 @@ export const LayerFactory = {
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
       seriesDisplayName: lConf.seriesDisplayName,
+      extent: lConf.extent,
       visible: lConf.visible,
       opacity: lConf.opacity,
       queryable: lConf.queryable,
       requiresPois: lConf.requiresPois,
       ratio: lConf.ratio ? lConf.ratio : 1.5,
       zIndex: lConf.zIndex,
+      minResolution: lConf.minResolution,
+      maxResolution: lConf.maxResolution,
       group: lConf.group,
       source: new ImageWMS({
         url: lConf.url,
@@ -239,7 +246,10 @@ export const LayerFactory = {
       legendDisplayName: lConf.legendDisplayName,
       seriesDisplayName: lConf.seriesDisplayName,
       preload: lConf.preload ? parseFloat(lConf.preload) : 0, // Parse float is used because it's not possible to add values like Infinity in json config
+      queryable: lConf.queryable,
       zIndex: lConf.zIndex,
+      minResolution: lConf.minResolution,
+      maxResolution: lConf.maxResolution,
       group: lConf.group,
       source: new TileWmsSource({
         url: lConf.url,
@@ -266,8 +276,11 @@ export const LayerFactory = {
       name: lConf.name,
       title: lConf.title,
       lid: lConf.lid,
+      extent: lConf.extent,
       visible: lConf.visible,
       opacity: lConf.opacity,
+      queryable: lConf.queryable,
+      zIndex: lConf.zIndex,
       minResolution: lConf.minResolution,
       maxResolution: lConf.maxResolution,
       group: lConf.group,
@@ -290,6 +303,40 @@ export const LayerFactory = {
     return xyzLayer;
   },
 
+  /** Returns an ol-mapbox-style layer instance
+   * @param {Object} lConf Layer config object
+   * @return {ol.layer.Tile} OL Mapbox Style layer instance
+   */
+
+  createMapboxStyleLayer(lConf) {
+    const layer = new VectorTileLayer({
+      name: lConf.name,
+      title: lConf.title,
+      lid: lConf.lid,
+      visible: lConf.visible,
+      opacity: lConf.opacity,
+      group: lConf.group,
+      extent: lConf.extent,
+      queryable: lConf.queryable,
+      zIndex: lConf.zIndex,
+      minResolution: lConf.minResolution,
+      maxResolution: lConf.maxResolution,
+      displayInLegend: lConf.displayInLegend,
+      displaySidebarInfo: lConf.displaySidebarInfo,
+      sidebarDefaultMedia: lConf.sidebarDefaultMedia,
+      legendIcon: lConf.legendIcon,
+      legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
+      hoverable: false,
+      isInteractive: false,
+      declutter: true,
+    });
+    applyStyle(layer, lConf.url, {
+      accessToken: lConf.accessToken,
+    });
+    return layer;
+  },
+
   /**
    * Returns an OpenLayers OSM layer instance due to given config.
    *
@@ -301,6 +348,7 @@ export const LayerFactory = {
       name: lConf.name,
       title: lConf.title,
       lid: lConf.lid,
+      extent: lConf.extent,
       visible: lConf.visible,
       displayInLegend: lConf.displayInLegend,
       displaySidebarInfo: lConf.displaySidebarInfo,
@@ -309,6 +357,10 @@ export const LayerFactory = {
       legendDisplayName: lConf.legendDisplayName,
       seriesDisplayName: lConf.seriesDisplayName,
       opacity: lConf.opacity,
+      queryable: lConf.queryable,
+      zIndex: lConf.zIndex,
+      minResolution: lConf.minResolution,
+      maxResolution: lConf.maxResolution,
       group: lConf.group,
       source: new OsmSource({
         url: lConf.url,
@@ -335,7 +387,9 @@ export const LayerFactory = {
       name: lConf.name,
       title: lConf.title,
       lid: lConf.lid,
+      extent: lConf.extent,
       minResolution: lConf.minResolution,
+      maxResolution: lConf.maxResolution,
       displayInLegend: lConf.displayInLegend,
       displaySidebarInfo: lConf.displaySidebarInfo,
       sidebarDefaultMedia: lConf.sidebarDefaultMedia,
@@ -346,6 +400,8 @@ export const LayerFactory = {
       visible: lConf.visible,
       group: lConf.group,
       opacity: lConf.opacity,
+      queryable: lConf.queryable,
+      zIndex: lConf.zIndex,
       source: bingMaps,
     });
 
@@ -363,10 +419,14 @@ export const LayerFactory = {
       name: lConf.name,
       title: lConf.title,
       lid: lConf.lid,
+      extent: lConf.extent,
       minResolution: lConf.minResolution,
+      maxResolution: lConf.maxResolution,
       maxZoom: lConf.maxZoom,
       visible: lConf.visible,
       opacity: lConf.opacity,
+      queryable: lConf.queryable,
+      zIndex: lConf.zIndex,
       group: lConf.group,
       displayInLegend: lConf.displayInLegend,
       displaySidebarInfo: lConf.displaySidebarInfo,
@@ -402,7 +462,7 @@ export const LayerFactory = {
       attributions: lConf.attributions,
     };
     // Check if url is a WFS service
-    if (lConf.url.includes('wfs?service=WFS&')) {
+    if (lConf.url && lConf.url.includes('wfs?service=WFS&')) {
       // eslint-disable-next-line func-names
       url = function (extent) {
         return `${lConf.url}&bbox=${extent.join(',')},EPSG:3857`;
@@ -452,6 +512,8 @@ export const LayerFactory = {
       hoverable: lConf.hoverable,
       hoverAttribute: lConf.hoverAttribute,
       label: lConf.label,
+      presetLayer: lConf.presetLayer,
+      presetLayerName: lConf.presetLayerName,
       styleObj: JSON.stringify(lConf.style),
     });
     return vectorLayer;
@@ -469,6 +531,7 @@ export const LayerFactory = {
       name: lConf.name,
       title: lConf.title,
       lid: lConf.lid,
+      extent: lConf.extent,
       queryable: lConf.queryable,
       showZoomToFeature: lConf.showZoomToFeature,
       visible: lConf.visible,
@@ -484,8 +547,10 @@ export const LayerFactory = {
       legendDisplayName: lConf.legendDisplayName,
       seriesDisplayName: lConf.seriesDisplayName,
       opacity: lConf.opacity,
+      zIndex: lConf.zIndex,
       group: lConf.group,
       renderMode: lConf.renderMode || 'hybrid',
+      declutter: lConf.declutter || false,
       source: new VectorTileSource({
         url: lConf.url,
         format: new this.formatMapping[lConf.format](),
@@ -494,6 +559,8 @@ export const LayerFactory = {
       style: this.getStyles(lConf),
       hoverable: lConf.hoverable,
       hoverAttribute: lConf.hoverAttribute,
+      presetLayer: lConf.presetLayer,
+      presetLayerName: lConf.presetLayerName,
       styleObj: JSON.stringify(lConf.style),
     });
 
@@ -538,7 +605,10 @@ export const LayerFactory = {
       type: lConf.type,
       title: lConf.title,
       lid: lConf.lid,
+      extent: lConf.extent,
       zIndex: lConf.zIndex,
+      minResolution: lConf.minResolution,
+      maxResolution: lConf.maxResolution,
       queryable: lConf.queryable,
       displayInLegend: lConf.displayInLegend,
       displaySidebarInfo: lConf.displaySidebarInfo,
@@ -560,9 +630,22 @@ export const LayerFactory = {
     const layersConfig = lConf.layers;
     if (Array.isArray(layersConfig)) {
       layersConfig.forEach((layerConfig, index) => {
-        const layer = this.getInstance(layerConfig);
-        if (zIndex) {
-          layer.setZIndex(zIndex + index);
+        let layer;
+        if (Array.isArray(layerConfig.layers)) {
+          // If the layerConfig has layers, it's a group - create a nested group
+          layer = this.createGroupLayer(layerConfig, zIndex);
+        } else {
+          // It's a single layer
+          layer = this.getInstance(layerConfig);
+          let effectiveZIndex;
+          if (layerConfig.zIndex !== undefined) {
+            effectiveZIndex = layerConfig.zIndex;
+          } else if (zIndex) {
+            effectiveZIndex = zIndex + index;
+          }
+          if (effectiveZIndex !== undefined) {
+            layer.setZIndex(effectiveZIndex);
+          }
         }
         layers.push(layer);
         if (lConf.displaySeries) {
@@ -580,19 +663,27 @@ export const LayerFactory = {
       type: lConf.type,
       title: lConf.title,
       lid: lConf.lid,
+      extent: lConf.extent,
       displayInLegend: lConf.displayInLegend,
       displaySidebarInfo: lConf.displaySidebarInfo,
       sidebarDefaultMedia: lConf.sidebarDefaultMedia,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,
+      seriesDisplayName: lConf.seriesDisplayName,
       visible: lConf.visible,
       opacity: lConf.opacity,
       queryable: lConf.queryable,
       ratio: lConf.ratio ? lConf.ratio : 1.5,
       zIndex: lConf.zIndex,
+      minResolution: lConf.minResolution,
+      maxResolution: lConf.maxResolution,
       group: lConf.group,
       displaySeries: lConf.displaySeries,
+      playInterval: lConf.playInterval,
+      largeSlider: lConf.largeSlider,
+      isPlayDisabled: lConf.isPlayDisabled,
       defaultSeriesLayerIndex: lConf.defaultSeriesLayerIndex,
+      playButton: lConf.playButton,
       activeLayerIndex: lConf.defaultSeriesLayerIndex || 0, // Used for layer series title in legend which is updated on layer change
       layers,
     });

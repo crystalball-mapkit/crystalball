@@ -1,7 +1,58 @@
 <template>
-  <div id="ol-map-container" @click="$event => resetAfterSlide()" @mousemove="resetAfterSlide()">
+  <div id="ol-map-container" @click="$event => resetAfterSlide()">
+    <!-- Slideshow video overlay -->
+    <div v-if="slideshow.videoSrc" class="slideshow-video-overlay" @mousemove="resetAfterSlide()">
+      <video
+        v-if="slideshow.videoIsDirect"
+        :key="slideshow.videoSrc"
+        :src="slideshow.videoSrc"
+        autoplay
+        :muted.prop="true"
+        playsinline
+        class="slideshow-video-direct"
+        @error="onVideoError"
+      ></video>
+      <iframe
+        v-else
+        :src="slideshow.videoSrc"
+        frameborder="0"
+        allow="autoplay; encrypted-media; fullscreen"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <!-- Instructional panel overlay — shown on top of any slide type, pointer-events off so cursor events reach the layer below -->
+    <div v-if="slideshow.overlayUrl" class="slideshow-panel-overlay">
+      <img :src="slideshow.overlayUrl" class="slideshow-panel-img" />
+    </div>
+    <!-- Slideshow photo overlay -->
+    <div v-if="slideshow.photoSlide" class="slideshow-photo-overlay" @mousemove="resetAfterSlide()">
+      <div class="slideshow-photo-content">
+        <img :src="slideshow.photoSlide.url" :alt="slideshow.photoSlide.caption" />
+        <p v-if="slideshow.photoSlide.caption" class="slideshow-photo-caption">
+          {{ slideshow.photoSlide.caption }}
+        </p>
+      </div>
+    </div>
+    <!-- Slideshow toggle button — visible whenever slideshow is configured -->
+    <v-tooltip
+      v-if="
+        $appConfig.map.flyToSlideshow &&
+        $appConfig.map.flyToSlideshow.maplinks &&
+        $appConfig.map.flyToSlideshow.maplinks.length > 0
+      "
+      left
+    >
+      <template v-slot:activator="{on, attrs}">
+        <div class="slideshow-toggle-btn" v-bind="attrs" v-on="on" @click.stop="toggleSlideshow()">
+          <span v-if="!slideshow.userStopped" class="slideshow-toggle-dot"></span>
+        </div>
+      </template>
+      <span>{{ slideshow.userStopped ? $t('general.slideshowRestart') : $t('general.slideshowStop') }}</span>
+    </v-tooltip>
+
     <!-- Map Controls -->
     <map-legend :color="color.primary" />
+    <time-slider :color="color.primary" />
     <div style="position: absolute; left: 20px; top: 10px">
       <login-button :color="color.primary"></login-button>
       <search-map
@@ -18,6 +69,8 @@
       ></share-map>
       <!-- Show only on mobile -->
       <locate v-if="$appConfig.app.controls && $appConfig.app.controls.locate_me" :color="color.primary" :map="map" />
+    </div>
+    <div style="position: absolute; left: 50%; bottom: 10px; z-index: 10">
       <route-controls
         v-show="!isEditingPost"
         v-if="!$vuetify.breakpoint.smAndDown"
@@ -28,9 +81,14 @@
       />
     </div>
 
-    <!-- Edit Controls (Only available for logged users which aren't guests ) -->
-    <div v-if="loggedUser" style="position: absolute; right: 20px; top: 10px">
+    <!-- Edit & Analysis Controls -->
+    <div style="position: absolute; right: 20px; top: 10px">
+      <!-- Edit Controls (UI hidden for non-logged users, but layers always created) -->
       <edit :map="map" :color="{primary: color.primary, activeButton: color.secondary}" />
+      <!-- Analysis Control (only in groups that contain a presetLayer) -->
+      <div v-if="!selectedLayer && !isEditingPost && activeAnalysisConfig && activeAnalysisConfig.rShinyServerUrl">
+        <analysis :map="map" :color="color.primary" />
+      </div>
     </div>
     <div
       v-if="$vuetify.breakpoint.smAndDown"
@@ -47,14 +105,14 @@
     >
       <add-post :color="color.primary" :map="map"></add-post>
     </div>
-    <div
+    <!-- <div
       v-show="spotlightMessage === true && !$vuetify.breakpoint.smAndDown && !isEditingPost"
       :style="`background-color: ${color.primary}`"
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
     >
       {{ $t('tooltip.changeSpotlight') }}
-    </div>
+    </div>  -->
 
     <!-- Popup overlay  -->
     <overlay-popup
@@ -165,10 +223,20 @@ import DoubleClickZoom from 'ol/interaction/DoubleClickZoom';
 import {defaults as defaultInteractions} from 'ol/interaction';
 import {defaults as defaultControls, Attribution} from 'ol/control';
 import axios from 'axios';
-import {popupInfoStyle, networkCorpHighlightStyle, worldOverlayFill} from '../../../style/OlStyleDefs';
+import {
+  popupInfoStyle,
+  networkCorpHighlightStyle,
+  worldOverlayFill,
+  resolveHoverColor,
+} from '../../../style/OlStyleDefs';
 
 // import the app-wide EventBus
 import {EventBus} from '../../../EventBus';
+
+// Persists across route-triggered remounts so slideshow always resets to the original startup route
+let _slideshowHomeHash = null;
+let _slideshowPendingOverlay = undefined; // carries overlay URL across map-slide remounts
+let _slideshowHasNavigated = false; // carries hasNavigated flag across map-slide remounts
 
 // utils imports
 import {LayerFactory} from '../../../factory/OlLayer';
@@ -187,11 +255,13 @@ import Locate from './controls/Locate.vue';
 import Search from './controls/Search.vue';
 import RouteControls from './controls/RouteControls.vue';
 import Legend from './controls/Legend.vue';
+import TimeSlider from './controls/TimeSlider.vue';
 import Login from './controls/Login.vue';
 import Edit from './controls/Edit.vue';
 import ShareMap from './controls/ShareMap.vue';
 import AddPost from './controls/AddPost.vue';
 import EditGuide from './controls/EditGuide.vue';
+import Analysis from './controls/Analysis.vue';
 // Interactions
 
 // Ol controls
@@ -217,6 +287,7 @@ export default {
     'add-post': AddPost,
     'overlay-popup': OverlayPopup,
     'map-legend': Legend,
+    'time-slider': TimeSlider,
     'login-button': Login,
     'zoom-control': ZoomControl,
     'full-screen': FullScreen,
@@ -228,6 +299,7 @@ export default {
     'progress-loader': ProgressLoader,
     edit: Edit,
     'edit-guide': EditGuide, // mobile bottom info alerts
+    analysis: Analysis,
     Snackbar,
   },
   name: 'app-ol-map',
@@ -246,9 +318,9 @@ export default {
       queryLayersGeoserverNames: null,
       activeInteractions: [],
       getInfoResult: [],
-      radius: 180,
+      radius: 140,
       mousePosition: undefined,
-      spotlightMessage: false,
+      spotlightMessage: this.$appConfig?.spotlightMessage?.isVisible || false,
       lightBoxImages: [],
       progressLoading: {
         message: 'Fetching Corporate Network',
@@ -267,6 +339,15 @@ export default {
         isFlying: false, // Use to check if pointdrap or movend is triggered from the flyToFn
         timer: null, // timer between frames
         timeout: null, // timer for initial start.
+        videoSrc: null, // non-null while a video slide is displayed
+        videoIsDirect: false, // true when videoSrc is a direct file URL (mp4/webm) vs an embed
+        photoSlide: null, // non-null while a photo slide is displayed: { url, caption }
+        videoTimeout: null, // timeout handle for video/photo auto-advance
+        isRunning: false,
+        hasNavigated: false,
+        homeHash: null,
+        overlayUrl: null, // non-null while an instructional panel image is shown
+        userStopped: false, // true when user explicitly stopped the slideshow via the button
       },
     };
   },
@@ -365,7 +446,6 @@ export default {
     // Create layers from config and add them to map
     me.resetMap();
     me.createLayers();
-    me.createHtmlPostLayer();
     // Event bus setup for managing interactions
     EventBus.$on('ol-interaction-activated', startedInteraction => {
       me.activeInteractions.push(startedInteraction);
@@ -381,8 +461,105 @@ export default {
       if (this.slideshow.isRunning) {
         this.slideshow.isRunning = false;
         this.stopSlideshow();
-        this.sidebarState = true;
+        if (this.slideshow.videoTimeout) {
+          clearTimeout(this.slideshow.videoTimeout);
+          this.slideshow.videoTimeout = null;
+        }
+        this.slideshow.videoSrc = null;
+        this.slideshow.videoIsDirect = false;
+        this.slideshow.photoSlide = null;
+        this.slideshow.overlayUrl = null;
+        _slideshowPendingOverlay = undefined;
+        this.slideshow.currentIndex = 0;
+        if (this.slideshow.hasNavigated) {
+          this.slideshow.hasNavigated = false;
+          _slideshowHasNavigated = false;
+          // Close feature popup and html layer sidebars
+          this.popup.activeFeature = null;
+          this.popup.showInSidePanel = false;
+          this.lastSelectedLayer = null;
+          // Clear analysis polygon on slideshow exit
+          if (this.editLayer) this.editLayer.getSource().clear();
+          if (this.highlightLayer) this.highlightLayer.getSource().clear();
+          // Reset layer visibility to app-conf defaults
+          this.map
+            .getLayers()
+            .getArray()
+            .forEach(layer => {
+              const name = layer.get('name');
+              if (!name) return;
+              const conf = this.$appConfig.map.layers.find(l => l.name === name);
+              if (conf !== undefined) layer.setVisible(!!conf.visible);
+            });
+          // Reset view to home group defaults (parse from homeHash, not current active group)
+          const homeNavbarGroup = this.slideshow.homeHash?.split('/')[1];
+          const groupConf = this.$appConfig.map.groups?.[homeNavbarGroup];
+          if (groupConf?.center) this.map.getView().setCenter(fromLonLat(groupConf.center));
+          if (groupConf?.resolution) this.map.getView().setResolution(groupConf.resolution);
+          // Navigate to home route (clears slideshow URL params)
+          if (this.slideshow.homeHash) window.location.hash = this.slideshow.homeHash;
+        }
         this.initMapFly();
+      }
+    },
+    toggleSlideshow() {
+      if (this.slideshow.userStopped) {
+        this.slideshow.userStopped = false;
+        this.slideshowUserStopped = false;
+        this.initMapFly();
+      } else {
+        this.slideshow.userStopped = true;
+        this.slideshowUserStopped = true;
+        this.stopSlideshow();
+        if (this.slideshow.videoTimeout) {
+          clearTimeout(this.slideshow.videoTimeout);
+          this.slideshow.videoTimeout = null;
+        }
+        this.slideshow.videoSrc = null;
+        this.slideshow.videoIsDirect = false;
+        this.slideshow.photoSlide = null;
+        this.slideshow.overlayUrl = null;
+        this.slideshow.isRunning = false;
+        _slideshowPendingOverlay = undefined;
+      }
+    },
+    onVideoError() {
+      if (this.slideshow.videoTimeout) {
+        clearTimeout(this.slideshow.videoTimeout);
+        this.slideshow.videoTimeout = null;
+      }
+      this.slideshow.videoSrc = null;
+      this.slideshow.videoIsDirect = false;
+      if (this.slideshow.isRunning) {
+        const delay = (this.$appConfig.map.flyToSlideshow?.delayInSecondsBetweenFrames || 3) * 1000;
+        this.slideshow.timer = new Timer(this.mapFlyToFn, delay);
+        this.mapFlyToFn();
+      }
+    },
+    bindSpotlightRecursive(layer) {
+      if (!layer || !layer.get) return;
+
+      const name = layer.get('name');
+
+      if (
+        name === 'ESRI-World-Imagery2' ||
+        name === 'aerial2001' ||
+        name === 'aerial2005' ||
+        name === 'aerial2010' ||
+        name === 'aerial2015' ||
+        name === 'aerial2020' ||
+        name === 'aerial2025' ||
+        name === 'spotlight'
+      ) {
+        if (!layer.get('_spotlightBound')) {
+          layer.set('_spotlightBound', true);
+          layer.on('prerender', e => this.spotlight(e));
+          layer.on('postrender', e => e.context.restore());
+        }
+      }
+
+      if (layer.getLayers && layer.getLayers()) {
+        layer.getLayers().forEach(child => this.bindSpotlightRecursive(child));
       }
     },
     /**
@@ -397,29 +574,23 @@ export default {
       // World Overlay Layer and selected features layer for corporate network
       me.createWorldExtentOverlayLayer();
       me.createSelectedCorpNetworkLayer();
-
+      // Create layers from config
       this.$appConfig.map.layers.forEach(lConf => {
         const layerIndex = visibleLayers.indexOf(lConf.name);
         if (layerIndex === -1) return;
         const layer = LayerFactory.getInstance(lConf, layerIndex);
-        layer.setZIndex(layerIndex);
+        layer.setZIndex(lConf.zIndex !== undefined ? lConf.zIndex : layerIndex);
         // Restore the previous layer visibility state if exists.
         if (layer.get('name') in this.layerVisibilityState) {
           layer.setVisible(this.layerVisibilityState[layer.get('name')]);
         }
-        // Enable spotlight for ESRI Imagery
-        if (layer.get('name') === 'ESRI-World-Imagery2' || layer.get('name') === 'ESRI-World-Imagery3') {
-          layer.on('prerender', e => {
-            this.spotlight(e);
-          });
-          layer.on('postrender', e => {
-            e.context.restore();
-          });
-        }
         if (layer.get('name')) {
           me.setLayer(layer);
         }
+        this.bindSpotlightRecursive(layer);
       });
+      const backgroundColor = this.visibleGroup?.backgroundColor || '#ffffff';
+      document.documentElement.style.setProperty('--viewer-background-color', backgroundColor);
     },
     resetLayersVisibility() {
       const visibleLayers = this.visibleGroup.layers;
@@ -432,10 +603,6 @@ export default {
           }
         });
       });
-    },
-    createHtmlPostLayer() {
-      const layer = LayerFactory.getInstance(this.htmlPostLayerConf);
-      this.setPersistentLayer(layer);
     },
     /**
      * Creates a layer to visualize selected GetInfo features.
@@ -595,7 +762,7 @@ export default {
      */
     showPopup(clickCoord) {
       // Clear highligh feature (Don't clear if a corporate network entity is selected)
-      if (!this.selectedCoorpNetworkEntity) {
+      if (this.selectedCoorpNetworkEntity) {
         this.popup.highlightLayer.getSource().clear();
       }
 
@@ -702,13 +869,19 @@ export default {
         if (evt.dragging || this.activeInteractions.length > 0) {
           return;
         }
+
         let feature;
         let layer;
-        if (this.isEditingLayer === false && this.isEditingPost === false) {
+        if (
+          this.isEditingLayer === false &&
+          this.isEditingPost === false &&
+          this.analysisEditType !== 'square' &&
+          this.analysisEditType !== 'polygon'
+        ) {
           this.map.forEachFeatureAtPixel(
             evt.pixel,
             (f, l) => {
-              // Order of features is based is based on zIndex.
+              // Order of features is based is based on zIndex.x
               // First feature is on top, last feature is on bottom.
               if (!feature && l.get('isInteractive') !== false) {
                 feature = f;
@@ -731,49 +904,72 @@ export default {
             }
           }
 
-          if (!feature || !layer.get('hoverable')) {
+          if (!feature || !layer || !layer.get('hoverable')) {
             overlayEl.innerHTML = null;
             this.overlay.setPosition(undefined);
-          } else {
-            if (!feature) return;
-            if (this.popup.activeFeature && this.popup.activeFeature.getId() === `clone.${feature.getId()}`) return;
+            return;
+          }
 
-            let attr = '';
-            if (feature.get('translations')) {
-              const translations = JSON.parse(feature.get('translations'));
-              if (translations[this.$i18n.locale]) {
-                attr = translations[this.$i18n.locale].title;
-              } else {
-                attr =
-                  feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
-              }
+          let attr = '';
+
+          const props = feature.getProperties ? feature.getProperties() : {};
+          const afUsedIrrKey = Object.keys(props).find(key => /^af_used_irr_\d{4}$/i.test(key));
+          const afUsedIrrRawValue = afUsedIrrKey ? feature.get(afUsedIrrKey) : null;
+          const afUsedIrrValue =
+            afUsedIrrRawValue !== null && afUsedIrrRawValue !== undefined && afUsedIrrRawValue !== ''
+              ? `${Number(afUsedIrrRawValue).toLocaleString()} acre-feet`
+              : null;
+
+          if (feature.get('translations')) {
+            const translations = JSON.parse(feature.get('translations'));
+
+            if (translations[this.$i18n.locale]) {
+              attr = translations[this.$i18n.locale].title;
             } else {
               attr =
-                feature.get('hoverAttribute') || feature.get('title') || feature.get('entity') || feature.get('NAME');
+                feature.get('hoverAttribute') ||
+                feature.get('title') ||
+                feature.get('entity') ||
+                feature.get('venue') ||
+                afUsedIrrValue ||
+                feature.get('county');
             }
+          } else {
+            attr =
+              feature.get('hoverAttribute') ||
+              feature.get('title') ||
+              feature.get('entity') ||
+              feature.get('venue') ||
+              afUsedIrrValue ||
+              feature.get('county');
+          }
+          if (!attr) return;
+          if (layer.get('styleObj')) {
+            const {hoverTextColor, hoverBackgroundColor} = JSON.parse(layer.get('styleObj'));
+            const resolvedHoverTextColor = hoverTextColor && resolveHoverColor(feature, hoverTextColor);
+            const resolvedHoverBackgroundColor =
+              hoverBackgroundColor && resolveHoverColor(feature, hoverBackgroundColor);
 
-            if (!attr) return;
-            if (layer.get('styleObj')) {
-              const {hoverTextColor, hoverBackgroundColor} = JSON.parse(layer.get('styleObj'));
+            // eslint-disable-next-line no-unused-expressions
+            resolvedHoverBackgroundColor && overlayEl
+              ? (overlayEl.style.backgroundColor = resolvedHoverBackgroundColor)
+              : (overlayEl.style.backgroundColor = '');
 
-              // eslint-disable-next-line no-unused-expressions
-              hoverBackgroundColor && overlayEl
-                ? (overlayEl.style.backgroundColor = hoverBackgroundColor)
-                : (overlayEl.style.backgroundColor = '');
-
-              // eslint-disable-next-line no-unused-expressions
-              hoverTextColor && overlayEl ? (overlayEl.style.color = hoverTextColor) : (overlayEl.style.color = '');
-            }
-            if (
-              (!feature.get('entity') && this.selectedCoorpNetworkEntity) ||
-              (feature.get('entity') &&
-                this.selectedCoorpNetworkEntity &&
-                this.splittedEntities &&
-                !this.splittedEntities.some(substring => feature.get('entity').includes(substring)))
-            ) {
-              return;
-            }
-
+            // eslint-disable-next-line no-unused-expressions
+            resolvedHoverTextColor && overlayEl
+              ? (overlayEl.style.color = resolvedHoverTextColor)
+              : (overlayEl.style.color = '');
+          }
+          if (
+            (!feature.get('entity') && this.selectedCoorpNetworkEntity) ||
+            (feature.get('entity') &&
+              this.selectedCoorpNetworkEntity &&
+              this.splittedEntities &&
+              !this.splittedEntities.some(substring => feature.get('entity').includes(substring)))
+          ) {
+            return;
+          }
+          if (attr && attr !== ' ') {
             overlayEl.innerHTML = attr;
             this.overlay.setPosition(evt.coordinate);
           }
@@ -827,7 +1023,7 @@ export default {
       // for using the spotlights should be shown based on zoom level.
       this.map.on('moveend', () => {
         const resolutionLevel = this.map.getView().getResolution();
-        if (resolutionLevel <= 2) {
+        if (resolutionLevel <= 4) {
           this.spotlightMessage = true;
         } else {
           this.spotlightMessage = false;
@@ -845,12 +1041,14 @@ export default {
       const map = me.map;
 
       me.mapClickListenerKey = map.on('click', async evt => {
-        if (me.activeInteractions.length > 0) {
+        if (me.activeInteractions.length > 0 || me.analysisEditType || me.isEditingLayer) {
           return;
         }
-        if (me.isEditingLayer) {
-          return;
+
+        if (me.lastSelectedLayer) {
+          me.lastSelectedLayer = undefined;
         }
+
         let feature;
         let layer;
         this.map.forEachFeatureAtPixel(
@@ -870,6 +1068,10 @@ export default {
             hitTolerance: 3,
           }
         );
+
+        if (feature && me.sidebarState === false) {
+          me.sidebarState = true;
+        }
 
         // For cluster features
         if (feature && Array.isArray(feature.get('features'))) {
@@ -1012,15 +1214,61 @@ export default {
     Slideshow map position every x seconds:
      */
     setupMapFlyToSlideshow() {
-      this.initMapFly();
-      this.map.on(['pointerdrag', 'moveend'], () => {
-        // Event is triggered from user interaction (stop and start init timer)
-        if (this.slideshow.isFlying === false) {
-          this.initMapFly();
+      const flyToSlideshow = this.$appConfig.map.flyToSlideshow;
+      // No flyToSlideshow config means the slideshow feature is entirely inoperative:
+      // no timers, no map listeners, no fly logic.
+      if (!flyToSlideshow) return;
+      const maplinks = flyToSlideshow.maplinks;
+      const fileRef = maplinks?.length === 1 && !maplinks[0].startsWith('#') ? maplinks[0] : null;
+
+      const init = () => {
+        // Derive home hash from app-conf defaultActiveGroup, NOT from window.location.hash,
+        // so it stays correct even when Map.vue remounts mid-slideshow at a non-home route.
+        const defaultGroup = this.$appConfig.map.defaultActiveGroup;
+        if (defaultGroup) {
+          const mode = window.location.hash.split('?')[0].split('/')[2] || 'extractivista';
+          _slideshowHomeHash = `#/${defaultGroup}/${mode}`;
+        } else if (!_slideshowHomeHash) {
+          _slideshowHomeHash = window.location.hash.split('?')[0];
         }
-      });
+        this.slideshow.homeHash = _slideshowHomeHash;
+        // Restore overlay carried across a map-slide navigation/remount
+        if (_slideshowHasNavigated) this.slideshow.hasNavigated = true;
+        if (_slideshowPendingOverlay !== undefined) {
+          this.slideshow.overlayUrl = _slideshowPendingOverlay;
+          _slideshowPendingOverlay = undefined;
+        }
+        if (this.slideshowUserStopped) this.slideshow.userStopped = true;
+        this.initMapFly();
+        this.map.on(['pointerdrag', 'moveend'], () => {
+          if (this.slideshow.isFlying === false) {
+            this.initMapFly();
+          }
+        });
+        // pointermove only fires for actual pointer movement over the map canvas,
+        // not for control overlays (timeslider, legend) or programmatic view changes
+        this.map.on('pointermove', () => {
+          if (!this.slideshow.isFlying) this.resetAfterSlide();
+        });
+      };
+
+      if (fileRef) {
+        fetch(`./static/${fileRef}.json`)
+          .then(r => r.json())
+          .then(links => {
+            // Filter out comment/documentation objects (keep strings, video, photo, and map objects)
+            flyToSlideshow.maplinks = links.filter(
+              l => typeof l === 'string' || (typeof l === 'object' && l !== null && (l.video || l.photo || l.map))
+            );
+            init();
+          })
+          .catch(() => init());
+      } else {
+        init();
+      }
     },
     initMapFly() {
+      if (!this.$appConfig.map.flyToSlideshow || this.slideshow.userStopped) return;
       this.stopSlideshow();
       // Timeout for initial start.
       this.slideshow.timeout = setTimeout(() => {
@@ -1044,31 +1292,96 @@ export default {
       }
     },
     mapFlyToFn() {
-      if (
-        this.popup.activeFeature ||
-        this.isEditingLayer ||
-        this.isEditingPost ||
-        this.isEditingHtml ||
-        this.selectedLayer
-      ) {
+      if (this.isEditingLayer || this.isEditingPost || this.isEditingHtml || this.selectedLayer) {
         this.initMapFly();
         return;
       }
       const flyToSlideshow = this.$appConfig.map.flyToSlideshow;
       if (flyToSlideshow) {
-        this.slideshow.isFlying = true;
-        // Start from beginning if index is greater then positions array.
         if (this.slideshow.currentIndex > flyToSlideshow.maplinks.length - 1) {
           this.slideshow.currentIndex = 0;
         }
-        // Zoom to position
         const position = flyToSlideshow.maplinks[this.slideshow.currentIndex];
-        window.location.href = position;
-        // Increase or init the index
         this.slideshow.currentIndex += 1;
-        setTimeout(() => {
-          this.slideshow.isFlying = false;
-        }, 50);
+        this.slideshow.hasNavigated = true;
+        _slideshowHasNavigated = true;
+        // Clear any feature the previous slide opened before advancing
+        this.popup.activeFeature = null;
+        this.popup.showInSidePanel = false;
+        if (this.popup.highlightLayer) this.popup.highlightLayer.getSource().clear();
+        if (this.popup.highlightVectorTileLayer) this.map.removeLayer(this.popup.highlightVectorTileLayer);
+
+        // Optional instructional panel image shown on top of any slide type
+        this.slideshow.overlayUrl =
+          position && typeof position === 'object' && position.overlay ? position.overlay : null;
+
+        if (position && typeof position === 'object' && position.video) {
+          // Video slide — stop the interval timer and show the overlay.
+          // Direct file URLs (mp4/webm) use <video autoplay muted> — no CAPTCHA, no iframe.
+          // Embed URLs (YouTube/Vimeo) use <iframe>; mute=1 is appended automatically so the
+          // browser's autoplay policy always allows it (muted autoplay needs no user gesture).
+          const src = position.video;
+          const isDirect = /\.(mp4|webm|ogg|mov)(\?|$)/i.test(src);
+          this.slideshow.videoIsDirect = isDirect;
+          this.slideshow.videoSrc =
+            isDirect || src.includes('mute=1') ? src : src + (src.includes('?') ? '&' : '?') + 'mute=1';
+          this.stopSlideshow();
+          const duration = (position.duration || flyToSlideshow.delayInSecondsBetweenFrames) * 1000;
+          this.slideshow.videoTimeout = setTimeout(() => {
+            this.slideshow.videoSrc = null;
+            this.slideshow.videoTimeout = null;
+            if (this.slideshow.isRunning) {
+              // Re-arm the interval timer for slides after next, then advance immediately.
+              // If the next slide is also a video/photo, mapFlyToFn() will stop this timer.
+              this.slideshow.timer = new Timer(this.mapFlyToFn, flyToSlideshow.delayInSecondsBetweenFrames * 1000);
+              this.mapFlyToFn();
+            }
+          }, duration);
+        } else if (position && typeof position === 'object' && position.photo) {
+          // Photo slide — fetch the feature from GeoServer WFS, extract the lightbox URL.
+          // Format: { "photo": "fotos_bioculturales.5", "photoIndex": 0, "duration": 12 }
+          // The feature's "lightbox" property is a JSON array of { imageUrl, caption } objects.
+          const [layerName] = position.photo.split('.');
+          const wfsUrl =
+            `./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature` +
+            `&typename=workspace1:${layerName}&featureID=${position.photo}&outputFormat=application/json`;
+          this.stopSlideshow();
+          const duration = (position.duration || flyToSlideshow.delayInSecondsBetweenFrames) * 1000;
+          const advanceAfterPhoto = () => {
+            this.slideshow.photoSlide = null;
+            this.slideshow.videoTimeout = null;
+            if (this.slideshow.isRunning) {
+              this.slideshow.timer = new Timer(this.mapFlyToFn, flyToSlideshow.delayInSecondsBetweenFrames * 1000);
+              this.mapFlyToFn();
+            }
+          };
+          fetch(wfsUrl)
+            .then(r => r.json())
+            .then(data => {
+              if (!this.slideshow.isRunning) return;
+              const props = data.features?.[0]?.properties;
+              if (!props) return advanceAfterPhoto();
+              let lightbox = props.lightbox;
+              if (typeof lightbox === 'string') lightbox = JSON.parse(lightbox);
+              const photo = Array.isArray(lightbox) ? lightbox[position.photoIndex || 0] : null;
+              if (!photo?.imageUrl) return advanceAfterPhoto();
+              this.slideshow.photoSlide = {url: photo.imageUrl, caption: photo.caption || ''};
+              this.slideshow.videoTimeout = setTimeout(advanceAfterPhoto, duration);
+            })
+            .catch(() => {
+              if (this.slideshow.isRunning) advanceAfterPhoto();
+            });
+        } else {
+          // Map URL slide — plain string "#/..." or object { map: "#/...", overlay: "..." }
+          const hash = typeof position === 'object' ? position.map : position;
+          // Store overlay so init() can restore it after Map.vue remounts on navigation
+          _slideshowPendingOverlay = typeof position === 'object' && position.overlay ? position.overlay : null;
+          this.slideshow.isFlying = true;
+          window.location.href = hash;
+          setTimeout(() => {
+            this.slideshow.isFlying = false;
+          }, 50);
+        }
       }
     },
     spotlight(e) {
@@ -1107,12 +1420,13 @@ export default {
       if (!entity) return;
       this.selectedCoorpNetworkEntity = entity;
       if (!this.layersWithEntityField || !this.splittedEntities) return;
+      const visibleLayers = Array.isArray(this.visibleGroup?.layers) ? this.visibleGroup.layers : [];
       /// ////////////////////
       if (!this.queryLayersGeoserverNames) {
         const queryableLayers = [];
         const flatLayers = [];
         this.$appConfig.map.layers.forEach(layer => {
-          if (this.activeLayerGroupConf.layers.includes(layer.name)) {
+          if (visibleLayers.includes(layer.name)) {
             if (layer.type === 'GROUP') {
               layer.layers.forEach(subLayer => {
                 flatLayers.push(subLayer);
@@ -1159,17 +1473,8 @@ export default {
       this.popup.highlightLayer.getSource().clear();
       this.popup.worldExtentLayer.getSource().clear();
       this.popup.selectedCorpNetworkLayer.getSource().clear();
-      const mapLayers = [];
-      this.map
-        .getLayers()
-        .getArray()
-        .forEach(layer => {
-          if (layer.get('type') === 'GROUP') {
-            mapLayers.push(...layer.getLayers().getArray());
-          } else {
-            mapLayers.push(layer);
-          }
-        });
+      const mapLayers = this.map.getAllLayers();
+
       axios
         .all(promiseArray)
         .then(results => {
@@ -1208,7 +1513,7 @@ export default {
             });
             setTimeout(() => {
               this.map.getView().fit(extent, {
-                padding: [30, 80, 80, 80],
+                padding: [50, 90, 90, 90],
                 duration: 800,
               });
             }, 500);
@@ -1324,7 +1629,10 @@ export default {
       // }
       this.closePopup();
 
-      if (this.$appConfig.app.customNavigationScheme && this.$appConfig.app.customNavigationScheme == '1') {
+      if (
+        this.$appConfig.app.customNavigationScheme &&
+        ['1', '4'].includes(this.$appConfig.app.customNavigationScheme)
+      ) {
         this.resetLayersVisibility();
       }
     },
@@ -1343,9 +1651,7 @@ export default {
       activeLayerGroup: 'activeLayerGroup',
       popupInfo: 'popupInfo',
       splittedEntities: 'splittedEntities',
-      htmlPostLayerConf: 'htmlPostLayerConf',
       geoserverWorkspace: 'geoserverWorkspace',
-      persistentLayers: 'persistentLayers',
       mobilePanelState: 'mobilePanelState',
       visibleGroup: 'visibleGroup',
       isTranslating: 'isTranslating',
@@ -1368,6 +1674,11 @@ export default {
       layersWithEntityField: 'layersWithEntityField',
       selectedCoorpNetworkEntity: 'selectedCoorpNetworkEntity',
       currentResolution: 'currentResolution',
+      lastSelectedLayer: 'lastSelectedLayer',
+      analysisEditType: 'analysisEditType',
+      editLayer: 'editLayer',
+      highlightLayer: 'highlightLayer',
+      slideshowUserStopped: 'slideshowUserStopped',
     }),
     hiddenProps() {
       const hiddenProps = this.$appConfig.map.featureInfoHiddenProps;
@@ -1376,6 +1687,16 @@ export default {
     activeLayerGroupConf() {
       const group = this.$appConfig.map.groups[this.activeLayerGroup.navbarGroup][this.activeLayerGroup.region];
       return group;
+    },
+    activeAnalysisConfig() {
+      const group = this.activeLayerGroup?.navbarGroup;
+      return this.$appConfig.map?.groups?.[group]?.analysis || this.$appConfig.app?.analysis || null;
+    },
+    currentGroupHasPresetLayer() {
+      const group = this.$appConfig.map.groups?.[this.activeLayerGroup.navbarGroup]?.[this.activeLayerGroup.region];
+      if (!group?.layers) return false;
+      const groupLayerSet = new Set(group.layers);
+      return (this.$appConfig.map.layers || []).some(l => l.presetLayer && groupLayerSet.has(l.name));
     },
     searchLabel() {
       const searchLabel = this.popup.activeLayer.get('searchLabel');
@@ -1426,7 +1747,7 @@ export default {
         this.queryLayersGeoserverNames = null;
         this.createLayers();
         this.fetchColorMapEntities();
-        if (['3', '1'].includes(this.$appConfig.app.customNavigationScheme)) {
+        if (['1', '3'].includes(this.$appConfig.app.customNavigationScheme)) {
           this.resetMap();
         }
       } else {
@@ -1438,9 +1759,6 @@ export default {
       EventBus.$emit('group-changed');
       EventBus.$emit('clearEditHtml');
 
-      if (this.persistentLayers.html_posts) {
-        this.persistentLayers.html_posts.getSource().refresh();
-      }
       // Reset fromEvent to false
       setTimeout(() => {
         this.$route.meta.fromEvent = false;
@@ -1523,5 +1841,101 @@ div.ol-control button {
   padding: 5px;
   border-radius: 5px;
   z-index: 100;
+}
+
+.slideshow-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.slideshow-video-overlay iframe {
+  width: 80%;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
+
+.slideshow-video-direct {
+  width: 80%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.slideshow-toggle-btn {
+  position: absolute;
+  right: 12px;
+  bottom: 36px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid white;
+  cursor: pointer;
+  z-index: 230;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.slideshow-toggle-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+  display: block;
+}
+
+.slideshow-panel-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 210;
+  pointer-events: none;
+}
+
+.slideshow-panel-img {
+  max-width: 80%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.slideshow-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.slideshow-photo-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 85%;
+  max-height: 90%;
+}
+
+.slideshow-photo-content img {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+}
+
+.slideshow-photo-caption {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 12px;
+  max-width: 680px;
+  line-height: 1.4;
 }
 </style>

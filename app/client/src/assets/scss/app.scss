@@ -67,9 +67,11 @@ body,
 .wg-footer-left {
   padding-left: 5px;
 }
+
 .wg-footer-right {
   padding-right: 5px;
 }
+
 .wg-footer-left a,
 .wg-footer-right a {
   color: inherit;
@@ -98,6 +100,7 @@ body,
   left: -50px;
   min-width: 280px;
 }
+
 .ol-popup:after,
 .ol-popup:before {
   top: 100%;
@@ -108,12 +111,14 @@ body,
   position: absolute;
   pointer-events: none;
 }
+
 .ol-popup:after {
   border-top-color: white;
   border-width: 10px;
   left: 48px;
   margin-left: -10px;
 }
+
 .ol-popup:before {
   border-top-color: #cccccc;
   border-width: 11px;
@@ -197,7 +202,7 @@ body,
   height: auto;
   overflow: visible;
   padding: 15px;
-  border: 1px solid #e8e8e8;
+  border: 2px solid #0066ac;
   border-top: 0;
 }
 
@@ -207,9 +212,30 @@ body,
   line-height: 1.2em;
 }
 
+// Edit button — only visible inside the TipTap editor, never in the viewer
+.ep-accordion .ep-edit-btn {
+  display: none;
+}
+.ProseMirror .ep-accordion .ep-edit-btn {
+  display: none;
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  padding: 0 6px;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 0.85em;
+  line-height: 1.6;
+  vertical-align: middle;
+}
+.ProseMirror .ep-accordion:hover .ep-edit-btn {
+  display: inline-block;
+}
+
 .ep-accordion label {
   display: block;
-  color: #333;
+  color: #fff;
   cursor: pointer;
   font-weight: normal;
   padding: 15px;
@@ -279,4 +305,22 @@ body,
   color: rgb(255, 94, 153);
   box-shadow: rgb(0 0 0 / 10%) 4px -4px 3px;
   padding: 10px 16px;
+}
+
+.map-link {
+  color: var(--map-link-text-color, #1976d2) !important;
+}
+
+a[href^='http'] {
+  color: var(--link-text-color, #2196f3) !important;
+}
+
+.fullscreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  background-color: var(--viewer-background-color, #ffffff);
 }

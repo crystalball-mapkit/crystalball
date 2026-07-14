@@ -74,6 +74,12 @@ fetch('./static/app-conf.json')
       if (data.app.defaultLanguage) {
         i18n.locale = data.app.defaultLanguage;
       }
+      if (data.app?.color?.mapLink) {
+        document.documentElement.style.setProperty('--map-link-text-color', data.app.color.mapLink);
+      }
+      if (data.app?.color?.link) {
+        document.documentElement.style.setProperty('--link-text-color', data.app.color.link);
+      }
       new Vue({
         router,
         i18n,
