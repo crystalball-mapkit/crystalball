@@ -179,3 +179,4 @@ services:
     volumes:
       - ./app/mapproxy:/mapproxy
     restart: on-failure
+

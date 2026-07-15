@@ -211,3 +211,4 @@ services:
       - proxy_dev
     volumes:
       - ./app/mapproxy:/mapproxy
+

@@ -1,15 +1,16 @@
 {
   "app": {
     "title": "MDW",
-    "projectWebsite": "https://coprosperity.org/",
     "tagline": "",
-
+    "projectWebsite": "https://coprosperity.org/",
+    "defaultLanguage": "en",
     "color": {
       "primary": "#CF00E8",
-      "secondary": "#ffffff"
+      "secondary": "#ffffff",
+      "link": "#40923c",
+      "mapLink": "#7C2CA3"
     },
-
-    "font": {
+     "font": {
       "url": "https://fonts.googleapis.com/css2?family=Baskervville&display=swap",
       "family": "Baskervville"
     },
@@ -29,7 +30,10 @@
     "navbar": {
       "dropdownMenu": false
     },
-    "customNavigationScheme": "1"
+    "customNavigationScheme": "1",
+    "spotlightMessage": {
+      "isVisible": true
+    }
   },
   "map": {
     "projectionCode": "EPSG:3857",
@@ -651,13 +655,13 @@
           "mobileCenter": [-92.3, 42.097],
           "minResolution": 0,
           "maxResolution": 64000,
-          "backgroundColor": "#e3e0d4"
+          "backgroundColor": "#f6f7ea"
         }
       }
     },
     "defaultActiveGroup": "midway",
     "groupTitles": {
-      "midway": "MdW2024"
+      "midway": "MdW2026"
     },
     "regionTitles": {
       "local": "local",
@@ -684,10 +688,12 @@
       "colorkey",
       "latitude",
       "longitude",
-      "color"
+      "color",
+      "translations"
     ],
     "corporateEntitiesUrls": {
       "Enbridge": ""
     }
   }
 }
+
