@@ -147,6 +147,17 @@
                         <v-icon small class="mr-1">public</v-icon>
                         {{ searchLabel }}
                       </v-btn>
+                      <v-btn
+                        @click="getDirections(popup.activeFeature)"
+                        text
+                        small
+                        class="mb-2 mt-1 mr-2"
+                        v-if="popup.activeLayer.get('directions') === true"
+                      >
+                        <v-icon small class="mr-1">directions_car</v-icon>
+                        {{ $t('form.htmlPostEditor.getDirections') }}
+                      </v-btn>
+                      <v-spacer></v-spacer>
                       <v-btn v-if="!$vuetify.breakpoint.smAndDown" @click="closePopupInfo" text small class="mb-2 mt-1">
                         <v-icon small class="mr-1">close</v-icon>
                         {{ $t('general.close') }}
@@ -590,8 +601,9 @@ export default {
     editPost(postFeature) {
       EventBus.$emit('editPost', postFeature);
     },
-    getDirections(postFeature) {
-      const [lng, lat] = postFeature.getGeometry().clone().transform('EPSG:3857', 'EPSG:4326').getCoordinates();
+    getDirections(feature) {
+      // getFirstCoordinate() works uniformly across geometry types (Point, LineString, Polygon, ...)
+      const [lng, lat] = feature.getGeometry().clone().transform('EPSG:3857', 'EPSG:4326').getFirstCoordinate();
       window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`, '_blank');
     },
     editHtml() {

@@ -500,6 +500,7 @@ export const LayerFactory = {
       displaySidebarInfo: lConf.displaySidebarInfo,
       sidebarDefaultMedia: lConf.sidebarDefaultMedia,
       includeInSearch: lConf.includeInSearch,
+      directions: lConf.directions,
       searchLabel: lConf.searchLabel,
       legendIcon: lConf.legendIcon,
       legendDisplayName: lConf.legendDisplayName,

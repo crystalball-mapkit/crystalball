@@ -191,6 +191,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/9.png",
           "scale": 1.1,
@@ -214,6 +215,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/5.png",
           "scale": 1.1,
@@ -237,6 +239,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/3.png",
           "scale": 1.1,
@@ -260,6 +263,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/8.png",
           "scale": 1.1,
@@ -283,6 +287,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/6.png",
           "scale": 1.1,
@@ -306,6 +311,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/3.png",
           "scale": 1.1,
@@ -329,6 +335,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/4.png",
           "scale": 1.1,
@@ -352,6 +359,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/4.png",
           "scale": 1.1,
@@ -375,6 +383,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/5.png",
           "scale": 1.1,
@@ -398,6 +407,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/8.png",
           "scale": 1.1,
@@ -421,6 +431,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/6.png",
           "scale": 1.1,
@@ -444,6 +455,7 @@
         "label": null,
         "hoverable": true,
         "isInteractive": true,
+        "directions": true,
         "style": {
           "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/cat_xs.png",
           "scale": 0.8,

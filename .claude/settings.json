@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(echo \"exit code: $?\")"
+      "Bash(echo \"exit code: $?\")",
+      "Bash(echo \"exit: $?\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('src/locales/en.json'\\)\\)\")"
     ]
   }
 }
