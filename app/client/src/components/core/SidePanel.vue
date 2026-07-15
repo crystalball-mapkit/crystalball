@@ -222,6 +222,13 @@
                     ><span>{{ $t('form.htmlPostEditor.editPost') }}</span></v-tooltip
                   >
                 </div>
+                <v-tooltip left>
+                  <template v-slot:activator="{on}">
+                    <v-btn v-on="on" @click="getDirections(popup.activeFeature)" icon class="mr-3">
+                      <v-icon>directions_car</v-icon>
+                    </v-btn> </template
+                  ><span>{{ $t('form.htmlPostEditor.getDirections') }}</span></v-tooltip
+                >
                 <div v-if="!$vuetify.breakpoint.smAndDown">
                   <v-tooltip left>
                     <template v-slot:activator="{on}">
@@ -582,6 +589,10 @@ export default {
     },
     editPost(postFeature) {
       EventBus.$emit('editPost', postFeature);
+    },
+    getDirections(postFeature) {
+      const [lng, lat] = postFeature.getGeometry().clone().transform('EPSG:3857', 'EPSG:4326').getCoordinates();
+      window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`, '_blank');
     },
     editHtml() {
       let html = '';
