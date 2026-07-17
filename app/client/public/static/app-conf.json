@@ -1,8 +1,8 @@
 {
   "app": {
-    "title": "MDW",
+    "title": "Convivial Isles",
     "tagline": "",
-    "projectWebsite": "https://coprosperity.org/",
+    "projectWebsite": "",
     "defaultLanguage": "en",
     "color": {
       "primary": "#CF00E8",
@@ -11,8 +11,8 @@
       "mapLink": "#7C2CA3"
     },
     "font": {
-      "url": "https://fonts.googleapis.com/css2?family=Baskervville&display=swap",
-      "family": "Baskervville"
+      "url": "https://fonts.googleapis.com/css2?family=Merriweather&display=swap",
+      "family": "Merriweather"
     },
     "legend": {
       "isVisible": true
@@ -50,72 +50,14 @@
     "maxResolution": 64000,
     "layers": [
       {
-        "type": "VECTOR",
-        "name": "native_land",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:native_land&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "format": "GeoJSON",
-        "displayInLegend": true,
-        "legendDisplayName": "Native Land",
-        "visible": false,
-        "hoverable": true,
-        "displaySidebarInfo": false,
-        "legendIcon": "https://bigmudddy.s3.us-east-2.amazonaws.com/assets/icons/legend_indigenous.png",
-        "opacity": 0.6,
-        "zIndex": 10000,
-        "minResolution": 200,
-        "maxResolution": 60000,
-        "style": {
-          "label": {
-            "text": "name",
-            "fill": {
-              "color": "black"
-            },
-            "stroke": {
-              "color": "rgba( 255, 250, 240, 0.60 )",
-              "width": 1.5
-            },
-            "offsetX": 0,
-            "offsetY": 0,
-            "maxResolution": 30000,
-            "placement": "point",
-            "textAlign": "center",
-            "textWrap": "normal",
-            "fontType": "Arial",
-            "fontSize": "16px",
-            "fontWeight": "bold"
-          },
-          "strokeColor": "black",
-          "strokeWidth": 1,
-          "stylePropFnRef": {
-            "fillColor": "color"
-          }
-        }
-      },
-      {
         "type": "XYZ",
-        "name": "osm_midway_complete",
+        "name": "island_tiles",
         "group": "midway",
-        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_midway_complete@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-        "minResolution": 3200,
-        "maxResolution": 60000,
-        "displayInLegend": false,
-        "legendDisplayName": "Midway States",
-        "displaySidebarInfo": false,
-        "visible": true,
-        "opacity": 0.99,
-        "updatewhileanimating": true
-      },
-      {
-        "type": "XYZ",
-        "name": "drift",
-        "group": "midway",
-        "url": "https://midwayfair.s3.us-east-2.amazonaws.com/tiles/drift/{z}/{x}/{y}.png",
-        "minResolution": 76.437,
-        "maxResolution": 60000,
+        "url": "https://midwayfair.s3.us-east-2.amazonaws.com/tiles/island_tiles/{z}/{x}/{y}.png",
+        "minResolution": 4,
+        "maxResolution": 64000,
         "displayInLegend": true,
-        "legendDisplayName": "Mississippi Basin",
+        "legendDisplayName": "Dalmatian Islands",
         "legendIcon": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/miss_icon.png",
         "displaySidebarInfo": false,
         "visible": true,
@@ -153,341 +95,6 @@
         "zIndex": 1000
       },
       {
-        "type": "VECTOR",
-        "name": "spiral",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:spiral&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "urban_ecology",
-        "queryable": false,
-        "displayInLegend": true,
-        "legendDisplayName": "Labyrinth",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 800,
-        "maxResolution": 14000,
-        "label": null,
-        "hoverable": false,
-        "isInteractive": false,
-        "legendIcon": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/concentric.png",
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/spiral_arrow2.png",
-          "scale": 1,
-          "opacity": 0.7
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_big_car",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_big_car&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: Big Car",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/9.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_confluence",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_confluence&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: Confluence",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/5.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_wormfarm",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_wormfarm&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: Wormfarm",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/3.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_co_pro",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_co_pro&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: Co-Pro",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/8.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_iowa_city",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_iowa_city&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: Iowa City",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/6.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_bulk_space",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_bulk_space&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: Bulk Space",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/3.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_charlotte_street",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_charlotte_street&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: Charlotte Street",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/4.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_manoomin_arts",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_manoomin_arts&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: Manoomin Arts",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/4.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_school_for_rural",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_school_for_rural&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: School for Rural",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/5.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_racing_magpie",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_racing_magpie&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: Racing Magpie",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/8.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "venues_par_projects",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:venues_par_projects&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": false,
-        "legendDisplayName": "Venues: Par Projects",
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 13001,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/venues/6.png",
-          "scale": 1.1,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#D200E3"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "artist_spaces_chi",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:artist_spaces_chi&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "midway",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": "Early Chicago research",
-        "format": "GeoJSON",
-        "visible": false,
-        "zIndex": 1000,
-        "minResolution": 0,
-        "maxResolution": 1000,
-        "label": null,
-        "hoverable": true,
-        "isInteractive": true,
-        "directions": true,
-        "style": {
-          "iconUrl": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/cat_xs.png",
-          "scale": 0.8,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "XYZ",
-        "name": "ESRI-World-Image",
-        "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.12,
-        "maxResolution": 2.3887,
-        "zIndex": 10,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "ESRI-World-Imagery2",
-        "group": "midway",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 64000,
-        "displayInLegend": true,
-        "legendDisplayName": "Satellite Map",
-        "displaySidebarInfo": false,
-        "visible": false,
-        "queryable": false
-      },
-      {
         "type": "XYZ",
         "name": "ESRI-World-Topo",
         "group": "midway",
@@ -503,9 +110,9 @@
       },
       {
         "type": "OLMS",
-        "name": "basemap1",
+        "name": "basic-transparent",
         "group": "midway",
-        "url": "https://tileserver.ecotopia.today/styles/basic/style.json",
+        "url": "https://tileserver.ecotopia.today/styles/basic-transparent/style.json",
         "minResolution": 2.38,
         "maxResolution": 440,
         "opacity": 0.8,
@@ -514,9 +121,82 @@
         "visible": true,
         "displayInLegend": true,
         "legendDisplayName": {
-          "en": "OSM-Maptiler",
-          "es": "OSM-Maptiler",
-          "pt": "OSM-Maptiler"
+          "en": "Open Street Map",
+          "es": "Open Street Map",
+          "pt": "Open Street Map"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "videos",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:videos&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "pilsen",
+        "queryable": true,
+        "displayInLegend": true,
+        "format": "GeoJSON",
+        "legendDisplayName": "videos",
+        "legendIcon": "",
+        "visible": true,
+        "displaySidebarInfo": false,
+        "zIndex": 100,
+        "minResolution": 0,
+        "maxResolution": 4000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://d1tebkag5evlz0.cloudfront.net/icons/1772598109614_blue_signet.png",
+          "scale": 0.3,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "points",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:points&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "pilsen",
+        "queryable": true,
+        "displayInLegend": true,
+        "format": "GeoJSON",
+        "legendDisplayName": "points",
+        "legendIcon": "",
+        "visible": true,
+        "displaySidebarInfo": false,
+        "zIndex": 100,
+        "minResolution": 0,
+        "maxResolution": 4000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://d1tebkag5evlz0.cloudfront.net/icons/1772429254111_green1.png",
+          "scale": 0.8,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "islands_culture",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:islands_culture&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "pilsen",
+        "queryable": true,
+        "displayInLegend": true,
+        "format": "GeoJSON",
+        "legendDisplayName": "Sights",
+        "legendIcon": "",
+        "visible": true,
+        "displaySidebarInfo": false,
+        "zIndex": 100,
+        "minResolution": 0,
+        "maxResolution": 800,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "fillColor": "#2CB8D7",
+          "strokeColor": "#2CB8D7",
+          "strokeWidth": 0.8,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
         }
       },
       {
@@ -544,27 +224,6 @@
         "visible": true
       },
       {
-        "type": "VECTORTILE",
-        "name": "world_polygons",
-        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:world_polygons@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "queryable": false,
-        "format": "MVT",
-        "displayInLegend": false,
-        "legendDisplayName": "",
-        "legendIcon": "",
-        "visible": true,
-        "zIndex": 1000,
-        "minResolution": 400,
-        "maxResolution": 120000,
-        "hoverable": false,
-        "isInteractive": false,
-        "style": {
-          "strokeColor": "rgba(0,0,0,0.5)",
-          "strokeWidth": 0.3,
-          "fillColor": "rgba(0,0,0,0.0)"
-        }
-      },
-      {
         "type": "VECTOR",
         "name": "html_posts",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:html_posts&outputFormat=application/json&srsname=EPSG:3857",
@@ -583,85 +242,24 @@
         "label": null,
         "hoverable": true,
         "canEdit": false,
-        "searchableColumns": ["title", "html"],
         "style": {
           "styleRef": "htmlLayerStyle",
           "hoverBackgroundColor": "hover"
         }
-      },
-      {
-        "type": "VECTOR",
-        "name": "watershed_names",
-        "url": "/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:watershed_names&outputFormat=application/json&srsname=EPSG:3857",
-        "queryable": true,
-        "format": "GeoJSON",
-        "displayInLegend": true,
-        "legendDisplayName": "Watershed Names",
-        "legendIcon": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/watershed_icon.png",
-        "visible": false,
-        "zIndex": 1000,
-        "minResolution": 200,
-        "maxResolution": 2000,
-        "hoverable": true,
-        "isInteractive": false,
-        "style": {
-          "label": {
-            "text": "name",
-            "fill": {
-              "color": "#416bdf"
-            },
-            "stroke": {
-              "color": "rgba( 255, 250, 240, 0.50 )",
-              "width": 2.5
-            },
-            "offsetX": 0,
-            "offsetY": 0,
-            "maxResolution": 30000,
-            "placement": "point",
-            "textAlign": "center",
-            "textWrap": "normal",
-            "fontType": "Baskervville",
-            "fontSize": "16px",
-            "fontWeight": "bold"
-          },
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "strokeColor": "#000000",
-          "fillColor": "rgba(255,255,255,0.1)",
-          "strokeWidth": 1
-        }
       }
     ],
     "groups": {
-      "midway": {
+      "tools": {
         "default": {
           "layers": [
             "oceans",
-            "oceans2",
-            "ESRI-World-Reference2",
-            "ESRI-World-Reference",
-            "world_polygons",
-            "ESRI-World-Image",
-            "basemap1",
-            "drift",
-            "watershed_names",
-            "native_land",
-            "spiral",
-            "venues_big_car",
-            "venues_confluence",
-            "venues_wormfarm",
-            "venues_co_pro",
-            "artist_spaces_chi",
-            "venues_iowa_city",
-            "venues_charlotte_street",
-            "venues_bulk_space",
-            "venues_par_projects",
-            "venues_manoomin_arts",
-            "venues_school_for_rural",
-            "venues_racing_magpie",
+            "island_tiles",
+            "islands_culture",
+            "basic-transparency",
+            "pois",
             "html_posts"
           ],
-          "center": [-94.653, 41.6],
+          "center": [16.1985002, 43.0577228],
           "resolution": 4800,
           "mobileResolution": 12500,
           "mobileCenter": [-92.3, 42.097],
