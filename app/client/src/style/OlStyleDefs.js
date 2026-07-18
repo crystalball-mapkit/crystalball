@@ -7,14 +7,16 @@ import OlFill from 'ol/style/Fill';
 import OlCircle from 'ol/style/Circle';
 import OlRegularShape from 'ol/style/RegularShape';
 import OlIconStyle from 'ol/style/Icon';
+import OlPoint from 'ol/geom/Point';
+import {getCenter} from 'ol/extent';
 import OlText from 'ol/style/Text';
 import store from '../store/modules/map';
 import {OlStyleFactory} from '../factory/OlStyle';
+import {getCachedColoredIcon} from './iconColorCache';
 
 // Resets cache when map groups is changed.
 import {EventBus} from '../EventBus';
 
-const strokeColor = 'rgba(236, 236, 236, 0.7)';
 const fillColor = 'rgba(255,0,0, 0.1)';
 const imageColor = 'blue';
 const radiusHighlightColor = 'rgba(232,223,181,0.3)';
@@ -128,7 +130,7 @@ export function popupInfoStyle() {
     styles.push(
       new OlStyle({
         stroke: new OlStroke({
-          color: strokeColor,
+          color: 'rgba(236, 236, 236, 0)',
           width: 20,
         }),
         zIndex,
@@ -137,10 +139,10 @@ export function popupInfoStyle() {
     styles.push(
       new OlStyle({
         fill: new OlFill({
-          color: fillColor,
+          color: 'rgba(255, 0, 0, 0)',
         }),
         stroke: new OlStroke({
-          color: imageColor,
+          color: 'rgba(0, 0, 255, 0)',
           width: 4,
         }),
         image: new OlCircle({
@@ -239,6 +241,37 @@ export function worldOverlayFill() {
 }
 
 /**
+ * Returns a Point geometry to anchor an icon on top of a polygon feature.
+ * Uses the true interior point for a plain Polygon (safe for concave
+ * footprints), and falls back to the extent center for anything else
+ * (MultiPolygon, GeometryCollection).
+ */
+function getIconAnchorGeometry(geometry) {
+  if (geometry.getType() === 'Polygon') {
+    return geometry.getInteriorPoint();
+  }
+  return new OlPoint(getCenter(geometry.getExtent()));
+}
+
+/**
+ * Resolves the final icon src for a feature, swapping in a cached
+ * runtime-recolored version when stylePropFnRef.iconColor is configured
+ * and the colored variant has already been prefetched (see
+ * OlLayer.createVectorLayer). Falls back to the plain icon until then.
+ */
+function resolveIconSrc(feature, iconSrc, stylePropFnRef, iconColor) {
+  if (!iconSrc || !stylePropFnRef || !stylePropFnRef.iconColor) {
+    return iconSrc;
+  }
+  const color =
+    iconColor instanceof Function ? iconColor(feature.get(stylePropFnRef.iconColor)) : feature.get(stylePropFnRef.iconColor);
+  if (!color) {
+    return iconSrc;
+  }
+  return getCachedColoredIcon(iconSrc, color) || iconSrc;
+}
+
+/**
  * Style function used for vector layers.
  */
 let styleCache = {};
@@ -286,6 +319,7 @@ export function baseStyle(config) {
         angle,
         iconUrl,
         iconScale,
+        iconColor,
         scale,
         opacity,
         iconAnchor,
@@ -378,12 +412,13 @@ export function baseStyle(config) {
         case 'MultiPoint': {
           let style;
           if (iconUrl || iconScale) {
+            const resolvedIconUrl =
+              stylePropFnRef && stylePropFnRef.iconUrl && iconUrl instanceof Function
+                ? iconUrl(feature.get(stylePropFnRef.iconUrl))
+                : iconUrl;
             const options = {
               image: new OlIconStyle({
-                src:
-                  stylePropFnRef && stylePropFnRef.iconUrl && iconUrl instanceof Function
-                    ? iconUrl(feature.get(stylePropFnRef.iconUrl))
-                    : iconUrl,
+                src: resolveIconSrc(feature, resolvedIconUrl, stylePropFnRef, iconColor),
                 scale:
                   stylePropFnRef && stylePropFnRef.iconScale && iconScale
                     ? iconScale(feature.get(stylePropFnRef.iconScale))
@@ -495,7 +530,8 @@ export function baseStyle(config) {
           break;
         }
         case 'Polygon':
-        case 'MultiPolygon': {
+        case 'MultiPolygon':
+        case 'GeometryCollection': {
           const options = {
             fill: new OlFill({
               color:
@@ -533,7 +569,37 @@ export function baseStyle(config) {
           break;
       }
     }
-    return styleCache[cacheId] || _style || defaultStyle;
+
+    const cachedStyle = styleCache[cacheId] || _style || defaultStyle;
+
+    // Icon overlay for polygon footprints (e.g. building outlines too small to
+    // read at a distance): anchored at the feature's own centroid, computed
+    // fresh every call since it's feature-specific and must not be memoized
+    // under the coarser icon+color cacheId above.
+    const {iconUrl: polygonIconUrl} = config;
+    if (polygonIconUrl && ['Polygon', 'MultiPolygon', 'GeometryCollection'].includes(feature.getGeometry().getType())) {
+      const {stylePropFnRef: polygonStylePropFnRef, iconColor: polygonIconColor, iconAnchor, iconAnchorXUnits, iconAnchorYUnits} = config;
+      const resolvedIconUrl =
+        polygonStylePropFnRef && polygonStylePropFnRef.iconUrl && polygonIconUrl instanceof Function
+          ? polygonIconUrl(feature.get(polygonStylePropFnRef.iconUrl))
+          : polygonIconUrl;
+      if (resolvedIconUrl) {
+        const iconOverlayStyle = new OlStyle({
+          geometry: getIconAnchorGeometry(feature.getGeometry()),
+          image: new OlIconStyle({
+            src: resolveIconSrc(feature, resolvedIconUrl, polygonStylePropFnRef, polygonIconColor),
+            scale: config.scale || 1,
+            opacity: config.opacity || 1,
+            anchor: iconAnchor,
+            anchorXUnits: iconAnchorXUnits,
+            anchorYUnits: iconAnchorYUnits,
+          }),
+        });
+        return [].concat(cachedStyle, iconOverlayStyle);
+      }
+    }
+
+    return cachedStyle;
   };
   return styleFunction;
 }
@@ -669,6 +735,7 @@ export const layersStylePropFn = {
     iconScale: propertyValue => getIconScaleValue(propertyValue),
     radius: propertyValue => getRadiusValue(propertyValue),
     iconUrl: propertyValue => propertyValue,
+    iconColor: propertyValue => propertyValue,
   },
   glri_projects: {
     fillColor: propertyValue => propertyValue,

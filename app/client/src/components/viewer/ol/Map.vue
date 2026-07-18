@@ -118,8 +118,8 @@
     <overlay-popup
       :title="
         popup.activeFeature
-          ? popup.activeFeature.get('category') || popup.activeFeature.get('title')
-            ? popup.activeFeature.get('category') || popup.activeFeature.get('title')
+          ? popup.activeFeature.get('category') || popup.activeFeature.get('kd_naziv') || popup.activeFeature.get('title')
+            ? popup.activeFeature.get('category') || popup.activeFeature.get('kd_naziv') || popup.activeFeature.get('title')
             : popup.activeLayer
             ? popup.activeLayer.get('name')
             : ''
@@ -213,7 +213,7 @@ import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
 import {fromExtent} from 'ol/geom/Polygon';
 import {fromLonLat, transformExtent} from 'ol/proj';
-import {extend, createEmpty} from 'ol/extent';
+import {extend, createEmpty, getCenter} from 'ol/extent';
 import {like as likeFilter, or as orFilter} from 'ol/format/filter';
 
 // style imports
@@ -836,10 +836,42 @@ export default {
           zoom: this.map.getView().getZoom(),
         };
 
-        this.map.getView().fit(geometry.getExtent(), {
-          padding: [100, 100, 100, 100],
-          duration: 800,
-        });
+        const view = this.map.getView();
+        const extent = geometry.getExtent();
+        const padding = [100, 100, 100, 100];
+        const size = this.map.getSize();
+        const resolutions = this.$appConfig.map.resolutions;
+
+        // One zoom "stop" less close than a tight fit: find the tightest
+        // resolution (from the app's resolution ladder) that still fits the
+        // extent, then back off one step further out.
+        let targetResolution;
+        if (size && Array.isArray(resolutions) && resolutions.length) {
+          const paddedSize = [
+            Math.max(size[0] - padding[1] - padding[3], 1),
+            Math.max(size[1] - padding[0] - padding[2], 1),
+          ];
+          const fitResolution = view.getResolutionForExtent(extent, paddedSize);
+          let tightFitIndex = 0;
+          for (let i = 0; i < resolutions.length; i += 1) {
+            if (resolutions[i] >= fitResolution) {
+              tightFitIndex = i;
+            } else {
+              break;
+            }
+          }
+          targetResolution = resolutions[Math.max(tightFitIndex + 0.3, 0)];
+        }
+
+        if (targetResolution) {
+          view.animate({
+            center: getCenter(extent),
+            resolution: targetResolution,
+            duration: 800,
+          });
+        } else {
+          view.fit(extent, {padding, duration: 800});
+        }
       }
       setTimeout(() => {
         this.selectedCoorpNetworkEntity = null;
@@ -930,6 +962,7 @@ export default {
             } else {
               attr =
                 feature.get('hoverAttribute') ||
+                feature.get('kd_naziv') ||
                 feature.get('title') ||
                 feature.get('entity') ||
                 feature.get('venue') ||
@@ -939,6 +972,7 @@ export default {
           } else {
             attr =
               feature.get('hoverAttribute') ||
+              feature.get('kd_naziv') ||
               feature.get('title') ||
               feature.get('entity') ||
               feature.get('venue') ||

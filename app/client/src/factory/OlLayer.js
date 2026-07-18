@@ -23,6 +23,7 @@ import XyzSource from 'ol/source/XYZ';
 import {applyStyle} from 'ol-mapbox-style';
 import {OlStyleFactory} from './OlStyle';
 import {styleRefs, layersStylePropFn, colorMapFn} from '../style/OlStyleDefs';
+import {ensureColoredIcon} from '../style/iconColorCache';
 import http from '../services/http';
 
 /**
@@ -472,7 +473,8 @@ export const LayerFactory = {
       url = lConf.url;
     }
     sourceConfig.url = url;
-    let source = new VectorSource(sourceConfig);
+    const featureSource = new VectorSource(sourceConfig);
+    let source = featureSource;
 
     if (lConf.style.cluster) {
       const clusterOptions = lConf.style.cluster.options || {};
@@ -517,6 +519,27 @@ export const LayerFactory = {
       presetLayerName: lConf.presetLayerName,
       styleObj: JSON.stringify(lConf.style),
     });
+
+    // Icons colored per-feature (e.g. by category) are recolored client-side
+    // and cached; prefetch every distinct (iconUrl, color) pair used by this
+    // layer once its features load, then trigger a repaint.
+    const {iconUrl: iconUrlProp, iconColor: iconColorProp} = lConf.style.stylePropFnRef || {};
+    if (iconUrlProp && iconColorProp) {
+      featureSource.once('featuresloadend', () => {
+        const pairs = new Map();
+        featureSource.getFeatures().forEach(feature => {
+          const iconValue = feature.get(iconUrlProp);
+          const colorValue = feature.get(iconColorProp);
+          if (iconValue && colorValue) {
+            pairs.set(`${iconValue}__${colorValue}`, [iconValue, colorValue]);
+          }
+        });
+        Promise.all(Array.from(pairs.values()).map(([iconValue, colorValue]) => ensureColoredIcon(iconValue, colorValue))).then(
+          () => vectorLayer.changed()
+        );
+      });
+    }
+
     return vectorLayer;
   },
 

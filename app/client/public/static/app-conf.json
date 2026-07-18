@@ -67,6 +67,30 @@
       },
       {
         "type": "XYZ",
+        "name": "aerials2",
+        "group": "tools",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:orthophoto@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "minResolution": 0.5,
+        "maxResolution": 2.3887,
+        "displayInLegend": true,
+        "legendDisplayName": "aerials2",
+        "opacity": 0.3,
+        "queryable": false,
+        "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "aerials",
+        "group": "tools",
+        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:orthophoto@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "minResolution": 0.1,
+        "maxResolution": 0.5,
+        "opacity": 1,
+        "queryable": false,
+        "visible": true
+      },
+      {
+        "type": "XYZ",
         "name": "ESRI-World-Reference2",
         "group": "tools",
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
@@ -189,15 +213,21 @@
         "displaySidebarInfo": false,
         "zIndex": 100,
         "minResolution": 0,
-        "maxResolution": 800,
+        "maxResolution": 80,
         "label": true,
         "hoverable": true,
         "style": {
-          "fillColor": "rgba(255,255,0,0.2)",
-          "strokeColor": "#2CB8D7",
-          "strokeWidth": 0.8,
+          "fillColor": "rgba(255,255,0,0.05)",
+          "strokeColor": "rgba(255,255,0,0.0)",
+          "strokeWidth": 0.0,
           "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
+          "hoverBackgroundColor": "hover",
+          "iconUrl": true,
+          "scale": 1.2,
+          "stylePropFnRef": {
+            "iconUrl": "icon",
+            "iconColor": "hover"
+          }
         }
       },
       {
@@ -252,7 +282,7 @@
     "groups": {
       "tools": {
         "default": {
-          "layers": ["oceans", "transparent", "island_tiles", "islands_culture", "pois", "html_posts"],
+          "layers": ["transparent", "island_tiles", "aerials", "aerials2", "islands_culture", "pois", "html_posts"],
           "center": [16.639, 43.223],
           "resolution": 160,
           "mobileResolution": 12500,
