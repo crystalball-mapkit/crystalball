@@ -212,7 +212,7 @@ import VectorTileLayer from 'ol/layer/VectorTile';
 import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
 import {fromExtent} from 'ol/geom/Polygon';
-import {fromLonLat} from 'ol/proj';
+import {fromLonLat, transformExtent} from 'ol/proj';
 import {extend, createEmpty} from 'ol/extent';
 import {like as likeFilter, or as orFilter} from 'ol/format/filter';
 
@@ -439,6 +439,8 @@ export default {
         center: me.center || [0, 0],
         minResolution: me.minResolution || 0.25,
         maxResolution: me.maxResolution || 64000,
+        extent: me.extent ? transformExtent(me.extent, 'EPSG:4326', 'EPSG:3857') : undefined,
+        constrainOnlyCenter: false,
       }),
     });
     // Add map to the vuex store.

@@ -31,19 +31,20 @@
       </template>
 
       <!-- APP BAR DESKTOP -->
-      <v-app-bar app clipped-right height="60" :color="color.secondary" dark>
-        <a href="https://www.mdwfair.com/" target="_blank">
-          <v-img
-            class="pl-2 pr-4"
-            src="https://midwayfair.s3.us-east-2.amazonaws.com/assets/images/MDWfair_logo.png"
-            max-height="50px"
-            max-width="230px"
-            contain
-          >
-          </v-img>
-        </a>
+      <v-app-bar app clipped-right height="60" :color="color.primary" dark>
+        <v-toolbar-title
+          @click="$appConfig.app.projectWebsite ? openWebsite() : resetMap()"
+          flat
+          :style="`background-color:${color.primary};color:${$appConfig.app.navbar.titleColor || 'white'};`"
+          class="logo headline font-weight-bold ml-3 mx-2"
+          >{{
+            $appConfig.app.title[$i18n.locale] ||
+            (typeof $appConfig.app.title === 'object' && Object.values($appConfig.app.title)[0]) ||
+            $appConfig.app.title
+          }}
+        </v-toolbar-title>
 
-        <v-btn small depressed fab color="#E6C747" class="ml-0" @click="goToHome()"
+        <v-btn small depressed fab color="#DDAE4F" class="ml-0" @click="goToHome()"
           ><v-icon small>fas fa-home</v-icon></v-btn
         >
 
@@ -161,7 +162,9 @@
           <v-icon medium>{{ navDrawer ? '$close' : '$menu' }}</v-icon>
         </v-btn>
 
-        <v-toolbar-title>{{ title }}</v-toolbar-title>
+        <v-toolbar-title :style="`color:${$appConfig.app.navbar.titleColor || 'white'};`">{{
+          title
+        }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn @click="goToHome()" icon>
           <v-icon>fas fa-home</v-icon>

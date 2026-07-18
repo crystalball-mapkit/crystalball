@@ -5,8 +5,8 @@
     "projectWebsite": "",
     "defaultLanguage": "en",
     "color": {
-      "primary": "#CF00E8",
-      "secondary": "#ffffff",
+      "primary": "#C13F22",
+      "secondary": "#c8e6b4",
       "link": "#40923c",
       "mapLink": "#7C2CA3"
     },
@@ -24,11 +24,12 @@
     },
     "sideBar": {
       "isVisible": true,
-      "backgroundColor": "#fefefe",
+      "backgroundColor": "#EAC2C8",
       "textColor": "black"
     },
     "navbar": {
-      "dropdownMenu": false
+      "dropdownMenu": false,
+      "titleColor": "#ffffff"
     },
     "customNavigationScheme": "1",
     "spotlightMessage": {
@@ -45,29 +46,29 @@
       156543.03, 78271.52, 39135.76, 19567.88, 9783.94, 4891.97, 2445.98, 1222.99, 611.5, 305.75, 152.87, 76.437,
       38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972
     ],
-    "center": [0, 0],
+    "center": [16.9339, 43.2189],
+    "extent": [15.547010079190091, 42.44259604862517, 18.320866344911934, 43.995376161864762],
     "minResolution": 0.12,
     "maxResolution": 64000,
     "layers": [
       {
         "type": "XYZ",
         "name": "island_tiles",
-        "group": "midway",
-        "url": "https://midwayfair.s3.us-east-2.amazonaws.com/tiles/island_tiles/{z}/{x}/{y}.png",
-        "minResolution": 4,
+        "group": "tools",
+        "url": "https://conviviality.s3.us-east-2.amazonaws.com/tiles/island_tiles/{z}/{x}/{y}.png",
+        "minResolution": 0.5,
         "maxResolution": 64000,
         "displayInLegend": true,
         "legendDisplayName": "Dalmatian Islands",
         "legendIcon": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/miss_icon.png",
         "displaySidebarInfo": false,
         "visible": true,
-        "opacity": 0.89,
-        "updatewhileanimating": true
+        "opacity": 1
       },
       {
         "type": "XYZ",
         "name": "ESRI-World-Reference2",
-        "group": "midway",
+        "group": "tools",
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 390,
         "maxResolution": 6400,
@@ -82,7 +83,7 @@
       {
         "type": "XYZ",
         "name": "ESRI-World-Reference",
-        "group": "midway",
+        "group": "tools",
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 48,
         "maxResolution": 305.75,
@@ -97,7 +98,7 @@
       {
         "type": "XYZ",
         "name": "ESRI-World-Topo",
-        "group": "midway",
+        "group": "tools",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.5,
         "maxResolution": 48,
@@ -110,11 +111,11 @@
       },
       {
         "type": "OLMS",
-        "name": "basic-transparent",
-        "group": "midway",
-        "url": "https://tileserver.ecotopia.today/styles/basic-transparent/style.json",
-        "minResolution": 2.38,
-        "maxResolution": 440,
+        "name": "transparent",
+        "group": "tools",
+        "url": "https://tileserver.ecotopia.today/styles/transparent/style.json",
+        "minResolution": 0.25,
+        "maxResolution": 2000,
         "opacity": 0.8,
         "zIndex": 10,
         "queryable": false,
@@ -192,7 +193,7 @@
         "label": true,
         "hoverable": true,
         "style": {
-          "fillColor": "#2CB8D7",
+          "fillColor": "rgba(255,255,0,0.2)",
           "strokeColor": "#2CB8D7",
           "strokeWidth": 0.8,
           "hoverTextColor": "white",
@@ -253,14 +254,14 @@
         "default": {
           "layers": [
             "oceans",
+            "transparent",
             "island_tiles",
             "islands_culture",
-            "basic-transparency",
             "pois",
             "html_posts"
           ],
-          "center": [16.1985002, 43.0577228],
-          "resolution": 4800,
+          "center": [16.639, 43.223],
+          "resolution": 160,
           "mobileResolution": 12500,
           "mobileCenter": [-92.3, 42.097],
           "minResolution": 0,

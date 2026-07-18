@@ -3,7 +3,17 @@
     "allow": [
       "Bash(echo \"exit code: $?\")",
       "Bash(echo \"exit: $?\")",
-      "Bash(python3 -c \"import json; json.load\\(open\\('src/locales/en.json'\\)\\)\")"
+      "Bash(python3 -c \"import json; json.load\\(open\\('src/locales/en.json'\\)\\)\")",
+      "Bash(grep -n '\"id\"\\\\|\"minzoom\"\\\\|\"source-layer\"' \"/run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data/styles/transparent/style.json\" | grep -B2 -A2 -i road)",
+      "Read(//run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data/styles/transparent/**)",
+      "Bash(python3 -c ' *)",
+      "Bash(find \"/run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data\" -maxdepth 2 -iname '*.mbtiles' 2>/dev/null)",
+      "Read(//run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data/**)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('scripts',{}\\), indent=2\\)\\)\")",
+      "Bash(npx eslint *)"
+    ],
+    "additionalDirectories": [
+      "/run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data/styles/transparent"
     ]
   }
 }
