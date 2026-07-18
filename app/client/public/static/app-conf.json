@@ -252,14 +252,7 @@
     "groups": {
       "tools": {
         "default": {
-          "layers": [
-            "oceans",
-            "transparent",
-            "island_tiles",
-            "islands_culture",
-            "pois",
-            "html_posts"
-          ],
+          "layers": ["oceans", "transparent", "island_tiles", "islands_culture", "pois", "html_posts"],
           "center": [16.639, 43.223],
           "resolution": 160,
           "mobileResolution": 12500,
