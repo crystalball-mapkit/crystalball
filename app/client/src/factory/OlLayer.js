@@ -534,9 +534,9 @@ export const LayerFactory = {
             pairs.set(`${iconValue}__${colorValue}`, [iconValue, colorValue]);
           }
         });
-        Promise.all(Array.from(pairs.values()).map(([iconValue, colorValue]) => ensureColoredIcon(iconValue, colorValue))).then(
-          () => vectorLayer.changed()
-        );
+        Promise.all(
+          Array.from(pairs.values()).map(([iconValue, colorValue]) => ensureColoredIcon(iconValue, colorValue))
+        ).then(() => vectorLayer.changed());
       });
     }
 

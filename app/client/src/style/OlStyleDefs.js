@@ -264,7 +264,9 @@ function resolveIconSrc(feature, iconSrc, stylePropFnRef, iconColor) {
     return iconSrc;
   }
   const color =
-    iconColor instanceof Function ? iconColor(feature.get(stylePropFnRef.iconColor)) : feature.get(stylePropFnRef.iconColor);
+    iconColor instanceof Function
+      ? iconColor(feature.get(stylePropFnRef.iconColor))
+      : feature.get(stylePropFnRef.iconColor);
   if (!color) {
     return iconSrc;
   }
@@ -578,7 +580,13 @@ export function baseStyle(config) {
     // under the coarser icon+color cacheId above.
     const {iconUrl: polygonIconUrl} = config;
     if (polygonIconUrl && ['Polygon', 'MultiPolygon', 'GeometryCollection'].includes(feature.getGeometry().getType())) {
-      const {stylePropFnRef: polygonStylePropFnRef, iconColor: polygonIconColor, iconAnchor, iconAnchorXUnits, iconAnchorYUnits} = config;
+      const {
+        stylePropFnRef: polygonStylePropFnRef,
+        iconColor: polygonIconColor,
+        iconAnchor,
+        iconAnchorXUnits,
+        iconAnchorYUnits,
+      } = config;
       const resolvedIconUrl =
         polygonStylePropFnRef && polygonStylePropFnRef.iconUrl && polygonIconUrl instanceof Function
           ? polygonIconUrl(feature.get(polygonStylePropFnRef.iconUrl))

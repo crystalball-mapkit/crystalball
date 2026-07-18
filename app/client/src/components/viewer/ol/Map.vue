@@ -118,8 +118,12 @@
     <overlay-popup
       :title="
         popup.activeFeature
-          ? popup.activeFeature.get('category') || popup.activeFeature.get('kd_naziv') || popup.activeFeature.get('title')
-            ? popup.activeFeature.get('category') || popup.activeFeature.get('kd_naziv') || popup.activeFeature.get('title')
+          ? popup.activeFeature.get('category') ||
+            popup.activeFeature.get('kd_naziv') ||
+            popup.activeFeature.get('title')
+            ? popup.activeFeature.get('category') ||
+              popup.activeFeature.get('kd_naziv') ||
+              popup.activeFeature.get('title')
             : popup.activeLayer
             ? popup.activeLayer.get('name')
             : ''
