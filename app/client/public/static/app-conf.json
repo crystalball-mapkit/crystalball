@@ -147,8 +147,7 @@
         "displayInLegend": true,
         "legendDisplayName": {
           "en": "Open Street Map",
-          "es": "Open Street Map",
-          "pt": "Open Street Map"
+          "hr": "Open Street Map"
         }
       },
       {
@@ -262,8 +261,7 @@
         "displayInLegend": true,
         "legendDisplayName": {
           "en": "User posts",
-          "es": "Publicaciones",
-          "pt": "Publicações"
+          "hr": "Korisničke objave"
         },
         "format": "GeoJSON",
         "visible": true,

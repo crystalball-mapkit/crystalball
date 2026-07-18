@@ -11,8 +11,7 @@ const translator = new deepl.Translator(process.env.DEEPL_API_KEY, {
 
 const langVariants = {
   en: "en-US",
-  es: "es",
-  pt: "pt-BR",
+  hr: "hr",
 };
 
 const nonTranslatableProperties = [

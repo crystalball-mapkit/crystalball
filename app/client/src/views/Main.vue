@@ -403,6 +403,7 @@ export default {
       drawerWidthDynamic: 0, // Will store live width in px when resizable
       languageCodes: {
         en: 'English',
+        hr: 'Hrvatski',
         de: 'Deutsch',
         fr: 'Français',
         es: 'Español',
