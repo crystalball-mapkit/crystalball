@@ -510,6 +510,7 @@ export const LayerFactory = {
       opacity: lConf.opacity,
       zIndex: lConf.zIndex,
       group: lConf.group,
+      sourceLanguage: lConf.sourceLanguage,
       source,
       style: this.getStyles(lConf),
       hoverable: lConf.hoverable,

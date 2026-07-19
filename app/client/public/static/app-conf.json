@@ -203,6 +203,7 @@
         "name": "islands_culture",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:islands_culture&outputFormat=application/json&srsname=EPSG:3857",
         "group": "pilsen",
+        "sourceLanguage": "hr",
         "queryable": true,
         "displayInLegend": true,
         "format": "GeoJSON",

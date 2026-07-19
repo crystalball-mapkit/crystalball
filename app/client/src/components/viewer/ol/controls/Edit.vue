@@ -591,9 +591,10 @@ export default {
     edit(editType) {
       if (editType === 'translateAllFeatures') {
         const layerName = this.layersMetadata[this.selectedLayer.get('name')].typeName;
+        const sourceLanguage = this.selectedLayer.get('sourceLanguage') || this.$appConfig.app.defaultLanguage;
         this.isTranslating = true;
         axios
-          .get(`./api/translate/${layerName}?sourceLanguage=${this.$appConfig.app.defaultLanguage}&force=true`, {
+          .get(`./api/translate/${layerName}?sourceLanguage=${sourceLanguage}&force=true`, {
             headers: authHeader(),
           })
           .then(response => {
@@ -1278,11 +1279,12 @@ export default {
       const layerName = this.selectedLayer.get('name');
       const layerMetadata = this.layersMetadata[layerName];
       const translations = this.formData.translations ? this.formData.translations : {};
+      const sourceLanguage = this.selectedLayer.get('sourceLanguage') || this.$appConfig.app.defaultLanguage;
 
       const promises = [];
       const promisesParams = [];
       this.$i18n.availableLocales
-        .filter(l => l !== this.$appConfig.app.defaultLanguage)
+        .filter(l => l !== sourceLanguage)
         .forEach(language => {
           const propertyFields = [];
           const propertyValues = [];

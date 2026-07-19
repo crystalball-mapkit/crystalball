@@ -32,6 +32,8 @@ const nonTranslatableProperties = [
   "sidebarMediaTop",
   "sidebarMediaBottom",
   "translations",
+  "icon",
+  "hover",
 ];
 
 
@@ -96,7 +98,9 @@ exports.translateAllFeatures = async (req, res) => {
                 if (i === 0) {
                   keys.push(key);
                 }
-                xml += `<e>${response[0][i][key]}</e>`;
+                const rawValue = response[0][i][key];
+                const safeValue = rawValue === null || rawValue === undefined ? "" : rawValue;
+                xml += `<e>${safeValue}</e>`;
               }
             }
             if (!xmls[partition]) {
@@ -126,17 +130,23 @@ exports.translateAllFeatures = async (req, res) => {
               objectKeyTranslations[keys[i]] = keyTranslations[i];
             }
 
-            let promises = xmls.map(xml =>
-              translator.translateText(
+            // Send partitions to DeepL one at a time. Firing them all in
+            // parallel (as this used to via Promise.all) reliably triggered
+            // DeepL's rate limit once there were more than a handful of
+            // partitions (e.g. islands_culture's ~1482 rows split into ~20).
+            let responses = [];
+            for (const xml of xmls) {
+              // eslint-disable-next-line no-await-in-loop
+              const result = await translator.translateText(
                 xml,
                 null,
                 langVariants[lang],
                 {
                   tagHandling: "xml",
                 }
-              )
-            );
-            let responses = await Promise.all(promises);
+              );
+              responses.push(result);
+            }
             let textTranslations = [].concat(...responses);
 
             for (let i = 0; i < textTranslations.length; i++) {

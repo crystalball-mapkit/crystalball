@@ -36,7 +36,15 @@
       "Bash(grep -n 'rgba\\(115, 179, 223\\\\|hsl\\(205, 56%, 73%\\)' \"/run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data/styles/transparent/style.json\")",
       "Bash(node --check /media/brian/Gitdisk/git_conviviality/conviviality/app/api/utils.js)",
       "Bash(node --check /media/brian/Gitdisk/git_conviviality/conviviality/app/api/controllers/other/translateController.js)",
-      "Bash(grep -n 'isTranslationEnabled\\\\|switchLocale\\\\|$i18n.locale\\\\b' /media/brian/Gitdisk/git_conviviality/conviviality/app/client/src/views/Main.vue)"
+      "Bash(grep -n 'isTranslationEnabled\\\\|switchLocale\\\\|$i18n.locale\\\\b' /media/brian/Gitdisk/git_conviviality/conviviality/app/client/src/views/Main.vue)",
+      "Bash(curl -s \"https://conviviality.midwayfair.org/geoserver/wfs?service=WFS&version=1.1.0&request=DescribeFeatureType&typename=workspace1:islands_culture\")",
+      "Bash(curl -s \"https://conviviality.ecotopia.today/geoserver/wfs?service=WFS&version=1.1.0&request=DescribeFeatureType&typename=workspace1:islands_culture\" -o /tmp/claude-1000/-media-brian-Gitdisk-git-conviviality-conviviality/3600aec2-63fa-455e-be7b-c653f17f9f17/scratchpad/dft.xml -w \"HTTP %{http_code}\\\\n\")",
+      "Bash(curl -s \"https://conviviality.ecotopia.today/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:islands_culture&outputFormat=application/json&srsname=EPSG:3857&maxFeatures=5&propertyName=kd_naziv,translations\")",
+      "Bash(curl -s \"https://conviviality.ecotopia.today/geoserver/wfs?service=WFS&version=2.0.0&request=DescribeFeatureType&outputFormat=application/json&typeNames=workspace1:islands_culture\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s \"https://conviviality.ecotopia.today/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:islands_culture&outputFormat=application/json&srsname=EPSG:3857&propertyName=kd_naziv,kd_opis,kd_autor\")",
+      "Bash(curl -s -o /tmp/claude-1000/-media-brian-Gitdisk-git-conviviality-conviviality/3600aec2-63fa-455e-be7b-c653f17f9f17/scratchpad/translate_resp.json -w \"HTTP %{http_code}\\\\n\" \"https://conviviality.ecotopia.today/api/translate/islands_culture?sourceLanguage=hr&force=true\")",
+      "Bash(git -C /media/brian/Gitdisk/git_conviviality/conviviality branch -a)"
     ],
     "additionalDirectories": [
       "/run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data/styles/transparent"
