@@ -11,8 +11,8 @@
       "mapLink": "#7C2CA3"
     },
     "font": {
-      "url": "https://fonts.googleapis.com/css2?family=Merriweather&display=swap",
-      "family": "Merriweather"
+      "url": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
+      "family": "Roboto"
     },
     "legend": {
       "isVisible": true
@@ -71,7 +71,7 @@
         "group": "tools",
         "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:orthophoto@EPSG%3A900913@png/{z}/{x}/{-y}.png",
         "minResolution": 0.5,
-        "maxResolution": 2.3887,
+        "maxResolution": 4.7773,
         "displayInLegend": true,
         "legendDisplayName": "aerials2",
         "opacity": 0.3,
@@ -178,7 +178,7 @@
         "type": "VECTOR",
         "name": "points",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:points&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "pilsen",
+        "group": "conviviality",
         "queryable": true,
         "displayInLegend": true,
         "format": "GeoJSON",
@@ -209,11 +209,11 @@
         "format": "GeoJSON",
         "legendDisplayName": "Sights",
         "legendIcon": "",
-        "visible": true,
+        "visible": false,
         "displaySidebarInfo": false,
         "zIndex": 100,
         "minResolution": 0,
-        "maxResolution": 80,
+        "maxResolution": 40,
         "label": true,
         "hoverable": true,
         "style": {
@@ -223,7 +223,34 @@
           "hoverTextColor": "white",
           "hoverBackgroundColor": "hover",
           "iconUrl": true,
-          "scale": 1.2,
+          "scale": 1,
+          "stylePropFnRef": {
+            "iconUrl": "icon",
+            "iconColor": "hover"
+          }
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "pois",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:pois&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "conviviality",
+        "queryable": true,
+        "displayInLegend": true,
+        "format": "GeoJSON",
+        "legendDisplayName": "Points of interest",
+        "legendIcon": "",
+        "visible": true,
+        "displaySidebarInfo": false,
+        "zIndex": 100,
+        "minResolution": 0,
+        "maxResolution": 20,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "hover",
+          "scale": 1,
           "stylePropFnRef": {
             "iconUrl": "icon",
             "iconColor": "hover"
@@ -281,7 +308,7 @@
     "groups": {
       "tools": {
         "default": {
-          "layers": ["transparent", "island_tiles", "aerials", "aerials2", "islands_culture", "pois", "html_posts"],
+          "layers": ["transparent", "island_tiles", "aerials", "aerials2", "pois", "islands_culture", "html_posts"],
           "center": [16.639, 43.223],
           "resolution": 160,
           "mobileResolution": 12500,
@@ -322,7 +349,10 @@
       "latitude",
       "longitude",
       "color",
-      "translations"
+      "translations",
+      "kd_id",
+      "hover",
+      "icon"
     ],
     "corporateEntitiesUrls": {
       "Enbridge": ""

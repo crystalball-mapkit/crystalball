@@ -591,6 +591,10 @@ export default {
     edit(editType) {
       if (editType === 'translateAllFeatures') {
         const layerName = this.layersMetadata[this.selectedLayer.get('name')].typeName;
+        // A layer's content isn't always authored in the site's default language (e.g. a
+        // dataset imported from a national open-data source in its own native language).
+        // Set "sourceLanguage" on that layer's app-conf.json entry to override; layers
+        // without it fall back to app.defaultLanguage as before.
         const sourceLanguage = this.selectedLayer.get('sourceLanguage') || this.$appConfig.app.defaultLanguage;
         this.isTranslating = true;
         axios
@@ -869,7 +873,7 @@ export default {
             const response = await axios.get('./geoserver/wfs', {
               params: {
                 service: 'WFS',
-                version: ' 2.0.0',
+                version: '2.0.0',
                 request: 'GetFeature',
                 outputFormat: 'application/json',
                 srsName: 'EPSG:3857',
@@ -1279,6 +1283,7 @@ export default {
       const layerName = this.selectedLayer.get('name');
       const layerMetadata = this.layersMetadata[layerName];
       const translations = this.formData.translations ? this.formData.translations : {};
+      // See the sourceLanguage comment in edit('translateAllFeatures') above.
       const sourceLanguage = this.selectedLayer.get('sourceLanguage') || this.$appConfig.app.defaultLanguage;
 
       const promises = [];

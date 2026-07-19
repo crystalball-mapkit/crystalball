@@ -971,7 +971,7 @@ export default {
                 feature.get('entity') ||
                 feature.get('venue') ||
                 afUsedIrrValue ||
-                feature.get('county');
+                feature.get('name');
             }
           } else {
             attr =
@@ -981,7 +981,7 @@ export default {
               feature.get('entity') ||
               feature.get('venue') ||
               afUsedIrrValue ||
-              feature.get('county');
+              feature.get('name');
           }
           if (!attr) return;
           if (layer.get('styleObj')) {
@@ -1213,7 +1213,7 @@ export default {
             const response = await http.get('./geoserver/wfs', {
               params: {
                 service: 'WFS',
-                version: ' 2.0.0',
+                version: '2.0.0',
                 request: 'GetFeature',
                 outputFormat: 'application/json',
                 srsName: 'EPSG:3857',
@@ -1596,7 +1596,7 @@ export default {
           .get('./geoserver/wfs', {
             params: {
               service: 'WFS',
-              version: ' 2.0.0',
+              version: '2.0.0',
               request: 'DescribeFeatureType',
               outputFormat: 'application/json',
               typeNames: `${workspace}:${geoserverLayerName}`,

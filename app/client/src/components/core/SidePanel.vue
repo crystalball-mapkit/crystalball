@@ -703,7 +703,7 @@ export default {
             : this.popup.activeFeature.getGeometry().getFirstCoordinate();
         this.map.getView().animate({
           center,
-          zoom: 13,
+          zoom: 18,
           duration: 800,
         });
       }

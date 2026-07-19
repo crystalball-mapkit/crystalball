@@ -273,6 +273,24 @@ function resolveIconSrc(feature, iconSrc, stylePropFnRef, iconColor) {
   return getCachedColoredIcon(iconSrc, color) || iconSrc;
 }
 
+// Per-feature icon-overlay Style cache, keyed by resolved src. Polygon icon
+// overlays can't share a style across features the way point icons do (each
+// needs its own centroid geometry), but recreating an ol/style/Icon on every
+// single render — even with an unchanged src — makes OL think the image
+// needs reloading every time, which can spiral into a rapid repaint loop.
+// Reuse the same instance for a feature until its resolved src actually
+// changes (e.g. once, when an async-recolored icon becomes available).
+const iconOverlayCache = new WeakMap();
+function getStableIconOverlayStyle(feature, src, buildStyle) {
+  const cached = iconOverlayCache.get(feature);
+  if (cached && cached.src === src) {
+    return cached.style;
+  }
+  const style = buildStyle();
+  iconOverlayCache.set(feature, {src, style});
+  return style;
+}
+
 /**
  * Style function used for vector layers.
  */
@@ -300,6 +318,17 @@ export function baseStyle(config) {
             cacheId += value;
           }
         });
+        // A recolored icon resolves asynchronously (see iconColorCache), so
+        // the cache key needs to change once it does — otherwise the first
+        // (pre-resolution, uncolored) style computed for this icon+color
+        // pair would stay cached forever and never pick up the real color.
+        // This makes it rebuild exactly once, when resolution completes,
+        // then stay stable (and shared, like any other cached style) after.
+        if (config.stylePropFnRef.iconColor) {
+          const iconUrlValue = feature.get(config.stylePropFnRef.iconUrl);
+          const iconColorValue = feature.get(config.stylePropFnRef.iconColor);
+          cacheId += getCachedColoredIcon(iconUrlValue, iconColorValue) ? '-colored' : '-pending';
+        }
       }
     }
     // Don't build style cache if colorMap values are not loaded. Only for layers that use colorMap.
@@ -592,17 +621,23 @@ export function baseStyle(config) {
           ? polygonIconUrl(feature.get(polygonStylePropFnRef.iconUrl))
           : polygonIconUrl;
       if (resolvedIconUrl) {
-        const iconOverlayStyle = new OlStyle({
-          geometry: getIconAnchorGeometry(feature.getGeometry()),
-          image: new OlIconStyle({
-            src: resolveIconSrc(feature, resolvedIconUrl, polygonStylePropFnRef, polygonIconColor),
-            scale: config.scale || 1,
-            opacity: config.opacity || 1,
-            anchor: iconAnchor,
-            anchorXUnits: iconAnchorXUnits,
-            anchorYUnits: iconAnchorYUnits,
-          }),
-        });
+        const iconSrc = resolveIconSrc(feature, resolvedIconUrl, polygonStylePropFnRef, polygonIconColor);
+        const iconOverlayStyle = getStableIconOverlayStyle(
+          feature,
+          iconSrc,
+          () =>
+            new OlStyle({
+              geometry: getIconAnchorGeometry(feature.getGeometry()),
+              image: new OlIconStyle({
+                src: iconSrc,
+                scale: config.scale || 1,
+                opacity: config.opacity || 1,
+                anchor: iconAnchor,
+                anchorXUnits: iconAnchorXUnits,
+                anchorYUnits: iconAnchorYUnits,
+              }),
+            })
+        );
         return [].concat(cachedStyle, iconOverlayStyle);
       }
     }

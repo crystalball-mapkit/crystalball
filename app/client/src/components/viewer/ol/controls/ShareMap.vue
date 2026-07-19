@@ -281,7 +281,7 @@ export default {
           .get('./geoserver/wfs', {
             params: {
               service: 'WFS',
-              version: ' 2.0.0',
+              version: '2.0.0',
               request: 'GetFeature',
               outputFormat: 'application/json',
               srsName: 'EPSG:3857',

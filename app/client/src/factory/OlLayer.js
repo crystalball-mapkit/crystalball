@@ -510,6 +510,8 @@ export const LayerFactory = {
       opacity: lConf.opacity,
       zIndex: lConf.zIndex,
       group: lConf.group,
+      // Optional app-conf.json field: the layer's own content language, when it
+      // differs from app.defaultLanguage. See Edit.vue's translateAllFeatures.
       sourceLanguage: lConf.sourceLanguage,
       source,
       style: this.getStyles(lConf),
@@ -523,10 +525,14 @@ export const LayerFactory = {
 
     // Icons colored per-feature (e.g. by category) are recolored client-side
     // and cached; prefetch every distinct (iconUrl, color) pair used by this
-    // layer once its features load, then trigger a repaint.
+    // layer once its features load, then trigger a repaint. Uses "on", not
+    // "once" — WFS layers load features per-viewport (bboxStrategy), so this
+    // fires again every time panning/zooming brings new features in. Cheap
+    // to repeat: ensureColoredIcon is itself cached, so already-resolved
+    // pairs just resolve instantly rather than re-fetching.
     const {iconUrl: iconUrlProp, iconColor: iconColorProp} = lConf.style.stylePropFnRef || {};
     if (iconUrlProp && iconColorProp) {
-      featureSource.once('featuresloadend', () => {
+      featureSource.on('featuresloadend', () => {
         const pairs = new Map();
         featureSource.getFeatures().forEach(feature => {
           const iconValue = feature.get(iconUrlProp);
