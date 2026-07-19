@@ -960,23 +960,32 @@ export default {
 
           if (feature.get('translations')) {
             const translations = JSON.parse(feature.get('translations'));
-
-            if (translations[this.$i18n.locale]) {
-              attr = translations[this.$i18n.locale].title;
-            } else {
-              attr =
-                feature.get('hoverAttribute') ||
-                feature.get('kd_naziv') ||
-                feature.get('title') ||
-                feature.get('entity') ||
-                feature.get('venue') ||
-                afUsedIrrValue ||
-                feature.get('name');
-            }
+            // A translated feature keeps the original field names (e.g. "kd_naziv")
+            // and swaps only the values, so look up the same priority list inside
+            // the locale's translation object before falling back to the native
+            // (untranslated) feature values for any field it doesn't cover.
+            const t = translations[this.$i18n.locale] || {};
+            attr =
+              t.hoverAttribute ||
+              t.kd_naziv ||
+              t.kd_title ||
+              t.title ||
+              t.entity ||
+              t.venue ||
+              t.name ||
+              feature.get('hoverAttribute') ||
+              feature.get('kd_naziv') ||
+              feature.get('kd_title') ||
+              feature.get('title') ||
+              feature.get('entity') ||
+              feature.get('venue') ||
+              afUsedIrrValue ||
+              feature.get('name');
           } else {
             attr =
               feature.get('hoverAttribute') ||
               feature.get('kd_naziv') ||
+              feature.get('kd_title') ||
               feature.get('title') ||
               feature.get('entity') ||
               feature.get('venue') ||

@@ -82,7 +82,9 @@
       "Bash(curl -s \"https://conviviality.ecotopia.today/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:islands_culture&outputFormat=application/json&srsname=EPSG:3857\")",
       "Bash(curl -s -D - -o /dev/null \"https://conviviality.s3.us-east-2.amazonaws.com/assets/icons/maki/home.svg\" -H \"Origin: http://localhost:1024\")",
       "Bash(node retrytest.js)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code} %{time_total}s\\\\n\" -H \"Origin: http://localhost:1024\" \"https://conviviality.s3.us-east-2.amazonaws.com/assets/icons/maki/home.svg\")"
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{time_total}s\\\\n\" -H \"Origin: http://localhost:1024\" \"https://conviviality.s3.us-east-2.amazonaws.com/assets/icons/maki/home.svg\")",
+      "Bash(node addpost.js)",
+      "Bash(grep -v \"class=\\\\\"edit-buttons\\\\|v-if\\\\|class=\\\\`edit-buttons\")"
     ],
     "additionalDirectories": [
       "/run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data/styles/transparent"
