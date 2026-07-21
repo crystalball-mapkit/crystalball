@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "Compossibilities",
-    "tagline": "tools for collectivity",
+    "title": "Compossibility",
+    "tagline": "tools of collectivity",
     "projectWebsite": "",
     "defaultLanguage": "en",
     "color": {
@@ -15,7 +15,7 @@
       "family": "OpenSans"
     },
     "legend": {
-      "isVisible": true
+      "isVisible": false
     },
     "controls": {
       "locate_me": true,
@@ -56,7 +56,7 @@
         "name": "island_tiles",
         "group": "tools",
         "url": "https://conviviality.s3.us-east-2.amazonaws.com/tiles/isles_tiles/{z}/{x}/{y}.png",
-        "minResolution": 0.5,
+        "minResolution": 0.5972,
         "maxResolution": 64000,
         "displayInLegend": false,
         "legendDisplayName": "Dalmatian Islands",
@@ -70,9 +70,9 @@
         "name": "aerials2",
         "group": "tools",
         "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:orthophoto@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-        "minResolution": 0.2986,
-        "maxResolution": 0.5972,
-        "displayInLegend": true,
+        "minResolution": 0.5972,
+        "maxResolution": 1.1943,
+        "displayInLegend": false,
         "legendDisplayName": "aerials2",
         "opacity": 0.2,
         "queryable": false,
@@ -84,7 +84,7 @@
         "group": "tools",
         "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:orthophoto@EPSG%3A900913@png/{z}/{x}/{-y}.png",
         "minResolution": 0.1,
-        "maxResolution": 0.2986,
+        "maxResolution": 1.1943,
         "opacity": 1,
         "queryable": false,
         "visible": true
@@ -206,9 +206,9 @@
         "sourceLanguage": "hr",
         "queryable": true,
         "displayInLegend": true,
+        "legendIcon": " ",
         "format": "GeoJSON",
-        "legendDisplayName": "Sights",
-        "legendIcon": "",
+        "legendDisplayName": "Cultural heritage",
         "visible": false,
         "displaySidebarInfo": false,
         "zIndex": 100,
@@ -308,8 +308,8 @@
     "groups": {
       "tools": {
         "default": {
-          "layers": ["transparent", "island_tiles", "aerials", "aerials2", "pois", "islands_culture", "html_posts"],
-          "center": [16.639, 43.223],
+          "layers": ["transparent", "aerials", "island_tiles", "aerials2", "pois", "islands_culture", "html_posts"],
+          "center": [16.654, 43.182],
           "resolution": 160,
           "mobileResolution": 12500,
           "mobileCenter": [-92.3, 42.097],
