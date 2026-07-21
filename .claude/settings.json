@@ -84,7 +84,9 @@
       "Bash(node retrytest.js)",
       "Bash(curl -s -o /dev/null -w \"%{http_code} %{time_total}s\\\\n\" -H \"Origin: http://localhost:1024\" \"https://conviviality.s3.us-east-2.amazonaws.com/assets/icons/maki/home.svg\")",
       "Bash(node addpost.js)",
-      "Bash(grep -v \"class=\\\\\"edit-buttons\\\\|v-if\\\\|class=\\\\`edit-buttons\")"
+      "Bash(grep -v \"class=\\\\\"edit-buttons\\\\|v-if\\\\|class=\\\\`edit-buttons\")",
+      "Bash(xargs -I{} basename {})",
+      "Bash(grep -v \"\\\\.map$\")"
     ],
     "additionalDirectories": [
       "/run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data/styles/transparent"

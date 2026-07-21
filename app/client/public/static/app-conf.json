@@ -1,18 +1,18 @@
 {
   "app": {
-    "title": "Convivial Isles",
-    "tagline": "",
+    "title": "Compossibilities",
+    "tagline": "tools for collectivity",
     "projectWebsite": "",
     "defaultLanguage": "en",
     "color": {
-      "primary": "#C13F22",
-      "secondary": "#c8e6b4",
+      "primary": "#eca04c",
+      "secondary": "#B16E45",
       "link": "#40923c",
       "mapLink": "#7C2CA3"
     },
     "font": {
-      "url": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
-      "family": "Roboto"
+      "url": "https://fonts.googleapis.com/css2?family=OpenSans&display=swap",
+      "family": "OpenSans"
     },
     "legend": {
       "isVisible": true
@@ -24,12 +24,12 @@
     },
     "sideBar": {
       "isVisible": true,
-      "backgroundColor": "#EAC2C8",
+      "backgroundColor": "#FFE9C4",
       "textColor": "black"
     },
     "navbar": {
       "dropdownMenu": false,
-      "titleColor": "#ffffff"
+      "titleColor": "#FFE9C6"
     },
     "customNavigationScheme": "1",
     "spotlightMessage": {
@@ -55,10 +55,10 @@
         "type": "XYZ",
         "name": "island_tiles",
         "group": "tools",
-        "url": "https://conviviality.s3.us-east-2.amazonaws.com/tiles/island_tiles/{z}/{x}/{y}.png",
+        "url": "https://conviviality.s3.us-east-2.amazonaws.com/tiles/isles_tiles/{z}/{x}/{y}.png",
         "minResolution": 0.5,
         "maxResolution": 64000,
-        "displayInLegend": true,
+        "displayInLegend": false,
         "legendDisplayName": "Dalmatian Islands",
         "legendIcon": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/miss_icon.png",
         "displaySidebarInfo": false,
@@ -70,11 +70,11 @@
         "name": "aerials2",
         "group": "tools",
         "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:orthophoto@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-        "minResolution": 0.5,
-        "maxResolution": 4.7773,
+        "minResolution": 0.2986,
+        "maxResolution": 0.5972,
         "displayInLegend": true,
         "legendDisplayName": "aerials2",
-        "opacity": 0.3,
+        "opacity": 0.2,
         "queryable": false,
         "visible": true
       },
@@ -84,7 +84,7 @@
         "group": "tools",
         "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:orthophoto@EPSG%3A900913@png/{z}/{x}/{-y}.png",
         "minResolution": 0.1,
-        "maxResolution": 0.5,
+        "maxResolution": 0.2986,
         "opacity": 1,
         "queryable": false,
         "visible": true
@@ -213,7 +213,7 @@
         "displaySidebarInfo": false,
         "zIndex": 100,
         "minResolution": 0,
-        "maxResolution": 40,
+        "maxResolution": 19.109,
         "label": true,
         "hoverable": true,
         "style": {
@@ -244,7 +244,7 @@
         "displaySidebarInfo": false,
         "zIndex": 100,
         "minResolution": 0,
-        "maxResolution": 20,
+        "maxResolution": 9.5546,
         "label": true,
         "hoverable": true,
         "style": {
@@ -319,9 +319,9 @@
         }
       }
     },
-    "defaultActiveGroup": "midway",
+    "defaultActiveGroup": "tools",
     "groupTitles": {
-      "midway": "MdW2026"
+      "tools": "Convivial Isles"
     },
     "regionTitles": {
       "local": "local",

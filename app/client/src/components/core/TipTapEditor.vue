@@ -200,6 +200,7 @@
             {{ $t(`form.htmlPostEditor.translateContent`) + ` ${currentLanguage.value}` }}
           </v-tooltip>
         </div>
+        <slot name="below-toolbar" />
       </template>
     </tiptap-vuetify>
   </div>

@@ -276,6 +276,12 @@
                 </v-btn>
               </v-toolbar> -->
               <div class="px-2 mt-1">
+                <h3
+                  v-if="getTitle(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale)"
+                  class="mb-1"
+                >
+                  {{ getTitle(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale) }}
+                </h3>
                 <span
                   v-html="getHtml(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale)"
                 ></span>
@@ -421,7 +427,7 @@
 import {mapGetters} from 'vuex';
 import {mapFields} from 'vuex-map-fields';
 import UrlUtil from '../../utils/Url';
-import {getHtml} from '../../utils/Helpers';
+import {getHtml, getTitle} from '../../utils/Helpers';
 import {SharedMethods} from '../../mixins/SharedMethods';
 import {EventBus} from '../../EventBus';
 import {formatPopupRows, getIframeUrl} from '../../utils/Layer';
@@ -592,6 +598,7 @@ export default {
   methods: {
     formatPopupRows,
     getHtml,
+    getTitle,
     parseUrl(url) {
       return UrlUtil.parseUrl(url);
     },

@@ -162,21 +162,30 @@ export function Timer(fn, t) {
   };
 }
 
-export function getHtml(content, defaultLanguage, currentLanguage) {
-  let html = content && content.html ? content.html : '';
-  let htmlTranslations;
-  if (content && content.htmlTranslations) {
-    if (typeof content.htmlTranslations === 'string') {
-      htmlTranslations = JSON.parse(content.htmlTranslations);
+function getTranslatedField(content, field, defaultLanguage, currentLanguage) {
+  let value = content && content[field] ? content[field] : '';
+  const translationsField = `${field}Translations`;
+  let translations;
+  if (content && content[translationsField]) {
+    if (typeof content[translationsField] === 'string') {
+      translations = JSON.parse(content[translationsField]);
     } else {
-      htmlTranslations = content.htmlTranslations;
+      translations = content[translationsField];
     }
   }
 
-  if (defaultLanguage !== currentLanguage && content && htmlTranslations && htmlTranslations[currentLanguage]) {
-    html = htmlTranslations[currentLanguage];
+  if (defaultLanguage !== currentLanguage && content && translations && translations[currentLanguage]) {
+    value = translations[currentLanguage];
   }
-  return html;
+  return value;
+}
+
+export function getHtml(content, defaultLanguage, currentLanguage) {
+  return getTranslatedField(content, 'html', defaultLanguage, currentLanguage);
+}
+
+export function getTitle(content, defaultLanguage, currentLanguage) {
+  return getTranslatedField(content, 'title', defaultLanguage, currentLanguage);
 }
 
 export function deepMerge(obj1, obj2) {

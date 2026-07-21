@@ -126,6 +126,7 @@
       "getDirections": "Directions",
       "corporateNetwork": "Agroecological Network",
       "placeholder": "Write Something",
+      "titleLabel": "Place title here",
       "alignLeft": "Align Left",
       "alignCenter": "Align Center",
       "alignRight": "Align Right",
