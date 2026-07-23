@@ -4,5 +4,17 @@ seeds:
     grids: [webmercator]
     levels: [13]
 
-coverages: {}
+  hr_orthophoto_seed:
+    caches: [hr_orthophoto_cache]
+    grids: [webmercator]
+    coverages: [croatia]
+    levels:
+      from: 17
+      to: 18
+    concurrency: 2
+
+coverages:
+  croatia:
+    bbox: [15.96, 42.87, 17.23, 43.63]
+    srs: 'EPSG:4326'
 

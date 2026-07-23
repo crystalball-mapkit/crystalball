@@ -1,5 +1,7 @@
+base: [secrets.yaml]
+
 services:
-  demo: ~
+  demo: {}
   wms: {}
   wmts: {}
   tms: {}
@@ -8,6 +10,9 @@ layers:
   - name: world_imagery
     title: Esri World Imagery
     sources: [world_cache]
+  - name: hr_orthophoto_2025
+    title: Digitalni ortofoto RH 2025/2026 (DGU)
+    sources: [hr_orthophoto_cache]
 
 sources:
   world_source:
@@ -15,10 +20,21 @@ sources:
     url: https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/%(z)s/%(y)s/%(x)s
     grid: webmercator
 
+  # hr_orthophoto_source is defined in secrets.yaml (gitignored, holds the DGU authKey)
+
 caches:
   world_cache:
     sources: [world_source]
     grids: [webmercator]
+    cache:
+      type: file
+
+  hr_orthophoto_cache:
+    sources: [hr_orthophoto_source]
+    grids: [webmercator]
+    meta_size: [4, 4]
+    meta_buffer: 0
+    format: image/png
     cache:
       type: file
 

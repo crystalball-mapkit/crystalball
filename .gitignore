@@ -16,6 +16,7 @@ dist
 /app/tileserver-gl/config.json
 /app/api/.env
 /app/config/api/*
+/app/mapproxy/secrets.yaml
 cache_data
 .env
 _volume_*
