@@ -11,7 +11,11 @@ seeds:
     levels:
       from: 17
       to: 18
-    concurrency: 2
+    # Only re-fetch tiles missing or older than this — lets a re-run resume
+    # instead of re-hammering DGU for everything already cached from the
+    # last attempt. Bump this up if you wait longer than a day to retry.
+    refresh_before:
+      hours: 24
 
 coverages:
   croatia:

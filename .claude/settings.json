@@ -86,7 +86,10 @@
       "Bash(node addpost.js)",
       "Bash(grep -v \"class=\\\\\"edit-buttons\\\\|v-if\\\\|class=\\\\`edit-buttons\")",
       "Bash(xargs -I{} basename {})",
-      "Bash(grep -v \"\\\\.map$\")"
+      "Bash(grep -v \"\\\\.map$\")",
+      "Bash(docker rm *)",
+      "Bash(docker run *)",
+      "Bash(docker exec *)"
     ],
     "additionalDirectories": [
       "/run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data/styles/transparent"
