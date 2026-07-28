@@ -69,7 +69,7 @@
         "type": "XYZ",
         "name": "aerials2",
         "group": "tools",
-        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:orthophoto@EPSG%3A900913@png/{z}/{x}/{-y}.png",
+        "url": "https://conviviality.ecotopia.today/mapproxy/wmts/hr_orthophoto_2025/webmercator/{z}/{x}/{y}.png",
         "minResolution": 0.5972,
         "maxResolution": 1.1943,
         "displayInLegend": false,

@@ -26,6 +26,9 @@ caches:
   world_cache:
     sources: [world_source]
     grids: [webmercator]
+    meta_size: [4, 4]
+    meta_buffer: 0
+    format: image/png
     cache:
       type: file
 
