@@ -12,13 +12,17 @@ seeds:
       from: 17
       to: 18
     # Only re-fetch tiles missing or older than this — lets a re-run resume
-    # instead of re-hammering DGU for everything already cached from the
-    # last attempt. Bump this up if you wait longer than a day to retry.
+    # instead of re-hammering DGU for everything already cached from a
+    # previous attempt. This is wall-clock time, not "time since last seed
+    # run" — if you wait longer than this value before retrying, already-good
+    # tiles get overwritten again. Set generously long (not hours) since
+    # there's no real downside to it: the fallback if a tile genuinely needs
+    # refreshing is just re-running seed with a shorter window on purpose.
     refresh_before:
-      hours: 24
+      days: 365
 
 coverages:
   croatia:
-    bbox: [15.96, 42.87, 17.23, 43.63]
+    bbox: [15.849996, 42.5511943, 18.2708405, 43.5239379]
     srs: 'EPSG:4326'
 
