@@ -96,7 +96,9 @@
       "Bash(curl -s -D - -o /tmp/outside_bbox_tile.png \"http://localhost:18080/wmts/hr_orthophoto_2025/webmercator/17/72271/46891.png\")",
       "Bash(curl -s -D - -o /tmp/far_outside.png \"http://localhost:18080/wmts/hr_orthophoto_2025/webmercator/17/50000/50000.png\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:18080/wmts/hr_orthophoto_2025/webmercator/17/71543/48062.png\")",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:18080/wmts/hr_orthophoto_2025/webmercator/17/71543/47800.png\")"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:18080/wmts/hr_orthophoto_2025/webmercator/17/71543/47800.png\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('public/static/app-conf.json'\\)\\); print\\('JSON OK'\\)\")",
+      "Bash(node_modules/.bin/eslint --no-eslintrc -c .eslintrc.js src/style/OlStyleDefs.js)"
     ],
     "additionalDirectories": [
       "/run/user/1000/gvfs/sftp:host=82.29.153.130,user=root/home/tileserver/data/styles/transparent"

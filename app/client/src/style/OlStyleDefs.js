@@ -647,15 +647,39 @@ export function baseStyle(config) {
   return styleFunction;
 }
 
+// Resolution (map units per pixel) at zoom 0 for the standard 256px Web
+// Mercator tile grid. This app is Web Mercator throughout, so zoom can be
+// derived from resolution with a fixed formula instead of threading an
+// ol/View reference into this style module.
+const WEB_MERCATOR_ZOOM0_RESOLUTION = 156543.03392804097;
+const resolutionToZoom = resolution => Math.log2(WEB_MERCATOR_ZOOM0_RESOLUTION / resolution);
+
+/**
+ * Scales a base value by zoom level, clamped to [minFactor, maxFactor] of
+ * the original value. Every step away from baseZoom multiplies by
+ * perZoomFactor, so the result shrinks below baseZoom and grows above it.
+ */
+const scaleByZoom = (value, zoom, {baseZoom = 10, perZoomFactor = 1.15, minFactor = 0.2, maxFactor = 3} = {}) => {
+  if (zoom == null) return value;
+  let factor = perZoomFactor ** (zoom - baseZoom);
+  if (factor < minFactor) factor = minFactor;
+  if (factor > maxFactor) factor = maxFactor;
+  return value * factor;
+};
+
 export function htmlLayerStyle() {
-  const styleFunction = feature => {
+  const styleFunction = (feature, resolution) => {
     const group = feature.get('group');
 
     if (group === store.state.activeLayerGroup.navbarGroup) {
+      const zoom = resolutionToZoom(resolution);
       return new OlStyle({
         image: new OlIconStyle({
           src: feature.get('icon'),
-          scale: 1,
+          // Full size (1) at zoom 14, shrinking to 0.6 at zoom 9. No cache
+          // to invalidate here (unlike baseStyle) since this function
+          // recomputes from scratch on every render.
+          scale: scaleByZoom(1, zoom, {baseZoom: 14, perZoomFactor: 1.1487, minFactor: 0.5, maxFactor: 1}),
           opacity: 1,
         }),
       });
