@@ -232,43 +232,6 @@
       },
       {
         "type": "VECTOR",
-        "name": "island_roads",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:island_roads&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "pilsen",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendIcon": "",
-        "format": "GeoJSON",
-        "legendDisplayName": {
-          "en": "Island road names",
-          "hr": "Nazivi cesta na otocima"
-        },
-        "visible": true,
-        "displaySidebarInfo": false,
-        "zIndex": 150,
-        "minResolution": 0,
-        "maxResolution": 19.109,
-        "label": true,
-        "hoverable": true,
-        "declutter": true,
-        "style": {
-          "strokeColor": "rgba(0,0,0,0)",
-          "strokeWidth": 0,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000",
-          "label": {
-            "text": "street_name",
-            "placement": "line",
-            "fontSize": 12,
-            "fontWeight": "bold",
-            "fontType": "Arial",
-            "fill": {"color": "#2b2b2b"},
-            "stroke": {"color": "#ffffff", "width": 3}
-          }
-        }
-      },
-      {
-        "type": "VECTOR",
         "name": "pois",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:pois&outputFormat=application/json&srsname=EPSG:3857",
         "group": "conviviality",

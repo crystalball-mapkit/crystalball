@@ -138,7 +138,7 @@ export default {
           ]);
           if (!this.hasZoomedToLocation && !this.userLocSource.isEmpty()) {
             this.map.getView().fit(this.userLocSource.getExtent(), {
-              maxZoom: 18,
+              maxZoom: 17,
               minResolution: resolution || 0,
             });
             this.hasZoomedToLocation = true;
