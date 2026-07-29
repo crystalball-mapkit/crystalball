@@ -138,7 +138,7 @@ export default {
           ]);
           if (!this.hasZoomedToLocation && !this.userLocSource.isEmpty()) {
             this.map.getView().fit(this.userLocSource.getExtent(), {
-              maxZoom: 6.1,
+              maxZoom: 18,
               minResolution: resolution || 0,
             });
             this.hasZoomedToLocation = true;
@@ -178,6 +178,12 @@ export default {
       const layer = new VectorLayer({
         source,
         style: userLocationStyle,
+        // Deliberately above every other layer's zIndex in app-conf.json
+        // (highest currently in use is 1002) so the dot never gets painted
+        // over by opaque imagery/data layers active at a given zoom --
+        // without this it defaults to 0, a tie it can lose depending on
+        // internal layer order.
+        zIndex: 2000,
       });
       this.map.addLayer(layer);
       this.userLocSource = source;
