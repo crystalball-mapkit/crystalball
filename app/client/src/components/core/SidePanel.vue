@@ -147,16 +147,6 @@
                         <v-icon small class="mr-1">public</v-icon>
                         {{ searchLabel }}
                       </v-btn>
-                      <v-btn
-                        @click="getDirections(popup.activeFeature)"
-                        text
-                        small
-                        class="mb-2 mt-1 mr-2"
-                        v-if="popup.activeLayer.get('directions') === true"
-                      >
-                        <v-icon small class="mr-1">directions_car</v-icon>
-                        {{ $t('form.htmlPostEditor.getDirections') }}
-                      </v-btn>
                       <v-spacer></v-spacer>
                       <v-btn v-if="!$vuetify.breakpoint.smAndDown" @click="closePopupInfo" text small class="mb-2 mt-1">
                         <v-icon small class="mr-1">close</v-icon>
@@ -233,13 +223,6 @@
                     ><span>{{ $t('form.htmlPostEditor.editPost') }}</span></v-tooltip
                   >
                 </div>
-                <v-tooltip left>
-                  <template v-slot:activator="{on}">
-                    <v-btn v-on="on" @click="getDirections(popup.activeFeature)" icon class="mr-3">
-                      <v-icon>directions_car</v-icon>
-                    </v-btn> </template
-                  ><span>{{ $t('form.htmlPostEditor.getDirections') }}</span></v-tooltip
-                >
                 <div v-if="!$vuetify.breakpoint.smAndDown">
                   <v-tooltip left>
                     <template v-slot:activator="{on}">
@@ -607,11 +590,6 @@ export default {
     },
     editPost(postFeature) {
       EventBus.$emit('editPost', postFeature);
-    },
-    getDirections(feature) {
-      // getFirstCoordinate() works uniformly across geometry types (Point, LineString, Polygon, ...)
-      const [lng, lat] = feature.getGeometry().clone().transform('EPSG:3857', 'EPSG:4326').getFirstCoordinate();
-      window.open(`https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`, '_blank');
     },
     editHtml() {
       let html = '';

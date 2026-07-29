@@ -443,7 +443,8 @@ export default {
         center: me.center || [0, 0],
         minResolution: me.minResolution || 0.25,
         maxResolution: me.maxResolution || 64000,
-        extent: me.extent ? transformExtent(me.extent, 'EPSG:4326', 'EPSG:3857') : undefined,
+        // TEMP: commented out to test geolocation from outside the Croatia extent -- restore before shipping.
+        // extent: me.extent ? transformExtent(me.extent, 'EPSG:4326', 'EPSG:3857') : undefined,
         constrainOnlyCenter: false,
       }),
     });

@@ -416,14 +416,19 @@ export function baseStyle(config) {
         const fontSize = label.fontSize || 12;
         const fontType = label.fontType || 'Arial';
         const font = `${fontWeight} ${fontSize}/${1} ${fontType}`;
-        const placement =
-          (!['Point', 'MultiPoint'].includes(geometryType) && label.placement !== 'point') || !label.placement
-            ? 'point'
-            : label.placement;
+        // Line geometries default to line-following placement (text curves
+        // along the line) unless explicitly overridden to 'point'. Point/
+        // MultiPoint geometries can only ever use 'point' -- there's no
+        // line to follow. This value also has to actually reach OlText's
+        // own `placement` option below, not just the wrap-decision in
+        // getText(), otherwise "line" labels silently render as a single
+        // fixed point instead of following the geometry.
+        const placement = ['Point', 'MultiPoint'].includes(geometryType) || label.placement === 'point' ? 'point' : 'line';
 
         labelText = new OlText({
           font,
           textAlign: label.textAlign,
+          placement,
           text: getText(feature.get(label.text), resolution, label.maxResolution || 1200, placement),
           offsetX: label.offsetX || 12,
           offsetY: label.offsetY || 0,

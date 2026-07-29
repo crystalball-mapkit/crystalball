@@ -1,6 +1,12 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" :max-width="options.width" @keydown.esc="cancel" v-bind:style="{zIndex: options.zIndex}">
+    <v-dialog
+      v-model="dialog"
+      :width="options.width"
+      :max-width="options.width"
+      @keydown.esc="cancel"
+      v-bind:style="{zIndex: options.zIndex}"
+    >
       <v-card>
         <v-card-title class="headline">{{ title }}</v-card-title>
         <v-card-text v-if="message">{{ message }}</v-card-text>
