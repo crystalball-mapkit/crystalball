@@ -423,7 +423,8 @@ export function baseStyle(config) {
         // own `placement` option below, not just the wrap-decision in
         // getText(), otherwise "line" labels silently render as a single
         // fixed point instead of following the geometry.
-        const placement = ['Point', 'MultiPoint'].includes(geometryType) || label.placement === 'point' ? 'point' : 'line';
+        const placement =
+          ['Point', 'MultiPoint'].includes(geometryType) || label.placement === 'point' ? 'point' : 'line';
 
         labelText = new OlText({
           font,

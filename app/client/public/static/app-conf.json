@@ -345,7 +345,16 @@
     "groups": {
       "tools": {
         "default": {
-          "layers": ["transparent", "aerials", "island_tiles", "aerials2", "island_roads","pois", "islands_culture", "html_posts"],
+          "layers": [
+            "transparent",
+            "aerials",
+            "island_tiles",
+            "aerials2",
+            "island_roads",
+            "pois",
+            "islands_culture",
+            "html_posts"
+          ],
           "center": [16.654, 43.182],
           "resolution": 160,
           "mobileResolution": 12500,
