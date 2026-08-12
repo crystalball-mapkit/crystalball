@@ -242,11 +242,26 @@ export default {
       axios
         .post('api/layer', formData, {
           headers: authHeader(),
+          // Without this, a server-side failure that never sends a response
+          // (e.g. an unhandled error mid-request) leaves this promise pending
+          // forever with zero feedback -- this bounds that to a finite wait
+          // instead of an indefinite hang.
+          timeout: 30000,
         })
         .then(() => {
           this.cancel();
+          // Clear the popup's reference to the edited feature BEFORE refreshing
+          // the layer's source -- refresh() clears the source's features
+          // immediately (well before the new ones load), so leaving
+          // popup.activeFeature pointing at the just-edited feature for even a
+          // moment risks anything reading it hitting a feature that's already
+          // been ripped out of its layer.
+          EventBus.$emit('closePopupInfo');
+          const htmlPostLayer = this.layers.html_posts;
+          if (htmlPostLayer) {
+            htmlPostLayer.getSource().refresh();
+          }
           setTimeout(() => {
-            EventBus.$emit('closePopupInfo');
             this.toggleSnackbar({
               type: 'success',
               message: this.$t(this.postSnackbarMessages[type]),
@@ -254,10 +269,18 @@ export default {
               state: true,
             });
           }, 50);
-          const htmlPostLayer = this.layers.html_posts;
-          if (htmlPostLayer) {
-            htmlPostLayer.getSource().refresh();
-          }
+        })
+        .catch(error => {
+          // Deliberately does NOT call cancel()/closePopupInfo here -- on
+          // failure the user's edits should stay visible so they can retry
+          // rather than silently losing them.
+          console.error('Failed to save post:', error);
+          this.toggleSnackbar({
+            type: 'error',
+            message: this.$t('form.htmlPostEditor.saveFailed'),
+            timeout: 4000,
+            state: true,
+          });
         });
     },
     transactHtml(type) {

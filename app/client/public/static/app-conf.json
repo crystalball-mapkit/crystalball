@@ -206,7 +206,7 @@
         "sourceLanguage": "hr",
         "queryable": true,
         "displayInLegend": true,
-        "legendIcon": " ",
+        "legendIcon": "  ",
         "format": "GeoJSON",
         "legendDisplayName": "Cultural heritage",
         "visible": true,
@@ -240,11 +240,11 @@
         "format": "GeoJSON",
         "legendDisplayName": "Points of interest",
         "legendIcon": "",
-        "visible": false,
+        "visible": true,
         "displaySidebarInfo": false,
         "zIndex": 100,
         "minResolution": 0,
-        "maxResolution": 9.5546,
+        "maxResolution": 2,
         "label": true,
         "hoverable": true,
         "style": {
@@ -295,13 +295,13 @@
         "visible": true,
         "zIndex": 1002,
         "minResolution": 0.1,
-        "maxResolution": 152.87,
+        "maxResolution": 2445.98,
         "label": null,
         "hoverable": true,
         "canEdit": false,
         "style": {
           "styleRef": "htmlLayerStyle",
-          "hoverBackgroundColor": "hover"
+          "hoverBackgroundColor": "#E5A15E"
         }
       }
     ],

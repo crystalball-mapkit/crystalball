@@ -32,13 +32,22 @@ const translateContent = async (language, text, key, payload, column) => {
    * es: "the text to translate",
    * }
    */
-  // adds/updates the default columns 
+  // adds/updates the default columns
   if (!column || !column.default) {
-    const targetLanguage = langVariants[language.default] || language.default;
-    const langResult = await translator.translateText(text, null, targetLanguage, {
-      tagHandling: 'html',
-    })
-    payload[key] = langResult.text;
+    try {
+      const targetLanguage = langVariants[language.default] || language.default;
+      const langResult = await translator.translateText(text, null, targetLanguage, {
+        tagHandling: 'html',
+      })
+      payload[key] = langResult.text;
+    } catch (err) {
+      // Unlike the loop below, this path has no fallback value to leave in
+      // place if it's skipped -- but a DeepL failure here must never hang
+      // the whole save request with no response (Node 12 doesn't crash on
+      // an unhandled rejection here, it just leaves the request pending
+      // forever with the client never hearing back).
+      console.log(err);
+    }
   } else if (language.active === language.default) {
     payload[key] = text;
   }

@@ -206,15 +206,17 @@
             <!-- EDIT POST BUTTONS -->
             <div v-if="isHtmlViewer" style="width: 100%">
               <v-row>
-                <v-spacer></v-spacer>
                 <div v-if="canEditPost">
-                  <v-tooltip left>
+                  <v-tooltip right>
                     <template v-slot:activator="{on}">
-                      <v-btn v-on="on" @click="deletePost(popup.activeFeature)" icon class="mr-3">
+                      <v-btn v-on="on" @click="deletePost(popup.activeFeature)" icon class="ml-3">
                         <v-icon>delete</v-icon>
                       </v-btn> </template
                     ><span>{{ $t('form.htmlPostEditor.deletePost') }}</span>
                   </v-tooltip>
+                </div>
+                <v-spacer></v-spacer>
+                <div v-if="canEditPost">
                   <v-tooltip left>
                     <template v-slot:activator="{on}">
                       <v-btn v-on="on" @click="editPost(popup.activeFeature)" icon class="mr-3">

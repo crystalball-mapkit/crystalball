@@ -335,6 +335,12 @@
         </v-card-actions>
       </v-card>
     </v-bottom-sheet>
+
+    <!-- Hint shown only while dragging is possible (editing an existing post) -->
+    <v-snackbar :value="isEditingPost && postEditType === 'update'" :timeout="-1" bottom>
+      <v-icon color="white" class="mr-3">open_with</v-icon>
+      {{ $t('form.htmlPostEditor.dragMarkerHint') }}
+    </v-snackbar>
   </div>
 </template>
 <script>
@@ -343,7 +349,7 @@ import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import RenderFeature from 'ol/render/Feature';
 import {LineString, MultiLineString, Polygon, MultiPolygon} from 'ol/geom';
-import {Modify, Draw} from 'ol/interaction';
+import {Modify, Draw, Translate} from 'ol/interaction';
 
 import {unByKey} from 'ol/Observable';
 import Overlay from 'ol/Overlay';
@@ -427,6 +433,7 @@ export default {
     },
 
     postMapMarkerLayer_: null,
+    postTranslateInteraction_: null,
     showDeleteDialog: false,
 
     showAllTranslations: false,
@@ -438,6 +445,7 @@ export default {
       isEditingPost: 'isEditingPost',
       selectedLayer: 'selectedLayer',
       postFeature: 'postFeature',
+      postEditLayer: 'postEditLayer',
       postEditType: 'postEditType',
       analysisEditType: 'analysisEditType',
       analysisIframeUrl: 'analysisIframeUrl',
@@ -1061,6 +1069,30 @@ export default {
     },
 
     /**
+     * Lets the user drag the marker to correct an existing post's location
+     * while editing. Only targets postEditLayer's single feature, so normal
+     * map pan/zoom is untouched -- Translate only engages when the pointer
+     * goes down directly on the feature. The interaction mutates the
+     * feature's geometry in place, and since transactPost() already reads
+     * geometry straight off that same feature, no extra save-time wiring
+     * is needed for the new position to persist.
+     */
+    enablePostTranslate() {
+      if (this.postTranslateInteraction_ || !this.postEditLayer) {
+        return;
+      }
+      this.postTranslateInteraction_ = new Translate({
+        layers: [this.postEditLayer],
+      });
+      this.map.addInteraction(this.postTranslateInteraction_);
+    },
+    disablePostTranslate() {
+      if (this.postTranslateInteraction_) {
+        this.map.removeInteraction(this.postTranslateInteraction_);
+        this.postTranslateInteraction_ = null;
+      }
+    },
+    /**
      * UI BUTTON EVENTS
      */
     activateEdit() {
@@ -1412,6 +1444,7 @@ export default {
   },
   beforeDestroy() {
     this.closeEdit();
+    this.disablePostTranslate();
   },
   watch: {
     $route(newValue, oldValue) {
@@ -1445,6 +1478,12 @@ export default {
       } else {
         this.map.removeLayer(this.postMapMarkerLayer_);
         this.postMapMarkerLayer_.setFlashlightVisible(false);
+      }
+
+      if (state === true && this.postEditType === 'update') {
+        this.enablePostTranslate();
+      } else {
+        this.disablePostTranslate();
       }
     },
     showAllTranslations(newValue) {

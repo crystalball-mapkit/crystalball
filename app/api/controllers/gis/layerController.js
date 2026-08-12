@@ -128,12 +128,20 @@ exports.layer_post = async (req, res) => {
                       if (payload.properties[key] && typeof payload.properties[key] === "string") {
                         payload.properties[key] = JSON.parse(payload.properties[key]);
                       }
-                      await translateContent(payload.language, payload.properties[originalKey], originalKey, payload.properties, {
-                        default: originalProperties[originalKey],
-                        translations: originalProperties[key]
-                      })
+                      try {
+                        await translateContent(payload.language, payload.properties[originalKey], originalKey, payload.properties, {
+                          default: originalProperties[originalKey],
+                          translations: originalProperties[key]
+                        })
+                      } catch (err) {
+                        // A translation failure (DeepL error, malformed translations
+                        // JSON, etc.) must never leave this request hanging with no
+                        // response -- log it and keep going with whatever content
+                        // translateContent managed to fill in before it failed.
+                        console.log(err);
+                      }
                       // if active language is not the same as the default one delete the key
-                      if (payload.language.active !== payload.language.default) { 
+                      if (payload.language.active !== payload.language.default) {
                         delete payload.properties[originalKey];
                       }
 
