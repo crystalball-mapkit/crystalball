@@ -76,6 +76,9 @@ export default {
         insert: 'form.htmlPostEditor.insert',
       },
       overlayersGarbageCollector: [],
+      // Table a post transaction targets, derived from the feature's GeoServer id (`<table>.<pk>`).
+      // New posts (no existing feature id) always go to the live html_posts table.
+      postTable: 'html_posts',
     };
   },
   created() {
@@ -88,6 +91,7 @@ export default {
       const clonedFeature = feature.clone();
       clonedFeature.setId(fId);
       this.postEditLayer.getSource().addFeature(clonedFeature);
+      this.postTable = fId.includes('.') ? fId.split('.')[0] : 'html_posts';
       this.transactPost('delete');
     });
     EventBus.$on('editPost', feature => {
@@ -101,6 +105,7 @@ export default {
       this.postEditLayer.getSource().addFeature(clonedFeature);
       this.htmlContent = this.getHtml(feature.getProperties(), this.$appConfig.app.defaultLanguage, this.$i18n.locale);
       this.postFeature = clonedFeature;
+      this.postTable = fId.includes('.') ? fId.split('.')[0] : 'html_posts';
       this.editType = 'update';
       this.isEditingPost = true;
     });
@@ -134,6 +139,7 @@ export default {
       this.postEditLayer.getSource().clear();
       this.lastSelectedLayer = null;
       this.postFeature = null;
+      this.postTable = 'html_posts';
       this.isEditingPost = false;
       this.isEditingHtml = false;
     },
@@ -207,7 +213,7 @@ export default {
       const payload = {
         type,
         srid: '4326',
-        table: 'html_posts',
+        table: this.postTable,
         geometry: new GeoJSON().writeGeometryObject(feature.getGeometry().clone().transform('EPSG:3857', 'EPSG:4326')),
         featureId: feature.getId(),
         properties: {},
@@ -228,6 +234,7 @@ export default {
         };
         payload.originalProperties = this.postFeature.clone().getProperties();
       }
+      const targetTable = this.postTable;
       const formData = new FormData();
       formData.append('payload', JSON.stringify(payload));
       axios
@@ -245,10 +252,20 @@ export default {
               state: true,
             });
           }, 50);
-          const htmlPostLayer = this.layers.html_posts;
+          const htmlPostLayer = this.layers[targetTable];
           if (htmlPostLayer) {
             htmlPostLayer.getSource().refresh();
           }
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.error('transactPost failed', targetTable, err.response ? err.response.data : err);
+          this.toggleSnackbar({
+            type: 'error',
+            message: 'Could not save post',
+            timeout: 4000,
+            state: true,
+          });
         });
     },
     transactHtml(type) {
