@@ -319,7 +319,9 @@ export default {
                   f.id || JSON.stringify(f.geometry.coordinates)
                 }`,
                 subtitle:
-                  owners.length > 1 ? `${layerLabel} · ${this.groupRegionLabel(owner.group, owner.region)}` : layerLabel,
+                  owners.length > 1
+                    ? `${layerLabel} · ${this.groupRegionLabel(owner.group, owner.region)}`
+                    : layerLabel,
               });
             });
           });
