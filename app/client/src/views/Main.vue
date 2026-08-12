@@ -272,7 +272,11 @@
         class="mobile-map-viewer"
       ></app-viewer>
 
-      <div class="mobile-bottom-sheet" v-show="mobilePanelState">
+      <div
+        class="mobile-bottom-sheet"
+        v-show="mobilePanelState"
+        :style="`background-color:${$appConfig.app.sideBar.backgroundColor};color:${$appConfig.app.sideBar.textColor};`"
+      >
         <side-panel></side-panel>
         <button @click="closeAll()" class="close-btn-mobile-panel">✕</button>
       </div>
