@@ -8,6 +8,10 @@ const { v4: uuidv4 } = require('uuid');
 const moment = require("moment");
 const { translateContent } = require("../../utils.js")
 
+// Live posts and pre-existing (archived) posts live in separate tables with
+// different map-visibility rules, but share the same editing flow -- every
+// check that used to hardcode "html_posts" must accept either.
+const HTML_POST_TABLES = ["html_posts", "html_posts_archive"];
 
 exports.layer_post = async (req, res) => {
   permissionController.hasPermission(req, res, "edit_layers", async () => {
@@ -16,16 +20,19 @@ exports.layer_post = async (req, res) => {
     singleUpload(req, res, async function (err) {
       const payload = JSON.parse(req.body.payload);
       // Restrict update/delete/insert of all other layers on guest users.
-      if (decodedToken.roles.includes('guest_user') && payload.table !== "html_posts") {
+      if (decodedToken.roles.includes('guest_user') && !HTML_POST_TABLES.includes(payload.table)) {
         res.status(401);
         res.json("Action is not allowed for this user role!")
       }
       // Restrict update and delete of html_post to their own posts for guest and regular users.
       if (!decodedToken.roles.includes("admin_user") &&
         ["update", "delete"].includes(payload.type) &&
-        payload.table === "html_posts" &&
+        HTML_POST_TABLES.includes(payload.table) &&
         payload.properties.createdBy !== decodedToken.user.userID) {
-        const feature = await sequelize.query(`SELECT "createdBy" FROM html_posts WHERE id=$$${payload.featureId.split(".")[1]}$$`);
+        // Safe to interpolate payload.table here (not user-supplied SQL) --
+        // this branch is only reachable when it's already been checked
+        // against the HTML_POST_TABLES allowlist above.
+        const feature = await sequelize.query(`SELECT "createdBy" FROM ${payload.table} WHERE id=$$${payload.featureId.split(".")[1]}$$`);
         if (feature && feature[0] && feature[0].createdBy && feature[0].createdBy != decodedToken.user.userID) {
           res.status(401);
           res.json("Action is not allowed for this user role!")
@@ -54,8 +61,8 @@ exports.layer_post = async (req, res) => {
       if (payload.featureId) {
         if (typeof payload.featureId === "string") {
           featureId = payload.featureId.split(".")[1];
-          // Edge case for other  layers that don't have a uuid as PK 
-          if (!["html_posts"].includes(payload.table)) {
+          // Edge case for other  layers that don't have a uuid as PK
+          if (!HTML_POST_TABLES.includes(payload.table)) {
             featureId = parseInt(featureId);
           } else {
             featureId = `$$${featureId}$$`
@@ -71,7 +78,7 @@ exports.layer_post = async (req, res) => {
             if (payload.properties.hasOwnProperty("createdBy")) {
               payload.properties.createdBy = decodedToken.user.userID;
             }
-            if (["html_posts"].includes(payload.table)) {
+            if (HTML_POST_TABLES.includes(payload.table)) {
               payload.properties.id = uuidv4();
               if (payload.language) {
                 await translateContent(payload.language, payload.properties.html, "html", payload.properties)
@@ -119,7 +126,7 @@ exports.layer_post = async (req, res) => {
               delete payload.properties["createdBy"];
               delete payload.properties["createdAt"]
 
-              if (payload.language && ["html_posts"].includes(payload.table)) {
+              if (payload.language && HTML_POST_TABLES.includes(payload.table)) {
                 const originalProperties = payload.originalProperties;
                 if (originalProperties) {
                   for (let key in originalProperties) {

@@ -82,6 +82,11 @@ export default {
       },
       overlayersGarbageCollector: [],
       postTitle: '',
+      // WFS feature ids are formatted as `<table>.<pk>` -- this tracks which
+      // html_posts table (live vs archive) the current edit session targets,
+      // derived from the clicked feature's id, so saves/deletes hit the
+      // right table instead of always assuming the live one.
+      postTable: 'html_posts',
     };
   },
   created() {
@@ -91,6 +96,7 @@ export default {
         // eslint-disable-next-line prefer-destructuring
         fId = fId.split('clone.')[1];
       }
+      this.postTable = fId.split('.')[0];
       const clonedFeature = feature.clone();
       clonedFeature.setId(fId);
       this.postEditLayer.getSource().addFeature(clonedFeature);
@@ -102,6 +108,7 @@ export default {
         // eslint-disable-next-line prefer-destructuring
         fId = fId.split('clone.')[1];
       }
+      this.postTable = fId.split('.')[0];
       const clonedFeature = feature.clone();
       clonedFeature.setId(fId);
       this.postEditLayer.getSource().addFeature(clonedFeature);
@@ -127,6 +134,10 @@ export default {
         this.postFeature.set('icon', icon.iconUrl);
       }
       this.editType = 'insert';
+      // New posts always go to the live table -- there's no "insert into
+      // archive" flow, and this session may be reused after editing an
+      // archive post without an intervening cancel().
+      this.postTable = 'html_posts';
     },
     save() {
       if (this.isEditingPost) {
@@ -144,6 +155,7 @@ export default {
       this.postTitle = '';
       this.isEditingPost = false;
       this.isEditingHtml = false;
+      this.postTable = 'html_posts';
     },
     closeInteraction() {
       this.postEditLayer.getSource().clear();
@@ -216,7 +228,7 @@ export default {
       const payload = {
         type,
         srid: '4326',
-        table: 'html_posts',
+        table: this.postTable,
         geometry: new GeoJSON().writeGeometryObject(feature.getGeometry().clone().transform('EPSG:3857', 'EPSG:4326')),
         featureId: feature.getId(),
         properties: {},
@@ -249,6 +261,10 @@ export default {
           timeout: 30000,
         })
         .then(() => {
+          // Capture before cancel() resets postTable back to the default --
+          // the layer to refresh below must match whichever table this save
+          // actually targeted.
+          const savedTable = this.postTable;
           this.cancel();
           // Clear the popup's reference to the edited feature BEFORE refreshing
           // the layer's source -- refresh() clears the source's features
@@ -257,7 +273,7 @@ export default {
           // moment risks anything reading it hitting a feature that's already
           // been ripped out of its layer.
           EventBus.$emit('closePopupInfo');
-          const htmlPostLayer = this.layers.html_posts;
+          const htmlPostLayer = this.layers[savedTable];
           if (htmlPostLayer) {
             htmlPostLayer.getSource().refresh();
           }
