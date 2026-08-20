@@ -208,8 +208,7 @@
               <v-row>
                 <div
                   v-if="
-                    popup.activeFeature &&
-                    ['Point', 'MultiPoint'].includes(popup.activeFeature.getGeometry().getType())
+                    popup.activeFeature && ['Point', 'MultiPoint'].includes(popup.activeFeature.getGeometry().getType())
                   "
                 >
                   <v-tooltip right v-if="!previousMapPosition">
