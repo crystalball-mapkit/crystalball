@@ -222,7 +222,6 @@
           "strokeWidth": 0.0,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "hover",
-          "iconUrl": true,
           "scale": 1,
           "stylePropFnRef": {
             "iconUrl": "icon",

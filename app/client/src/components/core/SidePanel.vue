@@ -206,6 +206,27 @@
             <!-- EDIT POST BUTTONS -->
             <div v-if="isHtmlViewer" style="width: 100%">
               <v-row>
+                <div
+                  v-if="
+                    popup.activeFeature &&
+                    ['Point', 'MultiPoint'].includes(popup.activeFeature.getGeometry().getType())
+                  "
+                >
+                  <v-tooltip right v-if="!previousMapPosition">
+                    <template v-slot:activator="{on}">
+                      <v-btn v-on="on" @click="dive" icon class="ml-3">
+                        <v-icon small>fas fa-search-plus</v-icon>
+                      </v-btn> </template
+                    ><span>{{ $t('general.zoom') }}</span>
+                  </v-tooltip>
+                  <v-tooltip right v-else-if="previousMapPosition.zoom && previousMapPosition.center">
+                    <template v-slot:activator="{on}">
+                      <v-btn v-on="on" @click="back" icon class="ml-3">
+                        <v-icon small>fas fa-arrow-left</v-icon>
+                      </v-btn> </template
+                    ><span>{{ $t('general.back') }}</span>
+                  </v-tooltip>
+                </div>
                 <div v-if="canEditPost">
                   <v-tooltip right>
                     <template v-slot:activator="{on}">
