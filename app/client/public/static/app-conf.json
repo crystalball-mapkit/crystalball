@@ -239,7 +239,7 @@
         "legendIcon": "  ",
         "format": "GeoJSON",
         "legendDisplayName": "Cultural heritage",
-        "attributions": "Cultural Heritage @ <a href='https://geoportal.kulturnadobra.hr/geoportal.html'>Geoportal of Cultural Property, ", 
+        "attributions": "Cultural Heritage @ <a href='https://geoportal.kulturnadobra.hr/geoportal.html'>Geoportal of Cultural Property, ",
         "visible": true,
         "displaySidebarInfo": false,
         "zIndex": 100,
