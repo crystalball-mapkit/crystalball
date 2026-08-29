@@ -30,11 +30,18 @@ export function parseVideoUrl(url) {
     const videoId = url.split('https://vimeo.com/')[1];
     formattedUrl = `https://player.vimeo.com/video/${videoId}`;
   }
-  // FORMAT YOUTUBE VIDEO URL
-  if (url.includes('https://www.youtube.com/watch?v=')) {
+  // FORMAT YOUTUBE VIDEO URL (covers www./m. share links, not just www.)
+  if (url.includes('youtube.com/watch?v=')) {
     const urlObj = new URL(url);
     const videoId = urlObj.searchParams.get('v');
     urlObj.searchParams.delete('v');
+    const extraParams = urlObj.searchParams.toString();
+    formattedUrl = `https://www.youtube-nocookie.com/embed/${videoId}${extraParams ? `?${extraParams}` : ''}`;
+  } else if (url.includes('youtu.be/')) {
+    // Short link from YouTube's own "Share" button -- the video id is the
+    // path itself, not a query param.
+    const urlObj = new URL(url);
+    const videoId = urlObj.pathname.replace(/^\//, '');
     const extraParams = urlObj.searchParams.toString();
     formattedUrl = `https://www.youtube-nocookie.com/embed/${videoId}${extraParams ? `?${extraParams}` : ''}`;
   }

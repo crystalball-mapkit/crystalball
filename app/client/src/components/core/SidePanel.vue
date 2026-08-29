@@ -432,7 +432,7 @@
 import {mapGetters} from 'vuex';
 import {mapFields} from 'vuex-map-fields';
 import UrlUtil from '../../utils/Url';
-import {getHtml, getTitle} from '../../utils/Helpers';
+import {getHtml, getTitle, parseVideoUrl} from '../../utils/Helpers';
 import {SharedMethods} from '../../mixins/SharedMethods';
 import {EventBus} from '../../EventBus';
 import {formatPopupRows, getIframeUrl} from '../../utils/Layer';
@@ -631,14 +631,17 @@ export default {
       EventBus.$emit('editHtml', html);
     },
     renderMediaHtml(url) {
-      const videoPossibilities = ['youtube-nocookie.com', 'youtube.com', 'vimeo.com'];
+      const videoPossibilities = ['youtube-nocookie.com', 'youtube.com', 'youtu.be', 'vimeo.com'];
       let html = '';
       if (videoPossibilities.some(v => url.includes(v)) && !url.includes('iframe')) {
-        // Render as video
+        // Render as video. Normalize through parseVideoUrl even though save-time
+        // code already tries to do this -- older/legacy data can still hold a raw
+        // (non-embed) link, and YouTube refuses to be framed from a plain watch link.
+        const embedUrl = parseVideoUrl(url) || url;
         html = `<iframe
                       height="300"
                       width="100%"
-                      src="${url}"
+                      src="${embedUrl}"
                       frameborder="0"
                       allowfullscreen
                     ></iframe>`;

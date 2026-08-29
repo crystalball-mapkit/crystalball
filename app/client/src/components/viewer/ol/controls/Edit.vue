@@ -1223,14 +1223,19 @@ export default {
       }
 
       // Transform Video Url if exists
-      const videoPossibilities = ['youtube-nocookie.com', 'youtube.com', 'vimeo.com'];
+      const videoPossibilities = ['youtube-nocookie.com', 'youtube.com', 'youtu.be', 'vimeo.com'];
 
-      // For overlay video player
+      // For overlay video player. Fall back to the original value when the
+      // format isn't recognized -- parseVideoUrl returns undefined in that
+      // case, and undefined ends up as the bare word `undefined` in the raw
+      // SQL update string on the backend, which fails the whole statement
+      // (silently, since this save call has no .catch()) and leaves every
+      // property on the feature unsaved, not just this one.
       if (propsWithNoGeometry.vimeoSrc) {
-        propsWithNoGeometry.vimeoSrc = parseVideoUrl(propsWithNoGeometry.vimeoSrc);
+        propsWithNoGeometry.vimeoSrc = parseVideoUrl(propsWithNoGeometry.vimeoSrc) || propsWithNoGeometry.vimeoSrc;
       }
       if (propsWithNoGeometry.videoSrc) {
-        propsWithNoGeometry.videoSrc = parseVideoUrl(propsWithNoGeometry.videoSrc);
+        propsWithNoGeometry.videoSrc = parseVideoUrl(propsWithNoGeometry.videoSrc) || propsWithNoGeometry.videoSrc;
       }
 
       // For sidebar video player

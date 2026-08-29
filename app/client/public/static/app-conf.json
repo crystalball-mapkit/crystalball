@@ -56,11 +56,12 @@
         "name": "island_tiles",
         "group": "tools",
         "url": "https://conviviality.s3.us-east-2.amazonaws.com/tiles/isles_tiles/{z}/{x}/{y}.png",
+        "attributions": "Elevation and Orthophoto @ <a href='https://geoportal.dgu.hr'>State Geodetic Administration, </a>",
         "minResolution": 0.5972,
         "maxResolution": 64000,
         "displayInLegend": false,
         "legendDisplayName": "Dalmatian Islands",
-        "legendIcon": "https://midwayfair.s3.us-east-2.amazonaws.com/assets/icons/miss_icon.png",
+        "legendIcon": "",
         "displaySidebarInfo": false,
         "visible": true,
         "opacity": 1
@@ -158,18 +159,47 @@
         "queryable": true,
         "displayInLegend": true,
         "format": "GeoJSON",
-        "legendDisplayName": "videos",
+        "legendDisplayName": {
+          "en": "Videos",
+          "hr": "Videa"
+        },
         "legendIcon": "",
         "visible": true,
         "displaySidebarInfo": false,
         "zIndex": 100,
-        "minResolution": 0,
-        "maxResolution": 4000,
+        "minResolution": 0.2,
+        "maxResolution": 76.437,
         "label": true,
         "hoverable": true,
         "style": {
-          "iconUrl": "https://d1tebkag5evlz0.cloudfront.net/icons/1772598109614_blue_signet.png",
-          "scale": 0.3,
+          "iconUrl": "https://conviviality.s3.us-east-2.amazonaws.com/assets/icons/video.png",
+          "scale": 0.9,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "photos",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:photos&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "legendDisplayName": {
+          "en": "Photos",
+          "hr": "Fotke"
+        },
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 1000,
+        "minResolution": 0.2,
+        "maxResolution": 76.437,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://conviviality.s3.us-east-2.amazonaws.com/assets/icons/photo.png",
+          "scale": 0.9,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -209,6 +239,7 @@
         "legendIcon": "  ",
         "format": "GeoJSON",
         "legendDisplayName": "Cultural heritage",
+        "attributions": "Cultural Heritage @ <a href='https://geoportal.kulturnadobra.hr/geoportal.html'>Geoportal of Cultural Property, ", 
         "visible": true,
         "displaySidebarInfo": false,
         "zIndex": 100,
@@ -341,6 +372,8 @@
             "pois",
             "islands_culture",
             "html_posts_archive",
+            "videos",
+            "photos",
             "html_posts"
           ],
           "center": [16.654, 43.182],
