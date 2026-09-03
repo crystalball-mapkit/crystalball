@@ -336,8 +336,12 @@
       </v-card>
     </v-bottom-sheet>
 
-    <!-- Hint shown only while dragging is possible (editing an existing post) -->
-    <v-snackbar :value="isEditingPost && postEditType === 'update'" :timeout="-1" bottom>
+    <!-- Hint shown only while dragging is possible (editing an existing post). Hidden on mobile, where it covers the save button. -->
+    <v-snackbar
+      :value="isEditingPost && postEditType === 'update' && !$vuetify.breakpoint.smAndDown"
+      :timeout="-1"
+      bottom
+    >
       <v-icon color="white" class="mr-3">open_with</v-icon>
       {{ $t('form.htmlPostEditor.dragMarkerHint') }}
     </v-snackbar>
