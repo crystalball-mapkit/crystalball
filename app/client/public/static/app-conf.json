@@ -46,32 +46,10 @@
     "zoom": 1,
     "geoserverWorkspace": "workspace1",
     "resolutions": [
-      156543.03,
-      78271.52,
-      39135.76,
-      19567.88,
-      9783.94,
-      4891.97,
-      2445.98,
-      1222.99,
-      611.5,
-      305.75,
-      152.87,
-      76.437,
-      38.219,
-      19.109,
-      9.5546,
-      4.7773,
-      2.3887,
-      1.1943,
-      0.5972,
-      0.2986,
-      0.1493
+      156543.03, 78271.52, 39135.76, 19567.88, 9783.94, 4891.97, 2445.98, 1222.99, 611.5, 305.75, 152.87, 76.437,
+      38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972, 0.2986, 0.1493
     ],
-    "center": [
-      0,
-      0
-    ],
+    "center": [0, 0],
     "minResolution": 0.1493,
     "maxResolution": 64000,
     "layers": [
@@ -463,22 +441,11 @@
     "groups": {
       "media": {
         "default": {
-          "layers": [
-            "Mapbox_Streets",
-            "ESRI-World-Imagery2",
-            "vias2021",
-            "html_posts"
-          ],
-          "center": [
-            -72.90,
-            7.286
-          ],
+          "layers": ["Mapbox_Streets", "ESRI-World-Imagery2", "vias2021", "html_posts"],
+          "center": [-72.9, 7.286],
           "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [
-            -72.90,
-            7.286
-          ],
+          "mobileCenter": [-72.9, 7.286],
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -501,22 +468,11 @@
       },
       "participatico": {
         "default": {
-          "layers": [
-            "Mapbox_Streets",
-            "photos",
-            "videos",
-            "html_posts"
-          ],
-          "center": [
-            -72.90,
-            7.286
-          ],
+          "layers": ["Mapbox_Streets", "photos", "videos", "html_posts"],
+          "center": [-72.9, 7.286],
           "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [
-            -72.90,
-            7.286
-          ],
+          "mobileCenter": [-72.9, 7.286],
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -539,20 +495,11 @@
       },
       "NFT": {
         "default": {
-          "layers": [
-            "Mapbox_Streets",
-            "html_posts"      
-          ],
-          "center": [
-            -72.90,
-            7.286
-          ],
+          "layers": ["Mapbox_Streets", "html_posts"],
+          "center": [-72.9, 7.286],
           "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [
-            -72.90,
-            7.286
-          ],
+          "mobileCenter": [-72.9, 7.286],
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -577,9 +524,7 @@
     "flyToSlideshow": {
       "delayInSecondsForInitialStart": 9000000,
       "delayInSecondsBetweenFrames": 120000,
-      "maplinks": [
-        ""
-      ]
+      "maplinks": [""]
     },
     "defaultActiveGroup": "media",
     "groupTitles": {
