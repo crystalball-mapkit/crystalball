@@ -93,7 +93,7 @@
           </v-list>
         </v-menu>
 
-        <!--    <template
+        <template
           v-if="($appConfig.app.navbar && $appConfig.app.navbar.dropdownMenu !== true) || !$appConfig.app.navbar"
         >
           <div v-for="(navbarGroup, index) in navbarGroups" :key="index">
@@ -116,7 +116,7 @@
               }}
             </v-btn>
           </div>
-        </template> -->
+        </template>
 
         <v-spacer></v-spacer>
 
