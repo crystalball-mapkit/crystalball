@@ -120,10 +120,10 @@
         popup.activeFeature
           ? popup.activeFeature.get('category') ||
             popup.activeFeature.get('kd_naziv') ||
-            popup.activeFeature.get('title')
+            getTitle(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale)
             ? popup.activeFeature.get('category') ||
               popup.activeFeature.get('kd_naziv') ||
-              popup.activeFeature.get('title')
+              getTitle(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale)
             : popup.activeLayer
             ? popup.activeLayer.get('name')
             : ''
@@ -244,7 +244,7 @@ let _slideshowHasNavigated = false; // carries hasNavigated flag across map-slid
 
 // utils imports
 import {LayerFactory} from '../../../factory/OlLayer';
-import {isCssColor, debounce, Timer} from '../../../utils/Helpers';
+import {isCssColor, debounce, Timer, getTitle} from '../../../utils/Helpers';
 import {extractGeoserverLayerNames, wfsRequestParser, getLayerSourceUrl} from '../../../utils/Layer';
 import UrlUtil from '../../../utils/Url';
 import {geojsonToFeature} from '../../../utils/MapUtils';
@@ -464,6 +464,7 @@ export default {
   },
 
   methods: {
+    getTitle,
     resetAfterSlide() {
       if (this.slideshow.isRunning) {
         this.slideshow.isRunning = false;
@@ -958,6 +959,10 @@ export default {
             afUsedIrrRawValue !== null && afUsedIrrRawValue !== undefined && afUsedIrrRawValue !== ''
               ? `${Number(afUsedIrrRawValue).toLocaleString()} acre-feet`
               : null;
+          // html_posts (and similar) keep translations in a `titleTranslations` sibling field
+          // rather than the unified `translations` blob handled below - resolve it the same
+          // way the sidebar popup does, so the hover label matches what the popup shows.
+          const translatedTitle = getTitle(props, this.$appConfig.app.defaultLanguage, this.$i18n.locale);
 
           if (feature.get('translations')) {
             const translations = JSON.parse(feature.get('translations'));
@@ -977,7 +982,7 @@ export default {
               feature.get('hoverAttribute') ||
               feature.get('kd_naziv') ||
               feature.get('kd_title') ||
-              feature.get('title') ||
+              translatedTitle ||
               feature.get('entity') ||
               feature.get('venue') ||
               afUsedIrrValue ||
@@ -987,7 +992,7 @@ export default {
               feature.get('hoverAttribute') ||
               feature.get('kd_naziv') ||
               feature.get('kd_title') ||
-              feature.get('title') ||
+              translatedTitle ||
               feature.get('entity') ||
               feature.get('venue') ||
               afUsedIrrValue ||

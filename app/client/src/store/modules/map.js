@@ -55,6 +55,10 @@ const state = {
   analysisIframeUrl: null,
   isSeriesPlaying: false,
   lastSelectedLayer: null, // triggered from layer or group change
+  searchTerm: '', // last term selected in the map search - used to highlight matches in the sidebar
+  // Which surface `searchTerm` should be highlighted on ('feature' | 'sidebarHtml' | null) - a result
+  // of one kind shouldn't light up unrelated text that happens to already be showing in the sidebar.
+  searchHighlightTarget: null,
   slideshowUserStopped: false,
   currentResolution: null,
   mobilePanelState: true,

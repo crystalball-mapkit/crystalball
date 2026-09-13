@@ -116,7 +116,6 @@ export default {
     ],
     languageCodes: {
       en: 'English',
-      hr: 'Hrvatski',
       de: 'Deutsch',
       fr: 'Français',
       es: 'Español',

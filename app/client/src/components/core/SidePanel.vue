@@ -98,12 +98,24 @@
                         <p
                           v-if="lastSelectedLayer && sidebarHtml.layers"
                           v-html="
-                            getHtml(sidebarHtml.layers[lastSelectedLayer], $appConfig.app.defaultLanguage, $i18n.locale)
+                            highlightHtml(
+                              getHtml(
+                                sidebarHtml.layers[lastSelectedLayer],
+                                $appConfig.app.defaultLanguage,
+                                $i18n.locale
+                              ),
+                              sidebarSearchTerm
+                            )
                           "
                         ></p>
                         <p
                           v-else-if="sidebarHtml.groups && sidebarHtml.groups[groupName]"
-                          v-html="getHtml(sidebarHtml.groups[groupName], $appConfig.app.defaultLanguage, $i18n.locale)"
+                          v-html="
+                            highlightHtml(
+                              getHtml(sidebarHtml.groups[groupName], $appConfig.app.defaultLanguage, $i18n.locale),
+                              sidebarSearchTerm
+                            )
+                          "
                         ></p>
                       </v-col>
                     </v-row>
@@ -164,9 +176,12 @@
                             popup.activeLayer,
                             translations && translations[$i18n.locale] && translations[$i18n.locale]['keys']
                           )}: </strong>` +
-                          (translations && translations[$i18n.locale]
-                            ? translations[$i18n.locale][item.property] || item.value
-                            : item.value)
+                          highlightHtml(
+                            translations && translations[$i18n.locale]
+                              ? translations[$i18n.locale][item.property] || item.value
+                              : item.value,
+                            featureSearchTerm
+                          )
                         "
                       ></span>
                     </div>
@@ -284,11 +299,20 @@
                 <h3
                   v-if="getTitle(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale)"
                   class="mb-1"
-                >
-                  {{ getTitle(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale) }}
-                </h3>
+                  v-html="
+                    highlightHtml(
+                      getTitle(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale),
+                      featureSearchTerm
+                    )
+                  "
+                ></h3>
                 <span
-                  v-html="getHtml(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale)"
+                  v-html="
+                    highlightHtml(
+                      getHtml(popup.activeFeature.getProperties(), $appConfig.app.defaultLanguage, $i18n.locale),
+                      featureSearchTerm
+                    )
+                  "
                 ></span>
               </div>
             </div>
@@ -432,7 +456,7 @@
 import {mapGetters} from 'vuex';
 import {mapFields} from 'vuex-map-fields';
 import UrlUtil from '../../utils/Url';
-import {getHtml, getTitle, parseVideoUrl} from '../../utils/Helpers';
+import {getHtml, getTitle, highlightHtml, parseVideoUrl} from '../../utils/Helpers';
 import {SharedMethods} from '../../mixins/SharedMethods';
 import {EventBus} from '../../EventBus';
 import {formatPopupRows, getIframeUrl} from '../../utils/Layer';
@@ -564,6 +588,14 @@ export default {
       }
       return false;
     },
+    // A search result only highlights the surface it actually matched on - selecting a
+    // post shouldn't also light up an unrelated word in the sidebar's group description.
+    sidebarSearchTerm() {
+      return this.searchHighlightTarget === 'sidebarHtml' ? this.searchTerm : '';
+    },
+    featureSearchTerm() {
+      return this.searchHighlightTarget === 'feature' ? this.searchTerm : '';
+    },
     ...mapGetters('map', {
       map: 'map',
       activeLayerGroup: 'activeLayerGroup',
@@ -595,6 +627,8 @@ export default {
       editType: 'editType',
       selectedLayer: 'selectedLayer',
       analysisIframeUrl: 'analysisIframeUrl',
+      searchTerm: 'searchTerm',
+      searchHighlightTarget: 'searchHighlightTarget',
     }),
     ...mapGetters('auth', {
       loggedUser: 'loggedUser',
@@ -604,6 +638,7 @@ export default {
     formatPopupRows,
     getHtml,
     getTitle,
+    highlightHtml,
     parseUrl(url) {
       return UrlUtil.parseUrl(url);
     },

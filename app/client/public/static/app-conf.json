@@ -106,15 +106,14 @@
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
+        "searchableColumns": ["title", "descriptivo"],
         "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
           "type": "circle",
-          "radius": 8,
-          "strokeWidth": 2,
-          "stylePropFnRef": {
-            "strokeColor": "variable1",
-            "fillColor": "variable2"
-          },
+          "radius": 6,
+          "strokeWidth": 1,
+          "strokeColor": "black",
+          "fillColor": "green",
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -152,8 +151,8 @@
       },
       {
         "type": "VECTOR",
-        "name": "areas_protegidas",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:areas_protegidas&outputFormat=application/json&srsname=EPSG:3857",
+        "name": "polygons",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:polygons&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
         "queryable": true,
         "format": "GeoJSON",
@@ -162,22 +161,23 @@
         "displaySidebarInfo": true,
         "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/polygon.png",
         "legendDisplayName": {
-          "en": "Protected Areas",
-          "es": "Areas protegidas",
-          "pt": "Areas protegidas"
+          "en": "Polygons",
+          "es": "Polígonos",
+          "pt": "Polígonos"
         },
         "zIndex": 1000,
         "minResolution": 1,
         "maxResolution": 64000,
-        "opacity": 0.25,
+        "opacity": 1,
         "label": null,
+        "searchableColumns": ["title", "descriptivo", "translations"],
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
-          "strokeColor": "0, 0, 100, 0.5",
-          "fillColor": "blue",
-          "strokeWidth": 3
+          "strokeColor": "white",
+          "fillColor": "violet",
+          "strokeWidth": 2
         }
       },
       {
@@ -284,39 +284,6 @@
           "pt": "OpenStreetMap"
         },
         "visible": true
-      },
-      {
-        "type": "VECTORTILE",
-        "name": "burnables3",
-        "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:burnables3@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
-        "group": "data",
-        "queryable": true,
-        "displayInLegend": true,
-        "legendDisplayName": {
-          "en": "Global Power",
-          "es": "Poder global",
-          "pt": "Poder global"
-        },
-        "format": "MVT",
-        "renderMode": "hybrid",
-        "visible": true,
-        "zIndex": 100,
-        "minResolution": 1,
-        "maxResolution": 64000,
-        "hoverable": true,
-        "style": {
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "black",
-          "type": "circle",
-          "stylePropFnRef": {
-            "radius": "variable2",
-            "fillColor": "variable2",
-            "fillColorFn": "colorMapStyle",
-            "fillColorMap": "jet"
-          },
-          "strokeColor": "#ffffff",
-          "strokeWidth": 0.4
-        }
       },
       {
         "type": "XYZ",
@@ -430,7 +397,8 @@
         "maxResolution": 64000,
         "label": null,
         "hoverable": true,
-        "canEdit": true,
+        "canEdit": false,
+        "searchableColumns": ["title", "html", "titleTranslations", "htmlTranslations"],
         "style": {
           "styleRef": "htmlLayerStyle",
           "hoverTextColor": "white",
@@ -441,7 +409,7 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["Mapbox_Streets", "ESRI-World-Imagery2", "vias2021", "html_posts"],
+          "layers": ["Mapbox_Streets", "ESRI-World-Imagery2", "vias2021", "points", "html_posts"],
           "center": [-72.9, 7.286],
           "resolution": 32,
           "mobileResolution": 120,
@@ -468,7 +436,7 @@
       },
       "participatico": {
         "default": {
-          "layers": ["Mapbox_Streets", "photos", "videos", "html_posts"],
+          "layers": ["Mapbox_Streets", "photos", "videos", "polygons", "html_posts"],
           "center": [-72.9, 7.286],
           "resolution": 32,
           "mobileResolution": 120,
@@ -495,7 +463,7 @@
       },
       "NFT": {
         "default": {
-          "layers": ["Mapbox_Streets", "html_posts"],
+          "layers": ["Mapbox_Streets", "points", "html_posts"],
           "center": [-72.9, 7.286],
           "resolution": 32,
           "mobileResolution": 120,

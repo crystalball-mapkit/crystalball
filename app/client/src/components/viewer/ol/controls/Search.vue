@@ -78,16 +78,17 @@
 </template>
 <script>
 import axios from 'axios';
-import {fromLonLat} from 'ol/proj';
-import {boundingExtent} from 'ol/extent';
+import {fromLonLat, toLonLat} from 'ol/proj';
+import {boundingExtent, getCenter} from 'ol/extent';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import {mapGetters} from 'vuex';
+import {mapFields} from 'vuex-map-fields';
 import {getSearchHighlightStyle} from '../../../../style/OlStyleDefs';
 import {geojsonToFeature} from '../../../../utils/MapUtils';
-import {debounce} from '../../../../utils/Helpers';
+import {debounce, stripHtml} from '../../../../utils/Helpers';
 import {EventBus} from '../../../../EventBus';
 
 export default {
@@ -104,6 +105,13 @@ export default {
       search: null,
       isLoading: false,
       highlightLayer: null,
+      searchSeq: 0,
+      // The literal text that produced the current results - unlike `search`, this doesn't
+      // get overwritten when v-autocomplete swaps the input display to the selected item's label.
+      lastQueryTerm: null,
+      // Set right before we restore `search` after a selection, so that restore doesn't
+      // itself re-trigger the search watcher a debounce cycle later.
+      suppressNextSearch: false,
     };
   },
   name: 'search',
@@ -128,15 +136,174 @@ export default {
       const r = typeof regionTitle === 'object' ? regionTitle[this.$i18n.locale] || regionTitle.en : regionTitle;
       return [g, r].filter(Boolean).join(' / ');
     },
+    // sidebarHtml.groups is keyed by `${navbarGroup}_${region}` (see store/modules/map.js groupName getter) -
+    // reverse that back into the {group, region} pair it was built from.
+    findGroupRoute(groupKey) {
+      const groups = this.$appConfig.map.groups || {};
+      for (const group of Object.keys(groups)) {
+        for (const region of Object.keys(groups[group])) {
+          if (`${group}_${region}` === groupKey) return {group, region};
+        }
+      }
+      return null;
+    },
+    // A short excerpt of plain text around the first match, for display under the result title.
+    // The subtitle renders as a single truncated line, so keep the match near the front -
+    // too much lead-in text and the CSS ellipsis cuts the line off before reaching it.
+    buildSnippet(text, termLower) {
+      const index = text.toLowerCase().indexOf(termLower);
+      if (index === -1) return text.slice(0, 100);
+      const start = Math.max(0, index - 15);
+      const end = Math.min(text.length, index + termLower.length + 60);
+      return `${start > 0 ? '…' : ''}${text.slice(start, end)}${end < text.length ? '…' : ''}`;
+    },
+    // sidebarHtml (group/layer description text) is loaded entirely client-side at startup -
+    // no request needed, just a plain-text scan over what's already in the app store.
+    searchSidebarHtml(termLower) {
+      const results = [];
+      const matches = content => {
+        if (!content) return false;
+        const texts = [stripHtml(content.html)];
+        const translations =
+          typeof content.htmlTranslations === 'string'
+            ? JSON.parse(content.htmlTranslations || '{}')
+            : content.htmlTranslations || {};
+        Object.values(translations).forEach(t => texts.push(stripHtml(t)));
+        return texts.find(t => t.toLowerCase().includes(termLower));
+      };
+
+      Object.entries(this.sidebarHtml.layers || {}).forEach(([layerName, content]) => {
+        const matchedText = matches(content);
+        if (!matchedText) return;
+        const layerConf = (this.$appConfig.map.layers || []).find(l => l.name === layerName);
+        const layerLabel =
+          typeof layerConf?.legendDisplayName === 'object'
+            ? layerConf.legendDisplayName[this.$i18n.locale] || layerConf.legendDisplayName.en || layerName
+            : layerConf?.legendDisplayName || layerName;
+        const owners = this.findOwningRegions(layerName);
+        const snippet = this.buildSnippet(matchedText, termLower);
+        (owners.length ? owners : [null]).forEach(owner => {
+          results.push({
+            display_name: layerLabel,
+            subtitle:
+              owner && owners.length > 1 ? `${snippet} · ${this.groupRegionLabel(owner.group, owner.region)}` : snippet,
+            _type: 'sidebarHtml',
+            _key: `sidebarlayer-${layerName}-${owner ? `${owner.group}-${owner.region}` : 'x'}`,
+            _group: owner?.group,
+            _region: owner?.region,
+            _selectedLayer: layerName,
+          });
+        });
+      });
+
+      Object.entries(this.sidebarHtml.groups || {}).forEach(([groupKey, content]) => {
+        const matchedText = matches(content);
+        if (!matchedText) return;
+        const route = this.findGroupRoute(groupKey);
+        if (!route) return;
+        results.push({
+          display_name: this.groupRegionLabel(route.group, route.region) || groupKey,
+          subtitle: this.buildSnippet(matchedText, termLower),
+          _type: 'sidebarHtml',
+          _key: `sidebargroup-${groupKey}`,
+          _group: route.group,
+          _region: route.region,
+          _selectedLayer: null,
+        });
+      });
+
+      return results;
+    },
+    // Every layer OL actually rendered, OL layer groups included - mirrors ShareMap.vue's
+    // own findLayerByName, needed here to re-open the popup for a feature found via search.
+    findLayerByName(name, layers) {
+      for (const layer of layers) {
+        if (layer.get('name') === name) return layer;
+        if (layer.getLayers) {
+          const found = this.findLayerByName(name, layer.getLayers().getArray());
+          if (found) return found;
+        }
+      }
+      return null;
+    },
+    // Reconstructs the OL feature from the properties/geometry the WFS search already fetched -
+    // no extra request needed. `f.geometry.coordinates` is only a flat [lon, lat] pair for
+    // Points; Polygons/LineStrings nest coordinates several levels deep, so everything here
+    // works off the parsed feature's geometry/extent instead of assuming a Point shape.
+    buildFeatureFromModel() {
+      const olFeature = geojsonToFeature(
+        {type: 'Feature', geometry: this.model._geometry, properties: this.model._properties},
+        {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'}
+      )[0];
+      if (this.model._id) olFeature.setId(`clone.${this.model._id}`);
+      return olFeature;
+    },
     highlightFeature() {
       this.highlightLayer.getSource().clear();
-      const [lon, lat] = this.model._coords;
-      const coord = fromLonLat([lon, lat]);
-      this.highlightLayer.getSource().addFeature(new Feature(new Point(coord)));
-      this.map.getView().animate({center: coord, zoom: 14, duration: 1000});
+      const olFeature = this.buildFeatureFromModel();
+      this.highlightLayer.getSource().addFeature(olFeature.clone());
+      this.map.getView().fit(olFeature.getGeometry().getExtent(), {
+        maxZoom: 14,
+        duration: 1000,
+        callback: () => this.map.render(),
+      });
+
+      // Open the same title/html popup a real click on this feature would show.
+      const targetLayer = this.findLayerByName(this.model._layerName, this.map.getLayers().getArray());
+      if (targetLayer) {
+        // A previously-open popup (from an earlier search selection, or a raw map click)
+        // otherwise lingers - closing it first is what makes reopening a new one reliable.
+        EventBus.$emit('closePopupInfo');
+        this.popup.activeLayer = targetLayer;
+        this.popup.activeFeature = olFeature;
+        this.popup.showInSidePanel = true;
+        this.sidebarState = true;
+        this.searchHighlightTarget = 'feature';
+      }
     },
     zoomToLocation() {
       if (!this.search || !this.model) return;
+      this.searchTerm = this.lastQueryTerm;
+
+      // v-autocomplete swaps the visible input to the selected item's own label once
+      // `model` changes - put the user's actual query back so it doesn't look like their
+      // search silently turned into the result's title. Vuetify applies that swap in its
+      // own watcher, a tick after ours, so $nextTick alone isn't late enough to win.
+      this.suppressNextSearch = true;
+      setTimeout(() => {
+        this.search = this.lastQueryTerm;
+      }, 0);
+
+      if (this.model._type === 'sidebarHtml') {
+        // No coordinates to fly to - this is page-level description text, not a mapped
+        // feature. Navigate to the owning page (if needed) and open the sidebar on it,
+        // the same way `?selectedLayer=` deep links already do (see ShareMap.vue).
+        const {_group: targetGroup, _region: targetRegion, _selectedLayer: selectedLayer} = this.model;
+        const applyState = () => {
+          // A feature popup (if one's open) takes over this same panel and hides the
+          // group/layer text entirely (see isFeatureGetInfo) - close it first so the page
+          // we're navigating to is actually visible.
+          EventBus.$emit('closePopupInfo');
+          this.lastSelectedLayer = selectedLayer || null;
+          this.sidebarState = true;
+          this.searchHighlightTarget = 'sidebarHtml';
+        };
+        const needsNavigation =
+          targetGroup &&
+          targetRegion &&
+          (targetGroup !== this.activeLayerGroup?.navbarGroup || targetRegion !== this.activeLayerGroup?.region);
+
+        if (needsNavigation) {
+          // vue-router 3.0.1 (pinned in package.json) predates promise-returning push() -
+          // it returns undefined here, so an unconditional .catch() throws.
+          const nav = this.$router.push({path: `/${targetGroup}/${targetRegion}`});
+          if (nav && nav.catch) nav.catch(() => {});
+          EventBus.$once('group-changed', applyState);
+          return;
+        }
+        applyState();
+        return;
+      }
 
       if (this.model._type === 'feature') {
         const {_group: targetGroup, _region: targetRegion} = this.model;
@@ -146,17 +313,19 @@ export default {
           (targetGroup !== this.activeLayerGroup?.navbarGroup || targetRegion !== this.activeLayerGroup?.region);
 
         if (needsNavigation) {
-          const [lon, lat] = this.model._coords;
           // ShareMap.vue's own $route watcher re-applies ?center=&zoom= on every navigation;
           // a bare path push drops those params, so it races to recapture a stale position
           // and can snap the view away right after we zoom. Feed it the right answer instead
-          // (same "lat,lon" format ShareMap itself writes) so there's nothing to race.
-          this.$router
-            .push({
-              path: `/${targetGroup}/${targetRegion}`,
-              query: {center: `${lat.toFixed(3)},${lon.toFixed(3)}`, zoom: '14.000'},
-            })
-            .catch(() => {});
+          // (same "lat,lon" format ShareMap itself writes) so there's nothing to race. The
+          // geometry's own extent center works for any geometry type, not just Points.
+          const [lon, lat] = toLonLat(getCenter(this.buildFeatureFromModel().getGeometry().getExtent()));
+          // vue-router 3.0.1 (pinned in package.json) predates promise-returning push() -
+          // it returns undefined here, so an unconditional .catch() throws.
+          const nav = this.$router.push({
+            path: `/${targetGroup}/${targetRegion}`,
+            query: {center: `${lat.toFixed(3)},${lon.toFixed(3)}`, zoom: '14.000'},
+          });
+          if (nav && nav.catch) nav.catch(() => {});
           // Map.vue rebuilds the layer stack asynchronously after the route change;
           // it signals completion with this event.
           EventBus.$once('group-changed', () => this.highlightFeature());
@@ -193,6 +362,8 @@ export default {
     },
     clearSearch() {
       this.entries = [];
+      this.searchTerm = '';
+      this.searchHighlightTarget = null;
       this.highlightLayer.getSource().clear();
     },
     closeSearch() {
@@ -203,6 +374,18 @@ export default {
   computed: {
     ...mapGetters('map', {
       activeLayerGroup: 'activeLayerGroup',
+    }),
+    ...mapGetters('app', {
+      sidebarHtml: 'sidebarHtml',
+    }),
+    ...mapFields('app', {
+      sidebarState: 'sidebarState',
+    }),
+    ...mapFields('map', {
+      lastSelectedLayer: 'lastSelectedLayer',
+      searchTerm: 'searchTerm',
+      searchHighlightTarget: 'searchHighlightTarget',
+      popup: 'popup',
     }),
     items() {
       const places = this.entries
@@ -215,30 +398,41 @@ export default {
         });
 
       const features = this.entries.filter(e => e._type === 'feature');
+      const pages = this.entries.filter(e => e._type === 'sidebarHtml');
 
       const result = [];
       if (places.length) {
-        result.push({header: 'Places', disabled: true});
+        result.push({header: this.$t('general.places'), disabled: true});
         result.push(...places);
       }
       if (features.length) {
-        result.push({header: 'Features', disabled: true});
+        result.push({header: this.$t('general.features'), disabled: true});
         result.push(...features);
+      }
+      if (pages.length) {
+        result.push({header: this.$t('general.pages'), disabled: true});
+        result.push(...pages);
       }
       return result;
     },
   },
   watch: {
     search: debounce(function () {
+      if (this.suppressNextSearch) {
+        this.suppressNextSearch = false;
+        return;
+      }
       if (!this.search) {
         this.clearSearch();
         return;
       }
-      if (this.isLoading) return;
       this.isLoading = true;
+      this.searchSeq += 1;
+      const searchId = this.searchSeq;
 
       const term = this.search;
       const termLower = term.toLowerCase();
+      this.lastQueryTerm = term;
 
       const searchableLayers = (this.$appConfig.map.layers || []).filter(
         l => l.searchableColumns && l.searchableColumns.length && l.url
@@ -277,6 +471,10 @@ export default {
       });
 
       Promise.allSettled([nominatimReq, ...wfsRequests]).then(([nominatimResult, ...wfsResults]) => {
+        // A later keystroke may have started a newer search before this one's requests
+        // settled - don't let stale results overwrite it.
+        if (searchId !== this.searchSeq) return;
+
         const places =
           nominatimResult.status === 'fulfilled'
             ? nominatimResult.value.data.map(item => ({...item, _type: 'place', _key: `place-${item.place_id}`}))
@@ -308,18 +506,27 @@ export default {
           const rankedFeatures = [...(result.value.data.features || [])].sort((a, b) => matchRank(a) - matchRank(b));
           rankedFeatures.forEach(f => {
             if (!f.geometry || !f.geometry.coordinates) return;
-            targets.forEach(owner => {
+            // Some layers (e.g. html_posts) hold every page's posts in one shared table and
+            // only ever display a given feature on the page whose navbarGroup matches its own
+            // `group` property (see htmlLayerStyle in OlStyleDefs.js) - a post tagged "media"
+            // never actually shows up on the "NFT" page, so don't list it there either.
+            const featureTargets =
+              owners.length && f.properties.group ? owners.filter(o => o.group === f.properties.group) : targets;
+            featureTargets.forEach(owner => {
               features.push({
                 display_name: f.properties.title,
                 _type: 'feature',
-                _coords: f.geometry.coordinates,
+                _geometry: f.geometry,
+                _properties: f.properties,
+                _id: f.id,
+                _layerName: layer.name,
                 _group: owner?.group,
                 _region: owner?.region,
                 _key: `feature-${layer.name}-${owner ? `${owner.group}-${owner.region}` : 'x'}-${
                   f.id || JSON.stringify(f.geometry.coordinates)
                 }`,
                 subtitle:
-                  owners.length > 1
+                  featureTargets.length > 1
                     ? `${layerLabel} · ${this.groupRegionLabel(owner.group, owner.region)}`
                     : layerLabel,
               });
@@ -327,7 +534,9 @@ export default {
           });
         });
 
-        this.entries = [...places, ...features];
+        const pages = this.searchSidebarHtml(termLower);
+
+        this.entries = [...places, ...features, ...pages];
         this.isLoading = false;
       });
     }, 500),

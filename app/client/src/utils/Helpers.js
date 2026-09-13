@@ -195,6 +195,37 @@ export function getTitle(content, defaultLanguage, currentLanguage) {
   return getTranslatedField(content, 'title', defaultLanguage, currentLanguage);
 }
 
+export function stripHtml(html) {
+  if (!html) return '';
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
+}
+
+// Wraps every occurrence of `term` in <mark> tags, walking text nodes only so
+// tags/attributes in `html` (or a plain string passed in) are never touched.
+export function highlightHtml(html, term) {
+  if (!html) return html;
+  if (!term) return html;
+  const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`(${escapedTerm})`, 'ig');
+  const doc = new DOMParser().parseFromString(String(html), 'text/html');
+
+  const walk = node => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      if (!regex.test(node.textContent)) return;
+      regex.lastIndex = 0;
+      const span = doc.createElement('span');
+      span.innerHTML = node.textContent.replace(regex, '<mark class="search-highlight">$1</mark>');
+      node.replaceWith(...span.childNodes);
+    } else {
+      Array.from(node.childNodes).forEach(walk);
+    }
+  };
+  walk(doc.body);
+
+  return doc.body.innerHTML;
+}
+
 export function deepMerge(obj1, obj2) {
   for (const key in obj2) {
     if (obj2.hasOwnProperty(key)) {
