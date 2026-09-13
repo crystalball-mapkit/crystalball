@@ -11,7 +11,7 @@ const vuetify = new Vuetify({
     themes: {
       light: {
         anchor: '#67BC55',
-        black: '#000000',
+        black: '#003A4F',
         purple: '#CF00E8',
       },
     },

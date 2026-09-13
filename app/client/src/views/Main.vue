@@ -44,7 +44,7 @@
           }}
         </v-toolbar-title>
 
-        <v-btn small depressed fab color="#B16E45" class="ml-0" @click="goToHome()"
+        <v-btn small depressed fab color="black" class="ml-0" @click="goToHome()"
           ><v-icon small>fas fa-home</v-icon></v-btn
         >
 
@@ -105,7 +105,7 @@
               :color="activeLayerGroup.navbarGroup === navbarGroup.name ? 'white' : color.primary"
               :class="{
                 'elevation-0': activeLayerGroup.navbarGroup !== navbarGroup.name,
-                'font-weight-bold purple--text': activeLayerGroup.navbarGroup === navbarGroup.name,
+                'font-weight-bold black--text': activeLayerGroup.navbarGroup === navbarGroup.name,
                 'elevation-0': activeLayerGroup.navbarGroup === navbarGroup.name,
               }"
             >
@@ -120,7 +120,7 @@
 
         <v-spacer></v-spacer>
 
-        <span class="title pr-5 #B16E45--text">{{
+        <span class="title pr-5">{{
           $appConfig.app.tagline[$i18n.locale] ||
           (typeof $appConfig.app.tagline === 'object' && Object.values($appConfig.app.tagline)[0]) ||
           $appConfig.app.tagline ||
@@ -143,7 +143,7 @@
           </v-list>
         </v-menu>
         <v-btn icon @click.stop="sidebarState = !sidebarState">
-          <v-icon medium color="#B16E45">{{ sidebarState ? '$close' : '$menu' }}</v-icon>
+          <v-icon medium :color="color.primary">{{ sidebarState ? '$close' : '$menu' }}</v-icon>
         </v-btn>
       </v-app-bar>
 

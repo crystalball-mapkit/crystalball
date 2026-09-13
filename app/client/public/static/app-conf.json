@@ -10,11 +10,12 @@
     "defaultLanguage": "es",
     "color": {
       "primary": "#16a6a3",
-      "secondary": "#034756"
+      "secondary": "#034756",
+      "link": "#16a6a3"
     },
     "font": {
-      "url": "https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap",
-      "family": "Roboto"
+      "url": "https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;700&display=swap",
+      "family": "Open+Sans"
     },
     "legend": {
       "isVisible": false
@@ -31,7 +32,7 @@
     },
     "navbar": {
       "dropdownMenu": false,
-      "titleColor": "#FFE9C6"
+      "titleColor": "#ffffff"
     },
     "customNavigationScheme": "1",
     "spotlightMessage": {
