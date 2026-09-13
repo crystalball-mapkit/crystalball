@@ -88,7 +88,7 @@ import {mapGetters} from 'vuex';
 import {mapFields} from 'vuex-map-fields';
 import {getSearchHighlightStyle} from '../../../../style/OlStyleDefs';
 import {geojsonToFeature} from '../../../../utils/MapUtils';
-import {debounce, stripHtml} from '../../../../utils/Helpers';
+import {debounce, getTitle, stripHtml} from '../../../../utils/Helpers';
 import {EventBus} from '../../../../EventBus';
 
 export default {
@@ -128,6 +128,27 @@ export default {
         });
       });
       return owners;
+    },
+    // WFS features carry a title in one of two shapes depending on the layer: html_posts
+    // uses a flat `titleTranslations` map (see getTitle in Helpers.js); generic layers
+    // (points, polygons, puntos_nft, ...) use a single `translations` object keyed by
+    // locale, each holding a full property set (see htmlLayerStyle's hover logic in
+    // OlStyleDefs.js for the same convention). Try both, fall back to the raw title.
+    resolveFeatureTitle(properties) {
+      if (properties.titleTranslations) {
+        return getTitle(properties, this.$appConfig.app.defaultLanguage, this.$i18n.locale) || properties.title;
+      }
+      if (properties.translations) {
+        try {
+          const translations =
+            typeof properties.translations === 'string' ? JSON.parse(properties.translations) : properties.translations;
+          const localeTitle = translations[this.$i18n.locale]?.title;
+          if (localeTitle) return localeTitle;
+        } catch (e) {
+          // Malformed translations blob - fall through to the untranslated title.
+        }
+      }
+      return properties.title;
     },
     groupRegionLabel(group, region) {
       const groupTitle = this.$appConfig.map.groupTitles?.[group];
@@ -514,7 +535,7 @@ export default {
               owners.length && f.properties.group ? owners.filter(o => o.group === f.properties.group) : targets;
             featureTargets.forEach(owner => {
               features.push({
-                display_name: f.properties.title,
+                display_name: this.resolveFeatureTitle(f.properties),
                 _type: 'feature',
                 _geometry: f.geometry,
                 _properties: f.properties,
