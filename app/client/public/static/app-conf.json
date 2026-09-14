@@ -46,10 +46,32 @@
     "zoom": 1,
     "geoserverWorkspace": "workspace1",
     "resolutions": [
-      156543.03, 78271.52, 39135.76, 19567.88, 9783.94, 4891.97, 2445.98, 1222.99, 611.5, 305.75, 152.87, 76.437,
-      38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972, 0.2986, 0.1493
+      156543.03,
+      78271.52,
+      39135.76,
+      19567.88,
+      9783.94,
+      4891.97,
+      2445.98,
+      1222.99,
+      611.5,
+      305.75,
+      152.87,
+      76.437,
+      38.219,
+      19.109,
+      9.5546,
+      4.7773,
+      2.3887,
+      1.1943,
+      0.5972,
+      0.2986,
+      0.1493
     ],
-    "center": [0, 0],
+    "center": [
+      0,
+      0
+    ],
     "minResolution": 0.1493,
     "maxResolution": 64000,
     "addPost": {
@@ -107,7 +129,12 @@
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
-        "searchableColumns": ["title", "descriptivo", "comentarios", "translations"],
+        "searchableColumns": [
+          "title",
+          "descriptivo",
+          "comentarios",
+          "translations"
+        ],
         "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
           "type": "circle",
@@ -138,7 +165,12 @@
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
-        "searchableColumns": ["title", "descriptivo", "comentarios", "translations"],
+        "searchableColumns": [
+          "title",
+          "descriptivo",
+          "comentarios",
+          "translations"
+        ],
         "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
           "type": "circle",
@@ -200,7 +232,12 @@
         "maxResolution": 64000,
         "opacity": 1,
         "label": null,
-        "searchableColumns": ["title", "descriptivo", "comentarios", "translations"],
+        "searchableColumns": [
+          "title",
+          "descriptivo",
+          "comentarios",
+          "translations"
+        ],
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
@@ -230,7 +267,7 @@
         "label": true,
         "hoverable": true,
         "style": {
-          "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/photo_marker.png",
+          "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/photo_icon.png",
           "scale": 1,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
@@ -256,8 +293,8 @@
         "label": false,
         "hoverable": true,
         "style": {
-          "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/video_marker.png",
-          "scale": 1,
+          "iconUrl": "https://kansan.s3.eu-central-1.amazonaws.com/assets/icons/video_icon.png",
+          "scale": 0.6,
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -341,7 +378,7 @@
         "type": "XYZ",
         "name": "spotlight1",
         "group": "media",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "url": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/{z}/{y}/{x}",
         "minResolution": 0.12,
         "maxResolution": 5,
         "zIndex": 10,
@@ -353,7 +390,8 @@
           "en": "Spotlight",
           "es": "Foco satélital"
         },
-        "visible": true
+        "visible": true,
+        "attributions": "Sources: Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community"
       },
       {
         "type": "XYZ",
@@ -423,7 +461,12 @@
         "label": null,
         "hoverable": true,
         "canEdit": false,
-        "searchableColumns": ["title", "html", "titleTranslations", "htmlTranslations"],
+        "searchableColumns": [
+          "title",
+          "html",
+          "titleTranslations",
+          "htmlTranslations"
+        ],
         "style": {
           "styleRef": "htmlLayerStyle",
           "hoverTextColor": "white",
@@ -434,17 +477,34 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["Mapbox_Streets", "spotlight1", "vias2021", "points", "html_posts"],
-          "center": [-72.9, 7.286],
+          "layers": [
+            "Mapbox_Streets",
+            "spotlight1",
+            "vias2021",
+            "points",
+            "videos",
+            "photos",
+            "html_posts"
+          ],
+          "center": [
+            -72.9,
+            7.286
+          ],
           "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [-72.9, 7.286],
+          "mobileCenter": [
+            -72.9,
+            7.286
+          ],
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
           "layers": [],
-          "center": [-88.179, 41.837],
+          "center": [
+            -88.179,
+            41.837
+          ],
           "resolution": 2000,
           "mobileResolution": 16000,
           "minResolution": 0,
@@ -452,7 +512,10 @@
         },
         "global": {
           "layers": [],
-          "center": [-12.42, 29.84],
+          "center": [
+            -12.42,
+            29.84
+          ],
           "resolution": 68000,
           "mobileResolution": 80000,
           "minResolution": 0,
@@ -461,17 +524,32 @@
       },
       "participatico": {
         "default": {
-          "layers": ["Mapbox_Streets", "photos", "videos", "polygons", "html_posts"],
-          "center": [-72.9, 7.286],
+          "layers": [
+            "Mapbox_Streets",
+            "photos",
+            "videos",
+            "polygons",
+            "html_posts"
+          ],
+          "center": [
+            -72.9,
+            7.286
+          ],
           "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [-72.9, 7.286],
+          "mobileCenter": [
+            -72.9,
+            7.286
+          ],
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
           "layers": [],
-          "center": [-88.179, 41.837],
+          "center": [
+            -88.179,
+            41.837
+          ],
           "resolution": 2000,
           "mobileResolution": 16000,
           "minResolution": 0,
@@ -479,7 +557,10 @@
         },
         "global": {
           "layers": [],
-          "center": [-12.42, 29.84],
+          "center": [
+            -12.42,
+            29.84
+          ],
           "resolution": 68000,
           "mobileResolution": 80000,
           "minResolution": 0,
@@ -488,17 +569,30 @@
       },
       "NFT": {
         "default": {
-          "layers": ["Mapbox_Streets", "puntos_nft", "html_posts"],
-          "center": [-72.9, 7.286],
+          "layers": [
+            "Mapbox_Streets",
+            "puntos_nft",
+            "html_posts"
+          ],
+          "center": [
+            -72.9,
+            7.286
+          ],
           "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [-72.9, 7.286],
+          "mobileCenter": [
+            -72.9,
+            7.286
+          ],
           "minResolution": 0,
           "maxResolution": 64000
         },
         "local": {
           "layers": [],
-          "center": [-88.179, 41.837],
+          "center": [
+            -88.179,
+            41.837
+          ],
           "resolution": 2000,
           "mobileResolution": 16000,
           "minResolution": 0,
@@ -506,7 +600,10 @@
         },
         "global": {
           "layers": [],
-          "center": [-12.42, 29.84],
+          "center": [
+            -12.42,
+            29.84
+          ],
           "resolution": 68000,
           "mobileResolution": 80000,
           "minResolution": 0,
@@ -515,9 +612,11 @@
       }
     },
     "flyToSlideshow": {
-      "delayInSecondsForInitialStart": 9000000,
-      "delayInSecondsBetweenFrames": 120000,
-      "maplinks": [""]
+      "delayInSecondsForInitialStart": 120,
+      "delayInSecondsBetweenFrames": 8,
+      "maplinks": [
+        ""
+      ]
     },
     "defaultActiveGroup": "media",
     "groupTitles": {

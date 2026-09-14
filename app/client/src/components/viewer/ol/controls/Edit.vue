@@ -1206,6 +1206,16 @@ export default {
         ...propsWithNoGeometry
       } = this.selectedFeature.getProperties();
 
+      // lightbox is stored as a JSON string (an array of {imageUrl, caption} objects).
+      // It's marked readOnly in the schema (edited only via the Lightbox dialog, which
+      // writes a real JSON string on save), so VJSF's schema-driven form defaults it to
+      // '' like any other untouched string field. '' isn't valid JSON, so saving a new
+      // post without ever opening that dialog fails the insert outright with a Postgres
+      // JSON parse error - default it to an empty array instead.
+      if (Object.prototype.hasOwnProperty.call(propsWithNoGeometry, 'lightbox') && !propsWithNoGeometry.lightbox) {
+        propsWithNoGeometry.lightbox = '[]';
+      }
+
       // update translations if they have been edited manually
       const propsWithTranslations = Object.fromEntries(
         Object.entries(propsWithNoGeometry).filter(([key]) => key.includes(':'))

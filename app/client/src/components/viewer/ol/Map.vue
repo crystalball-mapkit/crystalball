@@ -34,14 +34,7 @@
       </div>
     </div>
     <!-- Slideshow toggle button — visible whenever slideshow is configured -->
-    <v-tooltip
-      v-if="
-        $appConfig.map.flyToSlideshow &&
-        $appConfig.map.flyToSlideshow.maplinks &&
-        $appConfig.map.flyToSlideshow.maplinks.length > 0
-      "
-      left
-    >
+    <v-tooltip v-if="hasSlideshowMaplinks" left>
       <template v-slot:activator="{on, attrs}">
         <div class="slideshow-toggle-btn" v-bind="attrs" v-on="on" @click.stop="toggleSlideshow()">
           <span v-if="!slideshow.userStopped" class="slideshow-toggle-dot"></span>
@@ -1279,9 +1272,10 @@ export default {
      */
     setupMapFlyToSlideshow() {
       const flyToSlideshow = this.$appConfig.map.flyToSlideshow;
-      // No flyToSlideshow config means the slideshow feature is entirely inoperative:
-      // no timers, no map listeners, no fly logic.
-      if (!flyToSlideshow) return;
+      // No flyToSlideshow config, or a maplinks list that's empty or holds only blank
+      // strings, means the slideshow feature is entirely inoperative: no timers, no map
+      // listeners, no fly logic (see hasSlideshowMaplinks).
+      if (!flyToSlideshow || !this.hasSlideshowMaplinks) return;
       const maplinks = flyToSlideshow.maplinks;
       const fileRef = maplinks?.length === 1 && !maplinks[0].startsWith('#') ? maplinks[0] : null;
 
@@ -1716,6 +1710,14 @@ export default {
     }),
   },
   computed: {
+    // maplinks.length > 0 alone isn't enough - a config left as maplinks: [""] (a single
+    // empty string) still has length 1, so the slideshow feature must also reject
+    // blank-only entries here, not just an outright empty array. Non-string entries
+    // (video/photo/map objects) are always treated as real content.
+    hasSlideshowMaplinks() {
+      const maplinks = this.$appConfig.map.flyToSlideshow?.maplinks;
+      return Array.isArray(maplinks) && maplinks.some(link => (typeof link === 'string' ? link.trim() !== '' : !!link));
+    },
     ...mapGetters('map', {
       activeLayerGroup: 'activeLayerGroup',
       popupInfo: 'popupInfo',
