@@ -436,7 +436,7 @@
       "media": {
         "default": {
           "layers": ["Mapbox_Streets", "spotlight1", "vias2021", "points", "videos", "photos", "html_posts"],
-          "center": [-72.9, 7.286],
+          "center": [-72.9, 7.35],
           "resolution": 32,
           "mobileResolution": 120,
           "mobileCenter": [-72.9, 7.286],
