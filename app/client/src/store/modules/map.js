@@ -48,6 +48,7 @@ const state = {
   isEditingPost: false,
   isEditingHtml: false,
   htmlContent: '',
+  postTitle: '',
   postEditLayer: null, // user for
   postFeature: null,
   postEditType: null,
@@ -129,6 +130,7 @@ const getters = {
   regions: state => state.regions,
   layersMetadata: state => state.layersMetadata,
   htmlContent: state => state.htmlContent,
+  postTitle: state => state.postTitle,
   postEditLayer: state => state.postEditLayer,
   lastSelectedLayer: state => state.lastSelectedLayer,
   appConfGroups_: state => state.appConfGroups_,

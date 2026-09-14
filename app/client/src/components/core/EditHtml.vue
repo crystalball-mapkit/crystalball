@@ -81,7 +81,6 @@ export default {
         insert: 'form.htmlPostEditor.insert',
       },
       overlayersGarbageCollector: [],
-      postTitle: '',
       // WFS feature ids are formatted as `<table>.<pk>` -- this tracks which
       // html_posts table (live vs archive) the current edit session targets,
       // derived from the clicked feature's id, so saves/deletes hit the
@@ -375,6 +374,7 @@ export default {
     ...mapFields('map', {
       popup: 'popup',
       htmlContent: 'htmlContent',
+      postTitle: 'postTitle',
       isEditingPost: 'isEditingPost',
       isEditingHtml: 'isEditingHtml',
       postEditLayer: 'postEditLayer',

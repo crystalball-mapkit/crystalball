@@ -295,6 +295,7 @@ export default {
   computed: {
     ...mapFields('map', {
       htmlContent: 'htmlContent',
+      postTitle: 'postTitle',
     }),
     ...mapGetters('app', {
       serverConfig: 'serverConfig',
@@ -445,6 +446,12 @@ export default {
       const targetLanguage = this.currentLanguage.code;
 
       try {
+        // The post title is a plain field next to this editor, not part of htmlContent, so
+        // it's otherwise never touched by "Translate" - update it the same way the body is.
+        if (this.postTitle) {
+          this.postTitle = await this.translateApiContent(this.postTitle, targetLanguage);
+        }
+
         const parser = new DOMParser();
         const workingDoc = parser.parseFromString(`<div id="wg-root">${originalHtml}</div>`, 'text/html');
         const root = workingDoc.querySelector('#wg-root');
