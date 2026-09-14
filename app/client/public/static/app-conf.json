@@ -58,38 +58,6 @@
     "layers": [
       {
         "type": "VECTOR",
-        "name": "vias2021",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:vias2021&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "media",
-        "queryable": true,
-        "format": "GeoJSON",
-        "legendDisplayName": {
-          "en": "Streets",
-          "es": "Vias"
-        },
-        "visible": true,
-        "displayInLegend": true,
-        "displaySidebarInfo": true,
-        "zIndex": 100,
-        "minResolution": 0,
-        "maxResolution": 64000,
-        "label": false,
-        "hoverable": true,
-        "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
-        "style": {
-          "type": "circle",
-          "radius": 8,
-          "strokeWidth": 2,
-          "stylePropFnRef": {
-            "strokeColor": "variable1",
-            "fillColor": "variable2"
-          },
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
         "name": "points",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:points&outputFormat=application/json&srsname=EPSG:3857",
         "group": "media",
@@ -280,65 +248,6 @@
       },
       {
         "type": "XYZ",
-        "name": "Esri_standard",
-        "group": "media",
-        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.12,
-        "maxResolution": 64000,
-        "queryable": false,
-        "displayInLegend": true,
-        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/osm.png",
-        "legendDisplayName": {
-          "en": "ESRI satellite map",
-          "es": "Mapa satelitál ESRI"
-        },
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "osm2",
-        "group": "media",
-        "url": "https://geo.timetochange.today/geoserver/gwc/service/tms/1.0.0/osm:osm_bright@EPSG%3A900913@png/{z}/{x}/{-y}.png",
-        "minResolution": 0.25,
-        "maxResolution": 64000,
-        "queryable": false,
-        "displayInLegend": false,
-        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/osm.png",
-        "legendDisplayName": {
-          "en": "OpenStreetMap",
-          "es": "OpenStreetMap"
-        },
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "satellite_image",
-        "group": "media",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 64000,
-        "queryable": false,
-        "displayInLegend": true,
-        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/satellite.png",
-        "legendDisplayName": {
-          "en": "Satellite image",
-          "es": "Imagen satélital"
-        },
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "ESRI-World-Imagery",
-        "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 64000,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
         "name": "spotlight1",
         "group": "media",
         "url": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/{z}/{y}/{x}",
@@ -355,55 +264,6 @@
         },
         "visible": true,
         "attributions": "Sources: Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community"
-      },
-      {
-        "type": "XYZ",
-        "name": "ESRI-World-Imagery3",
-        "group": "data",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 2,
-        "opacity": 1,
-        "queryable": false,
-        "displayInLegend": true,
-        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/satellite.png",
-        "legendDisplayName": {
-          "en": "Spotlight",
-          "es": "Foco satélital"
-        },
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "World_Hillshade",
-        "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 4,
-        "maxResolution": 64000,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "World_Physical",
-        "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 800,
-        "maxResolution": 64000,
-        "opacity": 0.6,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "carto_dark",
-        "group": "backgroundLayers",
-        "url": "https://{a-d}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-        "minResolution": 0.25,
-        "maxResolution": 64000,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true
       },
       {
         "type": "VECTOR",
@@ -435,11 +295,11 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["Mapbox_Streets", "spotlight1", "vias2021", "points", "videos", "photos", "html_posts"],
+          "layers": ["Mapbox_Streets", "spotlight1", "points", "videos", "photos", "html_posts"],
           "center": [-72.9, 7.35],
           "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [-72.9, 7.286],
+          "mobileCenter": [-72.9, 7.35],
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -463,10 +323,10 @@
       "participatico": {
         "default": {
           "layers": ["Mapbox_Streets", "photos", "videos", "polygons", "html_posts"],
-          "center": [-72.9, 7.286],
+          "center": [-72.9, 7.35],
           "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [-72.9, 7.286],
+          "mobileCenter": [-72.9, 7.35],
           "minResolution": 0,
           "maxResolution": 64000
         },
@@ -490,10 +350,10 @@
       "NFT": {
         "default": {
           "layers": ["Mapbox_Streets", "puntos_nft", "html_posts"],
-          "center": [-72.9, 7.286],
+          "center": [-72.9, 7.35],
           "resolution": 32,
           "mobileResolution": 120,
-          "mobileCenter": [-72.9, 7.286],
+          "mobileCenter": [-72.9, 7.35],
           "minResolution": 0,
           "maxResolution": 64000
         },
