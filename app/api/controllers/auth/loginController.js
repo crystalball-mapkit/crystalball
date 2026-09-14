@@ -75,6 +75,7 @@ exports.login_post = (req, res) => {
       if (!login) {
         res.status(400);
         res.json({ err: "No user registered with this email" });
+        return;
       }
       const pass = req.body.password;
       const salt = login.passwordSalt;

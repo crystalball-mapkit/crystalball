@@ -41,25 +41,27 @@ exports.roles_post = (req, res) => {
 };
 
 exports.role_get = (req, res) => {
-  if (req.params.id) {
-    Roles.findOne({
-      where: {
-        roleID: req.params.id,
-      },
-    })
-    .then((role) => {
-      res.status(200);
-      res.json(role);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500);
+  permissionController.hasPermission(req, res, 'get_roles', () => {
+    if (req.params.id) {
+      Roles.findOne({
+        where: {
+          roleID: req.params.id,
+        },
+      })
+      .then((role) => {
+        res.status(200);
+        res.json(role);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500);
+        res.json();
+      });
+    } else {
+      res.status(400);
       res.json();
-    });
-  } else {
-    res.status(400);
-    res.json();
-  }
+    }
+  });
 };
 
 exports.role_patch = (req, res) => {
@@ -91,7 +93,7 @@ exports.role_patch = (req, res) => {
 };
 
 exports.role_delete = (req, res) => {
-  this.hasPermission(req, res, 'delete_roles', () => {
+  permissionController.hasPermission(req, res, 'delete_roles', () => {
     if (req.params.id) {
       Roles.destroy({
         where: {

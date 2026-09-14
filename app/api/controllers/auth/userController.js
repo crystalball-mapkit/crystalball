@@ -79,11 +79,14 @@ exports.user_delete = (req, res) => {
         }
       })
 
-      // Delete html posts created by the user (optional parameter) 
+      // Delete html posts created by the user (optional parameter)
       if (req.body.deletePosts) {
-        let sql = `DELETE FROM html_posts WHERE "createdBy" = $$${req.body.userID}$$;`;
-        sequelize
-          .query(sql);
+        const userID = parseInt(req.body.userID, 10);
+        if (Number.isInteger(userID)) {
+          sequelize
+            .query(`DELETE FROM html_posts WHERE "createdBy" = $$${userID}$$;`)
+            .catch((err) => console.log(err));
+        }
       }
 
       // Delete user row. 

@@ -23,6 +23,7 @@ exports.layer_post = async (req, res) => {
       if (decodedToken.roles.includes('guest_user') && !HTML_POST_TABLES.includes(payload.table)) {
         res.status(401);
         res.json("Action is not allowed for this user role!")
+        return;
       }
       // Restrict update and delete of html_post to their own posts for guest and regular users.
       if (!decodedToken.roles.includes("admin_user") &&
@@ -36,6 +37,7 @@ exports.layer_post = async (req, res) => {
         if (feature && feature[0] && feature[0].createdBy && feature[0].createdBy != decodedToken.user.userID) {
           res.status(401);
           res.json("Action is not allowed for this user role!")
+          return;
         }
       }
       if (
@@ -46,11 +48,12 @@ exports.layer_post = async (req, res) => {
         payload.properties[payload.sidebarPosition] = process.env
           .AWS_CLOUDFRONT_URL
           ? process.env.AWS_CLOUDFRONT_URL + req.file.key.replace("assets", "")
-          : process.file.location;
+          : req.file.location;
       }
       if (payload.table.charAt(0) === "_") {
         res.status(500);
         res.json({ err: "Sql injection detected" });
+        return;
       }
       let geometry, featureId;
       if (payload.geometry) {

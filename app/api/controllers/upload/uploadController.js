@@ -14,7 +14,7 @@ exports.file_upload = (req, res) => {
       const fileUrl = process.env.AWS_CLOUDFRONT_URL
         ? process.env.AWS_CLOUDFRONT_URL +
           req.file.key.replace("assets", "")
-        : process.file.location;
+        : req.file.location;
         
       return res.json({ fileUrl });
     });

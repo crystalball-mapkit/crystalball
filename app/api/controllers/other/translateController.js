@@ -70,6 +70,14 @@ exports.translate = (req, res) => {
 exports.translateAllFeatures = async (req, res) => {
   permissionController.hasPermission(req, res, "edit_layers", async () => {
     if (req.params.layer) {
+      // req.params.layer is interpolated directly into raw SQL below as a table
+      // name (identifiers can't be parameterized even with bound-parameter
+      // queries), so it must be validated as a plain Postgres identifier first.
+      if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(req.params.layer)) {
+        res.status(400);
+        res.json({ error: "Invalid layer name" });
+        return;
+      }
       try {
         // TEXT, not JSON: Postgres' json type has no upper()/LIKE operator, so GeoServer's
         // CQL ILIKE search errors out on this column whenever it's listed in a layer's

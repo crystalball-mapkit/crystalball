@@ -26,7 +26,7 @@ exports.validateToken = (token, secretOrPrivateKey) => {
 
 // Returns validation result of token
 exports.token_post = (req, res) => {
-  res.send(this.validateToken(req.header.Authorization, this.getSecret()));
+  res.send(this.validateToken(req.get("Authorization"), this.getSecret()));
 };
 
 exports.hasPermission = (token, resource) => {
@@ -45,11 +45,6 @@ exports.hasPermission = (token, resource) => {
 exports.validate_token = (req, res) => {
   const token = req.get("Authorization");
   const result = this.validateToken(token, this.getSecret());
-  if (result.name === "JsonWebTokenError") {
-    res.status(200);
-    res.json({ valid: false });
-  } else {
-    res.status(200);
-    res.json({ valid: true });
-  }
+  res.status(200);
+  res.json({ valid: !(result instanceof Error) });
 };
