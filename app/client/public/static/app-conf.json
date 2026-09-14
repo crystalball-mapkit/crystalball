@@ -34,6 +34,7 @@
       "titleColor": "#ffffff"
     },
     "customNavigationScheme": "1",
+    "spotlightSize": 130,
     "spotlightMessage": {
       "isVisible": true
     }
@@ -41,7 +42,7 @@
   "map": {
     "projectionCode": "EPSG:3857",
     "minZoom": 1,
-    "maxZoom": 21,
+    "maxZoom": 19,
     "zoom": 1,
     "geoserverWorkspace": "workspace1",
     "resolutions": [
@@ -51,6 +52,9 @@
     "center": [0, 0],
     "minResolution": 0.1493,
     "maxResolution": 64000,
+    "addPost": {
+      "minResolution": 5
+    },
     "layers": [
       {
         "type": "VECTOR",
@@ -103,7 +107,7 @@
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
-        "searchableColumns": ["title", "descriptivo", "comentarios", "translations"],
+        "searchableColumns": ["title", "descriptivo", "comentarios", "translations" ],
         "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
           "type": "circle",
@@ -134,7 +138,7 @@
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
-        "searchableColumns": ["title", "descriptivo", "comentarios", "translations"],
+        "searchableColumns": ["title", "descriptivo", "comentarios", "translations" ],
         "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
           "type": "circle",
@@ -263,7 +267,7 @@
         "name": "Mapbox_Streets",
         "group": "media",
         "url": "https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=REMOVED",
-        "minResolution": 0.25,
+        "minResolution": 0.12,
         "maxResolution": 64000,
         "queryable": false,
         "displayInLegend": true,
@@ -279,14 +283,14 @@
         "name": "Esri_standard",
         "group": "media",
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
+        "minResolution": 0.12,
         "maxResolution": 64000,
         "queryable": false,
         "displayInLegend": true,
         "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/osm.png",
         "legendDisplayName": {
-          "en": "OpenStreetMap",
-          "es": "OpenStreetMap"
+          "en": "ESRI satellite map",
+          "es": "Mapa satelitál ESRI"
         },
         "visible": true
       },
@@ -335,16 +339,16 @@
       },
       {
         "type": "XYZ",
-        "name": "ESRI-World-Imagery2",
-        "group": "backgroundLayers",
+        "name": "spotlight1",
+        "group": "media",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
-        "maxResolution": 10,
-        "zIndex": 100,
+        "minResolution": 0.12,
+        "maxResolution": 5,
+        "zIndex": 10,
         "opacity": 1,
         "queryable": false,
         "displayInLegend": true,
-        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/satellite.png",
+        "legendIcon": "",
         "legendDisplayName": {
           "en": "Spotlight",
           "es": "Foco satélital"
@@ -430,7 +434,7 @@
     "groups": {
       "media": {
         "default": {
-          "layers": ["Mapbox_Streets", "ESRI-World-Imagery2", "vias2021", "points", "html_posts"],
+          "layers": ["Mapbox_Streets", "spotlight1", "vias2021", "points", "html_posts"],
           "center": [-72.9, 7.286],
           "resolution": 32,
           "mobileResolution": 120,

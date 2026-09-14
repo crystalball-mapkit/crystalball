@@ -38,5 +38,15 @@
     "upload": "Subir",
     "reset": "Restablecer",
     "all": "Todos"
+  },
+  "tooltip": {
+    "addPost": "Añadir puesto",
+    "changeSpotlight": "pulsa ↑ o ↓ para cambiar el tamaño del foco"
+  },
+  "form": {
+    "htmlPostEditor": {
+      "addPostSnackbar": "Acércate para añadir tu entrada",
+      "addPostWarning": "Tienes cambios sin guardar! Seguro que quieres continuar?"
+    }
   }
 }

@@ -105,14 +105,14 @@
     >
       <add-post :color="color.primary" :map="map"></add-post>
     </div>
-    <!-- <div
+    <div
       v-show="spotlightMessage === true && !$vuetify.breakpoint.smAndDown && !isEditingPost"
       :style="`background-color: ${color.primary}`"
       class="elevation-4 regular spotlight-message"
       ref="spotlightControls"
     >
       {{ $t('tooltip.changeSpotlight') }}
-    </div>  -->
+    </div>
 
     <!-- Popup overlay  -->
     <overlay-popup
@@ -322,9 +322,9 @@ export default {
       queryLayersGeoserverNames: null,
       activeInteractions: [],
       getInfoResult: [],
-      radius: 140,
+      radius: this.$appConfig.app.spotlightSize || 140,
       mousePosition: undefined,
-      spotlightMessage: this.$appConfig?.spotlightMessage?.isVisible || false,
+      spotlightMessage: this.$appConfig?.app?.spotlightMessage?.isVisible || false,
       lightBoxImages: [],
       progressLoading: {
         message: 'Fetching Corporate Network',
@@ -550,13 +550,13 @@ export default {
       const name = layer.get('name');
 
       if (
-        name === 'ESRI-World-Imagery2' ||
-        name === 'aerial2001' ||
-        name === 'aerial2005' ||
-        name === 'aerial2010' ||
-        name === 'aerial2015' ||
-        name === 'aerial2020' ||
-        name === 'aerial2025' ||
+        name === 'spotlight1' ||
+        name === 'spotlight2' ||
+        name === 'spotlight3' ||
+        name === 'spotlight4' ||
+        name === 'spotlight5' ||
+        name === 'spotlight6' ||
+        name === 'spotlight7' ||
         name === 'spotlight'
       ) {
         if (!layer.get('_spotlightBound')) {
@@ -910,6 +910,18 @@ export default {
           return;
         }
 
+        // Spotlight tracking must not depend on whether a hoverable feature happens to be
+        // under the cursor - the feature-hover-tooltip logic below has several early returns
+        // for that (no feature, unattributed feature, corporate-entity mismatch, ...), and
+        // those cover the overwhelming majority of mouse movement (empty map, no marker).
+        // Previously mousePosition was set after all of that, so it almost never updated.
+        this.mousePosition = this.map.getEventPixel(evt.originalEvent);
+        // Render is only triggered for spotlight which is visible in zoom levels below 20
+        const resolutionLevel = this.map.getView().getResolution();
+        if (resolutionLevel <= 40) {
+          this.map.render();
+        }
+
         let feature;
         let layer;
         if (
@@ -1029,12 +1041,6 @@ export default {
             this.overlay.setPosition(evt.coordinate);
           }
         }
-        this.mousePosition = this.map.getEventPixel(evt.originalEvent);
-        // Render is only triggered for spotlight which is visible in zoom levels below 20
-        const resolutionLevel = this.map.getView().getResolution();
-        if (resolutionLevel <= 40) {
-          this.map.render();
-        }
       });
     },
     setupMapHoverOut() {
@@ -1076,13 +1082,16 @@ export default {
     setupMapMoveEnd() {
       // After the map moveend event fires, determine if the instructions
       // for using the spotlights should be shown based on zoom level.
+      // app.spotlightMessage.isVisible is a master switch - when it's off, the
+      // message must stay hidden regardless of zoom, not just on initial load.
+      const spotlightMessageEnabled = this.$appConfig?.app?.spotlightMessage?.isVisible || false;
       this.map.on('moveend', () => {
-        const resolutionLevel = this.map.getView().getResolution();
-        if (resolutionLevel <= 4) {
-          this.spotlightMessage = true;
-        } else {
+        if (!spotlightMessageEnabled) {
           this.spotlightMessage = false;
+          return;
         }
+        const resolutionLevel = this.map.getView().getResolution();
+        this.spotlightMessage = resolutionLevel <= 4;
       });
     },
 
@@ -1443,9 +1452,12 @@ export default {
       const ctx = e.context;
       const pixelRatio = e.frameState.pixelRatio;
       ctx.save();
-      ctx.beginPath();
+      // clip() is only called once a circle has actually been drawn below - clipping
+      // to an empty path (e.g. before the mouse has ever moved over the map on
+      // desktop) hides the whole layer instead of just not showing a circle yet.
       if (this.mousePosition && !this.$vuetify.breakpoint.smAndDown) {
         // Only show a circle around the mouse --
+        ctx.beginPath();
         ctx.arc(
           this.mousePosition[0] * pixelRatio,
           this.mousePosition[1] * pixelRatio,
@@ -1457,8 +1469,10 @@ export default {
         ctx.lineWidth = 6 * pixelRatio;
         ctx.strokeStyle = 'rgba(0,0,0,0.5)';
         ctx.stroke();
+        ctx.clip();
       } else if (this.$vuetify.breakpoint.smAndDown) {
         // Show a circle around the map center --
+        ctx.beginPath();
         const centerX = e.frameState.size[0] / 2;
         const centerY = e.frameState.size[1] / 2;
         const radius = Math.min(centerX, centerY) * 0.5;
@@ -1466,8 +1480,8 @@ export default {
         ctx.lineWidth = 6;
         ctx.strokeStyle = 'rgba(0,0,0,0.5)';
         ctx.stroke();
+        ctx.clip();
       }
-      ctx.clip();
     },
     queryCorporateNetwork() {
       const entity = this.popup.activeFeature.get('entity');
