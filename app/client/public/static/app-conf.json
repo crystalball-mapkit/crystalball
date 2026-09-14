@@ -107,7 +107,7 @@
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
-        "searchableColumns": ["title", "descriptivo", "comentarios", "translations" ],
+        "searchableColumns": ["title", "descriptivo", "comentarios", "translations"],
         "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
           "type": "circle",
@@ -138,7 +138,7 @@
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
-        "searchableColumns": ["title", "descriptivo", "comentarios", "translations" ],
+        "searchableColumns": ["title", "descriptivo", "comentarios", "translations"],
         "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
           "type": "circle",
