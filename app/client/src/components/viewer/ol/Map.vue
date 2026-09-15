@@ -1282,7 +1282,8 @@ export default {
       // listeners, no fly logic (see hasSlideshowMaplinks).
       if (!flyToSlideshow || !this.hasSlideshowMaplinks) return;
       const maplinks = flyToSlideshow.maplinks;
-      const fileRef = maplinks?.length === 1 && typeof maplinks[0] === 'string' && !maplinks[0].startsWith('#') ? maplinks[0] : null;
+      const fileRef =
+        maplinks?.length === 1 && typeof maplinks[0] === 'string' && !maplinks[0].startsWith('#') ? maplinks[0] : null;
 
       const init = () => {
         // Derive home hash from app-conf defaultActiveGroup, NOT from window.location.hash,
