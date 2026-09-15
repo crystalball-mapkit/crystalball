@@ -77,16 +77,19 @@ exports.layer_post = async (req, res) => {
 
       if (payload.type) {
         let sql = ``;
-        // The client always includes these keys in a save payload (EditHtml.vue/Edit.vue
-        // default them when a feature has none yet) -- translations when a feature has never
-        // been translated, lightbox when the LightBox Images dialog has never been opened --
-        // but the columns themselves are only ever created lazily elsewhere (translations by
-        // the bulk "translate this layer" action, lightbox by that dialog's own save). A layer
-        // that's never gone through either flow doesn't have the column yet, and saving any
+        // translations applies to any generic layer by design (the bulk "translate this
+        // layer" action can target any table), and the client always includes it in a save
+        // payload (Edit.vue defaults it to {} when a feature has never been translated) --
+        // but the column itself is only ever created lazily by that bulk-translate action, so
+        // a layer that's never gone through it doesn't have the column yet, and saving any
         // edit fails outright with a Postgres 42703 (column does not exist) instead of ever
         // reaching a response.
+        // lightbox is NOT auto-provisioned here on purpose -- unlike translations, it's only
+        // meant to exist on photo/media layers, not every layer. Edit.vue's transact() is
+        // responsible for never sending a lightbox key for a layer whose schema doesn't
+        // already declare it, instead of this silently creating the column everywhere.
         if (["insert", "update"].includes(payload.type) && payload.properties) {
-          const autoProvisionedColumns = ["translations", "lightbox"];
+          const autoProvisionedColumns = ["translations"];
           for (const column of autoProvisionedColumns) {
             if (Object.prototype.hasOwnProperty.call(payload.properties, column)) {
               try {

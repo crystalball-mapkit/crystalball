@@ -1218,6 +1218,16 @@ export default {
         ...propsWithNoGeometry
       } = this.selectedFeature.getProperties();
 
+      // lightbox is only a genuine column for layers whose own schema declares it (photo/media
+      // layers) - the LightBox Images dialog icon is always present in the edit UI regardless
+      // of layer type, so a stray lightbox value can end up on a feature's properties even for
+      // a layer that was never meant to have this field (e.g. simple point markers). Sending
+      // that key for a layer without the column fails the save outright with a Postgres 42703
+      // (column does not exist), so strip it entirely unless the layer's schema actually has it.
+      if (!Object.prototype.hasOwnProperty.call(this.formSchema?.properties || {}, 'lightbox')) {
+        delete propsWithNoGeometry.lightbox;
+      }
+
       // lightbox is stored as a JSON string (an array of {imageUrl, caption} objects).
       // It's marked readOnly in the schema (edited only via the Lightbox dialog, which
       // writes a real JSON string on save), so VJSF's schema-driven form defaults it to
