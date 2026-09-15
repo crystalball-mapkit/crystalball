@@ -1218,7 +1218,9 @@ export default {
                 if (typeof image === 'object') {
                   // Image is stored as object. Get imageUrl and caption values
                   imageUrl = image.imageUrl;
-                  caption = image.caption;
+                  // captionTranslations is populated by the LightBox Images dialog on save -
+                  // fall back to the untranslated caption if this locale hasn't been generated.
+                  caption = image.captionTranslations?.[this.$i18n.locale] || image.caption;
                 } else {
                   // Image is stored as a string
                   imageUrl = image;

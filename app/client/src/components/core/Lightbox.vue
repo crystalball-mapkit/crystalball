@@ -132,11 +132,58 @@ export default {
     },
   }),
   methods: {
-    save() {
-      // Update lightbox value in the selected Popup
-      this.formData.lightbox = JSON.stringify(this.lightboxImages);
+    async save() {
+      await this.translateCaptions();
+      // Update lightbox value in the selected Popup. _loadedCaption is a local-only marker
+      // used to detect edited captions - strip it before persisting.
+      this.formData.lightbox = JSON.stringify(
+        this.lightboxImages.map(({_loadedCaption, ...image}) => image)
+      );
       // Clear and Close
       this.cancel();
+    },
+    // Translates each image's caption into every configured non-default language, the same
+    // way post titles/html get translated on save elsewhere in the app. Only images whose
+    // caption changed since the dialog opened (or that have never been translated at all)
+    // are sent to DeepL, so re-saving without editing a caption doesn't burn API calls or
+    // clobber translations for captions that weren't touched.
+    async translateCaptions() {
+      const defaultLanguage = this.$appConfig.app.defaultLanguage;
+      const targetLanguages = (this.$i18n.availableLocales || []).filter(l => l !== defaultLanguage);
+      if (!targetLanguages.length) return;
+
+      const imagesToTranslate = this.lightboxImages.filter(
+        image =>
+          image.caption &&
+          (image.caption !== image._loadedCaption || !Object.keys(image.captionTranslations || {}).length)
+      );
+      if (!imagesToTranslate.length) return;
+
+      const translateCaption = async caption => {
+        const captionTranslations = {};
+        await Promise.all(
+          targetLanguages.map(async language => {
+            try {
+              const response = await axios.post(
+                './api/translate',
+                {content: caption, targetLanguage: language},
+                {headers: authHeader()}
+              );
+              captionTranslations[language] = response.data;
+            } catch (e) {
+              // A DeepL failure for one image/language must not block saving the rest of
+              // the lightbox - the caption just stays untranslated for that language.
+              console.error('Failed to translate lightbox caption:', e);
+            }
+          })
+        );
+        return captionTranslations;
+      };
+
+      const results = await Promise.all(imagesToTranslate.map(image => translateCaption(image.caption)));
+      for (let i = 0; i < imagesToTranslate.length; i += 1) {
+        imagesToTranslate[i].captionTranslations = results[i];
+      }
     },
     cancel() {
       this.clearUploadImage();
@@ -264,10 +311,12 @@ export default {
           images.forEach(image => {
             let imageUrl;
             let caption = '';
+            let captionTranslations;
             if (typeof image === 'object') {
               // Image is stored as object. Get imageUrl and caption values
               imageUrl = image.imageUrl;
               caption = image.caption;
+              captionTranslations = image.captionTranslations;
             } else {
               // Image is stored as a string
               imageUrl = image;
@@ -276,6 +325,10 @@ export default {
             this.lightboxImages.push({
               imageUrl: url,
               caption,
+              captionTranslations,
+              // Local-only marker (stripped before saving) to detect whether this caption
+              // was edited during this dialog session, so save() knows what needs retranslating.
+              _loadedCaption: caption,
             });
           });
         }
