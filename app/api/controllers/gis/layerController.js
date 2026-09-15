@@ -77,17 +77,30 @@ exports.layer_post = async (req, res) => {
 
       if (payload.type) {
         let sql = ``;
-        if (
-          ["insert", "update"].includes(payload.type) &&
-          payload.properties &&
-          Object.prototype.hasOwnProperty.call(payload.properties, "translations")
-        ) {
-          // The client always includes a translations key in the payload (EditHtml.vue/Edit.vue
-          // default it to {} when a feature has none yet), but this column is only ever created
-          // lazily by the bulk "translate this layer" action -- a layer that's never gone
-          // through that flow doesn't have it yet, and saving any edit fails outright with a
-          // Postgres 42703 (column does not exist) instead of ever reaching a response.
-          await addColumnIfNotExists(payload.table, 'translations', { type: Sequelize.TEXT, allowNull: true });
+        // The client always includes these keys in a save payload (EditHtml.vue/Edit.vue
+        // default them when a feature has none yet) -- translations when a feature has never
+        // been translated, lightbox when the LightBox Images dialog has never been opened --
+        // but the columns themselves are only ever created lazily elsewhere (translations by
+        // the bulk "translate this layer" action, lightbox by that dialog's own save). A layer
+        // that's never gone through either flow doesn't have the column yet, and saving any
+        // edit fails outright with a Postgres 42703 (column does not exist) instead of ever
+        // reaching a response.
+        if (["insert", "update"].includes(payload.type) && payload.properties) {
+          const autoProvisionedColumns = ["translations", "lightbox"];
+          for (const column of autoProvisionedColumns) {
+            if (Object.prototype.hasOwnProperty.call(payload.properties, column)) {
+              try {
+                // eslint-disable-next-line no-await-in-loop
+                await addColumnIfNotExists(payload.table, column, { type: Sequelize.TEXT, allowNull: true });
+              } catch (err) {
+                // addColumnIfNotExists also tries to refresh GeoServer's catalog after adding
+                // the column, and that step throws on its own if GeoServer is unreachable or
+                // misconfigured -- by then the column itself is already created, so a reload
+                // failure here must never block the actual save that's the point of this request.
+                console.log(err);
+              }
+            }
+          }
         }
         switch (payload.type) {
           case "insert": {
