@@ -1327,6 +1327,18 @@ export default {
               state: true,
             });
           }
+        })
+        .catch(error => {
+          // Deliberately does NOT clear form state here -- on failure the
+          // user's edits should stay visible so they can retry rather than
+          // silently losing them (matches EditHtml.vue's transactPost()).
+          console.error('Failed to save feature:', error);
+          this.toggleSnackbar({
+            type: 'error',
+            message: this.$t('form.htmlPostEditor.saveFailed'),
+            timeout: 4000,
+            state: true,
+          });
         });
     },
 

@@ -113,7 +113,7 @@ const mutations = {
   getUsersSuccess(state, users) {
     state.users = users;
   },
-  getUseresFailure(state) {
+  getUsersFailure(state) {
     state.users = [];
   },
 };

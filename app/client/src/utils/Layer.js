@@ -529,11 +529,11 @@ export function formatPopupRows(feature, excludedProperties) {
 
   const transformed = [];
   Object.keys(rest).forEach(k => {
-    if (!excludedProperties.includes(k) && !typeof k !== 'object') {
+    if (!excludedProperties.includes(k) && typeof rest[k] !== 'object') {
       transformed.push({
         humanizedProperty: humanize(k),
         property: k,
-        value: !rest[k] ? '---' : rest[k],
+        value: rest[k] === null || rest[k] === undefined || rest[k] === '' ? '---' : rest[k],
       });
     }
   });

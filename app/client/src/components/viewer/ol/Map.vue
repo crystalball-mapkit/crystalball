@@ -859,7 +859,7 @@ export default {
               break;
             }
           }
-          targetResolution = resolutions[Math.max(tightFitIndex + 0.3, 0)];
+          targetResolution = resolutions[Math.max(tightFitIndex - 1, 0)];
         }
 
         if (targetResolution) {
@@ -945,6 +945,8 @@ export default {
             if (size === 1) {
               feature = feature.get('features')[0];
             } else {
+              overlayEl.innerHTML = null;
+              this.overlay.setPosition(undefined);
               return;
             }
           }
@@ -1189,32 +1191,35 @@ export default {
             mediabox.open();
             return;
           }
-          // Check if feature has lightbox array of images
+          // Check if feature has lightbox array of images. An empty '[]' means
+          // the field was just defaulted on save (no images ever added), so it
+          // must fall through to the normal popup below, not open a blank lightbox.
           if (props.lightbox) {
             const images = Array.isArray(props.lightbox) ? props.lightbox : JSON.parse(props.lightbox);
-            if (!Array.isArray(images)) return;
-            images.forEach(image => {
-              let imageUrl;
-              let caption = '';
-              if (typeof image === 'object') {
-                // Image is stored as object. Get imageUrl and caption values
-                imageUrl = image.imageUrl;
-                caption = image.caption;
-              } else {
-                // Image is stored as a string
-                imageUrl = image;
-              }
-              const url = UrlUtil.parseUrl(imageUrl);
-              this.lightBoxImages.push({
-                src: url,
-                thumb: url,
-                caption,
+            if (Array.isArray(images) && images.length > 0) {
+              images.forEach(image => {
+                let imageUrl;
+                let caption = '';
+                if (typeof image === 'object') {
+                  // Image is stored as object. Get imageUrl and caption values
+                  imageUrl = image.imageUrl;
+                  caption = image.caption;
+                } else {
+                  // Image is stored as a string
+                  imageUrl = image;
+                }
+                const url = UrlUtil.parseUrl(imageUrl);
+                this.lightBoxImages.push({
+                  src: url,
+                  thumb: url,
+                  caption,
+                });
               });
-            });
-            // Open lightbox
-            this.$refs.lightbox.open();
-            // Popup will not be opened if there are lightbox images
-            return;
+              // Open lightbox
+              this.$refs.lightbox.open();
+              // Popup will not be opened if there are lightbox images
+              return;
+            }
           }
           this.previousMapPosition = null;
 
@@ -1277,7 +1282,7 @@ export default {
       // listeners, no fly logic (see hasSlideshowMaplinks).
       if (!flyToSlideshow || !this.hasSlideshowMaplinks) return;
       const maplinks = flyToSlideshow.maplinks;
-      const fileRef = maplinks?.length === 1 && !maplinks[0].startsWith('#') ? maplinks[0] : null;
+      const fileRef = maplinks?.length === 1 && typeof maplinks[0] === 'string' && !maplinks[0].startsWith('#') ? maplinks[0] : null;
 
       const init = () => {
         // Derive home hash from app-conf defaultActiveGroup, NOT from window.location.hash,
@@ -1567,7 +1572,7 @@ export default {
               });
             }
           });
-          if (olFeatures) {
+          if (olFeatures.length) {
             this.popup.selectedCorpNetworkLayer.getSource().addFeatures(olFeatures);
             // Zoom to extent adding a padding to the extent
             const extent = olFeatures[0].getGeometry().getExtent().slice(0);

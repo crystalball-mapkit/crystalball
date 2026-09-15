@@ -46,7 +46,8 @@
   "form": {
     "htmlPostEditor": {
       "addPostSnackbar": "Acércate para añadir tu entrada",
-      "addPostWarning": "Tienes cambios sin guardar! Seguro que quieres continuar?"
+      "addPostWarning": "Tienes cambios sin guardar! Seguro que quieres continuar?",
+      "saveFailed": "No se pudo guardar el puesto. Inténtalo de nuevo."
     }
   }
 }

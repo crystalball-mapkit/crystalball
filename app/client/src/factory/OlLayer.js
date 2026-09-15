@@ -671,7 +671,7 @@ export const LayerFactory = {
           let effectiveZIndex;
           if (layerConfig.zIndex !== undefined) {
             effectiveZIndex = layerConfig.zIndex;
-          } else if (zIndex) {
+          } else if (zIndex !== undefined) {
             effectiveZIndex = zIndex + index;
           }
           if (effectiveZIndex !== undefined) {

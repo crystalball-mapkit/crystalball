@@ -135,7 +135,12 @@ export function validateToken(jwtToken) {
   if (!jwtToken) {
     return null;
   }
-  const decodedToken = jwtDecode(jwtToken);
+  let decodedToken;
+  try {
+    decodedToken = jwtDecode(jwtToken);
+  } catch (error) {
+    return null;
+  }
   if (decodedToken && decodedToken.exp && Date.now() >= decodedToken.exp * 1000) {
     return null;
   }
