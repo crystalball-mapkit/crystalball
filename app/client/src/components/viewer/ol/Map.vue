@@ -1193,7 +1193,8 @@ export default {
               try {
                 const translations =
                   typeof props.translations === 'string' ? JSON.parse(props.translations) : props.translations;
-                translatedCaption = translations[this.$i18n.locale]?.caption || translations[this.$i18n.locale]?.vimeoTitle;
+                translatedCaption =
+                  translations[this.$i18n.locale]?.caption || translations[this.$i18n.locale]?.vimeoTitle;
               } catch (e) {
                 // Malformed translations blob - fall through to the untranslated caption.
               }
