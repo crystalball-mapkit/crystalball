@@ -246,7 +246,20 @@ export default {
       if (val) {
         const {lightbox} = this.formData;
         if (lightbox) {
-          const images = Array.isArray(lightbox) ? lightbox : JSON.parse(lightbox);
+          let images;
+          if (Array.isArray(lightbox)) {
+            images = lightbox;
+          } else {
+            try {
+              images = JSON.parse(lightbox);
+            } catch (e) {
+              // A corrupted value (e.g. a stale mistranslated string) must not silently
+              // wipe out lightboxImages -- surfacing an empty "Add Image" state here would
+              // look like data loss and invite overwriting the real column on next save.
+              console.error('Failed to parse lightbox value:', e);
+              return;
+            }
+          }
           if (!Array.isArray(images)) return;
           images.forEach(image => {
             let imageUrl;

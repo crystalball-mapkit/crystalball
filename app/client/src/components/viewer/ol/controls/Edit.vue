@@ -775,7 +775,14 @@ export default {
             };
 
             // populate translated fields
-            if (this.$appConfig.map.featureInfoHiddenProps.indexOf(property.name) === -1) {
+            // lightbox is a structured field (array of {imageUrl, caption} objects), never
+            // real translatable text -- it's excluded here the same way 'geom'/'translations'
+            // are excluded below, so "show all translations" never surfaces a per-language
+            // lightbox field to edit.
+            if (
+              property.name !== 'lightbox' &&
+              this.$appConfig.map.featureInfoHiddenProps.indexOf(property.name) === -1
+            ) {
               this.$i18n.availableLocales
                 .filter(l => l !== this.$appConfig.app.defaultLanguage)
                 .forEach(language => {
@@ -943,6 +950,11 @@ export default {
                       ? properties.translations[this.$appConfig.app.defaultLanguage]
                       : {}),
                   };
+                  // lightbox is a structured field (array of {imageUrl, caption} objects),
+                  // never real translatable text -- never let a translations blob entry
+                  // (stale from before it was excluded from translation, or otherwise)
+                  // overwrite the real column value.
+                  this.formData.lightbox = properties.lightbox;
                 } else {
                   this.formData = properties;
                   this.formData.translations = {};

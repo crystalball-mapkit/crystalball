@@ -6,7 +6,8 @@ const singleUpload = upload.single("image");
 const jwtDecode = require("jwt-decode");
 const { v4: uuidv4 } = require('uuid');
 const moment = require("moment");
-const { translateContent } = require("../../utils.js")
+const Sequelize = require("sequelize");
+const { translateContent, addColumnIfNotExists } = require("../../utils.js")
 
 // Live posts and pre-existing (archived) posts live in separate tables with
 // different map-visibility rules, but share the same editing flow -- every
@@ -76,6 +77,18 @@ exports.layer_post = async (req, res) => {
 
       if (payload.type) {
         let sql = ``;
+        if (
+          ["insert", "update"].includes(payload.type) &&
+          payload.properties &&
+          Object.prototype.hasOwnProperty.call(payload.properties, "translations")
+        ) {
+          // The client always includes a translations key in the payload (EditHtml.vue/Edit.vue
+          // default it to {} when a feature has none yet), but this column is only ever created
+          // lazily by the bulk "translate this layer" action -- a layer that's never gone
+          // through that flow doesn't have it yet, and saving any edit fails outright with a
+          // Postgres 42703 (column does not exist) instead of ever reaching a response.
+          await addColumnIfNotExists(payload.table, 'translations', { type: Sequelize.TEXT, allowNull: true });
+        }
         switch (payload.type) {
           case "insert": {
             if (payload.properties.hasOwnProperty("createdBy")) {

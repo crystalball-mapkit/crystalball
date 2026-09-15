@@ -75,14 +75,16 @@
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
-        "searchableColumns": ["title", "descriptivo", "comentarios", "translations"],
+        "searchableColumns": ["title", "descripción", "comentarios", "translations"],
         "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
           "type": "circle",
           "radius": 6,
           "strokeWidth": 1,
-          "strokeColor": "black",
-          "fillColor": "green",
+          "stylePropFnRef": {
+            "strokeColor": "color_línea",
+            "fillColor": "color_área"
+          },
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -106,14 +108,16 @@
         "maxResolution": 64000,
         "label": true,
         "hoverable": true,
-        "searchableColumns": ["title", "descriptivo", "comentarios", "translations"],
+        "searchableColumns": ["title", "descripción", "comentarios", "translations"],
         "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
           "type": "circle",
           "radius": 6,
           "strokeWidth": 1,
-          "strokeColor": "black",
-          "fillColor": "blue",
+          "stylePropFnRef": {
+            "strokeColor": "color_línea",
+            "fillColor": "color_área"
+          },
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000"
         }
@@ -168,13 +172,15 @@
         "maxResolution": 64000,
         "opacity": 1,
         "label": null,
-        "searchableColumns": ["title", "descriptivo", "comentarios", "translations"],
+        "searchableColumns": ["title", "descripción", "comentarios", "translations"],
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "#000000",
-          "strokeColor": "white",
-          "fillColor": "violet",
+          "stylePropFnRef": {
+            "strokeColor": "color_línea",
+            "fillColor": "color_área"
+          },
           "strokeWidth": 2
         }
       },
@@ -322,7 +328,7 @@
       },
       "participatico": {
         "default": {
-          "layers": ["Mapbox_Streets", "photos", "videos", "polygons", "html_posts"],
+          "layers": ["Mapbox_Streets", "polygons", "html_posts"],
           "center": [-72.9, 7.35],
           "resolution": 32,
           "mobileResolution": 120,
@@ -421,9 +427,11 @@
       }
     },
     "featureInfoHiddenProps": [
-      "caption",
       "variable1",
       "variable2",
+      "color_línea",
+      "color_área",
+      "tamaño_línea",
       "imageUrl",
       "sidebarMediaTop",
       "sidebarMediaBottom",

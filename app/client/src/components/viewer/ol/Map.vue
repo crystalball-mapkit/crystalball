@@ -1184,9 +1184,23 @@ export default {
             return;
           }
           if (props.videoSrc || props.vimeoSrc || props.websiteUrl) {
+            // caption/vimeoTitle live in the raw (default-language) columns - resolve the
+            // active locale's translation the same way resolveFeatureTitle/the hover
+            // tooltip already do for this layer type, instead of always showing the
+            // default language regardless of which UI language is active.
+            let translatedCaption;
+            if (props.translations) {
+              try {
+                const translations =
+                  typeof props.translations === 'string' ? JSON.parse(props.translations) : props.translations;
+                translatedCaption = translations[this.$i18n.locale]?.caption || translations[this.$i18n.locale]?.vimeoTitle;
+              } catch (e) {
+                // Malformed translations blob - fall through to the untranslated caption.
+              }
+            }
             const mediabox = new MediaLightBox(
               props.videoSrc || props.vimeoSrc || props.websiteUrl,
-              props.caption || props.vimeoTitle
+              translatedCaption || props.caption || props.vimeoTitle
             );
             mediabox.open();
             return;

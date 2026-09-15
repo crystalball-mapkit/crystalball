@@ -10,6 +10,7 @@ import OlIconStyle from 'ol/style/Icon';
 import OlPoint from 'ol/geom/Point';
 import {getCenter} from 'ol/extent';
 import OlText from 'ol/style/Text';
+import {asArray as asOlColor} from 'ol/color';
 import store from '../store/modules/map';
 import {OlStyleFactory} from '../factory/OlStyle';
 import {getCachedColoredIcon} from './iconColorCache';
@@ -21,6 +22,19 @@ const fillColor = 'rgba(255,0,0, 0.1)';
 const imageColor = 'blue';
 const radiusHighlightColor = 'rgba(232,223,181,0.3)';
 const zIndex = 100;
+
+// Falls back to a visible default instead of letting an unset/invalid per-feature color
+// (e.g. a blank stylePropFnRef-referenced column) throw inside OL's render loop -
+// uncaught there takes out that whole render pass, not just the one bad feature, making
+// every feature on the layer disappear instead of just the one missing a color.
+const safeColor = (value, fallback = '#00C8FF') => {
+  try {
+    asOlColor(value);
+    return value;
+  } catch (e) {
+    return fallback;
+  }
+};
 EventBus.$on('group-changed', () => {
   styleCache = {};
 });
@@ -475,7 +489,7 @@ export function baseStyle(config) {
               stroke: new OlStroke({
                 color:
                   stylePropFnRef && stylePropFnRef.strokeColor && strokeColor instanceof Function
-                    ? strokeColor(feature.get(stylePropFnRef.strokeColor))
+                    ? safeColor(strokeColor(feature.get(stylePropFnRef.strokeColor)))
                     : strokeColor || 'rgba(255, 255, 255, 1)',
                 width:
                   stylePropFnRef && stylePropFnRef.strokeWidth && strokeWidth instanceof Function
@@ -485,7 +499,7 @@ export function baseStyle(config) {
               fill: new OlFill({
                 color:
                   stylePropFnRef && stylePropFnRef.fillColor && fillColor instanceof Function
-                    ? fillColor(feature.get(stylePropFnRef.fillColor))
+                    ? safeColor(fillColor(feature.get(stylePropFnRef.fillColor)))
                     : fillColor || 'rgba(129, 56, 17, 0.7)',
               }),
               radius:
@@ -546,7 +560,7 @@ export function baseStyle(config) {
             stroke: new OlStroke({
               color:
                 stylePropFnRef && stylePropFnRef.strokeColor && strokeColor instanceof Function
-                  ? strokeColor(feature.get(stylePropFnRef.strokeColor))
+                  ? safeColor(strokeColor(feature.get(stylePropFnRef.strokeColor)))
                   : strokeColor || 'rgba(255, 255, 255, 1)',
               width:
                 stylePropFnRef && stylePropFnRef.strokeWidth && strokeWidth instanceof Function
@@ -573,7 +587,7 @@ export function baseStyle(config) {
             fill: new OlFill({
               color:
                 stylePropFnRef && stylePropFnRef.fillColor && fillColor instanceof Function
-                  ? fillColor(feature.get(stylePropFnRef.fillColor))
+                  ? safeColor(fillColor(feature.get(stylePropFnRef.fillColor)))
                   : fillColor || 'rgba(255, 255, 255, 1)',
             }),
           };
@@ -582,7 +596,7 @@ export function baseStyle(config) {
             options.stroke = new OlStroke({
               color:
                 stylePropFnRef && stylePropFnRef.strokeColor && strokeColor instanceof Function
-                  ? strokeColor(feature.get(stylePropFnRef.strokeColor))
+                  ? safeColor(strokeColor(feature.get(stylePropFnRef.strokeColor)))
                   : strokeColor || '#ffffff',
               width:
                 stylePropFnRef && stylePropFnRef.strokeWidth && strokeWidth instanceof Function
@@ -810,76 +824,11 @@ export const layersStylePropFn = {
     iconUrl: propertyValue => propertyValue,
     iconColor: propertyValue => propertyValue,
   },
-  glri_projects: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.012, 2, 26),
-  },
-  glri_projects2: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.012, 2, 26),
-  },
-  colaboradores: {
-    fillColor: propertyValue => propertyValue,
-  },
-  native_land: {
-    fillColor: propertyValue => propertyValue,
-  },
-  chi_test: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  groundwater_1991: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  groundwater_1992: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  groundwater_1993: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  groundwater_1994: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  groundwater_1995: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  groundwater_1996: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  groundwater_1997: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  groundwater_1998: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  groundwater_1999: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  groundwater_2000: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),
-  },
-  coal_ash: {
-    fillColor: propertyValue => propertyValue,
-  },
-  burnables: {
-    fillColor: propertyValue => propertyValue,
-    radius: propertyValue => getRadiusValue(propertyValue, 0.2, 3, 26),
-  },
   polygons: {
     strokeColor: propertyValue => propertyValue,
     fillColor: propertyValue => propertyValue,
   },
-  experimental: {
+  puntos_nft: {
     strokeColor: propertyValue => propertyValue,
     fillColor: propertyValue => propertyValue,
   },

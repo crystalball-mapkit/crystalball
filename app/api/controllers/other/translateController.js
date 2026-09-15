@@ -23,6 +23,9 @@ const nonTranslatableProperties = [
   "end",
   "variable1",
   "variable2",
+  "color_línea",
+  "color_área",
+  "tamaño_línea",
   "strokeColor",
   "fillColor",
   "strokeWidth",
@@ -34,6 +37,7 @@ const nonTranslatableProperties = [
   "translations",
   "icon",
   "hover",
+  "lightbox",
 ];
 
 
