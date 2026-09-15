@@ -136,9 +136,7 @@ export default {
       await this.translateCaptions();
       // Update lightbox value in the selected Popup. _loadedCaption is a local-only marker
       // used to detect edited captions - strip it before persisting.
-      this.formData.lightbox = JSON.stringify(
-        this.lightboxImages.map(({_loadedCaption, ...image}) => image)
-      );
+      this.formData.lightbox = JSON.stringify(this.lightboxImages.map(({_loadedCaption, ...image}) => image));
       // Clear and Close
       this.cancel();
     },
