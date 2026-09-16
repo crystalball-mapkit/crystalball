@@ -835,6 +835,9 @@ export const layersStylePropFn = {
   colaboradores: {
     fillColor: propertyValue => propertyValue,
   },
+  counties: {
+    fillColor: propertyValue => propertyValue,
+  },
   groundwater_1990: {
     fillColor: propertyValue => propertyValue,
     radius: propertyValue => getRadiusValue(propertyValue, 0.4, 3, 40),

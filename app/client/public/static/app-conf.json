@@ -39,6 +39,7 @@
       "dropdownMenu": false
     },
     "customNavigationScheme": "1",
+    "spotlightSize": 150,
     "spotlightMessage": {
       "isVisible": false
     },
@@ -350,7 +351,7 @@
         "minResolution": 1,
         "maxResolution": 64000,
         "hoverable": true,
-        "searchableColumns": ["title"],
+        "searchableColumns": ["title", "recipient", "description"],
         "style": {
           "type": "circle",
           "stylePropFnRef": {
@@ -410,7 +411,7 @@
         "minResolution": 1,
         "maxResolution": 64000,
         "hoverable": true,
-        "searchableColumns": ["title"],
+        "searchableColumns": ["title", "primary_fuel"],
         "style": {
           "hoverTextColor": "white",
           "hoverBackgroundColor": "black",
@@ -458,7 +459,7 @@
         "name": "spotlight1",
         "group": "backgroundLayers",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 0.25,
+        "minResolution": 0.12,
         "maxResolution": 10,
         "zIndex": 100,
         "opacity": 1,
@@ -491,38 +492,6 @@
         "visible": true
       },
       {
-        "type": "XYZ",
-        "name": "World_Hillshade",
-        "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 4,
-        "maxResolution": 64000,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "World_Physical",
-        "group": "backgroundLayers",
-        "url": "https://services.arcgisonline.com/arcgis/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}",
-        "minResolution": 800,
-        "maxResolution": 64000,
-        "opacity": 0.6,
-        "queryable": false,
-        "visible": true
-      },
-      {
-        "type": "XYZ",
-        "name": "carto_dark",
-        "group": "backgroundLayers",
-        "url": "https://{a-d}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-        "minResolution": 0.25,
-        "maxResolution": 64000,
-        "opacity": 1,
-        "queryable": false,
-        "visible": true
-      },
-      {
         "type": "VECTOR",
         "name": "html_posts_archive",
         "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:html_posts_archive&outputFormat=application/json&srsname=EPSG:3857",
@@ -530,7 +499,7 @@
         "displayInLegend": true,
         "legendDisplayName": {
           "en": "User posts",
-          "es": "Publicaciones",
+          "es": "Puestos",
           "pt": "Publicações"
         },
         "format": "GeoJSON",
@@ -555,7 +524,7 @@
         "displayInLegend": true,
         "legendDisplayName": {
           "en": "User posts",
-          "es": "Publicaciones",
+          "es": "Puestos",
           "pt": "Publicações"
         },
         "format": "GeoJSON",
@@ -566,6 +535,7 @@
         "label": null,
         "hoverable": true,
         "canEdit": false,
+        "searchableColumns": ["title", "html", "titleTranslations", "htmlTranslations"],
         "style": {
           "styleRef": "htmlLayerStyle",
           "hoverTextColor": "white",
@@ -641,58 +611,719 @@
         }
       },
       {
-        "type": "VECTOR",
-        "name": "remada",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:remada&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "remar",
-        "queryable": true,
+        "type": "GROUP",
+        "name": "wateruse",
+        "minResolution": 1,
+        "maxResolution": 68000,
         "displayInLegend": true,
-        "displaySidebarInfo": false,
         "legendDisplayName": {
-          "en": "Row Downriver",
-          "es": "La Remada",
-          "pt": "A Remada"
+          "en": "Kansas groundwater",
+          "es": "Uso del agua, Kansas"
         },
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 10000,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "label": false,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "https://hidrovia.s3.us-east-2.amazonaws.com/assets/icons/naranja.png",
-          "scale": 0.9,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
-      },
-      {
-        "type": "VECTOR",
-        "name": "organizaciones",
-        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:organizaciones&outputFormat=application/json&srsname=EPSG:3857",
-        "group": "remar",
-        "queryable": true,
-        "displayInLegend": true,
-        "displaySidebarInfo": false,
-        "legendDisplayName": {
-          "en": "Organizaciones",
-          "es": "Organizations",
-          "pt": "Organizações"
-        },
-        "format": "GeoJSON",
-        "visible": true,
-        "zIndex": 10000,
-        "minResolution": 0.5,
-        "maxResolution": 64000,
-        "label": false,
-        "hoverable": true,
-        "style": {
-          "iconUrl": "https://hidrovia.s3.us-east-2.amazonaws.com/assets/icons/naranja.png",
-          "scale": 0.9,
-          "hoverTextColor": "white",
-          "hoverBackgroundColor": "#000000"
-        }
+        "legendIcon": "https://kansan.s3.eu-central-1.amazonaws.com/assets/icons/wateruse_icon.png",
+        "visible": false,
+        "displaySidebarInfo": true,
+        "group": "media",
+        "attributions": "",
+        "displaySeries": true,
+        "largeSlider": true,
+        "defaultSeriesLayerIndex": 0,
+        "playInterval": "4000",
+        "layers": [
+          {
+            "type": "GROUP",
+            "name": "1990",
+            "year": 1990,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "1990",
+              "es": "1990",
+              "de": "1990"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_1990",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1990@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_1990",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_1990",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1990@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "1991",
+            "year": 1991,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "1991",
+              "es": "1991",
+              "de": "1991"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_1991",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1991@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_1991",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_1991",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1991@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "1992",
+            "year": 1992,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "1992",
+              "es": "1992",
+              "de": "1992"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_1992",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1992@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_1992",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_1992",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1992@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "1993",
+            "year": 1993,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "1993",
+              "es": "1993",
+              "de": "1993"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_1993",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1993@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_1993",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_1993",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1993@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "1994",
+            "year": 1994,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "1994",
+              "es": "1994",
+              "de": "1994"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_1994",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1994@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_1994",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_1994",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1994@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "1995",
+            "year": 1995,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "1995",
+              "es": "1995",
+              "de": "1995"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_1995",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1995@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_1995",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_1995",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1995@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "1996",
+            "year": 1996,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "1996",
+              "es": "1996",
+              "de": "1996"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_1996",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1996@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_1996",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_1996",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1996@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "1997",
+            "year": 1997,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "1997",
+              "es": "1997",
+              "de": "1997"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_1997",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1997@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_1997",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_1997",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1997@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "1998",
+            "year": 1998,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "1998",
+              "es": "1998",
+              "de": "1998"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_1998",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1998@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_1998",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_1998",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1998@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "1999",
+            "year": 1999,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "1999",
+              "es": "1999",
+              "de": "1999"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_1999",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_1999@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_1999",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_1999",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_1999@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "GROUP",
+            "name": "2000",
+            "year": 2000,
+            "visible": true,
+            "legendDisplayName": {
+              "en": "2000",
+              "es": "2000",
+              "de": "2000"
+            },
+            "layers": [
+              {
+                "type": "VECTORTILE",
+                "name": "counties_2000",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:counties_2000@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 90,
+                "maxResolution": 64000,
+                "hoverable": true,
+                "style": {
+                  "stylePropFnRef": {
+                    "fillColor": "af_irr_2000",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "portland"
+                  },
+                  "strokeColor": "lightgray",
+                  "strokeWidth": 2
+                }
+              },
+              {
+                "type": "VECTORTILE",
+                "name": "groundwater_2000",
+                "url": "./geoserver/gwc/service/tms/1.0.0/workspace1:groundwater_2000@EPSG%3A900913@pbf/{z}/{x}/{-y}.pbf",
+                "queryable": true,
+                "format": "MVT",
+                "renderMode": "hybrid",
+                "visible": true,
+                "zIndex": 1000,
+                "opacity": 0.7,
+                "minResolution": 0.25,
+                "maxResolution": 400,
+                "hoverable": true,
+                "style": {
+                  "hoverTextColor": "white",
+                  "hoverBackgroundColor": "#499BDD",
+                  "type": "circle",
+                  "strokeColor": "white",
+                  "strokeWidth": 0.5,
+                  "stylePropFnRef": {
+                    "radius": "variable1",
+                    "fillColor": "variable1",
+                    "fillColorFn": "colorMapStyle",
+                    "fillColorMap": "cool"
+                  }
+                }
+              }
+            ]
+          }
+        ]
       }
     ],
     "groups": {
@@ -701,15 +1332,14 @@
           "layers": [
             "basemap2",
             "ks_counties",
+            "wateruse",
             "polygons",
             "spotlight1",
             "points",
             "lines",
             "videos",
             "photos",
-            "remada",
-            "html_posts",
-            "html_posts_archive"
+            "html_posts"
           ],
           "center": [-87.534, 41.68],
           "resolution": 30,

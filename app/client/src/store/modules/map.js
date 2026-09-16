@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import {getField, updateField} from 'vuex-map-fields';
-import axios from 'axios';
 import colormap from 'colormap';
 import {Group as LayerGroup} from 'ol/layer';
 import {formatPopupRows, getLayerSourceUrl, extractGeoserverLayerNames, getAllChildLayers} from '../../utils/Layer';
@@ -221,6 +220,7 @@ const actions = {
         const url = `./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=${rootState.map.geoserverWorkspace}:colormap&srsname=EPSG:4326&${viewParams}&outputFormat=json`;
         promiseArray.push(
           http.get(url, {
+            timeout: 30000,
             data: {
               layerName: layer.get('name'),
               colormap: styleObj.stylePropFnRef.fillColorMap || 'portland',
@@ -231,43 +231,43 @@ const actions = {
       }
     });
     if (promiseArray.length > 0) {
-      axios
-        .all(promiseArray)
-        .then(results => {
-          results.forEach(response => {
-            const features = response.data.features;
-            const configData = JSON.parse(response.config.data);
-            const layerName = configData.layerName;
-            if (features && features.length === 0) {
-              return;
-            }
-            const nshades = configData.nshades || features.length;
-            const entities = {};
-            const colors = colormap({
-              colormap: configData.colormap,
-              nshades,
-              format: 'hex',
-              alpha: 1,
-            });
-
-            const ratio = Math.ceil(features.length / nshades);
-            features.forEach((feature, index) => {
-              const entity = feature.properties.entity;
-              entities[entity] = colors[Math.floor(index / ratio)];
-            });
-
-            commit('SET_COLORMAP_VALUES', {layerName, entities});
-            const layers = getAllChildLayers(state.map);
-            layers.forEach(layer => {
-              if (layer.get('name') === layerName) {
-                layer.changed();
-              }
-            });
+      Promise.allSettled(promiseArray).then(results => {
+        results.forEach(result => {
+          if (result.status !== 'fulfilled') {
+            console.log('Fetch Error :-S', result.reason);
+            return;
+          }
+          const response = result.value;
+          const features = response.data.features;
+          const configData = JSON.parse(response.config.data);
+          const layerName = configData.layerName;
+          if (features && features.length === 0) {
+            return;
+          }
+          const nshades = configData.nshades || features.length;
+          const entities = {};
+          const colors = colormap({
+            colormap: configData.colormap,
+            nshades,
+            format: 'hex',
+            alpha: 1,
           });
-        })
-        .catch(err => {
-          console.log('Fetch Error :-S', err);
+
+          const ratio = Math.ceil(features.length / nshades);
+          features.forEach((feature, index) => {
+            const entity = feature.properties.entity;
+            entities[entity] = colors[Math.floor(index / ratio)];
+          });
+
+          commit('SET_COLORMAP_VALUES', {layerName, entities});
+          const layers = getAllChildLayers(state.map);
+          layers.forEach(layer => {
+            if (layer.get('name') === layerName) {
+              layer.changed();
+            }
+          });
         });
+      });
     }
   },
 };
