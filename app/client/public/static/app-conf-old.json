@@ -1,0 +1,451 @@
+{
+  "app": {
+    "title": {
+      "en": "Wewac",
+      "es": "Wewac"
+    },
+    "tagline": "",
+    "projectWebsite": "https://www.wewac.co",
+    "defaultLanguage": "es",
+    "color": {
+      "primary": "#16a6a3",
+      "secondary": "#034756",
+      "link": "#16a6a3"
+    },
+    "font": {
+      "url": "https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;700&display=swap",
+      "family": "Open+Sans"
+    },
+    "legend": {
+      "isVisible": false
+    },
+    "controls": {
+      "locate_me": true,
+      "share_map": true,
+      "geocoder": true
+    },
+    "sideBar": {
+      "isVisible": true,
+      "backgroundColor": "#ffffff",
+      "textColor": "black"
+    },
+    "navbar": {
+      "dropdownMenu": false,
+      "titleColor": "#ffffff"
+    },
+    "customNavigationScheme": "1",
+    "spotlightSize": 130,
+    "spotlightMessage": {
+      "isVisible": true
+    }
+  },
+  "map": {
+    "projectionCode": "EPSG:3857",
+    "minZoom": 1,
+    "maxZoom": 19,
+    "zoom": 1,
+    "geoserverWorkspace": "workspace1",
+    "resolutions": [
+      156543.03, 78271.52, 39135.76, 19567.88, 9783.94, 4891.97, 2445.98, 1222.99, 611.5, 305.75, 152.87, 76.437,
+      38.219, 19.109, 9.5546, 4.7773, 2.3887, 1.1943, 0.5972, 0.2986, 0.1493
+    ],
+    "center": [0, 0],
+    "minResolution": 0.1493,
+    "maxResolution": 64000,
+    "addPost": {
+      "minResolution": 5
+    },
+    "layers": [
+      {
+        "type": "VECTOR",
+        "name": "points",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:points&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "legendDisplayName": {
+          "en": "Points",
+          "es": "Puntos"
+        },
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "searchableColumns": ["title", "descripción", "comentarios", "translations"],
+        "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
+        "style": {
+          "type": "circle",
+          "radius": 6,
+          "strokeWidth": 1,
+          "stylePropFnRef": {
+            "strokeColor": "color_línea",
+            "fillColor": "color_área"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "puntos_nft",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:puntos_nft&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "legendDisplayName": {
+          "en": "NFT Points",
+          "es": "Puntos NFT"
+        },
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "searchableColumns": ["title", "descripción", "comentarios", "translations"],
+        "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
+        "style": {
+          "type": "circle",
+          "radius": 6,
+          "strokeWidth": 1,
+          "stylePropFnRef": {
+            "strokeColor": "color_línea",
+            "fillColor": "color_área"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "lines",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:lines&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "legendDisplayName": {
+          "en": "Lines",
+          "es": "Líneas"
+        },
+        "format": "GeoJSON",
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "zIndex": 1000,
+        "minResolution": 0,
+        "maxResolution": 64000,
+        "label": false,
+        "hoverable": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/line.png",
+        "style": {
+          "type": "line",
+          "stylePropFnRef": {
+            "strokeColor": "variable1",
+            "strokeWidth": "variable2"
+          },
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "polygons",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:polygons&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "format": "GeoJSON",
+        "visible": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/polygon.png",
+        "legendDisplayName": {
+          "en": "Polygons",
+          "es": "Polígonos"
+        },
+        "zIndex": 1000,
+        "minResolution": 1,
+        "maxResolution": 64000,
+        "opacity": 1,
+        "label": null,
+        "searchableColumns": ["title", "descripción", "comentarios", "translations"],
+        "hoverable": true,
+        "style": {
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000",
+          "stylePropFnRef": {
+            "strokeColor": "color_línea",
+            "fillColor": "color_área"
+          },
+          "strokeWidth": 2
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "photos",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:photos&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "legendDisplayName": {
+          "en": "Photos",
+          "es": "Fotografías"
+        },
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 1000,
+        "minResolution": 0.5,
+        "maxResolution": 64000,
+        "label": true,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/photo_icon.png",
+          "scale": 1,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "VECTOR",
+        "name": "videos",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:videos&outputFormat=application/json&srsname=EPSG:3857",
+        "group": "media",
+        "queryable": true,
+        "displayInLegend": true,
+        "displaySidebarInfo": true,
+        "legendDisplayName": {
+          "en": "Videos",
+          "es": "Vídeos"
+        },
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 1000,
+        "minResolution": 0.5,
+        "maxResolution": 64000,
+        "label": false,
+        "hoverable": true,
+        "style": {
+          "iconUrl": "https://kansan.s3.eu-central-1.amazonaws.com/assets/icons/video_icon.png",
+          "scale": 0.6,
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      },
+      {
+        "type": "XYZ",
+        "name": "Mapbox_Streets",
+        "group": "media",
+        "url": "https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=REMOVED",
+        "minResolution": 0.12,
+        "maxResolution": 64000,
+        "queryable": false,
+        "displayInLegend": true,
+        "legendIcon": "https://cdn-icons-png.flaticon.com/512/854/854878.png",
+        "legendDisplayName": {
+          "en": "Mapbox",
+          "es": "Mapbox"
+        },
+        "visible": true
+      },
+      {
+        "type": "XYZ",
+        "name": "spotlight1",
+        "group": "media",
+        "url": "https://wayback.maptiles.arcgis.com/arcgis/rest/services/World_Imagery/WMTS/1.0.0/default028mm/MapServer/tile/{z}/{y}/{x}",
+        "minResolution": 0.12,
+        "maxResolution": 5,
+        "zIndex": 10,
+        "opacity": 1,
+        "queryable": false,
+        "displayInLegend": true,
+        "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/satellite.png",
+        "legendDisplayName": {
+          "en": "Spotlight",
+          "es": "Foco satélital"
+        },
+        "visible": true,
+        "attributions": "Sources: Esri, DigitalGlobe, GeoEye, i-cubed, USDA FSA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community"
+      },
+      {
+        "type": "VECTOR",
+        "name": "html_posts",
+        "url": "./geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=workspace1:html_posts&outputFormat=application/json&srsname=EPSG:3857",
+        "queryable": true,
+        "displayInLegend": true,
+        "legendDisplayName": {
+          "en": "User posts",
+          "es": "Posteos"
+        },
+        "legendIcon": "",
+        "format": "GeoJSON",
+        "visible": true,
+        "zIndex": 1002,
+        "minResolution": 0.1,
+        "maxResolution": 64000,
+        "label": null,
+        "hoverable": true,
+        "canEdit": false,
+        "searchableColumns": ["title", "html", "titleTranslations", "htmlTranslations"],
+        "style": {
+          "styleRef": "htmlLayerStyle",
+          "hoverTextColor": "white",
+          "hoverBackgroundColor": "#000000"
+        }
+      }
+    ],
+    "groups": {
+      "media": {
+        "default": {
+          "layers": ["Mapbox_Streets", "spotlight1", "points", "videos", "photos", "html_posts"],
+          "center": [-72.9, 7.35],
+          "resolution": 32,
+          "mobileResolution": 120,
+          "mobileCenter": [-72.9, 7.35],
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "local": {
+          "layers": [],
+          "center": [-88.179, 41.837],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [-12.42, 29.84],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      },
+      "participatico": {
+        "default": {
+          "layers": ["Mapbox_Streets", "polygons", "html_posts"],
+          "center": [-72.9, 7.35],
+          "resolution": 32,
+          "mobileResolution": 120,
+          "mobileCenter": [-72.9, 7.35],
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "local": {
+          "layers": [],
+          "center": [-88.179, 41.837],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [-12.42, 29.84],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      },
+      "NFT": {
+        "default": {
+          "layers": ["Mapbox_Streets", "puntos_nft", "html_posts"],
+          "center": [-72.9, 7.35],
+          "resolution": 32,
+          "mobileResolution": 120,
+          "mobileCenter": [-72.9, 7.35],
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "local": {
+          "layers": [],
+          "center": [-88.179, 41.837],
+          "resolution": 2000,
+          "mobileResolution": 16000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        },
+        "global": {
+          "layers": [],
+          "center": [-12.42, 29.84],
+          "resolution": 68000,
+          "mobileResolution": 80000,
+          "minResolution": 0,
+          "maxResolution": 64000
+        }
+      }
+    },
+    "flyToSlideshow": {
+      "delayInSecondsForInitialStart": 120,
+      "delayInSecondsBetweenFrames": 8,
+      "maplinks": [""]
+    },
+    "defaultActiveGroup": "media",
+    "groupTitles": {
+      "media": {
+        "en": "Scientist",
+        "es": "Científico",
+        "pt": "Cientista"
+      },
+      "participatico": {
+        "en": "Participative",
+        "es": "Participativo",
+        "pt": "Participatico"
+      },
+      "NFT": {
+        "en": "NFT",
+        "es": "NFT",
+        "pt": "NFT"
+      }
+    },
+    "regionTitles": {
+      "local": {
+        "en": "local",
+        "es": "entorno",
+        "pt": "entorno"
+      },
+      "global": {
+        "en": "global",
+        "es": "mundo",
+        "pt": "mundo"
+      },
+      "default": "Default"
+    },
+    "popupFieldsMapping": {
+      "default": {
+        "title": "NAME",
+        "entity": "OWNER",
+        "text": "WHAT'S HAPPENING",
+        "link1": "WEBSITE",
+        "videoSrc": "youtube_or_vimeo_URL"
+      }
+    },
+    "featureInfoHiddenProps": [
+      "variable1",
+      "variable2",
+      "color_línea",
+      "color_área",
+      "tamaño_línea",
+      "imageUrl",
+      "sidebarMediaTop",
+      "sidebarMediaBottom",
+      "videoUrl",
+      "videoSrc",
+      "colorkey",
+      "latitude",
+      "longitude",
+      "port",
+      "soybean_importer",
+      "translations"
+    ],
+    "corporateEntitiesUrls": {
+      "Enbridge": ""
+    }
+  }
+}
