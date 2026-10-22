@@ -1,7 +1,8 @@
 const permissionController = require("../auth/permissionController");
 const sequelize = require("../../db.js");
-const HtmlSidebar = sequelize.import("../../models/html_sidebar.js");
-const Icons = sequelize.import("../../models/icons.js");
+const {DataTypes} = require("sequelize");
+const HtmlSidebar = require("../../models/html_sidebar.js")(sequelize, DataTypes);
+const Icons = require("../../models/icons.js")(sequelize, DataTypes);
 const jwtDecode = require("jwt-decode");
 const { v4: uuidv4 } = require('uuid');
 const { translateContent } = require("../../utils.js")

@@ -1,11 +1,12 @@
 const { check, validationResult } = require("express-validator/check");
 const { matchedData } = require("express-validator/filter");
 const sequelize = require("../../db");
+const {DataTypes} = require("sequelize");
 const bcryptController = require("./bcryptController.js");
 const permissionController = require("./permissionController.js");
 const loginController = require("./loginController.js");
-const Logins = sequelize.import("../../models/logins.js");
-const Users = sequelize.import("../../models/users.js");
+const Logins = require("../../models/logins.js")(sequelize, DataTypes);
+const Users = require("../../models/users.js")(sequelize, DataTypes);
 const { v4: uuidv4 } = require('uuid');
 // Export express-validator array
 exports.validate = [

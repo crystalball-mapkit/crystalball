@@ -1,6 +1,7 @@
 const sequelize = require('../../db');
-const Users = sequelize.import('../../models/users.js');
-const Logins = sequelize.import('../../models/logins.js');
+const {DataTypes} = require('sequelize');
+const Users = require('../../models/users.js')(sequelize, DataTypes);
+const Logins = require('../../models/logins.js')(sequelize, DataTypes);
 const permissionController = require('./permissionController.js');
 
 exports.users_get = (req, res) => {

@@ -1,8 +1,9 @@
 const sequelize = require("../../db");
-const Logins = sequelize.import("../../models/logins.js");
-const Users = sequelize.import("../../models/users.js");
-const Permissions = sequelize.import("../../models/permissions.js");
-const Roles = sequelize.import("../../models/roles.js");
+const {DataTypes} = require("sequelize");
+const Logins = require("../../models/logins.js")(sequelize, DataTypes);
+const Users = require("../../models/users.js")(sequelize, DataTypes);
+const Permissions = require("../../models/permissions.js")(sequelize, DataTypes);
+const Roles = require("../../models/roles.js")(sequelize, DataTypes);
 
 const bcryptController = require("./bcryptController.js");
 const tokenController = require("./tokenController.js");

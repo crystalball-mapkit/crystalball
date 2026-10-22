@@ -1,4 +1,4 @@
-FROM node:12.22.3-alpine3.13
+FROM node:22-alpine
 WORKDIR /app
 COPY package*.json ./
 RUN apk update

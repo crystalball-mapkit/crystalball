@@ -1,6 +1,7 @@
 const sequelize = require('../../db');
+const {DataTypes} = require('sequelize');
 const permissionController = require('./permissionController.js');
-const Roles = sequelize.import('../../models/roles.js');
+const Roles = require('../../models/roles.js')(sequelize, DataTypes);
 
 exports.roles_get = (req, res) => {
   permissionController.hasPermission(req, res, 'get_roles', () => {

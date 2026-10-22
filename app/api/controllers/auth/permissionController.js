@@ -1,7 +1,8 @@
 const sequelize = require('../../db');
+const {DataTypes} = require('sequelize');
 const tokenController = require('./tokenController.js');
-const Permissions = sequelize.import('../../models/permissions.js');
-const Roles = sequelize.import('../../models/roles.js');
+const Permissions = require('../../models/permissions.js')(sequelize, DataTypes);
+const Roles = require('../../models/roles.js')(sequelize, DataTypes);
 
 // Returns either result of success callback, or 403 response w/ message
 // Params: request, permissions name, success callback function
