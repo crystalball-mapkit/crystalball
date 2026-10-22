@@ -228,7 +228,7 @@ import {
 } from '../../../style/OlStyleDefs';
 
 // import the app-wide EventBus
-import {EventBus} from '../../../EventBus'; // carries hasNavigated flag across map-slide remounts
+import {EventBus} from '../../../EventBus';
 
 // utils imports
 import {LayerFactory} from '../../../factory/OlLayer';
@@ -277,7 +277,7 @@ import Snackbar from '../../core/Snackbar.vue';
 // Persists across route-triggered remounts so slideshow always resets to the original startup route
 let _slideshowHomeHash = null;
 let _slideshowPendingOverlay; // carries overlay URL across map-slide remounts
-let _slideshowHasNavigated = false;
+let _slideshowHasNavigated = false; // carries hasNavigated flag across map-slide remounts
 
 export default {
   components: {
