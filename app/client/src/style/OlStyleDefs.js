@@ -783,11 +783,11 @@ const getIconScaleValue = (propertyValue, multiplier, smallestScale, largestScal
   return scale;
 };
 
-const getRadiusValue = (propertyValue, multiplier, smallestRadius, largestRadius, defaultMultiplier) => {
-  const {smallestDefaultRadius, largestDefaultRadius} = defaultLimits.radius;
+const getRadiusValue = (propertyValue, multiplier, smallestRadius, largestRadius) => {
+  const {smallestDefaultRadius, largestDefaultRadius, defaultMultiplier} = defaultLimits.radius;
   const smallestValue = smallestRadius || smallestDefaultRadius;
   const largestValue = largestRadius || largestDefaultRadius;
-  let radius = Math.sqrt(propertyValue) * multiplier || defaultMultiplier;
+  let radius = Math.sqrt(propertyValue) * (multiplier || defaultMultiplier);
   if (radius < smallestValue) {
     radius = smallestValue;
   }

@@ -228,12 +228,7 @@ import {
 } from '../../../style/OlStyleDefs';
 
 // import the app-wide EventBus
-import {EventBus} from '../../../EventBus';
-
-// Persists across route-triggered remounts so slideshow always resets to the original startup route
-let _slideshowHomeHash = null;
-let _slideshowPendingOverlay = undefined; // carries overlay URL across map-slide remounts
-let _slideshowHasNavigated = false; // carries hasNavigated flag across map-slide remounts
+import {EventBus} from '../../../EventBus'; // carries hasNavigated flag across map-slide remounts
 
 // utils imports
 import {LayerFactory} from '../../../factory/OlLayer';
@@ -278,6 +273,11 @@ import http from '../../../services/http';
 // Progress loader
 import ProgressLoader from '../../core/ProgressLoader.vue';
 import Snackbar from '../../core/Snackbar.vue';
+
+// Persists across route-triggered remounts so slideshow always resets to the original startup route
+let _slideshowHomeHash = null;
+let _slideshowPendingOverlay; // carries overlay URL across map-slide remounts
+let _slideshowHasNavigated = false;
 
 export default {
   components: {
@@ -580,6 +580,7 @@ export default {
         const layerIndex = visibleLayers.indexOf(lConf.name);
         if (layerIndex === -1) return;
         const layer = LayerFactory.getInstance(lConf, layerIndex);
+        if (!layer) return;
         layer.setZIndex(lConf.zIndex !== undefined ? lConf.zIndex : layerIndex);
         // Restore the previous layer visibility state if exists.
         if (layer.get('name') in this.layerVisibilityState) {
@@ -1405,7 +1406,7 @@ export default {
           const isDirect = /\.(mp4|webm|ogg|mov)(\?|$)/i.test(src);
           this.slideshow.videoIsDirect = isDirect;
           this.slideshow.videoSrc =
-            isDirect || src.includes('mute=1') ? src : src + (src.includes('?') ? '&' : '?') + 'mute=1';
+            isDirect || src.includes('mute=1') ? src : `${src + (src.includes('?') ? '&' : '?')}mute=1`;
           this.stopSlideshow();
           const duration = (position.duration || flyToSlideshow.delayInSecondsBetweenFrames) * 1000;
           this.slideshow.videoTimeout = setTimeout(() => {

@@ -1,3 +1,8 @@
+# Lockfiles (managed exclusively by the package manager)
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
 # Logs
 logs
 *.log

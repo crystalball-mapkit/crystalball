@@ -55,6 +55,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-vue": "9.8.0",
     "husky": "^8.0.2",
+    "lint-staged": "^13.3.0",
     "prettier": "^2.8.1",
     "sass": "1.32.13",
     "vite": "^3.2.5",
@@ -65,5 +66,14 @@
     "overrides": {
       "popper.js": "@popperjs/core@2.11.6"
     }
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "prettier --write",
+      "eslint --ignore-path .gitignore"
+    ],
+    "*.{json,scss,css,md,yaml,yml}": [
+      "prettier --write"
+    ]
   }
 }

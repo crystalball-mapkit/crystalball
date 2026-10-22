@@ -82,7 +82,6 @@
         "minResolution": 1,
         "maxResolution": 64000,
         "opacity": 1,
-        "label": null,
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
@@ -112,7 +111,6 @@
         "zIndex": 1000,
         "minResolution": 0,
         "maxResolution": 64000,
-        "label": true,
         "hoverable": true,
         "legendIcon": "https://crystalball-mapkit.s3.us-east-2.amazonaws.com/assets/icons/legend_point.png",
         "style": {
@@ -145,7 +143,6 @@
         "zIndex": 1000,
         "minResolution": 0,
         "maxResolution": 64000,
-        "label": false,
         "hoverable": true,
         "legendIcon": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/line.png",
         "style": {
@@ -178,7 +175,6 @@
         "minResolution": 1,
         "maxResolution": 64000,
         "opacity": 1,
-        "label": null,
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
@@ -208,7 +204,6 @@
         "zIndex": 1000,
         "minResolution": 0.5,
         "maxResolution": 64000,
-        "label": true,
         "hoverable": true,
         "style": {
           "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/photo_marker.png",
@@ -235,7 +230,6 @@
         "zIndex": 1000,
         "minResolution": 0,
         "maxResolution": 64000,
-        "label": true,
         "hoverable": true,
         "legendIcon": "",
         "style": {
@@ -266,7 +260,6 @@
         "zIndex": 1000,
         "minResolution": 0.5,
         "maxResolution": 64000,
-        "label": false,
         "hoverable": true,
         "style": {
           "iconUrl": "https://crystal-demo.s3.us-east-2.amazonaws.com/assets/icons/video_marker.png",
@@ -288,7 +281,6 @@
         "zIndex": 1000,
         "minResolution": 2446,
         "maxResolution": 64000,
-        "label": false,
         "hoverable": true,
         "style": {
           "type": "line",
@@ -380,7 +372,6 @@
         "zIndex": 1,
         "minResolution": 2,
         "maxResolution": 64000,
-        "label": false,
         "hoverable": true,
         "style": {
           "hoverTextColor": "white",
@@ -507,7 +498,6 @@
         "zIndex": 1002,
         "minResolution": 0.5,
         "maxResolution": 64000,
-        "label": null,
         "hoverable": true,
         "canEdit": false,
         "style": {
@@ -532,7 +522,6 @@
         "zIndex": 1002,
         "minResolution": 0.5,
         "maxResolution": 64000,
-        "label": null,
         "hoverable": true,
         "canEdit": false,
         "searchableColumns": ["title", "html", "titleTranslations", "htmlTranslations"],

@@ -183,6 +183,8 @@ export const LayerFactory = {
     if (lConf.type === 'GROUP') {
       return this.createGroupLayer(lConf, zIndex);
     }
+    // eslint-disable-next-line no-console
+    console.warn(`OlLayer: unrecognized layer type "${lConf.type}" for layer "${lConf.name}" — no layer created.`);
     return null;
   },
 
@@ -457,6 +459,11 @@ export const LayerFactory = {
    * @return {ol.layer.Vector} OL vector layer instance
    */
   createVectorLayer(lConf) {
+    if (!this.formatMapping[lConf.format]) {
+      // eslint-disable-next-line no-console
+      console.warn(`OlLayer: unrecognized format "${lConf.format}" for layer "${lConf.name}" — no layer created.`);
+      return null;
+    }
     let url;
     const sourceConfig = {
       format: new this.formatMapping[lConf.format](lConf.formatConfig),
@@ -517,7 +524,6 @@ export const LayerFactory = {
       style: this.getStyles(lConf),
       hoverable: lConf.hoverable,
       hoverAttribute: lConf.hoverAttribute,
-      label: lConf.label,
       presetLayer: lConf.presetLayer,
       presetLayerName: lConf.presetLayerName,
       styleObj: JSON.stringify(lConf.style),
@@ -557,6 +563,11 @@ export const LayerFactory = {
    * @return {ol.layer.VectorTile} OL vector tile layer instance
    */
   createVectorTileLayer(lConf) {
+    if (!this.formatMapping[lConf.format]) {
+      // eslint-disable-next-line no-console
+      console.warn(`OlLayer: unrecognized format "${lConf.format}" for layer "${lConf.name}" — no layer created.`);
+      return null;
+    }
     const vtLayer = new VectorTileLayer({
       type: lConf.type,
       name: lConf.name,
@@ -565,6 +576,7 @@ export const LayerFactory = {
       extent: lConf.extent,
       queryable: lConf.queryable,
       showZoomToFeature: lConf.showZoomToFeature,
+      canEdit: lConf.canEdit,
       visible: lConf.visible,
       minResolution: lConf.minResolution,
       maxResolution: lConf.maxResolution,
